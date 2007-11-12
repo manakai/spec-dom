@@ -214,22 +214,42 @@ following:</p>
     <li>If the <code>prefix</code> attribute value is different from
     <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
     the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>Text</code> or
-    <code>EntityReference</code> node, then it is a
-    <a href="#xml-well-formedness-error" id=wfe-attr-child><code>xml-well-formedness-error</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    an <code>EntityReference</code> node, it is an 
-    <a href="#entity-error" id=ee-attr-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <li>For each node <dfn id=var-attr-nc><var>n<sub><var>c</var></sub></var></dfn> in the
     <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> a
+      <code>Text</code> or <code>EntityReference</code> node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-attr-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is an
+      <code>EntityReference</code> node, then it is an 
+      <a href="#entity-error" id=ee-attr-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
     <li class=ed>@@ <code>specified</code>,
     <code>manakaiAttributeType</code></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>AttributeDefinition</code> node</dt>
-  <dd class=ed></dd>
+  <dd>
+    <ol>
+    <li class=ed></li>
+    <li>For each node <dfn id=var-ad-nc><var>n<sub><var>c</var></sub></var></dfn> in the
+    <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> a
+      <code>Text</code> or <code>EntityReference</code> node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-at-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is an
+      <code>EntityReference</code> node, then it is an 
+      <a href="#entity-error" id=ee-at-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
+    </ol>
+  </dd>
 <dt>If <var>n</var> is a <code>CDATASection</code> node</dt>
   <dd>
     <ol>
@@ -237,11 +257,11 @@ following:</p>
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
-    a string <code>]]></code>, then it is a
+    a string <code>]]></code>, then it is an
     <a href="#xml-well-formedness-error" id=wfe-cs-mse><code>xml-well-formedness-error</code></a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
-    <a href="#xml-well-formedness-error" id=wfe-cs-child><code>xml-well-formedness-error</code></a>s.</li>
+    <a href="#xml-well-formedness-error" id=wfe-cs-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>Comment</code> node</dt>
@@ -252,11 +272,11 @@ following:</p>
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
     a string <code>--</code>, or if it ends with a character
-    <code>-</code>, then it is a
+    <code>-</code>, then it is an
     <a href="#xml-well-formedness-error" id=wfe-comment-com><code>xml-well-formedness-error</code></a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
-    <a href="#xml-well-formedness-error" id=wfe-comment-child><code>xml-well-formedness-error</code></a>s.</li>
+    <a href="#xml-well-formedness-error" id=wfe-comment-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>Document</code> node</dt>
@@ -267,7 +287,7 @@ following:</p>
     then it is an <code class=ed>unknown-error?</code>.</li>
     <li>If the <code>xmlEncoding</code> attribute value does <em>not</em>
     match to <code>[A-Za-z] ([A-Za-z0-9._] | '-')*</code>
-    <span class=ed>@@ formal def</span>, then it is a
+    <span class=ed>@@ formal def</span>, then it is an
     <a href="#xml-well-formedness-error" id=wfe-encoding><code>xml-well-formedness-error</code></a>.</li>
     <li>The <code>childNodes</code> list of <var>n</var> have to
     consist of zero or more <code>Comment</code> and/or
@@ -277,29 +297,37 @@ following:</p>
     <code>ProcessingInstruction</code> nodes, followed by
     an <code>Element</code> node, followed
     by zero or more <code>Comment</code> and/or
-    <code>ProcessingInstruction</code> nodes.  Any violation to this is a
+    <code>ProcessingInstruction</code> nodes.  Any violation to this is an
     <a href="#xml-well-formedness-error" id=wfe-document-child><code>xml-well-formedness-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-document-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> an
+      <code>EntityReference</code> node, then
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
     <li class=ed>@@ <code>allDeclarationsProcessed</code></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>DocumentFragment</code> node</dt>
   <dd>
     <ol>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>Element</code>,
-    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
-    <code>ProcessingInstruction</code>, or
-    <code>EntityReference</code> node, then it is a
-    <a href="#xml-well-formedness-error" id=wfe-df-child><code>xml-well-formedness-error</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    an <code>EntityReference</code> node, it is an 
-    <a href="#entity-error" id=ee-df-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-df-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> an
+      <code>Element</code>, <code>Text</code>, <code>CDATASection</code>,
+      <code>Comment</code>, <code>ProcessingInstruction</code>, or
+      <code>EntityReference</code> node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-df-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is an
+      <code>EntityReference</code> node, then it is an
+      <a href="#entity-error" id=ee-df-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>DocumentType</code> node</dt>
@@ -313,14 +341,17 @@ following:</p>
     both <code>"</code> and <code>'</code> characters, it is a
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
     <!-- publicId = non-null and systemId = null -->
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>ProcessingInstruction</code> node,
-    then it is a
-    <a href="#xml-well-formedness-error" id=wfe-dt-child><code>xml-well-formedness-error</code></a>.
-    <span class=ed>@@ ref to manakai's extensions</span></li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-dt-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> a
+      <code>ProcessingInstruction</code> node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-dt-child><code>xml-well-formedness-error</code></a>.
+      <span class=ed>@@ ref to manakai's extensions</span></li>
+      <li>Otherwise, <!-- if n_c is not an EntityReference node, -->
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
     <li class=ed>@@ <code>entities</code>, <code>notations</code>,
     <code>elementTypes</code>, externally declared?</li>
     </ol>
@@ -333,22 +364,33 @@ following:</p>
     <li>If the <code>prefix</code> attribute value is different from
     <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
     the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>Element</code>,
-    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
-    <code>ProcessingInstruction</code>, or
-    <code>EntityReference</code> node, then it is a
-    <a href="#xml-well-formedness-error" id=wfe-element-child><code>xml-well-formedness-error</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    an <code>EntityReference</code> node, it is an 
-    <a href="#entity-error" id=ee-element-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-element-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> an 
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or
+      <code>EntityReference</code> node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-element-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is an
+      <code>EntityReference</code> node, then it is an
+      <a href="#entity-error" id=ee-element-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>ElementTypeDefinition</code> node</dt>
-  <dd class=ed></dd>
+  <dd>
+    <ol>
+    <li class=ed></li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-et-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
 <dt>If <var>n</var> is an <code>Entity</code> node</dt>
   <dd>
     <ol>
@@ -362,18 +404,22 @@ following:</p>
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
     <!-- publicId = non-null and systemId = null -->
     <li class=ed>@@ <code>notationName</code></li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>Element</code>,
-    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
-    <code>ProcessingInstruction</code>, or
-    <code>EntityReference</code> node, then it is a
-    <a href="#xml-well-formedness-error" id=wfe-entity-child><code>xml-well-formedness-error</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    an <code>EntityReference</code> node, it is an 
-    <a href="#entity-error" id=ee-er-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-entity-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> an
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or <code>EntityReference</code>
+      node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-entity-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is an
+      <code>EntityReference</code> node, then it is an
+      <a href="#entity-error" id=ee-er-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>EntityReference</code> node</dt>
@@ -382,18 +428,22 @@ following:</p>
     <li>An <a href="#entity-error" id=ee-er-node><code>entity-error</code></a>.</li>
     <li><a href="#algorithm-to-validate-a-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    a node which is <em>not</em> <code>Element</code>,
-    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
-    <code>ProcessingInstruction</code>, or
-    <code>EntityReference</code> node, then it is a
-    <a href="#xml-well-formedness-error" id=wfe-er-child><code>xml-well-formedness-error</code></a>.</li>
-    <li>If the <code>childNodes</code> list of <var>n</var> contains
-    an <code>EntityReference</code> node, it is an 
-    <a href="#entity-error" id=ee-entity-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
-    <code>childNodes</code> list of <var>n</var>,
-    which is different from <code>EntityReference</code> recursively.</li>
+    <li>For each node <dfn id=var-er-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <var>n</var>,
+      <ol>
+      <li>If <var>n<sub><var>c</var></sub></var> is <em>not</em> an
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or <code>EntityReference</code>
+      node, then it is an
+      <a href="#xml-well-formedness-error" id=wfe-er-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <var>n<sub><var>c</var></sub></var> is <em>not</em> an
+      <code>EntityReference</code> node, then it is an 
+      <a href="#entity-error" id=ee-entity-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href="#algorithm-to-check-a-node" title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>Notation</code> node</dt>
@@ -408,7 +458,7 @@ following:</p>
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
-    <a href="#xml-well-formedness-error" id=wfe-notation-child><code>xml-well-formedness-error</code></a>s.</li>
+    <a href="#xml-well-formedness-error" id=wfe-notation-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>ProcessingInstruction</code> node</dt>
@@ -430,7 +480,7 @@ following:</p>
     <a href="#round-trip-error" id=rte-pi-data><code>round-trip-error</code></a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
-    <a href="#xml-well-formedness-error" id=wfe-pi-child><code>xml-well-formedness-error</code></a>s.</li>
+    <a href="#xml-well-formedness-error" id=wfe-pi-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>Text</code> node</dt>
@@ -441,7 +491,7 @@ following:</p>
     data</a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
-    <a href="#xml-well-formedness-error" id=wfe-text-child><code>xml-well-formedness-error</code></a>s.</li>
+    <a href="#xml-well-formedness-error" id=wfe-text-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>
 <dt>Otherwise</dt>

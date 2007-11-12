@@ -298,14 +298,8 @@ following:</p>
     <ol>
     <li><a href="#algorithm-to-validate-a-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>publicId</code> attribute value contains any character
-    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
-    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
-    or contains a leading <code class=char>U+0020</code> character,
-    a trailing <code class=char>U+0020</code> character, or a
-    sequence of two or more <code class=char>U+0020</code> characters,
-    then it is a 
-    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
     <li>If the <code>systemId</code> attribute value contains
     both <code>"</code> and <code>'</code> characters, it is a
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
@@ -352,14 +346,8 @@ following:</p>
     <li>An <a href="#entity-error" id=ee-entity-node><code>entity-error</code></a> <span class=ed>@@ if !notationName</span>.</li>
     <li><a href="#algorithm-to-validate-a-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>publicId</code> attribute value contains any character
-    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
-    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
-    or contains a leading <code class=char>U+0020</code> character,
-    a trailing <code class=char>U+0020</code> character, or a
-    sequence of two or more <code class=char>U+0020</code> characters,
-    then it is a 
-    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
     <li>If the <code>systemId</code> attribute value contains
     both <code>"</code> and <code>'</code> characters, it is a
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
@@ -404,14 +392,8 @@ following:</p>
     <ol>
     <li><a href="#algorithm-to-validate-a-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>publicId</code> attribute value contains any character
-    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
-    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
-    or contains a leading <code class=char>U+0020</code> character,
-    a trailing <code class=char>U+0020</code> character, or a
-    sequence of two or more <code class=char>U+0020</code> characters,
-    then it is a 
-    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
     <li>If the <code>systemId</code> attribute value contains
     both <code>"</code> and <code>'</code> characters, it is a
     <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
@@ -479,6 +461,20 @@ validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn>
 is defined as following:</p>
 <ol>
 <li class=ed>@@</li>
+</ol>
+
+<p>To <dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
+a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
+algorithm below <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+    <li>If <var>pid</var> contains any character
+    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
+    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
+    or contains a leading <code class=char>U+0020</code> character,
+    a trailing <code class=char>U+0020</code> character, or a
+    sequence of two or more <code class=char>U+0020</code> characters,
+    then it is a 
+    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
 </ol>
 
 </div>

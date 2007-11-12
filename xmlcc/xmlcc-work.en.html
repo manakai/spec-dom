@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" class="formal-specification status-work-in-progress">
+<head>
+<title class=ed>DOM XML Checking</title>
+<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
+<link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
+</head>
+<body class="has-abstract">
+
+<div class="header">
+<h1 class=ed>DOM XML Checking</h1>
+<h2>Working Draft <time datetime=2007-10-27>27 October 2007</time></h2>
+
+<dl class="versions-uri ed">
+<dt>This Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/selectors/ssft/ssft"
+      >http://suika.fam.cx/www/markup/selectors/ssft/ssft</a>&gt;</code></dd>
+<dt>Latest Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/selectors/ssft/ssft"
+      >http://suika.fam.cx/www/markup/selectors/ssft/ssft</a>&gt;</code></dd>
+<!--
+<dt>Latest Working Draft</dt>
+-->
+<!-- <dt>Previous Version</dt> -->
+<dt>Version History</dt>
+  <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/cvs/markup/selectors/ssft/ssft.en.html">http://suika.fam.cx/gate/cvs/markup/selectors/ssft/ssft.en.html</a>&gt;</code></dd>
+</dl>
+<dl class="authors" id="author">
+<dt>Author</dt>
+  <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
+      lang=ja>Wakaba</a>
+  <code class="mail">&lt;<a href="mailto:w@suika.fam.cx" rel="author"
+      >w@suika.fam.cx</a>&gt;</code></dd>
+</dl>
+
+<p class="copyright" lang="en">&#xA9; <time>2007</time> <a
+    href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the <a rel="license"
+href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
+Version 1.2
+or any later version published by the <a
+href="http://www.fsf.org/">Free Software Foundation</a>;
+with no Invariant Sections, no Front‐Cover Texts, and no Back‐Cover
+Texts.  A copy of the license is
+available at <code class="URI">&lt;<a
+    href="http://www.gnu.org/copyleft/fdl.html"
+    rel="license">http://www.gnu.org/copyleft/fdl.html</a>&gt;</code>.</p>
+</div>
+
+<div id="abstract" class="section">
+<h2>Abstract</h2>
+
+<div class="ed issue">...</div>
+
+</div>
+
+<div id="status" class="section">
+<h2>Status of This Document</h2>
+
+<p class=section-info><em>This section describes the status of this document
+at the time of its publication.  Other documents
+might supersede this document.</em></p>
+
+<p>This document is a working draft, produced as part of the 
+<a href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+subproject of the 
+<a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> 
+project.  It might be updated, replaced, or obsoleted by
+other documents at any time.  It is inappropriate to
+cite this document as other than <q>work in progress</q>.</p>
+
+<p>Comments on this document are welcome and
+may be sent to the <a href="#author">author</a>.</p>
+
+<p>Translations of thie document might be available.
+The English version of the document is the only
+normative version.</p>
+</div>
+
+<div id="introduction" class="section">
+<h2>Introduction</h2>
+
+<p class=section-info>This section is <em>non‐normative</em>.</p>
+
+<div class="issue ed">...</div>
+
+
+</div>
+
+<div class="section" id="terminology">
+<h2>Terminology</h2>
+
+<p>The key words <q><em class="rfc2119">MUST</em></q>,
+<q><em class="rfc2119">MUST NOT</em></q>,
+<q><em class="rfc2119">SHOULD</em></q>,
+<q><em class="rfc2119">SHOULD NOT</em></q>, and
+<q><em class=rfc2119>MAY</em></q> in this
+document are to be interpreted as described in 
+<a href="urn:ietf:rfc:2119"><abbr title="Request for Comments">RFC</abbr> 
+2119</a>
+<cite class="bibref normative">[<a href="#ref-KEYWORDS">KEYWORDS</a>]</cite>.</p>
+
+<!-- Strictly speaking the paragraph below is not part of terminology. -->
+<p>All examples and notes in this specification are non‐normative,
+as are all sections explicitly marked non‐normative.  Everything
+else in this specification is normative.</p>
+
+<p><span class=ed>Algorithm is normative but non-normative</span>.
+In addition, the order in which <a href="#errors">errors</a> are
+raised is undefined.</p>
+</div>
+
+<div class="section">
+<h2 class=ed>Algorithms</h2>
+
+<p>The following algorithms and definitions are applied to
+<abbr>XML</abbr> documents; especially, they are not applied
+to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
+
+<p class=ed>If a <code>Document</code> node has no 
+xml-well-formedness-error, entity-error, and unknown-error,
+then it is well-formed.  If a well-formed <code>Document</code>
+node has no xml-validity-error, it is valid.</p>
+
+<div class="note memo">
+<p>A well‐formed <code>Document</code> can be safely serialized
+into a well‐formed XML document.  A valid <code>Document</code>
+can be easily serialized into a valid XML document.</p>
+</div>
+
+<p>Errors are classified into these 
+<dfn id=error-category title="error category">error categories</dfn>:</p>
+
+<dl id=errors>
+<dt><dfn id=entity-error><code>entity-error</code></dfn></dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=round-trip-error><code>round-trip-error</code></dfn></dt>
+  <dd class=ed>@@</dd>
+<dt class=ed><dfn id=unknown-error><code>unknown-error</code></dfn>?</dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=xml-misc-error><code>xml-misc-error</code></dt>
+  <dd>An <abbr>XML</abbr> <i>error</i> (<abbr>XML</abbr> 1.0
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite> 
+  <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-error">error</a> /
+  <abbr>XML</abbr> 1.1
+  <cite class="bibref normative">[<a href="#ref-XML11">XML11</a>]</cite>
+  <a href="@@/#dt-error">error</a>)
+  that is not classified to any other <a href="#error-category">error
+  category</a>.</dd>
+<dt><dfn id=xml-misc-fatal-error><code>xml-misc-fatal-error</code></dt>
+  <dd>An <abbr>XML</abbr> <i>fatal error</i> (<abbr>XML</abbr> 1.0
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite> 
+  <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-fatal">fatal
+  error</a> / <abbr>XML</abbr> 1.1
+  <cite class="bibref normative">[<a href="#ref-XML11">XML11</a>]</cite>
+  <a href="@@/#dt-fatal">fatal error</a>)
+  that is not classified to any other <a href="#error-category">error
+  category</a>. <span class=ed>@@ What errors fall into this category?</span></dd>
+<dt><dfn id=xml-validity-error><code>xml-validity-error</code></dfn></dt>
+  <dd>A violation of validity constraint in XML document.</dd>
+<dt><dfn id=xml-well-formedness-error><code>xml-well-formedness-error</code></dfn></dt>
+  <dd><p>If an <code>xml-well-formedness-error</code> is raised,
+  it would not be possible to generate an XML serialization that
+  would match to the appropriate production rule and that would not 
+  violate to any well‐formedness constraint in XML
+  specification <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite>.</p></dd>
+</dl>
+
+<div class=ed><p>@@ TODO: #dt-atuseroption at user option
+(MAY or MUST), #dt-compat for compatibility,
+#dt-interop for interoperability</p></div>
+
+<p>The <dfn id=xml-version><abbr>XML</abbr> version</dfn> of a node is 
+the <abbr>XML</abbr> version of the document to which the node belongs.
+For a <code>Documemt</code> node, the <abbr>XML</abbr> version
+of the document is the value of the <code>xmlVersion</code>
+attribute.  For a <code>DocumentType</code> node whose 
+<code>ownerDocument</code> is set to <code>null</code>,
+the <abbr>XML</abbr> version of the document is <code>1.0</code>.
+For any other node, the <abbr>XML</abbr> version of the document
+is that of the <code>Document</code> node contained in the
+<code>ownerDocument</code> attribute of the node.</p>
+
+<p>The algorithm <dfn title="to check a node" id=algorithm-to-check-a-node>to 
+check a node (<dfn id=var-n><var>n</var></dfn>)</dfn> is defined as 
+following:</p>
+<dl class=switch>
+<dt>If <var>n</var> is an <code>Attr</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>prefix</code> attribute value is different from
+    <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
+    the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>Text</code> or
+    <code>EntityReference</code> node, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-attr-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    an <code>EntityReference</code> node, it is an 
+    <a href="#entity-error" id=ee-er-in-attr><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li class=ed>@@ <code>specified</code>,
+    <code>manakaiAttributeType</code></li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is an <code>AttributeDefinition</code> node</dt>
+  <dd class=ed></dd>
+<dt>If <var>n</var> is a <code>CDATASection</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains
+    a string <code>]]></code>, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-cs-mse><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-cs-child><code>xml-well-formedness-error</code></a>s.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>Comment</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains
+    a string <code>--</code>, or if it ends with a character
+    <code>-</code>, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-comment-com><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-comment-child><code>xml-well-formedness-error</code></a>s.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>Document</code> node</dt>
+  <dd>
+    <ol>
+    <li>If <a href="#xml-version"><abbr>XML</abbr> version</a> of <var>n</var>
+    is different from <code>1.0</code> or <code>1.1</code>,
+    then it is an <code class=ed>unknown-error?</code>.</li>
+    <li>If the <code>xmlEncoding</code> attribute value does <em>not</em>
+    match to <code>[A-Za-z] ([A-Za-z0-9._] | '-')*</code>
+    <span class=ed>@@ formal def</span>, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-encoding><code>xml-well-formedness-error</code></a>.</li>
+    <li>The <code>childNodes</code> list of <var>n</var> have to
+    consist of zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes, followed by
+    an optional <code>DocumentType</code> node, followed
+    by zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes, followed by
+    an <code>Element</code> node, followed
+    by zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes.  Any violation to this is a
+    <a href="#xml-well-formedness-error" id=wfe-document-child><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li class=ed>@@ <code>allDeclarationsProcessed</code></li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>DocumentFragment</code> node</dt>
+  <dd>
+    <ol>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>Element</code>,
+    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+    <code>ProcessingInstruction</code>, or
+    <code>EntityReference</code> node, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-df-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    an <code>EntityReference</code> node, it is an 
+    <a href="#entity-error" id=ee-er-in-df><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>DocumentType</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>publicId</code> attribute value contains any character
+    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
+    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
+    or contains a leading <code class=char>U+0020</code> character,
+    a trailing <code class=char>U+0020</code> character, or a
+    sequence of two or more <code class=char>U+0020</code> characters,
+    then it is a 
+    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>systemId</code> attribute value contains
+    both <code>"</code> and <code>'</code> characters, it is a
+    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
+    <!-- publicId = non-null and systemId = null -->
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>ProcessingInstruction</code> node,
+    then it is a
+    <a href="#xml-well-formedness-error" id=wfe-dt-child><code>xml-well-formedness-error</code></a>.
+    <span class=ed>@@ ref to manakai's extensions</span></li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li class=ed>@@ <code>entities</code>, <code>notations</code>,
+    <code>elementTypes</code>, externally declared?</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is an <code>Element</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>prefix</code> attribute value is different from
+    <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
+    the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>Element</code>,
+    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+    <code>ProcessingInstruction</code>, or
+    <code>EntityReference</code> node, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-element-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    an <code>EntityReference</code> node, it is an 
+    <a href="#entity-error" id=ee-er-in-element><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is an <code>ElementTypeDefinition</code> node</dt>
+  <dd class=ed></dd>
+<dt>If <var>n</var> is an <code>Entity</code> node</dt>
+  <dd>
+    <ol>
+    <li>An <a href="#entity-error" id=ee-entity-node><code>entity-error</code></a> <span class=ed>@@ if !notationName</span>.</li>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>publicId</code> attribute value contains any character
+    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
+    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
+    or contains a leading <code class=char>U+0020</code> character,
+    a trailing <code class=char>U+0020</code> character, or a
+    sequence of two or more <code class=char>U+0020</code> characters,
+    then it is a 
+    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>systemId</code> attribute value contains
+    both <code>"</code> and <code>'</code> characters, it is a
+    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
+    <!-- publicId = non-null and systemId = null -->
+    <li class=ed>@@ <code>notationName</code></li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>Element</code>,
+    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+    <code>ProcessingInstruction</code>, or
+    <code>EntityReference</code> node, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-entity-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    an <code>EntityReference</code> node, it is an 
+    <a href="#entity-error" id=ee-er-in-er><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is an <code>EntityReference</code> node</dt>
+  <dd>
+    <ol>
+    <li>An <a href="#entity-error" id=ee-er-node><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    a node which is <em>not</em> <code>Element</code>,
+    <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+    <code>ProcessingInstruction</code>, or
+    <code>EntityReference</code> node, then it is a
+    <a href="#xml-well-formedness-error" id=wfe-er-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    an <code>EntityReference</code> node, it is an 
+    <a href="#entity-error" id=ee-er-in-entity><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>
+    which is different from <code>EntityReference</code> in 
+    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>Notation</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>publicId</code> attribute value contains any character
+    that is outside of the range of <code>#x20 | <!--#xD | #xA |-->
+    [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
+    or contains a leading <code class=char>U+0020</code> character,
+    a trailing <code class=char>U+0020</code> character, or a
+    sequence of two or more <code class=char>U+0020</code> characters,
+    then it is a 
+    <a href="#xml-well-formedness-error" id=wfe-dt-public-id><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>systemId</code> attribute value contains
+    both <code>"</code> and <code>'</code> characters, it is a
+    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-notation-child><code>xml-well-formedness-error</code></a>s.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>ProcessingInstruction</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <code>target</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>target</code> attribute value matches to
+    <code>XML</code> case-insensitively, then it is a 
+    <a href="#xml-well-formedness-error" id=wfe-pi-xml><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains
+    a string <code>?></code>, or starts with either 
+    <code class=char>U+0009</code>, <code class=char>U+000A</code>,
+    <code class=char>U+000D</code>, or <code class=char>U+0020</code>
+    character, then it is a
+    <a href="#round-trip-error" id=rte-pi-data><code>round-trip-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-pi-child><code>xml-well-formedness-error</code></a>s.</li>
+    </ol>
+  </dd>
+<dt>If <var>n</var> is a <code>Text</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-text-child><code>xml-well-formedness-error</code></a>s.</li>
+    </ol>
+  </dd>
+<dt>Otherwise</dt>
+  <dd><span class=ed>xml-well-formedness-error?  unknown-error?</span></dd>
+</dl>
+
+<p>The algorithm
+<dfn id=algorithm-to-validate-an-xml-character-data title-"to validate an XML character data">to
+validate an <abbr>XML</abbr> character data 
+(<dfn id=var-s><var>s</var></dfn>)</dfn> is defined as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+<p>The algorithm 
+<dfn id=algorithm-to-validate-a-name title="to validate a Name">to validate a 
+<code>Name</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> is defined
+as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+<p>The algorithm 
+<dfn id=algorithm-to-validate-a-ncname title="to validate an NCName">to 
+validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> 
+is defined as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+</div>
+
+<div class="section" id="examples">
+<h2>Examples</h2>
+
+<p class=section-info>This section is <em>non‐normative</em>.</p>
+
+<div class="ed issue">
+
+<div class="example figure block">
+<div class="caption">...</div>
+
+<pre><code>...</code></pre>
+</div>
+
+</div>
+
+</div>
+
+<div id="references" class="section reference">
+<h2>References</h2>
+
+<div id="normative-references" class="section normative reference">
+<h3>Normative References</h3>
+
+<dl>
+<dt id="ref-KEYWORDS">KEYWORDS</dt>
+  <dd><cite><a href="urn:ietf:rfc:2119">Key words for use in 
+  <abbr>RFCs</abbr> to Indicate Requirement Levels</a></cite>,
+  <abbr title="Internet Engineering Task Force">IETF</abbr> 
+  <a href="urn:ietf:bcp:14"><abbr title="Best Current Practice">BCP</abbr> 
+  14</a>, <abbr title="Request for Comments">RFC</abbr> 2119, 
+  <time datetime=1997-03>March 1997</time>.
+  <em>This</em> version of the specification is referenced.</dd>
+<dt id=ref-INFOSET>INFOSET</dt>
+  <dd class=ed>@@</dd>
+<dt id=ref-XML10">XML10</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816">Extensible
+  Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,
+  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
+  2006</time>, edited in place <time datetime=2006-09-29>29 September
+  2006</time>.  Tje latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>&gt;</code>.
+  <em>This</em> version of the specification is referenced.</dd>
+<dt id=ref-XML11>XML11</dt>
+  <dd class=ed>@@</dd>
+</dl>
+</div>
+
+<div id="informative-references" class="section informative reference">
+<h3>Non‐normative References</h3>
+
+<dl class=ed>
+<dt id=ref-CSS>CSS</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2007/CR-CSS21-20070719">Cascading
+  Style Sheets Level 2 Revision 1 (<abbr>CSS</abbr> 2.1)
+  Specification</a></cite>, 
+  <abbr title="World Wide Web Consortium">W3C</abbr> Candidate
+  Recommendation, <time datetime=2007-07-19>19 July 2007</time>.
+  Work in progress.  The latest version of the specification is
+  available at 
+  <code class=URI>&lt;<a href="http://www.w3.org/TR/CSS21">http://www.w3.org/TR/CSS21</a>></code>.</dd>
+<dt id=ref-CSSOM>CSSOM</dt>
+  <dd><cite><a href="http://dev.w3.org/cvsweb/~checkout~/csswg/cssom/Overview.html?rev=1.55&amp;content-type=text/html;%20charset=utf-8">Cascading
+  Style Sheets Object Model (<abbr>CSSOM</abbr>)</a></cite>,
+  <abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft,
+  <time datetime=2007-06-18>18 June 2007</time>.  Work in progress.
+  The latest Editor's Draft of the specification is available at
+  <code class=URI>&lt;<a href="http://dev.w3.org/csswg/cssom/Overview.html">http://dev.w3.org/csswg/cssom/Overview.html</a>></code>.</dd>
+<dt id=ref-HTML5>HTML5</dt>
+  <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
+  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
+  Working Draft.  Work in progress.</dd>
+<dt id=ref-SAPI>SAPI</dt>
+  <dd><cite><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/selectors-api/Overview.html?rev=1.28&amp;content-type=text/html;%20charset=utf-8">Selectors <abbr>API</abbr></a></cite>,
+  <abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft,
+  <time datetime=2007-08-29>29 August 2007</time>.  Work in progress.
+  The latest Editor's Draft of the specification is available at
+  <code class=URI>&lt;<a href="http://dev.w3.org/2006/webapi/selectors-api/Overview.html">http://dev.w3.org/2006/webapi/selectors-api/Overview.html</a>></code>.
+  The latest published version of the specification is available at
+  <code class=URI>&lt;<a href="http://www.w3.org/TR/selectors-api/">http://www.w3.org/TR/selectors-api/</a>></code>.</dd>
+<dt id=XBL2>XBL2</dt>
+  <dd><cite><a href="http://www.mozilla.org/projects/xbl/xbl2.html"><abbr>XBL</abbr>
+  2.0</a></cite>, Mozilla.org, <time datetime=2007-03-15>15 Mar 2007</time>.
+  Work in progress.  The latest
+  <abbr title="World Wide Web Consortium">W3C</abbr>‐published
+  version of the specification is available at
+  <code class=URI>&lt;<a href="http://www.w3.org/TR/xbl/">http://www.w3.org/TR/xbl/</a>></code>.</dd>
+</dl>
+</div>
+
+</div>
+
+</body>
+</html>

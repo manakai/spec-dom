@@ -134,7 +134,17 @@ can be easily serialized into a valid XML document.</p>
 
 <dl id=errors>
 <dt><dfn id=entity-error><code>entity-error</code></dfn></dt>
-  <dd class=ed>@@</dd>
+  <dd>
+    <p class=ed>@@</p>
+    <div class="note memo">
+      <p>This <span class=ed>algorithm</span> does not support
+      <abbr>DOM</abbr> tree with one or more <code>EntityReference</code>
+      nodes.  It is expected that any entity references are expanded
+      at the parse time and any unexpandable entity references
+      make parse time errors raised so that never result in
+      <abbr>DOM</abbr> tree with <code>EntityReference</code> nodes.</p>
+    </div>
+  </dd>
 <dt><dfn id=round-trip-error><code>round-trip-error</code></dfn></dt>
   <dd class=ed>@@</dd>
 <dt class=ed><dfn id=unknown-error><code>unknown-error</code></dfn>?</dt>
@@ -202,9 +212,9 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     an <code>EntityReference</code> node, it is an 
     <a href="#entity-error" id=ee-er-in-attr><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     <li class=ed>@@ <code>specified</code>,
     <code>manakaiAttributeType</code></li>
     </ol>
@@ -260,9 +270,9 @@ following:</p>
     by zero or more <code>Comment</code> and/or
     <code>ProcessingInstruction</code> nodes.  Any violation to this is a
     <a href="#xml-well-formedness-error" id=wfe-document-child><code>xml-well-formedness-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     <li class=ed>@@ <code>allDeclarationsProcessed</code></li>
     </ol>
   </dd>
@@ -278,9 +288,9 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     an <code>EntityReference</code> node, it is an 
     <a href="#entity-error" id=ee-er-in-df><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>
+    which is different from <code>EntityReference</code> recursively.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>DocumentType</code> node</dt>
@@ -305,9 +315,9 @@ following:</p>
     then it is a
     <a href="#xml-well-formedness-error" id=wfe-dt-child><code>xml-well-formedness-error</code></a>.
     <span class=ed>@@ ref to manakai's extensions</span></li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     <li class=ed>@@ <code>entities</code>, <code>notations</code>,
     <code>elementTypes</code>, externally declared?</li>
     </ol>
@@ -329,9 +339,9 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     an <code>EntityReference</code> node, it is an 
     <a href="#entity-error" id=ee-er-in-element><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>ElementTypeDefinition</code> node</dt>
@@ -364,9 +374,9 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     an <code>EntityReference</code> node, it is an 
     <a href="#entity-error" id=ee-er-in-er><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>EntityReference</code> node</dt>
@@ -384,9 +394,9 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     an <code>EntityReference</code> node, it is an 
     <a href="#entity-error" id=ee-er-in-entity><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-check-a-node">Check each node</a>
-    which is different from <code>EntityReference</code> in 
-    <code>childNodes</code> list of <var>n</var> recursively.</li>
+    <li><a href="#algorithm-to-check-a-node">Check each node</a>, in
+    <code>childNodes</code> list of <var>n</var>,
+    which is different from <code>EntityReference</code> recursively.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>Notation</code> node</dt>

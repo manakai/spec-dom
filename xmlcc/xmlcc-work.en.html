@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's XML Conformance Checking</h1>
-<h2>Working Draft <time datetime=2007-11-12>12 November 2007</time></h2>
+<h2>Working Draft <time datetime=2007-11-13>13 November 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -120,12 +120,15 @@ In addition, the order in which <a href="#errors">errors</a> are
 raised is undefined.</p>
 </div>
 
-<div class="section">
-<h2 class=ed>Algorithms</h2>
+<div class="section" id=checking-dom>
+<h2>Checking <abbr>DOM</abbr></h2>
 
 <p>The following algorithms and definitions are applied to
 <abbr>XML</abbr> documents; especially, they are not applied
 to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
+
+<div class=section id=error-categories>
+<h3>Error Classification</h3>
 
 <p class=ed>If a <code>Document</code> node has no 
 xml-well-formedness-error, entity-error, and unknown-error,
@@ -191,16 +194,27 @@ can be easily serialized into a valid XML document.</p>
 (MAY or MUST), #dt-compat for compatibility,
 #dt-interop for interoperability</p></div>
 
+</div>
+
+<div class=section id=definitions>
+<h3>Definitions</h3>
+
 <p>The <dfn id=xml-version><abbr>XML</abbr> version</dfn> of a node is 
 the <abbr>XML</abbr> version of the document to which the node belongs.
 For a <code>Documemt</code> node, the <abbr>XML</abbr> version
 of the document is the value of the <code>xmlVersion</code>
-attribute.  For a <code>DocumentType</code> node whose 
-<code>ownerDocument</code> is set to <code>null</code>,
-the <abbr>XML</abbr> version of the document is <code>1.0</code>.
+attribute of the node.  For a <code>DocumentType</code> node whose 
+<code>ownerDocument</code> attribute is set to <code>null</code>,
+the <abbr>XML</abbr> version of the document is <code>1.0</code><!--
+since createDocumentType [DOM3CORE] assumes XML 1.0 [XML10TE] -->.
 For any other node, the <abbr>XML</abbr> version of the document
 is that of the <code>Document</code> node contained in the
 <code>ownerDocument</code> attribute of the node.</p>
+
+</div>
+
+<div class=section id=checking-node>
+<h3>Checking <code>Node</code></h3>
 
 <p>The algorithm <dfn title="to check a node" id=algorithm-to-check-a-node>to 
 check a node (<dfn id=var-n><var>n</var></dfn>)</dfn> is defined as 
@@ -498,6 +512,11 @@ following:</p>
   <dd><span class=ed>xml-well-formedness-error?  unknown-error?</span></dd>
 </dl>
 
+</div>
+
+<div class=section id=checking-components>
+<h3>Checking Components</h3>
+
 <p>The algorithm
 <dfn id=algorithm-to-validate-an-xml-character-data title-"to validate an XML character data">to
 validate an <abbr>XML</abbr> character data 
@@ -545,21 +564,6 @@ algorithm below <em class=rfc2119>MUST</em> be used:</p>
   <a href="#round-trip-error" id=rte-pubid-space><code>round-trip-error</code></a>.</li>
   <li class=ed>@@ Should we check formal-public-identifierness?</li>
 </ol>
-
-</div>
-
-<div class="section" id="examples">
-<h2>Examples</h2>
-
-<p class=section-info>This section is <em>non‐normative</em>.</p>
-
-<div class="ed issue">
-
-<div class="example figure block">
-<div class="caption">...</div>
-
-<pre><code>...</code></pre>
-</div>
 
 </div>
 

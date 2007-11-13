@@ -222,7 +222,20 @@ is that of the <code>Document</code> node contained in the
 validate an <abbr>XML</abbr> character data 
 (<dfn id=var-s><var>s</var></dfn>)</dfn> is defined as following:</p>
 <ol>
-<li class=ed>@@</li>
+<li>If <var>s</var> contains a character that is <em>not</em> in
+the character class <a href="#class-Char10"><code>Char10</code></a>, 
+then raise an
+<a href="#xml-well-formedness-error" id=wfe-illegal-char><code>xml-well-formedness-error</code></a>.</li>
+<li>If <var>s</var> contains a character that is in the character
+class <a href="#class-CompatChar10"><code>CompatChar10</code></a>,
+then raise an
+<a href="#xml-misc-warning" id=xmw-compat-char><code>xml-misc-warning</code></a>.</li>
+<li>If <var>s</var> contains a character that is in the character
+class <a href="#class-ControlChar10"><code>ControlChar10</code></a>,
+then raise an
+<a href="#xml-misc-warning" id=xmw-control-char><code>xml-misc-warning</code></a>.</li>
+<li class=ed>@@ XML 1.1 support</li>
+<li class=ed>@@ If U+000D, round-trip-error</li>
 </ol>
 
 <p>The algorithm 
@@ -566,6 +579,76 @@ following:</p>
   <dd><span class=ed>xml-well-formedness-error?  unknown-error?</span></dd>
 </dl>
 
+</div>
+
+</div>
+
+<div id=classes class=section>
+<h2>Character Classes</h2>
+
+<p>This section defines a couple of character classes.
+These classes are referred to by algorithms specified above.</p>
+
+<p>Character class <dfn id=class-Char10><code>Char10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+0009</code> <code class=charname>CHARACTER
+TABULATION</code></li>
+<li><code class=char>U+000A</code> <code class=charname>LINE FEED</code></li>
+<li><code class=char>U+000D</code> <code class=charname>CARRIAGE
+RETURN</code></li>
+<li><code class=char>U+0020</code> <code class=charname>SPACE</code>
+.. <code class=char>U+D7FF</code></li>
+<li><code class=char>U+E000</code> .. <code class=char>U+FFFD</code>
+<code class=charname>REPLACEMENT CHARACTER</code></li>
+<li><code class=char>U+10000</code> .. <code class=char>U+10FFFF</code></li>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed in the production rule
+<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Char"><code>Char</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite>.</p>
+</div>
+
+<p>Character class <dfn id=class-CompatChar10><code>CompatChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li class=ed>@@ <q>Document authors are encouraged to avoid "compatibility characters", as defined in section 6.8 of [Unicode @@ Unicode 2.0 @@] (see also D21 in section 3.6 of [Unicode3]).</q></li>
+</ul>
+
+<p>Character class <dfn id=class-ControlChar10><code>ControlChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+007F</code> <code class=charname>DELETE</code> ..
+<code class=char>U+0084</code> <code class=charname>INDEX</code></li>
+<li><code class=char>U+0086</code> <code class=charname>START OF SELECTED
+AREA</code> .. <code class=char>U+009F</code> <code class=charname>APPLICATION
+PROGRAM COMMAND</code></li>
+<li><code class=char>U+FDD0</code> .. <code class=char>U+FDEF</code></li>
+<li><code class=char>U+1FFFE</code> .. <code class=char>U+1FFFF</code></li>
+<li><code class=char>U+2FFFE</code> .. <code class=char>U+2FFFF</code></li>
+<li><code class=char>U+3FFFE</code> .. <code class=char>U+3FFFF</code></li>
+<li><code class=char>U+4FFFE</code> .. <code class=char>U+4FFFF</code></li>
+<li><code class=char>U+5FFFE</code> .. <code class=char>U+5FFFF</code></li>
+<li><code class=char>U+6FFFE</code> .. <code class=char>U+6FFFF</code></li>
+<li><code class=char>U+7FFFE</code> .. <code class=char>U+7FFFF</code></li>
+<li><code class=char>U+8FFFE</code> .. <code class=char>U+8FFFF</code></li>
+<li><code class=char>U+9FFFE</code> .. <code class=char>U+9FFFF</code></li>
+<li><code class=char>U+AFFFE</code> .. <code class=char>U+AFFFF</code></li>
+<li><code class=char>U+BFFFE</code> .. <code class=char>U+BFFFF</code></li>
+<li><code class=char>U+CFFFE</code> .. <code class=char>U+CFFFF</code></li>
+<li><code class=char>U+DFFFE</code> .. <code class=char>U+DFFFF</code></li>
+<li><code class=char>U+EFFFE</code> .. <code class=char>U+EFFFF</code></li>
+<li><code class=char>U+FFFFE</code> .. <code class=char>U+FFFFF</code></li>
+<li><code class=char>U+10FFFE</code> .. <code class=char>U+10FFFF</code></li>
+</ul>
+<div class="note memo">
+<p>This character class contains the characters listed in the Note in
+<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#charsets">Section 2.2</a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite>,
+as amended by
+<a href="http://www.w3.org/XML/xml-V10-4e-errata#E02">errata</a>.</p>
 </div>
 
 </div>

@@ -213,6 +213,60 @@ is that of the <code>Document</code> node contained in the
 
 </div>
 
+
+<div class=section id=checking-components>
+<h3>Checking Components</h3>
+
+<p>The algorithm
+<dfn id=algorithm-to-validate-an-xml-character-data title-"to validate an XML character data">to
+validate an <abbr>XML</abbr> character data 
+(<dfn id=var-s><var>s</var></dfn>)</dfn> is defined as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+<p>The algorithm 
+<dfn id=algorithm-to-validate-a-name title="to validate a Name">to validate a 
+<code>Name</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> is defined
+as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+<p>The algorithm 
+<dfn id=algorithm-to-validate-a-ncname title="to validate an NCName">to 
+validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> 
+is defined as following:</p>
+<ol>
+<li class=ed>@@</li>
+</ol>
+
+<p>To <dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
+a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
+algorithm below <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+  <li>If <var>pid</var> contains any character
+  that is outside of the range of <code>#x20 | #xD | #xA |
+  [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
+  then it is an
+  <a href="#xml-well-formedness-error" id=wfe-pubid-char><code>xml-well-formedness-error</code></a>.</li>
+  <li>If <var>pid</var> contains one of <code class=char>U+0009</code>
+  <code class=charname>CHARACTER TABULATION</code>, 
+  <code class=char>U+000A</code> <code class=charname>CARRIAGE RETURN</code>,
+  and <code class=char>U+000D</code> <code class=charname>LINE FEED</code>
+  characters, if the first character of <var>pid</var> is
+  <code class=char>U+0020</code> <code class=charname>SPACE</code> character,
+  if the last character of <var>pid</var> is <code class=char>U+0020</code>
+  <code class=charname>SPACE</code> character, or if there is a
+  <code class=char>U+0020</code> <code class=charname>SPACE</code> character
+  immediately followed by another <code class=char>U+0020</code>
+  <code class=charname>SPACE</code> character in <var>pid</var>, then it is a
+  <a href="#round-trip-error" id=rte-pubid-space><code>round-trip-error</code></a>.</li>
+  <li class=ed>@@ Should we check formal-public-identifierness?</li>
+</ol>
+
+</div>
+
 <div class=section id=checking-node>
 <h3>Checking <code>Node</code></h3>
 
@@ -511,59 +565,6 @@ following:</p>
 <dt>Otherwise</dt>
   <dd><span class=ed>xml-well-formedness-error?  unknown-error?</span></dd>
 </dl>
-
-</div>
-
-<div class=section id=checking-components>
-<h3>Checking Components</h3>
-
-<p>The algorithm
-<dfn id=algorithm-to-validate-an-xml-character-data title-"to validate an XML character data">to
-validate an <abbr>XML</abbr> character data 
-(<dfn id=var-s><var>s</var></dfn>)</dfn> is defined as following:</p>
-<ol>
-<li class=ed>@@</li>
-</ol>
-
-<p>The algorithm 
-<dfn id=algorithm-to-validate-a-name title="to validate a Name">to validate a 
-<code>Name</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> is defined
-as following:</p>
-<ol>
-<li class=ed>@@</li>
-</ol>
-
-<p>The algorithm 
-<dfn id=algorithm-to-validate-a-ncname title="to validate an NCName">to 
-validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> 
-is defined as following:</p>
-<ol>
-<li class=ed>@@</li>
-</ol>
-
-<p>To <dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
-a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
-algorithm below <em class=rfc2119>MUST</em> be used:</p>
-<ol>
-  <li>If <var>pid</var> contains any character
-  that is outside of the range of <code>#x20 | #xD | #xA |
-  [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
-  then it is an
-  <a href="#xml-well-formedness-error" id=wfe-pubid-char><code>xml-well-formedness-error</code></a>.</li>
-  <li>If <var>pid</var> contains one of <code class=char>U+0009</code>
-  <code class=charname>CHARACTER TABULATION</code>, 
-  <code class=char>U+000A</code> <code class=charname>CARRIAGE RETURN</code>,
-  and <code class=char>U+000D</code> <code class=charname>LINE FEED</code>
-  characters, if the first character of <var>pid</var> is
-  <code class=char>U+0020</code> <code class=charname>SPACE</code> character,
-  if the last character of <var>pid</var> is <code class=char>U+0020</code>
-  <code class=charname>SPACE</code> character, or if there is a
-  <code class=char>U+0020</code> <code class=charname>SPACE</code> character
-  immediately followed by another <code class=char>U+0020</code>
-  <code class=charname>SPACE</code> character in <var>pid</var>, then it is a
-  <a href="#round-trip-error" id=rte-pubid-space><code>round-trip-error</code></a>.</li>
-  <li class=ed>@@ Should we check formal-public-identifierness?</li>
-</ol>
 
 </div>
 

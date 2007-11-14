@@ -120,49 +120,9 @@ In addition, the order in which <a href="#errors">errors</a> are
 raised is undefined.</p>
 </div>
 
-<div class=section id=parsing-xml>
-<h2>Parsing <abbr>XML</abbr> Document</h2>
-
-<ul>
-<li>If the <abbr>XML</abbr> document does not begin with an
-<abbr>XML</abbr> declaration, then raise an
-<a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.</li>
-<li>If the replacement text of an entity declaration is
-<code>&lt;</code>, then raise an
-<a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
-"strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
---></li>
-<li>If attribute definition whose <code>Name</code> is
-<code>xml:space</code> has <span class=ed>declared type different from 
-(default|preserve), (default), or (preserve)</span>, then raise an
-<a href="#xml-misc-error" id=xme-ad-xml-space><code>xml-misc-error</code></a>.
-<span class=ed>@@ duplication with 
-<a href="#xml-at-xml-space">#xml-at-xml-space</a>.<!--
-<!ATTLIST e xml:space CDATA #IMPLIED xml:space CDATA #IMPLIED> --></span></li>
-<!--
-
-#vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
-#wfc-PEinInternalSubset Well-formedness constraint: PEs in Internal Subset
-#ExtSubset Well-formedness constraint: External Subset
-#PE-between-Decls Well-formedness constraint: PE Between Declarations
-
-@@ Need detailed review, but maybe should be in parsing phase
-
-#vc-check-rmd Validity constraint: Standalone Document Declaration
-
--->
-</ul>
-</div>
-
-<div class="section" id=checking-dom>
-<h2>Checking <abbr>DOM</abbr></h2>
-
-<p>The following algorithms and definitions are applied to
-<abbr>XML</abbr> documents; especially, they are not applied
-to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
 
 <div class=section id=error-categories>
-<h3>Error Classification</h3>
+<h2>Error Classification</h2>
 
 <p class=ed>If a <code>Document</code> node has no 
 xml-well-formedness-error, entity-error, and unknown-error,
@@ -249,6 +209,47 @@ can be easily serialized into a valid XML document.</p>
 #dt-interop for interoperability</p></div>
 
 </div>
+
+<div class=section id=parsing-xml>
+<h2>Parsing <abbr>XML</abbr> Document</h2>
+
+<ul>
+<li>If the <abbr>XML</abbr> document does not begin with an
+<abbr>XML</abbr> declaration, then raise an
+<a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.</li>
+<li>If the replacement text of an entity declaration is
+<code>&lt;</code>, then raise an
+<a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
+"strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
+--></li>
+<li>If attribute definition whose <code>Name</code> is
+<code>xml:space</code> has <span class=ed>declared type different from 
+(default|preserve), (default), or (preserve)</span>, then raise an
+<a href="#xml-misc-error" id=xme-ad-xml-space><code>xml-misc-error</code></a>.
+<span class=ed>@@ duplication with 
+<a href="#xml-at-xml-space">#xml-at-xml-space</a>.<!--
+<!ATTLIST e xml:space CDATA #IMPLIED xml:space CDATA #IMPLIED> --></span></li>
+<!--
+
+#vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
+#wfc-PEinInternalSubset Well-formedness constraint: PEs in Internal Subset
+#ExtSubset Well-formedness constraint: External Subset
+#PE-between-Decls Well-formedness constraint: PE Between Declarations
+
+@@ Need detailed review, but maybe should be in parsing phase
+
+#vc-check-rmd Validity constraint: Standalone Document Declaration
+
+-->
+</ul>
+</div>
+
+<div class="section" id=checking-dom>
+<h2>Checking <abbr>DOM</abbr></h2>
+
+<p>The following algorithms and definitions are applied to
+<abbr>XML</abbr> documents; especially, they are not applied
+to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
 
 <div class=section id=definitions>
 <h3>Definitions</h3>

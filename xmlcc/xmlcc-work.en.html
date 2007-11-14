@@ -124,11 +124,33 @@ raised is undefined.</p>
 <h2>Parsing <abbr>XML</abbr> Document</h2>
 
 <ul>
+<li>If the <abbr>XML</abbr> document does not begin with an
+<abbr>XML</abbr> declaration, then raise an
+<a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.</li>
 <li>If the replacement text of an entity declaration is
 <code>&lt;</code>, then raise an
 <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
 "strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
 --></li>
+<li>If attribute definition whose <code>Name</code> is
+<code>xml:space</code> has <span class=ed>declared type different from 
+(default|preserve), (default), or (preserve)</span>, then raise an
+<a href="#xml-misc-error" id=xme-ad-xml-space><code>xml-misc-error</code></a>.
+<span class=ed>@@ duplication with 
+<a href="#xml-at-xml-space">#xml-at-xml-space</a>.<!--
+<!ATTLIST e xml:space CDATA #IMPLIED xml:space CDATA #IMPLIED> --></span></li>
+<!--
+
+#vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
+#wfc-PEinInternalSubset Well-formedness constraint: PEs in Internal Subset
+#ExtSubset Well-formedness constraint: External Subset
+#PE-between-Decls Well-formedness constraint: PE Between Declarations
+
+@@ Need detailed review, but maybe should be in parsing phase
+
+#vc-check-rmd Validity constraint: Standalone Document Declaration
+
+-->
 </ul>
 </div>
 
@@ -204,6 +226,13 @@ can be easily serialized into a valid XML document.</p>
   <a href="@@/#dt-fatal">fatal error</a>)
   that is not classified to any other <a href="#error-category">error
   category</a>. <span class=ed>@@ What errors fall into this category?</span></dd>
+<dt><dfn id=xml-misc-recommendation><code>xml-misc-recommendation</code></dfn></dt>
+  <dd>
+    <p>An
+    <a href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>
+    will be raised if a <em class=rfc2119>SHOULD</em>‐level requirement
+    in <abbr>XML</abbr> specification is not met.</p>
+  </dd>
 <dt><dfn id=xml-validity-error><code>xml-validity-error</code></dfn></dt>
   <dd>A violation of validity constraint in XML document.</dd>
 <dt><dfn id=xml-well-formedness-error><code>xml-well-formedness-error</code></dfn></dt>
@@ -260,7 +289,14 @@ class <a href="#class-ControlChar10"><code>ControlChar10</code></a>,
 then raise an
 <a href="#xml-misc-warning" id=xmw-control-char><code>xml-misc-warning</code></a>.</li>
 <li class=ed>@@ XML 1.1 support</li>
-<li class=ed>@@ If U+000D, round-trip-error</li>
+<li>If <var>s</var> contains a <code class=char>U+000D</code>
+<code class=charname>CARRIAGE RETURN</code> character, then
+raise a 
+<a href="#round-trip-error" id=rte-cr><code>round-trip-error</code></a>.
+<span class=ed>@@ We should not raise duplicate errors for U+000D
+in attribute values.  In addition, we should support a mode where
+U+000D will be serialized as &#x000D; (so that no round-trip-error
+will be raised).</span></li>
 </ol>
 
 <p>The algorithm 
@@ -342,14 +378,30 @@ following:</p>
       <a href="#algorithm-to-check-a-node" title="check a node">check
       <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
       </ol></li>
+    <li>If <code>nodeName</code> attribute of <var>n</var> is
+    <code>xml:space</code> <span class=ed>@@ or {xml namespace}:space ?</span>
+    and <code>value</code> attribute of <var>n</var> is neither 
+    <code>default</code> nor <code>preserve</code>, then it is an
+    <a href="#xml-misc-error" id=xme-attr-xml-space><code>xml-misc-error</code></a>.<!--
+    Note that <!ATTLIST e xml:space (default|preserve) "a">...
+    <e xml:space="default"/> is conforming and valid. --></li>
+    <li class=ed>@@ xml:lang value is not a language tag [RFC 3066 or its
+    successor] or an empty string, then xml-misc-warning
+    (a "fact"-level error; not an XML error).</li>
     <li class=ed>@@ <code>specified</code>,
     <code>manakaiAttributeType</code></li>
+    <!-- xml:space MUST be declared to be valid. -->
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>AttributeDefinition</code> node</dt>
   <dd>
     <ol>
     <li class=ed></li>
+    <li>If <code>nodeName</code> attribute of <var>n</var> is
+    <code>xml:space</code> <span class=ed>@@ or {xml namespace}:space ?</span>
+    and <span class=ed>its declared type is different from (default|preserve),
+    (default), or (preserve)</span>, then raise an
+    <a href="#xml-misc-error" id=xme-at-xml-space><code>xml-misc-error</code></a>.</li>
     <li>For each node <dfn id=var-ad-nc><var>n<sub><var>c</var></sub></var></dfn> in the
     <code>childNodes</code> list of <var>n</var>,
       <ol>
@@ -453,6 +505,21 @@ following:</p>
     <ol>
     <li><a href="#algorithm-to-validate-a-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>Follow the following substeps:
+      <ol>
+      <li>If <code>ownerDocument</code> attribute of <var>n</var> is
+      <code>null</code>, then abort these substeps.</li>
+      <li>If <code>documentElement</code> attribute of the node
+      set to <code>ownerDocument</code> attribute of <var>n</var> is
+      <code>null</code>, then abort these substeps.</li>
+      <li>If <code>nodeName</code> attribute of the node set to
+      <code>documentElement</code> attribute of the node set to
+      <code>ownerDocument</code> attribute of <var>n</var> is
+      different from <code>nodeName</code> of <var>n</var>,
+      then raise an
+      <a href="#xml-validity-error" id=vc-roottype><code>xml-validity-error</code></a>.</li></li>
+      </ol>
+    </li>
     <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
     the <code>publicId</code> attribute value as a public identifier</a>.</li>
     <li>If the <code>systemId</code> attribute value contains
@@ -582,22 +649,27 @@ following:</p>
 <dt>If <var>n</var> is a <code>ProcessingInstruction</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
-    <code>target</code> attribute value as an <code>NCName</code></a>.</li>
-    <li>If the <code>target</code> attribute value matches to
-    <code>XML</code> case-insensitively, then it is a 
+    <li>If the <code>target</code> attribute value matches to the string
+    <code>xml</code> in any case combination, then raise a 
     <a href="#xml-well-formedness-error" id=wfe-pi-xml><code>xml-well-formedness-error</code></a>.</li>
-    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
-    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    <li>Otherwise, <a href="#algorithm-to-validate-a-ncname">validate the
+    <code>target</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>Then,
+    <a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML character data">validate
+    the <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
-    <li>If the <code>data</code> attribute value contains
-    a string <code>?></code>, or starts with either 
-    <code class=char>U+0009</code>, <code class=char>U+000A</code>,
-    <code class=char>U+000D</code>, or <code class=char>U+0020</code>
-    character, then it is a
-    <a href="#round-trip-error" id=rte-pi-data><code>round-trip-error</code></a>.</li>
+    <li>If the <code>data</code> attribute value contains a string
+    <code>?></code>, then raise a 
+    <a href="#xml-well-formedness-error" id=wfe-pi-pic><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>data</code> attribute value starts with either
+    <code class=char>U+0009</code> <code class=charname>CHARACTER
+    TABULATION</code>, <code class=char>U+000A</code> <code class=charname>LINE
+    FEED</code>, <code class=char>U+000D</code> <code class=charname>CARRIAGE
+    RETURN</code>, or <code class=char>U+0020</code>
+    <code class=charname>SPACE</code> character, then raise a
+    <a href="#round-trip-error" id=rte-pi-s><code>round-trip-error</code></a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
-    any nodes, they are in
+    any nodes, then raise an
     <a href="#xml-well-formedness-error" id=wfe-pi-child><code>xml-well-formedness-error</code></a>.</li>
     </ol>
   </dd>

@@ -17,8 +17,8 @@
 <body class="has-abstract">
 
 <div class="header">
-<h1>manakai's XML Conformance Checking</h1>
-<h2>Working Draft <time datetime=2007-11-13>13 November 2007</time></h2>
+<h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
+<h2>Working Draft <time datetime=2007-11-14>14 November 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -120,6 +120,18 @@ In addition, the order in which <a href="#errors">errors</a> are
 raised is undefined.</p>
 </div>
 
+<div class=section id=parsing-xml>
+<h2>Parsing <abbr>XML</abbr> Document</h2>
+
+<ul>
+<li>If the replacement text of an entity declaration is
+<code>&lt;</code>, then raise an
+<a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
+"strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
+--></li>
+</ul>
+</div>
+
 <div class="section" id=checking-dom>
 <h2>Checking <abbr>DOM</abbr></h2>
 
@@ -159,6 +171,19 @@ can be easily serialized into a valid XML document.</p>
   </dd>
 <dt><dfn id=round-trip-error><code>round-trip-error</code></dfn></dt>
   <dd class=ed>@@</dd>
+<dt><dfn id=round-trip-warning><code>round-trip-warning</code></dfn></dt>
+  <dd>
+    <p>A <a href="#round-trip-warning"><code>round-trip-warning</code></a>
+    will be raised when a construct, which might not be restored to the same
+    construct when it is serialized and then re-parsed by a conforming
+    processor, is encountered.</p>
+    <div class="example memo">
+      <p>For a <code>Comment</code> node a
+      <a href="#round-trip-warning"><code>round-trip-warning</code></a> will
+      be raised, since <abbr>XML</abbr> processors are not required to
+      report texts of comments for applications.</p>
+    </div>
+  </dd>
 <dt class=ed><dfn id=unknown-error><code>unknown-error</code></dfn>?</dt>
   <dd class=ed>@@</dd>
 <dt><dfn id=xml-misc-error><code>xml-misc-error</code></dt>
@@ -240,9 +265,18 @@ then raise an
 
 <p>The algorithm 
 <dfn id=algorithm-to-validate-a-name title="to validate a Name">to validate a 
-<code>Name</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> is defined
+<code>Name</code> (<dfn id=var-name-s><var>s</var></dfn>)</dfn> is defined
 as following:</p>
 <ol>
+<li>If <var>s</var> begins with the string <code>xml</code> (in any
+case combination), then raise an
+<a href="#xml-misc-warning" id=xmw-reserved-name><code>xml-misc-warning</code></a>.
+<span class=ed>@@ except for attribute names <code>xml:lang</code>,
+<code>xml:space</code>, <code>xml:base</code>, <code>xml:id</code>,
+<code>xmlns</code>, <code>xmlns:<var>*</var></code>,
+pi name <code>xml-stylesheet</code>.</span></li>
+<!-- COLON in Name is a lowercase "should not" in a Note of [XML10],
+[XML11]. -->
 <li class=ed>@@</li>
 </ol>
 
@@ -338,8 +372,8 @@ following:</p>
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
-    a string <code>]]></code>, then it is an
-    <a href="#xml-well-formedness-error" id=wfe-cs-mse><code>xml-well-formedness-error</code></a>.</li>
+    a string <code>]]></code>, then raise an
+    <a href="#xml-well-formedness-error" id=wfe-cs-mse><code>xml-well-formedness-error</code></a>.<!-- "for compatibility" --></li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
     <a href="#xml-well-formedness-error" id=wfe-cs-child><code>xml-well-formedness-error</code></a>.</li>
@@ -348,13 +382,16 @@ following:</p>
 <dt>If <var>n</var> is a <code>Comment</code> node</dt>
   <dd>
     <ol>
+    <li>Raise an
+    <a href="#round-trip-warning" id=rtw-comment><code>round-trip-warning</code></a>.</li>
     <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
     a string <code>--</code>, or if it ends with a character
-    <code>-</code>, then it is an
-    <a href="#xml-well-formedness-error" id=wfe-comment-com><code>xml-well-formedness-error</code></a>.</li>
+    <code>-</code>, then raise an
+    <a href="#xml-well-formedness-error" id=wfe-comment-com><code>xml-well-formedness-error</code></a>.<!--
+    "for compatibility" --></li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
     <a href="#xml-well-formedness-error" id=wfe-comment-child><code>xml-well-formedness-error</code></a>.</li>

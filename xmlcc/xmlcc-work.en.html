@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
-<h2>Working Draft <time datetime=2007-11-14>14 November 2007</time></h2>
+<h2>Working Draft <time datetime=2007-11-15>15 November 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -229,12 +229,22 @@ can be easily serialized into a valid XML document.</p>
 <span class=ed>@@ duplication with 
 <a href="#xml-at-xml-space">#xml-at-xml-space</a>.<!--
 <!ATTLIST e xml:space CDATA #IMPLIED xml:space CDATA #IMPLIED> --></span></li>
+<li>If an empty-element tag is used for an element which is <em>not</em>
+declared <code>EMPTY</code>, then raise an
+<a href="#xml-misc-recommentation" id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.</li>
+<li>If an empty-element tag is <em>not</em> used for an element which is
+declared <code>EMPTY</code>, then raise an
+<a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.</li>
 <!--
 
 #vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
 #wfc-PEinInternalSubset Well-formedness constraint: PEs in Internal Subset
 #ExtSubset Well-formedness constraint: External Subset
 #PE-between-Decls Well-formedness constraint: PE Between Declarations
+#GIMatch Well-formedness constraint: Element Type Match
+#uniqattspec Well-formedness constraint: Unique Att Spec
+#NoExternalRefs Well-formedness constraint: No External Entity References
+#CleanAttrVals Well-formedness constraint: No < in Attribute Values
 
 @@ Need detailed review, but maybe should be in parsing phase
 
@@ -311,7 +321,10 @@ case combination), then raise an
 <span class=ed>@@ except for attribute names <code>xml:lang</code>,
 <code>xml:space</code>, <code>xml:base</code>, <code>xml:id</code>,
 <code>xmlns</code>, <code>xmlns:<var>*</var></code>,
-pi name <code>xml-stylesheet</code>.</span></li>
+pi name <code>xml-stylesheet</code>.</span><!--
+"names beginning with a match to (('X'|'x')('M'|'m')('L'|'l')) are reserved for standardization in this or future versions of this specification.":
+xml:base and xml:id specifications violate to this sentense!
+--></li>
 <!-- COLON in Name is a lowercase "should not" in a Note of [XML10],
 [XML11]. -->
 <li class=ed>@@</li>
@@ -390,7 +403,7 @@ following:</p>
     successor] or an empty string, then xml-misc-warning
     (a "fact"-level error; not an XML error).</li>
     <li class=ed>@@ <code>specified</code>,
-    <code>manakaiAttributeType</code></li>
+    <code>manakaiAttributeType</code> (#ValueType Validity constraint: Attribute Value Type)</li>
     <!-- xml:space MUST be declared to be valid. -->
     </ol>
   </dd>
@@ -566,6 +579,8 @@ following:</p>
       <a href="#algorithm-to-check-a-node" title="check a node">check
       <var>n<sub><var>c</var></sub></var></a> recursively.</li>
       </ol></li>
+    <li class=ed>@@ #elementvalid Validity constraint: Element Valid</li>
+    <li class=ed>@@ #uniqattspec Well-formedness constraint: Unique Att Spec</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>ElementTypeDefinition</code> node</dt>

@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
-<h2>Working Draft <time datetime=2007-11-15>15 November 2007</time></h2>
+<h2>Working Draft <time datetime=2007-11-26>26 November 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -222,6 +222,9 @@ can be easily serialized into a valid XML document.</p>
 <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
 "strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
 --></li>
+<li>If there is an element type declaration whose <code>Name</code>
+value is already declared, then raise an 
+<a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.</li>
 <li>If attribute definition whose <code>Name</code> is
 <code>xml:space</code> has <span class=ed>declared type different from 
 (default|preserve), (default), or (preserve)</span>, then raise an
@@ -245,6 +248,9 @@ declared <code>EMPTY</code>, then raise an
 #uniqattspec Well-formedness constraint: Unique Att Spec
 #NoExternalRefs Well-formedness constraint: No External Entity References
 #CleanAttrVals Well-formedness constraint: No < in Attribute Values
+#vc-PEinGroup Validity constraint: Proper Group/PE Nesting
+"For interoperability, if a parameter-entity reference appears in a choice, seq, or Mixed construct, its replacement text SHOULD contain at least one non-blank character, and neither the first nor last non-blank character of the replacement text SHOULD be a connector (| or ,)."
+"For interoperability, an XML processor MAY at user option issue a warning when more than one attribute-list declaration is provided for a given element type, or more than one attribute definition is provided for a given attribute, but this is not an error."
 
 @@ Need detailed review, but maybe should be in parsing phase
 
@@ -405,6 +411,72 @@ following:</p>
     <li class=ed>@@ <code>specified</code>,
     <code>manakaiAttributeType</code> (#ValueType Validity constraint: Attribute Value Type)</li>
     <!-- xml:space MUST be declared to be valid. -->
+    <li>Let <dfn id=var-v><var>v</var></dfn> be the value of the
+    attribute <code>value</code> of <var>n</var>.</li>
+    <li>Validate the <var>n</var> against the <span class=ed>declared 
+    type</span> as following:
+      <dl class=switch>
+      <dt class=ed><code>ID_ATTR</code></dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <var>v</var> as an
+          <code>Name</code>.</span>  If it fails, then raise an
+          <a href="#xml-validity-error" id=vc-id-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <code>ID</code> <var>v</var> is defined,</span>
+          then raise an  
+          <a href="#xml-validity-error" id=vc-id-duplication><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>IDREF_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <var>v</var> as an
+          <code>Name</code>.</span>  If it fails, then raise an
+          <a href="#xml-validity-error" id=vc-idref-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <code>ID</code> <var>v</var> is NOT
+          defined,</span> then raise an  
+          <a href="#xml-validity-error" id=vc-idref-match><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>IDREFS_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>ENTITY_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <var>v</var> as an
+          <code>Name</code>.</span>  If it fails, then raise an
+          <a href="#xml-validity-error" id=vc-entname-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <code>Entity</code> <var>v</var> is NOT
+          defined,</span> then raise an  
+          <a href="#xml-validity-error" id=vc-entname-match><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>ENTITIES_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>NMTOKEN_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <var>v</var> as an
+          <code>Nmtoken</code>.</span>  If it fails, then raise an
+          <a href="#xml-validity-error" id=vc-nmtok-name><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>NMTOKENS_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>NOTATION_ATTR</dt>
+        <dd class=ed><var>v</var> must be one of enumerated values.
+        If not, then raise an
+        <a href="#xml-validity-error" id=vc-notatn-match><code>xml-validity-error</code></a>.</dd>
+      <dt class=ed>ENUMERATED_ATTR</dt>
+        <dd class=ed><var>v</var> must be one of enumerated values.
+        If not, then raise an
+        <a href="#xml-validity-error" id=vc-enum><code>xml-validity-error</code></a>.</dd>
+      <dt class=ed>@@</dt>
+      </dl>
+    </li>
+    <li>If <span class=ed>default is NOT #IMPLIED or #REQUIRED</span>, then
+    raise an
+    <a href="#xml-validity-error" id=vc-id-default><code>xml-validity-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>AttributeDefinition</code> node</dt>
@@ -429,6 +501,15 @@ following:</p>
       <a href="#algorithm-to-check-a-node" title="check a node">check
       <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
       </ol></li>
+    <li class=ed>If <code>NOTATION_ATTR</code>, enumerated values MUST
+    be declared.  If not, then raise an
+    <a href="#xml-validity-error" id=vc-notatn-declared><code>xml-validity-error</code></a>.</li>
+    <li class=ed>If <code>NOTATION_ATTR</code> or <code>ENUMERATED_ATTR</code>,
+    values MUST all be distinct.  If not, then raise an
+    <a href="#xml-validity-error" id=vc-no-duplicate-tokens><code>xml-validity-error</code></a>.</li>
+    <li class=ed>If <code>NOTATION_ATTR</code> on an <code>EMPTY</code> 
+    element, then raise an
+    <a href="#xml-validity-error" id=vc-no-notation-empty><code>xml-validity-error</code></a>.</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is a <code>CDATASection</code> node</dt>
@@ -590,6 +671,22 @@ following:</p>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
     <a href="#xml-well-formedness-error" id=wfe-et-child><code>xml-well-formedness-error</code></a>.</li>
+    <li class=ed>@@ <q cite="http://www.w3.org/TR/2006/REC-xml-20060816/#elemdecls">At user option, an XML processor MAY issue a warning when a declaration mentions an element type for which no declaration is provided, but this is not an error.</q></li>
+    <li class=ed>@@ <q cite="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-element-content">For compatibility, it is an error if the content model allows an element to match more than one occurrence of an element type in the content model. </q></li>
+    <li class=ed>@@ #vc-MixedChildrenUnique
+    Validity constraint: No Duplicate Types</li>
+    <li class=ed>@@ <q cite="http://www.w3.org/TR/2006/REC-xml-20060816/#attdecls">At user option, an XML processor MAY issue a warning if attributes are declared for an element type not itself declared, but this is not an error.</q></li>
+    <li>If there is more than one <code>AttributeDefinition</code> node
+    with <span class=ed>attribute type <code>ID</code></span> in the 
+    <code>NamedNodeMap</code> list contained in the 
+    <code>attributeDefinitions</code> attribute of <var>n</var>, then raise an
+    <a href="#xml-validity-error" id=vc-one-id-per-el><code>xml-validity-error</code></a>.</li>
+    <li>If there is more than one <code>AttributeDefinition</code> node
+    with <span class=ed>attribute type <code>NOTATION</code></span> in the 
+    <code>NamedNodeMap</code> list contained in the 
+    <code>attributeDefinitions</code> attribute of <var>n</var>, then raise an
+    <a href="#xml-validity-error" id=vc-one-notation-per><code>xml-validity-error</code></a>.</li>
+    <li class=ed>"For interoperability, the same Nmtoken  SHOULD NOT occur more than once in the enumerated attribute types of a single element type."</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>Entity</code> node</dt>

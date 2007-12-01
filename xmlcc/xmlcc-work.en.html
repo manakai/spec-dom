@@ -314,12 +314,12 @@ is that of the <code>Document</code> node contained in the
 
 
 <div class=section id=checking-components>
-<h3>Checking Components</h3>
+<h3>Conformance Checking Algorithms for Components</h3>
 
-<p>The algorithm
-<dfn id=algorithm-to-validate-an-xml-character-data title-"to validate an XML character data">to
-validate an <abbr>XML</abbr> character data 
-(<dfn id=var-s><var>s</var></dfn>)</dfn> is defined as following:</p>
+<p>To
+<dfn id=algorithm-to-validate-an-xml-character-data title="validate an XML string">to
+validate an <abbr>XML</abbr> string (<dfn id=var-s><var>s</var></dfn>)</dfn>,
+the following algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
 <li>If <var>s</var> contains a character that is <em>not</em> in
 the character class <a href="#class-Char10"><code>Char10</code></a>, 
@@ -344,11 +344,25 @@ U+000D will be serialized as &#x000D; (so that no round-trip-error
 will be raised).</span></li>
 </ol>
 
-<p>The algorithm 
-<dfn id=algorithm-to-validate-a-name title="to validate a Name">to validate a 
-<code>Name</code> (<dfn id=var-name-s><var>s</var></dfn>)</dfn> is defined
-as following:</p>
+<p>To
+<dfn id=algorithm-to-validate-a-name title="validate a Name">validate a
+<code>Name</code> (<dfn id=var-name-s><var>s</var></dfn>)</dfn>, the following
+algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
+<li>If <var>s</var> is an empty string, then raise an
+<a href="#xml-well-formedness-error" id=wfe-name-empty><code>xml-well-formedness-error</code></a>.
+Abort these steps.</li>
+<li><a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">Validate
+<var>s</var> as an <abbr>XML</abbr> string</a>.</li>
+<li>If the first character in <var>s</var> is a character that is 
+<em>not</em> in the character class 
+<a href="#class-NameStartChar10"><code>NameStartChar10</code></a>, then raise
+an
+<a href="#xml-well-formedness-error" id=wfe-name-startchar><code>xml-well-formedness-error</code></a>.</li>
+<li>If a character other than the first character in <var>s</var> is a 
+character that is <em>not</em> in the character class 
+<a href="#class-NameChar10"><code>NameChar10</code></a>, then raise an
+<a href="#xml-well-formedness-error" id=wfe-name-char><code>xml-well-formedness-error</code></a>.</li>
 <li>If <var>s</var> begins with the string <code>xml</code> (in any
 case combination), then raise an
 <a href="#xml-misc-warning" id=xmw-reserved-name><code>xml-misc-warning</code></a>.
@@ -357,18 +371,20 @@ case combination), then raise an
 <code>xmlns</code>, <code>xmlns:<var>*</var></code>,
 pi name <code>xml-stylesheet</code>.</span><!--
 "names beginning with a match to (('X'|'x')('M'|'m')('L'|'l')) are reserved for standardization in this or future versions of this specification.":
-xml:base and xml:id specifications violate to this sentense!
+xmlns, xml-stylesheet, xml:base and xml:id specifications violate to this sentense!
 --></li>
 <!-- COLON in Name is a lowercase "should not" in a Note of [XML10],
 [XML11]. -->
-<li class=ed>@@</li>
+<li class=ed>@@ XML 1.1 support</li>
 </ol>
 
-<p>The algorithm 
-<dfn id=algorithm-to-validate-an-ncname title="to validate an NCName">to 
-validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> 
-is defined as following:</p>
+<p>To
+<dfn id=algorithm-to-validate-an-ncname title="validate an NCName">validate
+an <code>NCName</code> (<dfn id=var-ncname-s><var>s</var></dfn>)</dfn>, the
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
+<li><a href="#algorithm-to-validate-a-name" title="validate a Name">Validate
+<var>s</var> as a <code>Name</code></a>.</li>
 <li class=ed>@@</li>
 </ol>
 
@@ -407,6 +423,8 @@ a system identifier (<dfn id=var-sid><var>sid</var></dfn>)</dfn>, the
 following algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
   <li>If <var>sid</var> is <code>null</code>, abort these steps.</li>
+<li><a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">Validate
+<var>sid</var> as an <abbr>XML</abbr> string</a>.</li>
   <li>If <var>sid</var> contains both <code class=char>U+0022</code>
   <code class=charname>QUOTATION MARK</code> (<code class=char>"</code>) and
   <code class=char>U+0027</code> <code class=charname>APOSTROPHE</code>
@@ -573,7 +591,7 @@ following:</p>
 <dt>If <var>n</var> is a <code>CDATASection</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <li><a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">Validate the 
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
@@ -589,7 +607,7 @@ following:</p>
     <ol>
     <li>Raise an
     <a href="#round-trip-warning" id=rtw-comment><code>round-trip-warning</code></a>.</li>
-    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <li><a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">Validate the 
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains
@@ -869,7 +887,7 @@ parsed entity)</dt>
     <li>Otherwise, <a href="#algorithm-to-validate-an-ncname">validate the
     <code>target</code> attribute value as an <code>NCName</code></a>.</li>
     <li>Then,
-    <a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML character data">validate
+    <a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">validate
     the <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>data</code> attribute value contains a string
@@ -890,7 +908,7 @@ parsed entity)</dt>
 <dt>If <var>n</var> is a <code>Text</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-an-xml-character-data">Validate the 
+    <li><a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML string">Validate the 
     <code>data</code> attribute value as an <abbr>XML</abbr> character
     data</a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
@@ -973,6 +991,19 @@ of <abbr>XML</abbr> 1.0
 as amended by
 <a href="http://www.w3.org/XML/xml-V10-4e-errata#E02">errata</a>.</p>
 </div>
+
+<p>The character class <dfn id=class-NameStartChar10><code>NameStartChar10</code></dfn> 
+contains the following characters:</p>
+<ul class=ed>
+</ul>
+
+<p>The character class <dfn id=class-NameChar10><code>NameChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li>The characters in the character class
+<a href="#class-NameStartChar10">NameStartChar10</a>.</li>
+<li class=ed></li>
+</ul>
 
 </div>
 

@@ -365,17 +365,19 @@ xml:base and xml:id specifications violate to this sentense!
 </ol>
 
 <p>The algorithm 
-<dfn id=algorithm-to-validate-a-ncname title="to validate an NCName">to 
+<dfn id=algorithm-to-validate-an-ncname title="to validate an NCName">to 
 validate an <code>NCName</code> (<dfn id=var-name><var>name</var></dfn>)</dfn> 
 is defined as following:</p>
 <ol>
 <li class=ed>@@</li>
 </ol>
 
-<p>To <dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
+<p>To 
+<dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
 a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
-algorithm below <em class=rfc2119>MUST</em> be used:</p>
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
+  <li>If <var>pid</var> is <code>null</code>, abort these steps.</li>
   <li>If <var>pid</var> contains any character
   that is outside of the range of <code>#x20 | #xD | #xA |
   [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
@@ -392,8 +394,32 @@ algorithm below <em class=rfc2119>MUST</em> be used:</p>
   <code class=char>U+0020</code> <code class=charname>SPACE</code> character
   immediately followed by another <code class=char>U+0020</code>
   <code class=charname>SPACE</code> character in <var>pid</var>, then it is a
-  <a href="#round-trip-error" id=rte-pubid-space><code>round-trip-error</code></a>.</li>
+  <a href="#round-trip-error" id=rte-pubid-space><code>round-trip-error</code></a>.
+  <span class=ed>Is this really a roundtripness problem?  XML spec
+  does only define the way to match public identifiers in fact, no
+  canonical form.</span></li>
   <li class=ed>@@ Should we check formal-public-identifierness?</li>
+</ol>
+
+<p>To 
+<dfn id=algorithm-to-validate-a-system-identifier title="validate a system identifier">validate
+a system identifier (<dfn id=var-sid><var>sid</var></dfn>)</dfn>, the
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+  <li>If <var>sid</var> is <code>null</code>, abort these steps.</li>
+  <li>If <var>sid</var> contains both <code class=char>U+0022</code>
+  <code class=charname>QUOTATION MARK</code> (<code class=char>"</code>) and
+  <code class=char>U+0027</code> <code class=charname>APOSTROPHE</code>
+  (<code class=char>'</code>) characters, raise an
+  <a href="#xml-well-formedness-error" id=wfe-sid-lit><code>xml-well-formedness-error</code></a>.</li>
+  <li>If <var>sid</var> contains at least one <code class=char>U+0023</code>
+  <code class=charname>NUMBER SIGN</code> (<code class=char>#</code>)
+  character, then raise an
+  <a href="#xml-misc-error" id=xme-sid-fragment><code>xml-misc-error</code></a>.</li>
+  <li class=ed>@@ If <var>sid</var> cannot be converted to a URI
+  reference, then raise a fact-level error (xml-misc-warning?).<!--
+  XML 1.0 has no conformance language for system identifier being
+  a URI reference. --></li>
 </ol>
 
 </div>
@@ -408,10 +434,10 @@ following:</p>
 <dt>If <var>n</var> is an <code>Attr</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
     <li>If the <code>prefix</code> attribute value is different from
-    <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
+    <code>null</code>, then <a href="#algorithm-to-validate-an-ncname">validate
     the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
     <li>For each node <dfn id=var-attr-nc><var>n<sub><var>c</var></sub></var></dfn> in the
     <code>childNodes</code> list of <var>n</var>,
@@ -630,7 +656,7 @@ following:</p>
 <dt>If <var>n</var> is a <code>DocumentType</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
     <li>Follow the following substeps:
       <ol>
@@ -649,11 +675,13 @@ following:</p>
     </li>
     <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
     the <code>publicId</code> attribute value as a public identifier</a>.</li>
-    <li>If the <code>systemId</code> attribute value contains
-    both <code>"</code> and <code>'</code> characters, it is a
-    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
-    <!-- @@ "It is an error for a fragment identifier (beginning with a # character) to be part of a system identifier." -->
-    <!-- publicId = non-null and systemId = null -->
+    <li><a href="#algorithm-to-validate-a-system-identifier" title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>publicId</code> attribute value of <var>n</var> is
+    <em>not</em> <code>null</code> and the <code>systemId</code> attribute
+    value of <var>n</var> is <code>null</code>, then raise an
+    <a href="#xml-well-formedness-error" id=wfe-dt-sid><code>xml-well-formedness-error</code></a>.
+    <span class=ed>@@ publicId == null?  Or, publicId == ""</span></li>
     <li>For each node <dfn id=var-dt-nc><var>n<sub><var>c</var></sub></var></dfn>
     in the <code>childNodes</code> list of <var>n</var>,
       <ol>
@@ -665,17 +693,20 @@ following:</p>
       <a href="#algorithm-to-check-a-node" title="check a node">check
       <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
       </ol></li>
-    <li class=ed>@@ <code>entities</code>, <code>notations</code>,
-    <code>elementTypes</code>, externally declared?</li>
+    <li>For each node in the <code>entities</code>, <code>notations</code>,
+    and <code>elementTypes</code> lists of <var>n</var>,
+    <a href="#algorithm-to-check-a-node" title="check a node">check the
+    node</a> recursively.</li>
+    <li class=ed>@@ externally declared?</li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>Element</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
     <li>If the <code>prefix</code> attribute value is different from
-    <code>null</code>, then <a href="#algorithm-to-validate-a-ncname">validate
+    <code>null</code>, then <a href="#algorithm-to-validate-an-ncname">validate
     the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
     <li>For each node <dfn id=var-element-nc><var>n<sub><var>c</var></sub></var></dfn>
     in the <code>childNodes</code> list of <var>n</var>,
@@ -694,8 +725,18 @@ following:</p>
       <var>n<sub><var>c</var></sub></var></a> recursively.</li>
       </ol></li>
     <li class=ed>@@ #elementvalid Validity constraint: Element Valid</li>
-    <li class=ed>@@ #uniqattspec Well-formedness constraint: Unique Att Spec</li>
-    <li class=ed>@@ #RequiredAttr Validity constraint: Required Attribute</li>
+    <li>Let <var>attrs</var> be the value of the <code>attribute</code>
+    attribute of <var>n</var>.  Check conformance of <var>attrs</var>
+    as following:
+      <ol>
+      <li>If <var>attrs</var> contains an <code>Attr</code> node whose
+      <code>nodeName</code> attribute value is equal to that of another
+      <code>Attr</code> node in <var>attrs</var>, then raise an
+      <a href="#xml-well-formedness-error" id=wfe-uniqattspec><code>xml-well-formedness-error</code></a>.<!--
+      #uniqattspec Well-formedness constraint: Unique Att Spec --></li>
+      <li class=ed>@@ #RequiredAttr Validity constraint: Required Attribute</li>
+      </ol>
+    </li>
     </ol>
   </dd>
 <dt>If <var>n</var> is an <code>ElementTypeDefinition</code> node</dt>
@@ -723,20 +764,23 @@ following:</p>
     <li class=ed>"For interoperability, the same Nmtoken  SHOULD NOT occur more than once in the enumerated attribute types of a single element type."</li>
     </ol>
   </dd>
-<dt>If <var>n</var> is an <code>Entity</code> node</dt>
+<dt>If <var>n</var> is an <code>Entity</code> node whose
+<code>notationName</code> attribute value is <code>null</code> (i.e. a
+parsed entity)</dt>
   <dd>
     <ol>
-    <li>An <a href="#entity-error" id=ee-entity-node><code>entity-error</code></a> <span class=ed>@@ if !notationName</span>.</li>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li>Raise an
+    <a href="#entity-error" id=ee-entity-node><code>entity-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
     <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
     the <code>publicId</code> attribute value as a public identifier</a>.</li>
-    <li>If the <code>systemId</code> attribute value contains
-    both <code>"</code> and <code>'</code> characters, it is a
-    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
-    <!-- publicId = non-null and systemId = null -->
-    <li class=ed>@@ <code>notationName</code></li>
-    <li class=ed>@@ #not-declared Validity constraint: Notation Declared</li>
+    <li><a href="#algorithm-to-validate-a-system-identifier" title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>publicId</code> attribute value of <var>n</var> is
+    <em>not</em> <code>null</code> and the <code>systemId</code> attribute
+    value of <var>n</var> is <code>null</code>, then raise an
+    <a href="#xml-well-formedness-error" id=wfe-entity-sid><code>xml-well-formedness-error</code></a>.</li>
     <li>For each node <dfn id=var-entity-nc><var>n<sub><var>c</var></sub></var></dfn>
     in the <code>childNodes</code> list of <var>n</var>,
       <ol>
@@ -755,11 +799,34 @@ following:</p>
       </ol></li>
     </ol>
   </dd>
+<dt>If <var>n</var> is an <code>Entity</code> node whose
+<code>notationName</code> attribute value is <em>not</em> <code>null</code>
+(i.e. an unparsed entity)</dt>
+  <dd>
+    <ol>
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
+    <li><a href="#algorithm-to-validate-a-system-identifier" title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>systemId</code> attribute value of <var>n</var> is
+    <code>null</code>, then raise an
+    <a href="#xml-well-formedness-error" id=wfe-uentity-sid><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
+    <code>notationName</code> attribute value of <var>n</var> as an
+    <code>NCName</code></a>.</li>
+    <li class=ed>@@ #not-declared Validity constraint: Notation Declared</li>
+    <li>If the <code>childNodes</code> list of <var>n</var> contains
+    any nodes, they are in
+    <a href="#xml-well-formedness-error" id=wfe-uentity-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
 <dt>If <var>n</var> is an <code>EntityReference</code> node</dt>
   <dd>
     <ol>
     <li>An <a href="#entity-error" id=ee-er-node><code>entity-error</code></a>.</li>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
     <li>For each node <dfn id=var-er-nc><var>n<sub><var>c</var></sub></var></dfn>
     in the <code>childNodes</code> list of <var>n</var>,
@@ -782,13 +849,12 @@ following:</p>
 <dt>If <var>n</var> is a <code>Notation</code> node</dt>
   <dd>
     <ol>
-    <li><a href="#algorithm-to-validate-a-ncname">Validate the
+    <li><a href="#algorithm-to-validate-an-ncname">Validate the
     <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
     <li><a href="#algorithm-to-validate-a-public-identifier" title="validate a public identifier">Validate
     the <code>publicId</code> attribute value as a public identifier</a>.</li>
-    <li>If the <code>systemId</code> attribute value contains
-    both <code>"</code> and <code>'</code> characters, it is a
-    <a href="#xml-well-formedness-error" id=wfe-dt-system-id><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href="#algorithm-to-validate-a-system-identifier" title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
     <li>If the <code>childNodes</code> list of <var>n</var> contains
     any nodes, they are in
     <a href="#xml-well-formedness-error" id=wfe-notation-child><code>xml-well-formedness-error</code></a>.</li>
@@ -800,7 +866,7 @@ following:</p>
     <li>If the <code>target</code> attribute value matches to the string
     <code>xml</code> in any case combination, then raise a 
     <a href="#xml-well-formedness-error" id=wfe-pi-xml><code>xml-well-formedness-error</code></a>.</li>
-    <li>Otherwise, <a href="#algorithm-to-validate-a-ncname">validate the
+    <li>Otherwise, <a href="#algorithm-to-validate-an-ncname">validate the
     <code>target</code> attribute value as an <code>NCName</code></a>.</li>
     <li>Then,
     <a href="#algorithm-to-validate-an-xml-character-data" title="validate an XML character data">validate

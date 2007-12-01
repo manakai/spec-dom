@@ -393,12 +393,11 @@ following algorithm <em class=rfc2119>MUST</em> be used:</p>
 a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
 following algorithm <em class=rfc2119>MUST</em> be used:</p>
 <ol>
-  <li>If <var>pid</var> is <code>null</code>, abort these steps.</li>
-  <li>If <var>pid</var> contains any character
-  that is outside of the range of <code>#x20 | #xD | #xA |
-  [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]</code><!-- @@ TODO: formal def -->,
-  then it is an
-  <a href="#xml-well-formedness-error" id=wfe-pubid-char><code>xml-well-formedness-error</code></a>.</li>
+<li>If <var>pid</var> is <code>null</code>, abort these steps.</li>
+<li>If <var>pid</var> contains a character that is <em>not</em> in the
+character class <a href="#class-PubidChar"><code>PubidChar</code></a>, then
+raise an
+<a href="#xml-well-formedness-error" id=wfe-pubid-char><code>xml-well-formedness-error</code></a>.</li>
   <li>If <var>pid</var> contains one of <code class=char>U+0009</code>
   <code class=charname>CHARACTER TABULATION</code>, 
   <code class=char>U+000A</code> <code class=charname>CARRIAGE RETURN</code>,
@@ -414,7 +413,6 @@ following algorithm <em class=rfc2119>MUST</em> be used:</p>
   <span class=ed>Is this really a roundtripness problem?  XML spec
   does only define the way to match public identifiers in fact, no
   canonical form.</span></li>
-  <li class=ed>@@ Should we check formal-public-identifierness?</li>
 </ol>
 
 <p>To 
@@ -996,6 +994,13 @@ as amended by
 contains the following characters:</p>
 <ul class=ed>
 </ul>
+<div class="note memo">
+<p>This character class contains all characters allowed as the first character
+of a string matching to the production rule
+<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name"><code>Name</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite>.</p>
+</div>
 
 <p>The character class <dfn id=class-NameChar10><code>NameChar10</code></dfn> 
 contains the following characters:</p>
@@ -1004,6 +1009,68 @@ contains the following characters:</p>
 <a href="#class-NameStartChar10">NameStartChar10</a>.</li>
 <li class=ed></li>
 </ul>
+<div class="note memo">
+<p>This character class contains all characters allowed as the second
+character of a string matching to the production rule
+<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name"><code>Name</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite>.</p>
+</div>
+
+<p>The character class <dfn id=class-PubidChar><code>PubidChar</code></dfn>
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+0009</code> <code class=charname>CHARACTER 
+TABULATION</code></li>
+<li><code class=char>U+000A</code> <code class=charname>LINE FEED</code></li>
+<li><code class=char>U+000D</code> <code class=charname>CARRIAGE
+RETURN</code></li>
+<li><code class=char>U+0020</code> <code class=charname>SPACE</code></li>
+<li><code class=char>U+0021</code> <code class=charname>EXCLAMATION MARK</code>
+(<code class=char>!</code>)</li>
+<li><code class=char>U+0023</code> <code class=charname>DOLLAR SIGN</code>
+(<code class=char>$</code>)</li>
+<li><code class=char>U+0024</code> <code class=charname>NUMBER SIGN</code>
+(<code class=char>#</code>)</li>
+<li><code class=char>U+0025</code> <code class=charname>PERCENT SIGN</code>
+(<code class=char>%</code>)</li>
+<li><code class=char>U+0027</code> <code class=charname>APOSTROPHE</code>
+(<code class=char>'</code>)</li>
+<li><code class=char>U+0028</code> <code class=charname>LEFT PARENTHESIS</code>
+(<code class=char>(</code>)</li>
+<li><code class=char>U+0029</code> <code class=charname>RIGHT
+PARENTHESIS</code> (<code class=char>)</code>)</li>
+<li><code class=char>U+002A</code> <code class=charname>ASTERISK</code>
+(<code class=char>*</code>)</li>
+<li><code class=char>U+002B</code> <code class=charname>PLUS SIGN</code>
+(<code class=char>+</code>)</li>
+<li><code class=char>U+002C</code> <code class=charname>COMMA</code>
+(<code class=char>,</code>)</li>
+<li><code class=char>U+002D</code> <code class=charname>HYPHEN-MINUS</code>
+(<code class=char>-</code>)</li>
+<li><code class=char>U+002E</code> <code class=charname>FULL STOP</code>
+(<code class=char>.</code>)</li>
+<li><code class=char>U+002F</code> <code class=charname>SOLIDUS</code>
+(<code class=char>/</code>)</li>
+<li><code class=char>U+003A</code> <code class=charname>COLON</code>
+(<code class=char>:</code>)</li>
+<li><code class=char>U+003B</code> <code class=charname>SEMICOLON</code>
+(<code class=char>;</code>)</li>
+<li><code class=char>U+003D</code> <code class=charname>EQUAL SIGN</code>
+(<code class=char>=</code>)</li>
+<li><code class=char>U+003F</code> <code class=charname>QUESTION MARK</code>
+(<code class=char>?</code>)</li>
+<li><code class=char>U+0040</code> <code class=charname>COMMERCIAL AT</code>
+(<code class=char>@</code>)</li>
+<li><code class=char>U+005F</code> <code class=charname>LOW LINE</code>
+(<code class=char>_</code>)</li>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed in the production rule
+<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-PubidChar"><code>PubidChar</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>]</cite>.</p>
+</div>
 
 </div>
 

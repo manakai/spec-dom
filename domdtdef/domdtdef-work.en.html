@@ -3,6 +3,7 @@
 <head>
 <title>DOM Document Type Definition Module</title>
 <link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
+<link rel="stylesheet" href="http://suika.fam.cx/www/style/def/dom">
 <link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
 </head>
 <body class="has-abstract">
@@ -169,6 +170,601 @@ feature names with or without version number, including the methods
 <code>hasFeature</code> and <code>getFeature</code>, 
 <em class=rfc2119>MUST</em> behave in a manner consistent with the 
 aforementioned cases.</p>
+</div>
+
+<div class=section id=section-documentxdoctype>
+<h2>The <code>DocumentXDoctype</code> Interface</h2>
+
+<pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
+  
+}</code></pre>
+
+<pre class=ed>
+* The [CODE(DOMi)@en[DocumentXDoctype]] Interface Specification
+
+[1] [[manakai//DOM Extensions]] > New Interfaces >
+[[DOM XML Document Type Definition]] module >
+The [CODE(DOMi)@en[[[DocumentXDoctype]]]] Interface
+
+[2]
+@@ cast
+
+** Constructors
+
+[3] The 
+[DFN@en[[CODE(DOMm)@en[[[createDocumentTypeDefinition]]]] method]]
+returns a [CODE(DOMi)@en[[[DocumentType]]]] node
+or raises a [CODE(DOMi)@en[[[DOMException]]]].
+It creates a [CODE(DOMi)@en[[[DocumentType]]]] node 
+of the given name, belonging to the document.
+
+[3] The 
+[DFN@en[[CODE(DOMm)@en[[[createElementTypeDefinition]]]] method]]
+returns an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node
+or raises a [CODE(DOMi)@en[[[DOMException]]]].
+It creates an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node 
+of the given name, belonging to the document.
+
+[4] The 
+[DFN@en[[CODE(DOMm)@en[[[createAttributeDefinition]]]] method]]
+returns an [CODE(DOMi)@en[[[AttributeDefinition]]]] node
+or raises a [CODE(DOMi)@en[[[DOMException]]]].
+It creates an [CODE(DOMi)@en[[[AttributeDefinition]]]] node 
+of the given name, belonging to the document.
+
+[10] The 
+[DFN@en[[CODE(DOMm)@en[[[createGeneralEntity]]]] method]]
+returns an [CODE(DOMi)@en[[[Entity]]]] node
+or raises a [CODE(DOMi)@en[[[DOMException]]]].
+It creates an [CODE(DOMi)@en[[[Entity]]]] node,
+which represents a general entity,
+of the given name, belonging to the document.
+
+[12] The
+[DFN@en[[CODE(DOMm)@en[[[createNotation]]]] method]]
+returns a [CODE(DOMi)@en[[[Notation]]]] node
+or raises a [CODE(DOMi)@en[[[DOMException]]]].
+It creates a [CODE(DOMi)@en[[[Notation]]]] node
+of the given name, belonging to the document.
+
+[5]
+These method take a parameter [CODE(DOMp)@en[[[name]]]],
+of type [CODE(DOMi)@en[[[DOMString]]]].  It is
+the document type name, element type name,
+or attribute name of the node to be created.
+
+[6]
+The [CODE(DOMm)@en[[[createDocumentTypeDefinition]]]]
+method [['''MUST''']] create a [CODE(DOMi)@en[[[DocumentType]]]]
+object with the following attribute values:
+- [CODE(DOMa)@en[[[attributes]]]],
+[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[elementTypes]]]],
+[CODE(DOMa)@en[[[generalEntities]]]],
+[CODE(DOMa)@en[[[notations]]]]: Empty
+[CODE(DOMi)@en[[[NamedNodeMap]]]]s.
+- [CODE(DOMa)@en[[[childNodes]]]]: An empty
+[CODE(DOMi)@en[[[NodeList]]]].
+- [CODE(DOMa)@en[[[entities]]]]: The same 
+[CODE(DOMi)@en[[[NamedNodeMap]]]] as
+[CODE(DOMa)@en[[[generalEntities]]]].
+- [CODE(DOMa)@en[[[internalSubset]]]],
+[CODE(DOMa)@en[[[publicId]]]], [CODE(DOMa)@en[[[systemId]]]]:
+Empty strings.
+- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
+- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
+[CODE(DOMi)@en[[[Document]]]] node on which the method
+is invoked.
+
+In addition, it [['''MUST''']] be marked as containing
+five general entity declarations for XML predefined
+entities, i.e. [CODE(XML)@en[[[amp]]]], [CODE(XML)@en[[[lt]]]],
+[CODE(XML)@en[[[gt]]]], [CODE(XML)@en[[[quot]]]], and
+[CODE(XML)@en[[[apos]]]].
+
+[8]
+The [CODE(DOMm)@en[[[createElementTypeDefinition]]]]
+method [['''MUST''']] create an 
+[CODE(DOMi)@en[[[ElementTypeDefinition]]]]
+object with the following attribute values:
+- [CODE(DOMa)@en[[[attributeDefinitions]]]]:
+An empty [CODE(DOMi)@en[[[NamedNodeMap]]]].
+- [CODE(DOMa)@en[[[attributes]]]],
+[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[childNodes]]]]: An empty
+[CODE(DOMi)@en[[[NodeList]]]].
+- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
+- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
+[CODE(DOMi)@en[[[Document]]]] node on which the method
+is invoked.
+- [CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]]:
+[CODE(IDL)@en[[[null]]]].
+
+@@ Ensure all attributes are defined
+
+[9] The [CODE(DOMm)@en[[[createAttributeDefinition]]]]
+method [['''MUST''']] create an 
+[CODE(DOMi)@en[[[AttributeDefinition]]]]
+object with the following attribute values:
+- [CODE(DOMa)@en[[[allowedTokens]]]]:
+An empty [CODE(DOMi)@en[[[DOMStringList]]]].
+- [CODE(DOMa)@en[[[attributes]]]],
+[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[childNodes]]]]: An empty
+[CODE(DOMi)@en[[[NodeList]]]].
+- [CODE(DOMa)@en[[[declaredType]]]]:
+[CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
+- [CODE(DOMa)@en[[[defaultType]]]]:
+[CODE(DOMc)@en[[[UNKNOWN_DEFAULT]]]].
+- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
+- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
+[CODE(DOMi)@en[[[Document]]]] node on which the method
+is invoked.
+- [CODE(DOMa)@en[[[ownerElementTypeDefinition]]]]:
+[CODE(IDL)@en[[[null]]]].
+
+@@ Ensure all attributes are defined
+
+@@ Should we keep these statements?: 
+However, if the <cfg::cfg|xml-id> configuration
+parameter is set to <DOM::true> and the <P::name>
+is <XA::xml:id>, then the [CODE(DOMa)@en[[[declaredType]]]]
+attribute is set to
+<C::AttributeDefinition.ID_ATTR>.
+[CODE(DOMa)@en[[[defaultType]]]]?
+
+[11] The [CODE(DOMm)@en[[[createGeneralEntity]]]]
+method [['''MUST''']] create an [CODE(DOMi)@en[[[Entity]]]]
+node with the following attribute values:
+- [CODE(DOMa)@en[[[attributes]]]],
+[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[childNodes]]]]: An empty
+[CODE(DOMi)@en[[[NodeList]]]].
+- [CODE(DOMa)@en[[[manakaiDeclarationBaseURI]]]]:
+No explicit value is set.
+- [CODE(DOMa)@en[[[manakaiEntityBaseURI]]]]:
+No explicit value is set.
+- [CODE(DOMa)@en[[[manakaiEntityURI]]]]:
+No explicit value is set.
+- [CODE(DOMa)@en[[[manakaiHasReplacementTree]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
+- [CODE(DOMa)@en[[[notationName]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
+[CODE(DOMi)@en[[[Document]]]] node on which the method
+is invoked.
+- [CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]]:
+[CODE(IDL)@en[[[null]]]].
+- [CODE(DOMa)@en[[[publicId]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[systemId]]]]: [CODE(DOM)@en[[[null]]]].
+
+@@ Ensure all attributes are defined
+
+@@ publicId and systemId should be empty string?
+
+[13] The [CODE(DOMm)@en[[[createNotation]]]]
+method [['''MUST''']] create a [CODE(DOMi)@en[[[Notation]]]]
+node with the following attribute values:
+- [CODE(DOMa)@en[[[attributes]]]],
+[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[childNodes]]]]: An empty
+[CODE(DOMi)@en[[[NodeList]]]].
+- [CODE(DOMa)@en[[[manakaiDeclarationBaseURI]]]]:
+No explicit value is set.
+- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
+[CODE(IDL)@en[[[false]]]].
+- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
+- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
+[CODE(DOMi)@en[[[Document]]]] node on which the method
+is invoked.
+- [CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]]:
+[CODE(IDL)@en[[[null]]]].
+- [CODE(DOMa)@en[[[publicId]]]]: [CODE(DOM)@en[[[null]]]].
+- [CODE(DOMa)@en[[[systemId]]]]: [CODE(DOM)@en[[[null]]]].
+
+@@ Ensure all attributes are defined
+
+[7]
+These method [['''MUST''']] raise an
+[CODE(DOMi)@en[[[INVALID_CHARACTER_ERR]]]]
+[CODE(DOMi)@en[[[DOMException]]]] 
+if the [CODE(DOMp)@en[[[name]]]] is not a legal
+name according to the XML version in use as 
+specified in the [CODE(DOMa)@en[[[xmlVersion]]]]
+attribute of the [CODE(DOMi)@en[[[Document]]]] node.
+
+;; Non-XML case is intentionally left unspecified for now
+since DOM3 does not define it.
+
+;; [CODE(DOMp)@en[[[name]]]] does not have to
+be a namespace qualified name.
+
+;; Note also that it is not an error for the 
+[CODE(DOMp)@en[[[name]]]] parameter value
+to match to the name of one of predefined general
+parsed entities in XML or HTML.
+
+;; If the [CODE(DOMa)@en[[[strictErrorChecking]]]] attribute
+is set to [CODE(IDL)@en[[[false]]]], then the implementation
+is not required to raise this exception.
+
+Otherwise, these method [['''MUST''']] return
+the newly created node.
+</pre>
+
+</div>
+
+<div class=section id=section-documenttypedefinition>
+<h2>The <code>DocumentTypeDefinition</code> Interface</h2>
+
+<pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
+  
+}</code></pre>
+
+<pre class=ed>
+[1] In an implementation that supports the 
+[CODE(URI)@en[[[http://suika.fam.cx/www/2006/feature/XDoctype]]]]
+feature, a [CODE(DOMi)@en[[[DocumentType]]]] node
+must implement the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
+interface.  See [[DOM XML Document Type Definition]>>3] for
+details.
+
+
+** Children
+
+[2] The [DFN@en[[CODE(DOMa)@en[[[elementTypes]]]] attribute]]
+of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
+is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that 
+contains all element types belongs to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
+node.  The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
+The attribute is read-only.
+
+What are contained in this collection depends on how
+the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node was created.  If the
+node was created as the result of parsing of an XML document,
+it [['''MUST''']]  contain all element types whose element type and / or 
+attribute definition list declaration are encountered by and provided for the DOM
+implementation from the XML processor.  Note that the XML processor might not 
+provide a part of or entire such information depending on the configuration.
+If more than one declarations for an element type or an attribute is available 
+at the time of the definition node construction, then declarations other than 
+the first ones [['''MUST''']] be discarded.
+
+The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object that contains all the [CODE(DOMi)@en[[[ElementTypeDefinition]]]] nodes
+belong to the node.  The returned [CODE(DOMi)@en[[[NamedNodeMap]]]] object
+[['''MUST''']] be read-only if and only if the node is read-only.
+Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
+and therefore any change of read-only flag on the node is immediately
+reflected by that of the object.
+
+[3] The [DFN@en[[CODE(DOMa)@en[[[generalEntities]]]] attribute]]
+of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
+is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that contains all the
+general entities belong to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node.
+The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
+The attribute is read-only.
+
+All entities declared in the document type definition
+contained in or referenced from the document entity
+might not be exposed through this collection, depending
+on the information provided by the XML processor for
+the DOM implementation.  In particular, it might not
+contain any entity if entity references are expanded
+at the parse time.  An implementation [['''MUST NOT''']]
+expose an [CODE(DOMi)@en[[[Entity]]]] node whose [CODE(DOMa)@en[[[nodeName]]]]
+is equal to the name of one of five predefined general entities in
+XML through the collection as the result of parsing of an XML
+document that has no error.  Duplicate entity declarations are also discarded.
+
+The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object that contains all the [CODE(DOMi)@en[[[Entity]]]] nodes
+representing general entities belong to the node.  The returned 
+[CODE(DOMi)@en[[[NamedNodeMap]]]] object [['''MUST''']] be read-only if and only if 
+the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
+and therefore any change of read-only flag on the node is immediately
+reflected by that of the object.
+
+The attribute [['''MUST''']] return the same value as the
+[CODE(DOMa)@en[[[entites]]]] attribute of the 
+[CODE(DOMi)@en[[[DocumentType]]]] interface on the same node.
+
+[4] The [DFN@en[[CODE(DOMa)@en[[[notations]]]] attribute]]
+of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
+is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that contains
+all the notations belong to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
+node.  The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
+The attribute is read-only.
+
+If the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node is
+created from an XML document, duplicate notation declarations, if any, in DTD 
+[['''MUST NOT''']] result in a node in the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object and only the first declaration [['''MUST''']] be
+made available as a [CODE(DOMi)@en[[[Notation]]]] node.
+
+;; This definition is based on one for the 
+[CODE(DOMa)@en[[[notations]]]] attribute of the
+[CODE(DOMi)@en[[[DocumentType]]]] interface in DOM XML module.
+Since duplication is violation to the Validity Constraint,
+XML parsers might vary on how notations are notified to
+the application.  In particular, [CODE(InfoProp)@en[[[notations]]]]
+property of the document information item in XML Information Set
+is so defined that in case ''any'' notation is declared for 
+multiple times then the property has no value.
+
+The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object that contains all the [CODE(DOMi)@en[[[Notation]]]] nodes
+representing notations belong to the node.  The returned 
+[CODE(DOMi)@en[[[NamedNodeMap]]]] object [['''MUST''']] be read-only if and only if 
+the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
+and therefore any change of read-only flag on the node is immediately
+reflected by that of the object.
+
+A DOM implementation is not required to implement the
+[CODE(DOMa)@en[[[notations]]]] attribute twice
+for the [CODE(DOMi)@en[[[DocumentType]]]] and
+the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interfaces;
+the latter is defined to contain the same value as the former.
+
+
+** Open Issues (informative)
+
+[5] A future version of the interface might define the
+[CODE(DOMa)@en[[[parameterEntities]]]] attribute and 
+getter/setter for parameter entities.
+</pre>
+</div>
+
+<div class=section id=section-elementtypedefinition>
+<h2>The <code>ElementTypeDefinition</code> Interface</h2>
+
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> {
+  
+}</code></pre>
+
+<pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
+
+[3] The getter of the [CODE(DOMa)@en[[[attributes]]]] attribute
+of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
+[['''MUST''']] return [CODE(IDL)@en[[[null]]]].
+
+[4] The getter of the [CODE(DOMa)@en[[[baseURI]]]] attribute
+of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
+[['''MUST''']] return the [CODE(DOMa)@en[[[baseURI]]]]
+of the [CDOE(DOMa)@en[[[ownerDocument]]]] of the
+[CODE(DOMi)@en[[[ElementTypeDefinition]]]] object.
+Note that it might be [CODE(IDL)@en[[[null]]]].
+
+[1] The getter of the [CODE(DOMa)@en[[[nodeName]]]] attribute
+of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
+[['''MUST''']] return the name of the element type.
+
+[2] The getters of the [CODE(DOMa)@en[[[nodeValue]]]] 
+and [CODE(DOMa)@en[[[textContent]]]] attributes
+of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
+object [['''MUST''']] return [CODE(IDL)@en[[[null]]]].
+
+;; Thus, the setter of these attributes do nothing.
+
+The setter of the [CODE(DOMa)@en[[[textContent]]]]
+attribute of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
+object [['''MUST NOT''']] throw a 
+[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
+
+** The [CODE(DOMi)@en[ElementTypeDefinition]] Interface
+
+[5] The 
+[DFN@en[[CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]] attribute]]
+of the [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
+interface is defined in [[manakai//DOM Extensions]>>50].</pre>
+</div>
+
+<div class=section id=section-attributedefinition>
+<h2>The <code>AttributeDefinition</code> Interface</h2>
+
+<pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> {
+  
+}</code></pre>
+
+<pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
+
+[3] The getter of the [CODE(DOMa)@en[[[attributes]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] return [CODE(IDL)@en[[[null]]]].
+
+[9] The getter of the [CODE(DOMa)@en[[[baseURI]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] return the [CODE(DOMa)@en[[[baseURI]]]]
+of the [CDOE(DOMa)@en[[[ownerDocument]]]] of the
+[CODE(DOMi)@en[[[AttributeDefinition]]]] object.
+Note that it might be [CODE(IDL)@en[[[null]]]].
+
+[1] The getter of the [CODE(DOMa)@en[[[nodeName]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] return the name of the attribute.
+
+[2] The getter of the [CODE(DOMa)@en[[[nodeValue]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] return the normalized default value
+of the attribute.
+
+@@
+
+[4] The getter of the [CODE(DOMa)@en[[[textContent]]]]
+attribute of an [CODE(DOMi)@en[[[AttributeDefinition]]]] 
+object [['''MUST''']] behave as if it were an
+[CODE(DOMi)@en[[[Attr]]]] object.
+
+The setter of the [CODE(DOMa)@en[[[textContent]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] behave as if the following algorithm
+is performed:
+= If the [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object is read-only, then throw an
+[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
+= Remove any child node the node has.
+= If the new value is not empty and not [CODE(IDL)@en[[[null]]]],
+then create a [CODE(DOMi)@en[[[Text]]]] node
+whose [CODE(DOMa)@en[[[data]]]] is the new value
+and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
+
+** Definition groups
+
+[6] The
+[DFN@en[definition group [CODE(DOM)@en[[[DeclaredValueType]]]]]]
+contains integers indicating the type of 
+attribute value:
+,[CODE(DOMc)@en[[[NO_TYPE_ATTR]]]],[CODE(IDL)[[[0]]]],The attribute value type corresponding to [[no value]] in XML Information Set.
+,[CODE(DOMc)@en[[[CDATA_ATTR]]]],[CODE(IDL)[[[1]]]],The attribute value type is [CODE(XML)@en[[[CDATA]]]].
+,[CODE(DOMc)@en[[[ID_ATTR]]]],[CODE(IDL)[[[2]]]],The attribute value type is [CODE(XML)@en[[[ID]]]].
+,[CODE(DOMc)@en[[[IDREF_ATTR]]]],[CODE(IDL)[[[3]]]],The attribute value type is [CODE(XML)@en[[[IDREF]]]].
+,[CODE(DOMc)@en[[[IDREFS_ATTR]]]],[CODE(IDL)[[[4]]]],The attribute value type is [CODE(XML)@en[[[IDREFS]]]].
+,[CODE(DOMc)@en[[[ENTITY_ATTR]]]],[CODE(IDL)[[[5]]]],The attribute value type is [CODE(XML)@en[[[ENTITY]]]].
+,[CODE(DOMc)@en[[[ENTITIES_ATTR]]]],[CODE(IDL)[[[6]]]],The attribute value type is [CODE(XML)@en[[[ENTITIES]]]].
+,[CODE(DOMc)@en[[[NMTOKEN_ATTR]]]],[CODE(IDL)[[[7]]]],The attribute value type is [CODE(XML)@en[[[NMTOKEN]]]].
+,[CODE(DOMc)@en[[[NMTOKENS_ATTR]]]],[CODE(IDL)[[[8]]]],The attribute value type is [CODE(XML)@en[[[NMTOKENS]]]].
+,[CODE(DOMc)@en[[[NOTATION_ATTR]]]],[CODE(IDL)[[[9]]]],The attribute value type is [CODE(XML)@en[[[NOTATION]]]].
+,[CODE(DOMc)@en[[[ENUMERATION_ATTR]]]],[CODE(IDL)[[[10]]]],The attribute value is enumeration type.
+,[CODE(DOMc)@en[[[UNKNOWN_ATTR]]]],[CODE(IDL)[[[11]]]],"The attribute value type is unknown, because no declaration for the attribute has been read but not [CODE(InfoProp)@en[[[all declarations processed]]]] property would be false."
+
+The type of these constants are 
+[CODE(IDL)@en[[[unsigned]] [[short]]]].
+
+If no attribute type information is provided,
+or if the source of that information does not 
+distinguish [[no value]] and [[unknown]] as in
+XML Information Set, then the 
+[CODE(DOMc)@en[[[NO_TYPE_ATTR]]]] value 
+[['''MUST''']] be used.
+
+;; A newly created [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object by [CODE(DOMm)@en[[[createAttributeDefinition]]]]
+method has [CODE(DOMa)@en[[[declaredType]]]] attribute
+set to [CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
+
+If the source of the attribute type information
+does not distinguish [[no value]] and / or [[unknown]]
+and [CODE(XML)@en[[[CDATA]]]], then the
+[CODE(DOMc)@en[[[CDATA_ATTR]]]] value [['''MUST''']]
+be used.
+
+[11]
+In Perl binding, the objects implementing the 
+[CODE(DOMi)@en[[[Attr]]]] interface [['''MUST''']]
+also implement the [CODE(DOM)@en[[[DeclaredValueType]]]]
+constant group.
+
+[7] The
+[DFN@en[definition group [CODE(DOM)@en[[[DefaultValueType]]]]]]
+contains integers indicating the type of 
+default attribute value:
+,[CODE(DOMc)@en[[[UNKNOWN_DEFAULT]]]],[CODE(IDL)[[[0]]]],The default value is unknown.
+,[CODE(DOMc)@en[[[FIXED_DEFAULT]]]],[CODE(IDL)[[[1]]]],The default value is provided and the attribute is [CODE(XML)@en[#[[FIXED]]]] to that value.
+,[CODE(DOMc)@en[[[REQUIRED_DEFAULT]]]],[CODE(IDL)[[[2]]]],An attribute specification is [CODE(XML)@en[#[[REQUIRED]]]] for the attribute.
+,[CODE(DOMc)@en[[[IMPLIED_DEFAULT]]]],[CODE(IDL)[[[3]]]],The default value is [CODE(XML)@en[#[[IMPLIED]]]].
+,[CODE(DOMc)@en[[[EXPLICIT_DEFAULT]]]],[CODE(IDL)[[[4]]]],The default value is provided but the attribute is not fixed to it.
+
+The type of these constants are 
+[CODE(IDL)@en[[[unsigned]] [[short]]]].
+
+If the source of the attribute default value type
+does not distinguish the [CODE(XML)@en[#[[IMPLIED]]]]
+default and unknown default, then the 
+[CODE(DOMc)@en[[[IMPLIED_DEFAULT]]]] value
+[['''MUST''']] be used.
+
+;; A newly created [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object by [CODE(DOMm)@en[[[createAttributeDefinition]]]]
+method has [CODE(DOMa)@en[[[declaredType]]]] attribute
+set to [CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
+
+** Tree-relationship Attributes
+
+[10] 
+The 
+[DFN@en[[CODE(DOMa)@en[[[ownerElementTypeDefinition]]]] attribute]]
+of the [CODE(DOMi)@en[[[AttributeDefinition]]]] interface
+is read-only and of type 
+[CODE(DOMi)@en[[[ElementTypeDefinition]]]].
+It is the [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node
+which the [CODE(DOMi)@en[[[AttributeDefinition]]]] node
+belong to.
+
+If the [CODE(DOMi)@en[[[AttributeDefinition]]]] node
+is included in the [CODE(DOMa)@en[[[attributeDefinitions]]]]
+list of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node,
+then the attribute [['''MUST''']] return the
+[CODE(DOMi)@en[[[ElementTypeDefinition]]]] node.
+Otherwise, it [['''MUST''']] return [CODE(DOM)@en[[[null]]]].
+
+;; This attribute is analogue to the
+[CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]] attribute
+for [CODE(DOMi)@en[[[ElementTypeDefinition]]]],
+[CODE(DOMi)@en[[[Entity]]]], and [CODE(DOMi)@en[[[Notation]]]]
+nodes, or the [CODE(DOMa)@en[[[ownerElement]]]]
+attribute for [CODE(DOMi)@en[[[Attr]]]] nodes.
+
+** Attributes
+
+[5]
+The [DFN@en[[CODE(DOMa)@en[[[declaredType]]]] attribute]]
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object 
+represents the type of the attribute value.
+
+This attribute is read-write.
+The type of the attribute is 
+[CODE(IDL)@en[[[unsigned]] [[short]]]].  It is expected 
+that this attribute has a value from the definition group
+[CODE(DOM)@en[[[DeclaredValueType]]]].
+
+The getter [['''MUST''']] return a value associated
+to this attribute.
+
+The setter [['''MUST''']]
+throw a [CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]]
+[CODE(DOMi)@en[[[DOMException]]]] if the 
+[CODE(DOMi)@en[[[AttributeDefinition]]]] object is read-only.
+Otherwise, the setter [['''MUST''']] set the specified
+value as the value associated to this attribute.
+
+If a parser create an [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object, then it [['''MUST''']] set a value 
+from the [CODE(DOM)@en[[[DeclaredValueType]]]] 
+definition group.
+
+[8]
+The [DFN@en[[CODE(DOMa)@en[[[defaultType]]]] attribute]]
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object 
+represents the type of the attribute default value.
+
+This attribute is read-write.
+The type of the attribute is 
+[CODE(IDL)@en[[[unsigned]] [[short]]]].  It is expected 
+that this attribute has a value from the definition group
+[CODE(DOM)@en[[[DefaultValueType]]]].
+
+The getter [['''MUST''']] return a value associated
+to this attribute.
+
+The setter [['''MUST''']]
+throw a [CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]]
+[CODE(DOMi)@en[[[DOMException]]]] if the 
+[CODE(DOMi)@en[[[AttributeDefinition]]]] object is read-only.
+Otherwise, the setter [['''MUST''']] set the specified
+value as the value associated to this attribute.
+
+If a parser create an [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object, then it [['''MUST''']] set a value 
+from the [CODE(DOM)@en[[[DefaultValueType]]]] 
+definition group.</pre>
 </div>
 
 </div>

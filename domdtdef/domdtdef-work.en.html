@@ -83,10 +83,19 @@ normative version.</p>
 <p>This is a work-in-progress specification for DOM Document Type
 Definition module, as implemented by manakai and 
 <a href="http://suika.fam.cx/gate/2005/sw/DOM%20XML%20Document%20Type%20Definition">partially documented in the SuikaWiki</a>.</p>
-
-<p>...</p>
 </div>
 
+<p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type Definition</dfn>
+module is a set of <abbr>DOM</abbr> interfaces, including both new
+interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
+over which <abbr>DOM</abbr> applications are able to access to the
+definitions of the document type.</p>
+
+<p>Interfaces defined in this specification are partially modeled from
+early drafts of <abbr>DOM</abbr> level 1 <span class=ed>@@ ref</span>,
+<abbr>DOM</abbr> Abstract Schema level 3 <span class=ed>@@ ref</span>, and
+<abbr>XML</abbr> Schema <abbr>API</abbr>, but are not compatible with
+any of them as a whole.</p>
 </div>
 
 <div class="section" id="terminology">
@@ -110,7 +119,61 @@ else in this specification is normative.</p>
 <p><span class=ed>Algorithm is normative but non-normative</span>.
 In addition, the order in which <a href="#errors">errors</a> are
 raised is undefined.</p>
+
+<p class=ed><var>A</var> object is an object implementing <var>A</var>
+interface.</p>
+
+<p class=ed>@@ ref to DOM Binding Spec</p>
 </div>
+
+<div class=section id=dom-dtdef>
+<h2><abbr>DOM</abbr> Document Type Definition Module</h2>
+
+<p>The <abbr>DOM</abbr> Document Type Definition module, version 3.0, 
+consists of three interfaces:</p>
+<ul>
+<li><a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a></li>
+<li><a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a></li>
+<li><a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a></li>
+<li><a href="#AttributeDefinition"><code>AttributeDefinition</code></a></li>
+</ul>
+
+<p>In addition, it adds methods, attributes, and/or constants to interfaces 
+<a href="#Node"><code>Node</code></a>,
+<a href="#Entity"><code>Entity</code></a>,
+<a href="#EntityReference"><code>EntityReference</code></a>, and
+<a href="#Notation"><code>Notation</code></a>.
+It modifies semantics of some of methods and attributes in
+<a href="#Node"><code>Node</code></a> and
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> 
+interfaces, for the support of new interfaces.</p>
+
+<div class=section id=features>
+<h3>Feature Name</h3>
+
+<p>In a <abbr>DOM</abbr> implementation that supports the version 3.0 of 
+the <abbr>DOM</abbr> Document Type Definition module, the 
+<code>hasFeature</code> method of a <code>DOMImplementation</code> object 
+<em class=rfc2119>MUST</em> return <code>true</code> when the parameters are
+set to <code>http://suika.fam.cx/www/2006/feature/XDoctype</code> and 
+<code>3.0</code> respectively.</p>
+
+<p>In such an implementation, the <code>getFeature</code> method of a 
+<code>Document</code> object <em class=rfc2119>MUST</em> return the (at least
+conceptually) same object implementing the
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface when
+the parameters are set to 
+<code>http://suika.fam.cx/www/2006/feature/XDoctype</code> and 
+<code>3.0</code> respectively.  Likewise, any method that takes one or more
+feature names with or without version number, including the methods
+<code>hasFeature</code> and <code>getFeature</code>, 
+<em class=rfc2119>MUST</em> behave in a manner consistent with the 
+aforementioned cases.</p>
+</div>
+
+</div>
+
+
 
 
 

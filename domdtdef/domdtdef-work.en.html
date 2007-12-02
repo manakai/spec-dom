@@ -587,7 +587,21 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 <h3>The <code>AttributeDefinition</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> {
+  <span class=comment>// <a href="#DeclaredValueType">DeclaredValueType</a></span>
+  const unsigned short <a href="#NO_TYPE_ATTR">NO_TYPE_ATTR</a> = 0;
+  const unsigned short <a href="#CDATA_ATTR">CDATA_ATTR</a> = 1;
+  const unsigned short <a href="#ID_ATTR">ID_ATTR</a> = 2;
+  const unsigned short <a href="#IDREF_ATTR">IDREF_ATTR</a> = 3;
+  const unsigned short <a href="#IDREFS_ATTR">IDREFS_ATTR</a> = 4;
+  const unsigned short <a href="#ENTITY_ATTR">ENTITY_ATTR</a> = 5;
+  const unsigned short <a href="#ENTITIES_ATTR">ENTITIES_ATTR</a> = 6;
+  const unsigned short <a href="#NMTOKEN_ATTR">NMTOKEN_ATTR</a> = 7;
+  const unsigned short <a href="#NMTOKENS_ATTR">NMTOKENS_ATTR</a> = 8;
+  const unsigned short <a href="#NOTATION_ATTR">NOTATION_ATTR</a> = 9;
+  const unsigned short <a href="#ENUMERATION_ATTR">ENUMERATION_ATTR</a> = 10;
+  const unsigned short <a href="#UNKNOWN_ATTR">UNKNOWN_ATTR</a> = 11;
   
+  <span class=ed>...</span>
 }</code></pre>
 
 <pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
@@ -631,53 +645,84 @@ object is read-only, then throw an
 then create a [CODE(DOMi)@en[[[Text]]]] node
 whose [CODE(DOMa)@en[[[data]]]] is the new value
 and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
+</pre>
 
-** Definition groups
+<p>The definition group 
+<dfn id=DeclaredValueType><code>DeclaredValueType</code></dfn> contains
+integers indicating the declared type of attributes.</p>
 
-[6] The
-[DFN@en[definition group [CODE(DOM)@en[[[DeclaredValueType]]]]]]
-contains integers indicating the type of 
-attribute value:
-,[CODE(DOMc)@en[[[NO_TYPE_ATTR]]]],[CODE(IDL)[[[0]]]],The attribute value type corresponding to [[no value]] in XML Information Set.
-,[CODE(DOMc)@en[[[CDATA_ATTR]]]],[CODE(IDL)[[[1]]]],The attribute value type is [CODE(XML)@en[[[CDATA]]]].
-,[CODE(DOMc)@en[[[ID_ATTR]]]],[CODE(IDL)[[[2]]]],The attribute value type is [CODE(XML)@en[[[ID]]]].
-,[CODE(DOMc)@en[[[IDREF_ATTR]]]],[CODE(IDL)[[[3]]]],The attribute value type is [CODE(XML)@en[[[IDREF]]]].
-,[CODE(DOMc)@en[[[IDREFS_ATTR]]]],[CODE(IDL)[[[4]]]],The attribute value type is [CODE(XML)@en[[[IDREFS]]]].
-,[CODE(DOMc)@en[[[ENTITY_ATTR]]]],[CODE(IDL)[[[5]]]],The attribute value type is [CODE(XML)@en[[[ENTITY]]]].
-,[CODE(DOMc)@en[[[ENTITIES_ATTR]]]],[CODE(IDL)[[[6]]]],The attribute value type is [CODE(XML)@en[[[ENTITIES]]]].
-,[CODE(DOMc)@en[[[NMTOKEN_ATTR]]]],[CODE(IDL)[[[7]]]],The attribute value type is [CODE(XML)@en[[[NMTOKEN]]]].
-,[CODE(DOMc)@en[[[NMTOKENS_ATTR]]]],[CODE(IDL)[[[8]]]],The attribute value type is [CODE(XML)@en[[[NMTOKENS]]]].
-,[CODE(DOMc)@en[[[NOTATION_ATTR]]]],[CODE(IDL)[[[9]]]],The attribute value type is [CODE(XML)@en[[[NOTATION]]]].
-,[CODE(DOMc)@en[[[ENUMERATION_ATTR]]]],[CODE(IDL)[[[10]]]],The attribute value is enumeration type.
-,[CODE(DOMc)@en[[[UNKNOWN_ATTR]]]],[CODE(IDL)[[[11]]]],"The attribute value type is unknown, because no declaration for the attribute has been read but not [CODE(InfoProp)@en[[[all declarations processed]]]] property would be false."
+<table>
+<thead>
+<tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+</thead>
+<tbody>
+<tr>
+<th scope=row><dfn id=NO_TYPE_ATTR class=dom-const><code>NO_TYPE_ATTR</code>
+<td><code>0</code><td>No value <span class=ed>[INFOSET]</span>.</tr>
+<tr>
+<th scope=row><dfn id=CDATA_ATTR class=dom-const><code>CDATA_ATTR</code>
+<td><code>1</code><td><code>CDATA</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=ID_ATTR class=dom-const><code>ID_ATTR</code>
+<td><code>2</code><td><code>ID</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=IDREF_ATTR class=dom-const><code>IDREF_ATTR</code>
+<td><code>3</code><td><code>IDREF</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=IDREFS_ATTR class=dom-const><code>IDREFS_ATTR</code>
+<td><code>4</code><td><code>IDREFS</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=ENTITY_ATTR class=dom-const><code>ENTITY_ATTR</code>
+<td><code>5</code><td><code>ENTITY</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=ENTITIES_ATTR class=dom-const><code>ENTITIES_ATTR</code>
+<td><code>6</code><td><code>ENTITIES</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=NMTOKEN_ATTR class=dom-const><code>NMTOKEN_ATTR</code>
+<td><code>7</code><td><code>NMTOKEN</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=NMTOKENS_ATTR class=dom-const><code>NMTOKENS_ATTR</code>
+<td><code>8</code><td><code>NMTOKENS</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=NOTATION_ATTR class=dom-const><code>NOTATION_ATTR</code>
+<td><code>9</code><td><code>NOTATION</code> <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=ENUMERATION_ATTR class=dom-const><code>ENUMERATION_ATTR</code>
+<td><code>10</code><td>Enumeration <span class=ed>[XML]</span>.</tr>
+<tr>
+<th scope=row><dfn id=UNKNOWN_ATTR class=dom-const><code>UNKNOWN_ATTR</code>
+<td><code>11</code><td>Unknown, because no declaration for the attribute
+has been read but the [all declaration processed] property
+<span class=ed>[INFOSET]</span> would be false.</tr>
+</tbody>
+</table>
 
-The type of these constants are 
-[CODE(IDL)@en[[[unsigned]] [[short]]]].
+<p>If no attribute type information is available, or if the source
+of the information does not distinguish <q>no value</q> and <q>unknown</q>
+<span class=ed>[INFOSET]</span>, then the value
+<a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a> 
+<em class=rfc2119>MUST</em> be used.</p>
 
-If no attribute type information is provided,
-or if the source of that information does not 
-distinguish [[no value]] and [[unknown]] as in
-XML Information Set, then the 
-[CODE(DOMc)@en[[[NO_TYPE_ATTR]]]] value 
-[['''MUST''']] be used.
+<div class="note memo">
+<p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+created by the 
+<a href="#createAttributeDefinition"><code>createAttributeDefinition</code></a>
+method has its <a href="#declaredType"><code>declaredType</code></a> attribute
+set to <a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</p>
+</div>
 
-;; A newly created [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object by [CODE(DOMm)@en[[[createAttributeDefinition]]]]
-method has [CODE(DOMa)@en[[[declaredType]]]] attribute
-set to [CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
+<p>If the source of the information does not distinguish <q>no value</q>
+and/or <code>unknown</code> <span class=ed>[INFOSET]</span> and
+<code>CDATA</code> <span class=ed>[XML]</span>, then the value
+<a href="#CDATA_ATTR"><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
+be used.</p>
 
-If the source of the attribute type information
-does not distinguish [[no value]] and / or [[unknown]]
-and [CODE(XML)@en[[[CDATA]]]], then the
-[CODE(DOMc)@en[[[CDATA_ATTR]]]] value [['''MUST''']]
-be used.
+<p>In Perl binding <span class=ed>[PERLBINDING]</span>, the
+<code>Attr</code> nodes <em class=rfc2119>MUST</em> implement the
+<a href="#DeclaredValueType"><code>DeclaredValueType</code></a>
+constant group.</p>
 
-[11]
-In Perl binding, the objects implementing the 
-[CODE(DOMi)@en[[[Attr]]]] interface [['''MUST''']]
-also implement the [CODE(DOM)@en[[[DeclaredValueType]]]]
-constant group.
-
+<pre class=ed>
 [7] The
 [DFN@en[definition group [CODE(DOM)@en[[[DefaultValueType]]]]]]
 contains integers indicating the type of 

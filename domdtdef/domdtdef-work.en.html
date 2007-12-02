@@ -173,7 +173,7 @@ aforementioned cases.</p>
 </div>
 
 <div class=section id=section-documentxdoctype>
-<h2>The <code>DocumentXDoctype</code> Interface</h2>
+<h3>The <code>DocumentXDoctype</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
   DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
@@ -309,11 +309,50 @@ attribute is set to <code>ID_ATTR</code>.
 <dt><dfn id=createGeneralEntity class=dom-method><code>createGeneralEntity</code></dfn>,
 method</dt>
   <dd>
-    <p>This method creates a <code>Entity</code> node with the
-    specified name, which represents a general entity, belonging to the
-    document.</p>
+    <p>This method creates a <a href="#Entity"><code>Entity</code></a> node
+    with the specified name, which represents a general entity, belonging to
+    the document.</p>
     <p>The <dfn id=createGeneralEntity-name class=dom-param><var>name</var></dfn>
     parameter is the name of the general entity.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
+    an <a href="#Entity"><code>Entity</code></a> node with the following
+    attributes:</p>
+    <dl>
+    <dt><code>attributes</code>, <code>notationName</code>,
+    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><code>manakaiDeclarationBaseURI</code>,
+    <code>manakaiEntityBaseURI</code>, and
+    <code>manakaiEntityURI</code> <span class=ed>@@ ref</span></dt>
+      <dd>No explicit value is set.</dd>
+    <dt><code>manakaiHasReplacementTree</code> and
+    <code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
+      <dd><code>false</code>.</dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createGeneralEntity-name"><var>name</var></a>.</dd>
+      <dd>
+        <div class="note memo">
+          <p>It is not an error for
+          <a href="#createGeneralEntity-name"><var>name</var></a> matching
+          to the name of one of predefined general parsed entities in
+          <abbr>XML</abbr> or <abbr>HTML</abbr>.  For example, 
+          <a href="#createGeneralEntity-name"><var>name</var></a> might be
+          <code>amp</code>, resulting in an
+          <a href="#Entity"><code>Entity</code></a> node
+          with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
+        </div>
+      </dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><code>publicId</code>, and <code>systemId</code></dt>
+      <dd><code>null</code>.</dd>
+      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+    <dt class=ed>@@ Ensure all attributes are defined</dd>
+    </dl>
   </dd>
 <dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
 method</dt>
@@ -322,95 +361,54 @@ method</dt>
     specified name, belonging to the document.</p>
     <p>The <dfn id=createNotation-name class=dom-param><var>name</var></dfn>
     parameter is the name of the notation.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
+    a <code>Notation</code> node with the following attributes:</p>
+    <dl>
+    <dt><code>attributes</code>,
+    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><code>manakaiDeclarationBaseURI</code></dt>
+      <dd>No explicit value is set.</dd>
+    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
+      <dd><code>false</code>.</dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createNotation-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><code>publicId</code> and <code>systemId</code></dt>
+      <dd><code>null</code>.</dd>
+      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+    <dt class=ed>@@ Ensure all attributes are defined</dt>
+    </dl>
   </dd>
 </dl>
 
-<pre class=ed>
-[11] The [CODE(DOMm)@en[[[createGeneralEntity]]]]
-method [['''MUST''']] create an [CODE(DOMi)@en[[[Entity]]]]
-node with the following attribute values:
-- [CODE(DOMa)@en[[[attributes]]]],
-[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[childNodes]]]]: An empty
-[CODE(DOMi)@en[[[NodeList]]]].
-- [CODE(DOMa)@en[[[manakaiDeclarationBaseURI]]]]:
-No explicit value is set.
-- [CODE(DOMa)@en[[[manakaiEntityBaseURI]]]]:
-No explicit value is set.
-- [CODE(DOMa)@en[[[manakaiEntityURI]]]]:
-No explicit value is set.
-- [CODE(DOMa)@en[[[manakaiHasReplacementTree]]]]:
-[CODE(IDL)@en[[[false]]]].
-- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
-[CODE(IDL)@en[[[false]]]].
-- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
-- [CODE(DOMa)@en[[[notationName]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
-[CODE(DOMi)@en[[[Document]]]] node on which the method
-is invoked.
-- [CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]]:
-[CODE(IDL)@en[[[null]]]].
-- [CODE(DOMa)@en[[[publicId]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[systemId]]]]: [CODE(DOM)@en[[[null]]]].
+<p>These methods <em class=rfc2119>MUST</em> raise an
+<code>INVALID_CHARACTER_ERR</code> exception <span class=ed>@@ ref</span>
+if <var>name</var> is <em>not</em> a legal <code>Name</code> according to
+the <abbr>XML</abbr> version in use, as specified in the 
+<code>xmlVersion</code> attribute of the <code>Document</code> node.</p>
 
-@@ Ensure all attributes are defined
+<div class="note memo">
+<p>Non‐<abbr>XML</abbr> case is intentionally left unspecified for now,
+since <abbr>DOM3</abbr> specification <span class=ed>@@ ref</span> does not
+define it for <code>Document</code> methods.</p>
 
-@@ publicId and systemId should be empty string?
+<p><var>name</var> does not have to be a namespace qualified name.</p>
 
-[13] The [CODE(DOMm)@en[[[createNotation]]]]
-method [['''MUST''']] create a [CODE(DOMi)@en[[[Notation]]]]
-node with the following attribute values:
-- [CODE(DOMa)@en[[[attributes]]]],
-[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[childNodes]]]]: An empty
-[CODE(DOMi)@en[[[NodeList]]]].
-- [CODE(DOMa)@en[[[manakaiDeclarationBaseURI]]]]:
-No explicit value is set.
-- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
-[CODE(IDL)@en[[[false]]]].
-- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
-- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
-[CODE(DOMi)@en[[[Document]]]] node on which the method
-is invoked.
-- [CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]]:
-[CODE(IDL)@en[[[null]]]].
-- [CODE(DOMa)@en[[[publicId]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[systemId]]]]: [CODE(DOM)@en[[[null]]]].
-
-@@ Ensure all attributes are defined
-
-[7]
-These method [['''MUST''']] raise an
-[CODE(DOMi)@en[[[INVALID_CHARACTER_ERR]]]]
-[CODE(DOMi)@en[[[DOMException]]]] 
-if the [CODE(DOMp)@en[[[name]]]] is not a legal
-name according to the XML version in use as 
-specified in the [CODE(DOMa)@en[[[xmlVersion]]]]
-attribute of the [CODE(DOMi)@en[[[Document]]]] node.
-
-;; Non-XML case is intentionally left unspecified for now
-since DOM3 does not define it.
-
-;; [CODE(DOMp)@en[[[name]]]] does not have to
-be a namespace qualified name.
-
-;; Note also that it is not an error for the 
-[CODE(DOMp)@en[[[name]]]] parameter value
-to match to the name of one of predefined general
-parsed entities in XML or HTML.
-
-;; If the [CODE(DOMa)@en[[[strictErrorChecking]]]] attribute
-is set to [CODE(IDL)@en[[[false]]]], then the implementation
-is not required to raise this exception.
-
-Otherwise, these method [['''MUST''']] return
-the newly created node.
-</pre>
+<p>If the <code>strictErrorChecking</code> attribute of the 
+<code>Document</code> node is <code>false</code>, the methods are
+not required to raise the exception <span class=ed>[DOM3]</span>.</p>
+</div>
 
 </div>
 
 <div class=section id=section-documenttypedefinition>
-<h2>The <code>DocumentTypeDefinition</code> Interface</h2>
+<h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
   
@@ -531,7 +529,7 @@ getter/setter for parameter entities.
 </div>
 
 <div class=section id=section-elementtypedefinition>
-<h2>The <code>ElementTypeDefinition</code> Interface</h2>
+<h3>The <code>ElementTypeDefinition</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> {
   
@@ -575,7 +573,7 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 </div>
 
 <div class=section id=section-attributedefinition>
-<h2>The <code>AttributeDefinition</code> Interface</h2>
+<h3>The <code>AttributeDefinition</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> {
   

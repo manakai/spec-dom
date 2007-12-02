@@ -176,93 +176,99 @@ aforementioned cases.</p>
 <h2>The <code>DocumentXDoctype</code> Interface</h2>
 
 <pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
-  
+  DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
+    (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  ElementTypeDefinition <a href="#createElementTypeDefinition">createElementTypeDefinition</a>
+    (in DOMString <a href="#createElementTypeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  AttributeDefinition <a href="#createAttributeDefinition">createAttributeDefinition</a>
+    (in DOMString <a href="#createAttributeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  Entity <a href="#createGeneralEntity">createGeneralEntityDefinition</a>
+    (in DOMString <a href="#createGeneralEntity-name"><var>name</var></a>)
+    raises (DOMException);
+  Notation <a href="#createNotation">createNotation</a>
+    (in DOMString <a href="#createNotation-name"><var>name</var></a>)
+    raises (DOMException);
 }</code></pre>
 
+<div class=ed>@@ cast definition</div>
+
+<dl>
+<dt><dfn id=createDocumentTypeDefinition class=dom-method><code>createDocumentTypeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>DocumentType</code> node with the specified
+    name, belonging to the document.</p>
+    <p>The <dfn id=createDocumentTypeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the document type.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and
+    return a <code>DocumentType</code> node with the following attributes:</p>
+    <dl>
+    <dt><code>attributes</code>, <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><code>elementTypes</code>, <code>generalEntities</code>, and
+    <code>notations</code></dt>
+      <dd>Empty <code>NamedNodeMap</code> objects.</dd>
+    <dt><code>entities</code></dt>
+      <dd>The same value as the <code>generalEntities</code> attribute.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><code>internalSubset</code>, <code>publicId</code>, and
+    <code>systemId</code></dt>
+      <dd>Empty strings.</dd>
+    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
+      <dd><code>false</code>.</dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createDocumentTypeDefinition-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> over which the method is invoked.</dd>
+    </dl>
+    <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
+    containing five general entity declarations: <code>amp</code>,
+    <code>lt</code>, <code>gt</code>, <code>quot</code>, and
+    <code>apos</code>.</p>
+  </dd>
+<dt><dfn id=createElementTypeDefinition class=dom-method><code>createElementTypeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>ElementTypeDefinition</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createElementTypeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the element type defined by the element
+    type definition.</p>
+  </dd>
+<dt><dfn id=createAttributeDefinition class=dom-method><code>createAttributeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>AttributeDefinition</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createAttributeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the attribute defined by the attribute
+    definition.</p>
+  </dd>
+<dt><dfn id=createGeneralEntity class=dom-method><code>createGeneralEntity</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>Entity</code> node with the
+    specified name, which represents a general entity, belonging to the
+    document.</p>
+    <p>The <dfn id=createGeneralEntity-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the general entity.</p>
+  </dd>
+<dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>Notation</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createNotation-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the notation.</p>
+  </dd>
+</dl>
+
 <pre class=ed>
-* The [CODE(DOMi)@en[DocumentXDoctype]] Interface Specification
-
-[1] [[manakai//DOM Extensions]] > New Interfaces >
-[[DOM XML Document Type Definition]] module >
-The [CODE(DOMi)@en[[[DocumentXDoctype]]]] Interface
-
-[2]
-@@ cast
-
-** Constructors
-
-[3] The 
-[DFN@en[[CODE(DOMm)@en[[[createDocumentTypeDefinition]]]] method]]
-returns a [CODE(DOMi)@en[[[DocumentType]]]] node
-or raises a [CODE(DOMi)@en[[[DOMException]]]].
-It creates a [CODE(DOMi)@en[[[DocumentType]]]] node 
-of the given name, belonging to the document.
-
-[3] The 
-[DFN@en[[CODE(DOMm)@en[[[createElementTypeDefinition]]]] method]]
-returns an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node
-or raises a [CODE(DOMi)@en[[[DOMException]]]].
-It creates an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node 
-of the given name, belonging to the document.
-
-[4] The 
-[DFN@en[[CODE(DOMm)@en[[[createAttributeDefinition]]]] method]]
-returns an [CODE(DOMi)@en[[[AttributeDefinition]]]] node
-or raises a [CODE(DOMi)@en[[[DOMException]]]].
-It creates an [CODE(DOMi)@en[[[AttributeDefinition]]]] node 
-of the given name, belonging to the document.
-
-[10] The 
-[DFN@en[[CODE(DOMm)@en[[[createGeneralEntity]]]] method]]
-returns an [CODE(DOMi)@en[[[Entity]]]] node
-or raises a [CODE(DOMi)@en[[[DOMException]]]].
-It creates an [CODE(DOMi)@en[[[Entity]]]] node,
-which represents a general entity,
-of the given name, belonging to the document.
-
-[12] The
-[DFN@en[[CODE(DOMm)@en[[[createNotation]]]] method]]
-returns a [CODE(DOMi)@en[[[Notation]]]] node
-or raises a [CODE(DOMi)@en[[[DOMException]]]].
-It creates a [CODE(DOMi)@en[[[Notation]]]] node
-of the given name, belonging to the document.
-
-[5]
-These method take a parameter [CODE(DOMp)@en[[[name]]]],
-of type [CODE(DOMi)@en[[[DOMString]]]].  It is
-the document type name, element type name,
-or attribute name of the node to be created.
-
-[6]
-The [CODE(DOMm)@en[[[createDocumentTypeDefinition]]]]
-method [['''MUST''']] create a [CODE(DOMi)@en[[[DocumentType]]]]
-object with the following attribute values:
-- [CODE(DOMa)@en[[[attributes]]]],
-[CODE(DOMa)@en[[[parentNode]]]]: [CODE(DOM)@en[[[null]]]].
-- [CODE(DOMa)@en[[[elementTypes]]]],
-[CODE(DOMa)@en[[[generalEntities]]]],
-[CODE(DOMa)@en[[[notations]]]]: Empty
-[CODE(DOMi)@en[[[NamedNodeMap]]]]s.
-- [CODE(DOMa)@en[[[childNodes]]]]: An empty
-[CODE(DOMi)@en[[[NodeList]]]].
-- [CODE(DOMa)@en[[[entities]]]]: The same 
-[CODE(DOMi)@en[[[NamedNodeMap]]]] as
-[CODE(DOMa)@en[[[generalEntities]]]].
-- [CODE(DOMa)@en[[[internalSubset]]]],
-[CODE(DOMa)@en[[[publicId]]]], [CODE(DOMa)@en[[[systemId]]]]:
-Empty strings.
-- [CODE(DOMa)@en[[[manakaiReadOnly]]]]:
-[CODE(IDL)@en[[[false]]]].
-- [CODE(DOMa)@en[[[nodeName]]]]: [CODE(DOMp)@en[[[name]]]].
-- [CODE(DOMa)@en[[[ownerDocument]]]]: The 
-[CODE(DOMi)@en[[[Document]]]] node on which the method
-is invoked.
-
-In addition, it [['''MUST''']] be marked as containing
-five general entity declarations for XML predefined
-entities, i.e. [CODE(XML)@en[[[amp]]]], [CODE(XML)@en[[[lt]]]],
-[CODE(XML)@en[[[gt]]]], [CODE(XML)@en[[[quot]]]], and
-[CODE(XML)@en[[[apos]]]].
 
 [8]
 The [CODE(DOMm)@en[[[createElementTypeDefinition]]]]

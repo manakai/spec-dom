@@ -411,7 +411,11 @@ not required to raise the exception <span class=ed>[DOM3]</span>.</p>
 <h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
 <pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
-  
+  readonly attribute NamedNodeMap <a href="#elementTypes">elementTypes</a>;
+  readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
+  readonly attribute NamedNodeMap <a href="#notations">notations</a>;
+
+  <span class=ed>more members come here...</span>
 }</code></pre>
 
 <pre class=ed>
@@ -421,43 +425,48 @@ feature, a [CODE(DOMi)@en[[[DocumentType]]]] node
 must implement the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
 interface.  See [[DOM XML Document Type Definition]>>3] for
 details.
+</pre>
 
+<dl>
+<dt><dfn id=elementTypes class=dom-attr><code>elementTypes</code></dfn> of
+type <code>NamedNodeMap</code>, read‐only</dt>
+  <dd><p>A live <code>NamedNodeMap</code> object that contains all the element
+  type definitions belonging to the <code>DocumentType</code> node.</p>
 
-** Children
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>NamedNodeMap</code> object that contains all the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  nodes belonging to the <code>DocumentType</code> node.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read‐only
+  if and only if the node is read‐only.  The <code>NamedNodeMap</code>
+  object <em class=rfc2119>MUST</em> be live and the same object
+  <em class=rfc2119>MUST</em> be returned for any invocation.</p>
 
-[2] The [DFN@en[[CODE(DOMa)@en[[[elementTypes]]]] attribute]]
-of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
-is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that 
-contains all element types belongs to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
-node.  The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
-The attribute is read-only.
+  <p>If the <code>DocumentType</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
+  requirements are applied:  The <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementType</code></a> attribute 
+  <em class=rfc2119>MUST</em> be so transformed that the object contains
+  the <code>ElementTypeDefinition</code> nodes for the element types
+  whose name is presented as the <code>Name</code> of the element type or
+  attribute definition list declarations processed by the <abbr>XML</abbr>
+  processor.  If there is more than one element type declarations for an
+  element type, then the declarations other than the first one 
+  <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
+  <code>NamedNodeMap</code> object.</p></dd>
+<dt><dfn id=generalEntities class=dom-attr><code>generalEntities</code></dfn>
+of type <code>NamedNodeMap</code>, read‐only</dt>
+  <dd><p>A live <code>NamedNodeMap</code> object that contains all the general
+  entities belonging to the <code>DocumentType</code> node.</p>
+  
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
+  same value as the <code>entities</code> attribute (defined in the
+  <code>DocumentType</code> interface) of the same node.</p>
 
-What are contained in this collection depends on how
-the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node was created.  If the
-node was created as the result of parsing of an XML document,
-it [['''MUST''']]  contain all element types whose element type and / or 
-attribute definition list declaration are encountered by and provided for the DOM
-implementation from the XML processor.  Note that the XML processor might not 
-provide a part of or entire such information depending on the configuration.
-If more than one declarations for an element type or an attribute is available 
-at the time of the definition node construction, then declarations other than 
-the first ones [['''MUST''']] be discarded.
-
-The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
-object that contains all the [CODE(DOMi)@en[[[ElementTypeDefinition]]]] nodes
-belong to the node.  The returned [CODE(DOMi)@en[[[NamedNodeMap]]]] object
-[['''MUST''']] be read-only if and only if the node is read-only.
-Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
-and therefore any change of read-only flag on the node is immediately
-reflected by that of the object.
-
-[3] The [DFN@en[[CODE(DOMa)@en[[[generalEntities]]]] attribute]]
-of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
-is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that contains all the
-general entities belong to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node.
-The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
-The attribute is read-only.
-
+  <div class="note memo">
+    <p>This attribute is part of the interface for historical reason.</p>
+  </div></dd>
+<!--
 All entities declared in the document type definition
 contained in or referenced from the document entity
 might not be exposed through this collection, depending
@@ -477,18 +486,24 @@ representing general entities belong to the node.  The returned
 the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
 and therefore any change of read-only flag on the node is immediately
 reflected by that of the object.
+-->
+<dt><dfn id=notations class=dom-attr><code>notations</code></dfn> of type
+<code>notations</code>, read‐only</code>
+  <dd><p>A live <code>NamedNodeMap</code> object that contains all the 
+  notations belonging to the <code>DocumentType</code> node.</p>
+  
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
+  same value as the <code>notations</code> attribute (defined in the
+  <code>DocumentType</code> interface) of the same node.</p>
 
-The attribute [['''MUST''']] return the same value as the
-[CODE(DOMa)@en[[[entites]]]] attribute of the 
-[CODE(DOMi)@en[[[DocumentType]]]] interface on the same node.
-
-[4] The [DFN@en[[CODE(DOMa)@en[[[notations]]]] attribute]]
-of the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interface
-is a live [CODE(DOMi)@en[[[NamedNodeMap]]]] object that contains
-all the notations belong to the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
-node.  The type of the attribute is [CODE(DOMi)@en[[[NamedNodeMap]]]].
-The attribute is read-only.
-
+  <div class="note memo">
+    <p>This attribute is part of the interface for historical reason.</p>
+    <p>Implementations are not required to implement the 
+    <code>notations</code> attribute twice (for <code>DocumentType</code>
+    and <code>DocumentTypeDefinition</code> interfaces); they share exactly
+    same definition.</p>
+  </div></dd>
+<!--
 If the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node is
 created from an XML document, duplicate notation declarations, if any, in DTD 
 [['''MUST NOT''']] result in a node in the [CODE(DOMi)@en[[[NamedNodeMap]]]]
@@ -512,20 +527,16 @@ representing notations belong to the node.  The returned
 the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
 and therefore any change of read-only flag on the node is immediately
 reflected by that of the object.
+-->
 
-A DOM implementation is not required to implement the
-[CODE(DOMa)@en[[[notations]]]] attribute twice
-for the [CODE(DOMi)@en[[[DocumentType]]]] and
-the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] interfaces;
-the latter is defined to contain the same value as the former.
+<dt class=ed>@@ other members...
+</dl>
 
+<div class=ed>
+<p>A future version of this interface might define the
+<code>parameterEntities</code> and getter/setter for parameter entities.
+</div>
 
-** Open Issues (informative)
-
-[5] A future version of the interface might define the
-[CODE(DOMa)@en[[[parameterEntities]]]] attribute and 
-getter/setter for parameter entities.
-</pre>
 </div>
 
 <div class=section id=section-elementtypedefinition>

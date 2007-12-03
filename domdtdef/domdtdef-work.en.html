@@ -413,7 +413,22 @@ define it for <code>Document</code> methods.</p>
   readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
   readonly attribute NamedNodeMap <a href="#notations">notations</a>;
 
-  <span class=ed>more members come here...</span>
+  <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#getElementTypeDefinitionNode">getElementTypeDefinitionNode</a>
+    (in DOMString <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>);
+  <a href="#Entity">Entity</a> <a href="#getGeneralEntityNode">getGeneralEntityNode</a>
+    (in DOMString <a href="#getGeneralEntityNode-name"><var>name</var></a>);
+  <a href="#Notation">Notation</a> <a href="#getNotationNode">getNotationNode</a>
+    (in DOMString <a href="#getNotationNode-name"><var>name</var></a>);
+
+  void <a href="#setElementTypeDefinitionNode">setElementTypeDefinitionNode</a>
+    (in DOMString <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>)
+    raises (DOMException);
+  void <a href="#setGeneralEntityNode">setGeneralEntityNode</a>
+    (in DOMString <a href="#setGeneralEntityNode-node"><var>node</var></a>)
+    raises (DOMException);
+  void <a href="#setNotationNode">setNotationNode</a>
+    (in DOMString <a href="#setNotationNode-node"><var>node</var></a>)
+    raises (DOMException);
 }</code></pre>
 
 <pre class=ed>
@@ -887,19 +902,47 @@ of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 <pre class=idl><code>// Modifications to the DocumentType interface
   attribute DOMString <a href="#publicId">publicId</a>;
   attribute DOMString <a href="#systemId">systemId</a>;
+
+  attribute DOMString <a href="#internalSubset">internalSubset</a>;
 </code></pre>
 
-<p class=ed>
- The publicId attribute and the systemId attribute of DocumentType, Entity, and Notation objects are now read-write.
+<p>The <code id=publicId>publicId</code> attribute and the 
+<code id=systemId>systemId</code> attribute of
+<a href="#DocumentType"><code>DocumentType</code></a>,
+<a href="#Entity"><code>Entity</code></a>, and
+<a href="#Notation"><code>Notation</code></a> interfaces are no longer
+read‐only.</p>
 
-The setter MUST throw a NO_MODIFICATION_ALLOWED_ERR DOMException if the Node object is read-only. Otherwise, it MUST set the specified value to the attribute. No normalization, lexical validation, or relative reference resolving is performed. null, which represents no public or system identifier is provided, might be specified.
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+exception if the node is read‐only <span class=ed>@@ ref</span>.  
+Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
+associated to the attribute.  No normalization, relative reference resolution,
+or lexical validation is performed. <span class=ed>@@ If the new
+value is <code>null</code>, ...</span></p>
 
-Setting public or system identifier does never result in any lexical or logical structure of the document being changed. In particular, no external entity referenced by new identifier will be loaded.
+<div class="note memo">
+<p>Setting an invalid identifier might make the node unserializable.
+Setting a public identifier while leaveing system identifier unspecified 
+would also make the <a href="#DocumentType"><code>DocumentType</code></a>
+or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
+</div>
 
-Setting an invalid or non-normalized identifier might make the object non-serializable. Setting a non-null public identifier to a DocumentType or Entity object that does not have non-null system identifier or setting null as the system identifier of a DocumentType or Entity object that does have non-null public identifier will make that object non-serializable.
+<div class=ed>
+<p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
+</div>
 
-ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.
-</pre>
+<p>The <code id=internalSubset>internalSubset</code> attribute of the
+<a href="#DocumentType"><code>DocumentType</code></a> interface is no longer
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+exception if the node is read‐only <span class=ed>@@ ref</span>.  
+Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
+associated to the attribute.  No normalization, or lexical validation is
+performed. <span class=ed>@@ If the new value is <code>null</code>, 
+...</span></p>
 
 </div>
 

@@ -10,7 +10,7 @@
 
 <div class="header">
 <h1>DOM Document Type Definition Module</h1>
-<h2>Working Draft <time datetime=2007-12-01>1 December 2007</time></h2>
+<h2>Working Draft <time datetime=2007-12-03>3 December 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -542,8 +542,10 @@ reflected by that of the object.
 <div class=section id=section-elementtypedefinition>
 <h3>The <code>ElementTypeDefinition</code> Interface</h3>
 
-<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> {
-  
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
+  readonly attribute <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+
+  <span class=ed>@@ more</span>
 }</code></pre>
 
 <pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
@@ -586,7 +588,7 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 <div class=section id=section-attributedefinition>
 <h3>The <code>AttributeDefinition</code> Interface</h3>
 
-<pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> {
+<pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> : <a href="#Node">Node</a> {
   <span class=comment>// <a href="#DeclaredValueType">DeclaredValueType</a></span>
   const unsigned short <a href="#NO_TYPE_ATTR">NO_TYPE_ATTR</a> = 0;
   const unsigned short <a href="#CDATA_ATTR">CDATA_ATTR</a> = 1;
@@ -601,6 +603,11 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
   const unsigned short <a href="#ENUMERATION_ATTR">ENUMERATION_ATTR</a> = 10;
   const unsigned short <a href="#UNKNOWN_ATTR">UNKNOWN_ATTR</a> = 11;
   
+  readonly attribute <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#ownerElementTypeDefinition">ownerElementTypeDefinition</a>;
+
+  readonly attribute unsigned short <a href="#declaredType">declaredType</a>;
+  readonly attribute unsigned short <a href="#defaultType">defaultType</a>;
+
   <span class=ed>...</span>
 }</code></pre>
 
@@ -746,86 +753,73 @@ default and unknown default, then the
 object by [CODE(DOMm)@en[[[createAttributeDefinition]]]]
 method has [CODE(DOMa)@en[[[declaredType]]]] attribute
 set to [CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
+</pre>
 
-** Tree-relationship Attributes
+<dl>
+<dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
+of type
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>, 
+read‐only</dt>
+  <dd><p>The
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> to
+  which the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node belongs.</p>
 
-[10] 
-The 
-[DFN@en[[CODE(DOMa)@en[[[ownerElementTypeDefinition]]]] attribute]]
-of the [CODE(DOMi)@en[[[AttributeDefinition]]]] interface
-is read-only and of type 
-[CODE(DOMi)@en[[[ElementTypeDefinition]]]].
-It is the [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node
-which the [CODE(DOMi)@en[[[AttributeDefinition]]]] node
-belong to.
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
+  It <em class=rfc2119>MUST</em> be such a node that whose
+  <a href="#attributeDefinitons"><code>attributeDefinitions</code></a>
+  attribute contains the <code>NamedNodeMap</code> object that contains
+  the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node.  If there is no such an 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
+<dt><dfn id=declaredType class=dom-attr><code>declaredType</code></dfn> of type
+<code>unsigned short</code></dt>
+  <dd><p>The declared type <span class=ed>@@ ref</span> of the attribute.
+  It is expected that this attribute contains a value from the definition group
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>.</p>
 
-If the [CODE(DOMi)@en[[[AttributeDefinition]]]] node
-is included in the [CODE(DOMa)@en[[[attributeDefinitions]]]]
-list of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] node,
-then the attribute [['''MUST''']] return the
-[CODE(DOMi)@en[[[ElementTypeDefinition]]]] node.
-Otherwise, it [['''MUST''']] return [CODE(DOM)@en[[[null]]]].
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  value associated to this attribute.</p>
 
-;; This attribute is analogue to the
-[CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]] attribute
-for [CODE(DOMi)@en[[[ElementTypeDefinition]]]],
-[CODE(DOMi)@en[[[Entity]]]], and [CODE(DOMi)@en[[[Notation]]]]
-nodes, or the [CODE(DOMa)@en[[[ownerElement]]]]
-attribute for [CODE(DOMi)@en[[[Attr]]]] nodes.
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+  exception if the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value
+  associated to this attribute.</p>
 
-** Attributes
+  <p>If the <code>AttributeDefinition</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
+  appropriate value from the
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a> constant
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p></dd>
+<dt><dfn id=defaultType class=dom-attr><code>defaultType</code></dfn> of
+type <code>unsigned short</code></dt>
+  <dd><p>The type of the default for the attribute.  It is expected that this 
+  attribute contains a value from the definition group
+  <a href="#DefaultValueType"><code>DefaultValueType</code></a>.</p>
 
-[5]
-The [DFN@en[[CODE(DOMa)@en[[[declaredType]]]] attribute]]
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object 
-represents the type of the attribute value.
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
 
-This attribute is read-write.
-The type of the attribute is 
-[CODE(IDL)@en[[[unsigned]] [[short]]]].  It is expected 
-that this attribute has a value from the definition group
-[CODE(DOM)@en[[[DeclaredValueType]]]].
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+  exception if the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value
+  associated to this attribute.</p>
 
-The getter [['''MUST''']] return a value associated
-to this attribute.
+  <p>If the <code>AttributeDefinition</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
+  appropriate value from the
+  <a href="#DefaultValueType"><code>DefaultValueType</code></a> constant
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p></dd>
+</dl>
 
-The setter [['''MUST''']]
-throw a [CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]]
-[CODE(DOMi)@en[[[DOMException]]]] if the 
-[CODE(DOMi)@en[[[AttributeDefinition]]]] object is read-only.
-Otherwise, the setter [['''MUST''']] set the specified
-value as the value associated to this attribute.
-
-If a parser create an [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object, then it [['''MUST''']] set a value 
-from the [CODE(DOM)@en[[[DeclaredValueType]]]] 
-definition group.
-
-[8]
-The [DFN@en[[CODE(DOMa)@en[[[defaultType]]]] attribute]]
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object 
-represents the type of the attribute default value.
-
-This attribute is read-write.
-The type of the attribute is 
-[CODE(IDL)@en[[[unsigned]] [[short]]]].  It is expected 
-that this attribute has a value from the definition group
-[CODE(DOM)@en[[[DefaultValueType]]]].
-
-The getter [['''MUST''']] return a value associated
-to this attribute.
-
-The setter [['''MUST''']]
-throw a [CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]]
-[CODE(DOMi)@en[[[DOMException]]]] if the 
-[CODE(DOMi)@en[[[AttributeDefinition]]]] object is read-only.
-Otherwise, the setter [['''MUST''']] set the specified
-value as the value associated to this attribute.
-
-If a parser create an [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object, then it [['''MUST''']] set a value 
-from the [CODE(DOM)@en[[[DefaultValueType]]]] 
-definition group.</pre>
 </div>
 
 </div>

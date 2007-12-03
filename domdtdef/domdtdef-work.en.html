@@ -125,6 +125,10 @@ raised is undefined.</p>
 interface.</p>
 
 <p class=ed>@@ ref to DOM Binding Spec</p>
+
+<p>If the <code>strictErrorChecking</code> attribute of the 
+<code>Document</code> node is <code>false</code>, the methods are
+not required to raise exceptions <span class=ed>[DOM3]</span>.</p>
 </div>
 
 <div class=section id=dom-dtdef>
@@ -139,15 +143,13 @@ consists of three interfaces:</p>
 <li><a href="#AttributeDefinition"><code>AttributeDefinition</code></a></li>
 </ul>
 
-<p>In addition, it adds methods, attributes, and/or constants to interfaces 
+<p>In addition, it modifies interfaces
 <a href="#Node"><code>Node</code></a>,
+<a href="#DocumentType"><code>DocumentType</code></a>,
 <a href="#Entity"><code>Entity</code></a>,
-<a href="#EntityReference"><code>EntityReference</code></a>, and
-<a href="#Notation"><code>Notation</code></a>.
-It modifies semantics of some of methods and attributes in
-<a href="#Node"><code>Node</code></a> and
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> 
-interfaces, for the support of new interfaces.</p>
+<a href="#EntityReference"><code>EntityReference</code></a>,
+<a href="#Notation"><code>Notation</code></a>, and
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>.</p>
 
 <div class=section id=features>
 <h3>Feature Name</h3>
@@ -179,16 +181,16 @@ aforementioned cases.</p>
   DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
     (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
     raises (DOMException);
-  ElementTypeDefinition <a href="#createElementTypeDefinition">createElementTypeDefinition</a>
+  <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#createElementTypeDefinition">createElementTypeDefinition</a>
     (in DOMString <a href="#createElementTypeDefinition-name"><var>name</var></a>)
     raises (DOMException);
-  AttributeDefinition <a href="#createAttributeDefinition">createAttributeDefinition</a>
+  <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#createAttributeDefinition">createAttributeDefinition</a>
     (in DOMString <a href="#createAttributeDefinition-name"><var>name</var></a>)
     raises (DOMException);
-  Entity <a href="#createGeneralEntity">createGeneralEntityDefinition</a>
+  <a href="#Entity">Entity</a> <a href="#createGeneralEntity">createGeneralEntityDefinition</a>
     (in DOMString <a href="#createGeneralEntity-name"><var>name</var></a>)
     raises (DOMException);
-  Notation <a href="#createNotation">createNotation</a>
+  <a href="#Notation">Notation</a> <a href="#createNotation">createNotation</a>
     (in DOMString <a href="#createNotation-name"><var>name</var></a>)
     raises (DOMException);
 }</code></pre>
@@ -399,10 +401,6 @@ since <abbr>DOM3</abbr> specification <span class=ed>@@ ref</span> does not
 define it for <code>Document</code> methods.</p>
 
 <p><var>name</var> does not have to be a namespace qualified name.</p>
-
-<p>If the <code>strictErrorChecking</code> attribute of the 
-<code>Document</code> node is <code>false</code>, the methods are
-not required to raise the exception <span class=ed>[DOM3]</span>.</p>
 </div>
 
 </div>
@@ -791,9 +789,10 @@ type <code>unsigned short</code></dt>
   <em class=rfc2119>MUST</em> set the specified value as the value
   associated to this attribute.</p>
 
-  <p>If the <code>AttributeDefinition</code> node is created during the process
-  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
-  appropriate value from the
+  <p>If the 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node is
+  created during the process to create a <abbr>DOM</abbr> from an
+  <abbr>XML</abbr> document, an appropriate value from the
   <a href="#DefaultValueType"><code>DefaultValueType</code></a> definition
   group <em class=rfc2119>MUST</em> be set to the attribute.</p>
 
@@ -842,6 +841,65 @@ type <code>unsigned short</code></dt>
   <a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</p>
   </div></dd>
 </dl>
+
+</div>
+
+<div class=section id=section-documenttype>
+<h3>Modifications to the <code id=DocumentType>DocumentType</code> 
+Interface</h3>
+
+<p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
+<em class=rfc2119>MAY</em> contain zero or more
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
+nodes in the <code>NodeList</code> object contained in the 
+<code>childNodes</code> attribute of the 
+<a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<p>If the <a href="#DocumentType"><code>DocumentType</code></a> node is created
+during the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr>
+document, the <code>NodeList</code> object in the <code>childNodes</code> 
+object <em class=rfc2119>MUST</em> contains the 
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
+nodes representing the processing instructions in the document type
+definition of the document processed <span class=ed>@@ ref</span> by
+the <abbr>XML</abbr> processor.  If the
+<a href="#DocumentType"><code>DocumentType</code></a> node is marked
+as read‐only, then all the child nodes <em class=rfc2119>MUST</em>
+also be marked as read‐only.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
+from a document type declaration information item <span class=ed>@@ ref</span>,
+the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the node <em class=rfc2119>MUST</em> contain the
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
+created from the processing instruction information items in the list in the
+[children] property of the document type declaration item in the same 
+order.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
+a document type declaration information item, the list in the [children] 
+property <em class=rfc2119>MUST</em> contain the processng instruction
+information items created from the 
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
+in the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<pre class=idl><code>// Modifications to the DocumentType interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+</code></pre>
+
+<p class=ed>
+ The publicId attribute and the systemId attribute of DocumentType, Entity, and Notation objects are now read-write.
+
+The setter MUST throw a NO_MODIFICATION_ALLOWED_ERR DOMException if the Node object is read-only. Otherwise, it MUST set the specified value to the attribute. No normalization, lexical validation, or relative reference resolving is performed. null, which represents no public or system identifier is provided, might be specified.
+
+Setting public or system identifier does never result in any lexical or logical structure of the document being changed. In particular, no external entity referenced by new identifier will be loaded.
+
+Setting an invalid or non-normalized identifier might make the object non-serializable. Setting a non-null public identifier to a DocumentType or Entity object that does not have non-null system identifier or setting null as the system identifier of a DocumentType or Entity object that does have non-null public identifier will make that object non-serializable.
+
+ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.
+</pre>
 
 </div>
 

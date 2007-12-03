@@ -654,9 +654,53 @@ whose [CODE(DOMa)@en[[[data]]]] is the new value
 and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
 </pre>
 
+<dl>
+<dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
+of type
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>, 
+read‐only</dt>
+  <dd><p>The
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> to
+  which the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node belongs.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
+  It <em class=rfc2119>MUST</em> be such a node that whose
+  <a href="#attributeDefinitons"><code>attributeDefinitions</code></a>
+  attribute contains the <code>NamedNodeMap</code> object that contains
+  the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node.  If there is no such an 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
+<dt><dfn id=declaredType class=dom-attr><code>declaredType</code></dfn> of type
+<code>unsigned short</code></dt>
+  <dd><p>The declared type <span class=ed>@@ ref</span> of the attribute.
+  It is expected that this attribute contains a value from the definition group
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+  exception if the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value
+  associated to this attribute.</p>
+
+  <p>If the <code>AttributeDefinition</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
+  appropriate value from the
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a> constant
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p>
+
+  <!-- DeclaredValueType -->
 <p>The definition group 
 <dfn id=DeclaredValueType><code>DeclaredValueType</code></dfn> contains
-integers indicating the declared type of attributes.</p>
+integers indicating the declared type of attributes.  The definition
+group contains the following constants:</p>
 
 <table>
 <thead>
@@ -719,7 +763,7 @@ set to <a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</p>
 </div>
 
 <p>If the source of the information does not distinguish <q>no value</q>
-and/or <code>unknown</code> <span class=ed>[INFOSET]</span> and
+and/or <q>unknown</q> <span class=ed>[INFOSET]</span> and
 <code>CDATA</code> <span class=ed>[XML]</span>, then the value
 <a href="#CDATA_ATTR"><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
 be used.</p>
@@ -727,75 +771,9 @@ be used.</p>
 <p>In Perl binding <span class=ed>[PERLBINDING]</span>, the
 <code>Attr</code> nodes <em class=rfc2119>MUST</em> implement the
 <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>
-constant group.</p>
+definition group.</p>
 
-<pre class=ed>
-[7] The
-[DFN@en[definition group [CODE(DOM)@en[[[DefaultValueType]]]]]]
-contains integers indicating the type of 
-default attribute value:
-,[CODE(DOMc)@en[[[UNKNOWN_DEFAULT]]]],[CODE(IDL)[[[0]]]],The default value is unknown.
-,[CODE(DOMc)@en[[[FIXED_DEFAULT]]]],[CODE(IDL)[[[1]]]],The default value is provided and the attribute is [CODE(XML)@en[#[[FIXED]]]] to that value.
-,[CODE(DOMc)@en[[[REQUIRED_DEFAULT]]]],[CODE(IDL)[[[2]]]],An attribute specification is [CODE(XML)@en[#[[REQUIRED]]]] for the attribute.
-,[CODE(DOMc)@en[[[IMPLIED_DEFAULT]]]],[CODE(IDL)[[[3]]]],The default value is [CODE(XML)@en[#[[IMPLIED]]]].
-,[CODE(DOMc)@en[[[EXPLICIT_DEFAULT]]]],[CODE(IDL)[[[4]]]],The default value is provided but the attribute is not fixed to it.
-
-The type of these constants are 
-[CODE(IDL)@en[[[unsigned]] [[short]]]].
-
-If the source of the attribute default value type
-does not distinguish the [CODE(XML)@en[#[[IMPLIED]]]]
-default and unknown default, then the 
-[CODE(DOMc)@en[[[IMPLIED_DEFAULT]]]] value
-[['''MUST''']] be used.
-
-;; A newly created [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object by [CODE(DOMm)@en[[[createAttributeDefinition]]]]
-method has [CODE(DOMa)@en[[[declaredType]]]] attribute
-set to [CODE(DOMc)@en[[[NO_TYPE_ATTR]]]].
-</pre>
-
-<dl>
-<dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
-of type
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>, 
-read‐only</dt>
-  <dd><p>The
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> to
-  which the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
-  node belongs.</p>
-
-  <p>On getting, the attribute <em class=rfc2119>MUST</em> return an
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
-  It <em class=rfc2119>MUST</em> be such a node that whose
-  <a href="#attributeDefinitons"><code>attributeDefinitions</code></a>
-  attribute contains the <code>NamedNodeMap</code> object that contains
-  the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
-  node.  If there is no such an 
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
-  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
-<dt><dfn id=declaredType class=dom-attr><code>declaredType</code></dfn> of type
-<code>unsigned short</code></dt>
-  <dd><p>The declared type <span class=ed>@@ ref</span> of the attribute.
-  It is expected that this attribute contains a value from the definition group
-  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>.</p>
-
-  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
-  value associated to this attribute.</p>
-
-  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-  exception if the
-  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
-  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
-  <em class=rfc2119>MUST</em> set the specified value as the value
-  associated to this attribute.</p>
-
-  <p>If the <code>AttributeDefinition</code> node is created during the process
-  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
-  appropriate value from the
-  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a> constant
-  group <em class=rfc2119>MUST</em> be set to the attribute.</p></dd>
+  </dd>
 <dt><dfn id=defaultType class=dom-attr><code>defaultType</code></dfn> of
 type <code>unsigned short</code></dt>
   <dd><p>The type of the default for the attribute.  It is expected that this 
@@ -816,8 +794,53 @@ type <code>unsigned short</code></dt>
   <p>If the <code>AttributeDefinition</code> node is created during the process
   to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
   appropriate value from the
-  <a href="#DefaultValueType"><code>DefaultValueType</code></a> constant
-  group <em class=rfc2119>MUST</em> be set to the attribute.</p></dd>
+  <a href="#DefaultValueType"><code>DefaultValueType</code></a> definition
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p>
+
+  <!-- DefaultValueType -->
+  <p>The definition group
+  <dfn id=DefaultValueType><code>DefaultValueType</code></dfn>
+  contains integers indicating the type of the default for the attribute.
+  The definition group contains the following constans:</p>
+
+  <table>
+  <thead>
+  <tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th scope=row><dfn id=UNKNOWN_DEFAULT class=dom-const><code>UNKNOWN_DEFAULT</code></dfn>
+  <td><code>0</code><td>Unknown.</tr>
+  <tr>
+  <th scope=row><dfn id=FIXED_DEFAULT class=dom-const><code>FIXED_DEFAULT</code></dfn>
+  <td><code>1</code><td>Provided explicitly and fixed
+  <span class=ed>@@ ref</span> to that value.</tr>
+  <tr>
+  <th scope=row><dfn id=REQUIRED_DEFAULT class=dom-const><code>REQUIRED_DEFAULT</code></dfn>
+  <td><code>2</code><td>No default value and the attribute have to be
+  explicitly specified.</tr>
+  <tr>
+  <th scope=row><dfn id=IMPLIED_DEFAULT class=dom-const><code>IMPLIED_DEFAULT</code></dfn>
+  <td><code>3</code><td>Implied <span class=ed>@@ ref</span>.</tr>
+  <tr>
+  <th scope=row><dfn id=EXPLICIT_DEFAULT class=dom-const><code>EXPLICIT_DEFAULT</code></dfn>
+  <td><code>4</code><td>Provided explicitly.</tr>
+  </tbody>
+  </table>
+
+  <p>If the source of the default type does not distinguish
+  implied and unknown default types, then the value
+  <a href="#IMPLIED_DEFAULT"><code>IMPLIED_DEFAULT</code></a>
+  <em class=rfc2119>MUST</em> be used.</p>
+
+  <div class="note memo">
+  <p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node created by the
+  <a href="#createAttributeDefinition"><code>createAttributeDefinition</code></a>
+  method has its <a href="#defaultType"><code>defaultType</code></a>
+  attribute set to
+  <a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</p>
+  </div></dd>
 </dl>
 
 </div>

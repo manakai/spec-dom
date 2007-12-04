@@ -540,6 +540,97 @@ define it for <code>Document</code> methods.</p>
 
 </div>
 
+
+<div class=section id=section-documenttype>
+<h3>Modifications to the <code id=DocumentType>DocumentType</code> 
+Interface</h3>
+
+<p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
+<em class=rfc2119>MAY</em> contain zero or more
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
+nodes in the <code>NodeList</code> object contained in the 
+<code>childNodes</code> attribute of the 
+<a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<p>If the <a href="#DocumentType"><code>DocumentType</code></a> node is created
+during the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr>
+document, the <code>NodeList</code> object in the <code>childNodes</code> 
+object <em class=rfc2119>MUST</em> contains the 
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
+nodes representing the processing instructions in the document type
+definition of the document processed <span class=ed>@@ ref</span> by
+the <abbr>XML</abbr> processor.  If the
+<a href="#DocumentType"><code>DocumentType</code></a> node is marked
+as read‐only, then all the child nodes <em class=rfc2119>MUST</em>
+also be marked as read‐only.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
+from a document type declaration information item <span class=ed>@@ ref</span>,
+the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the node <em class=rfc2119>MUST</em> contain the
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
+created from the processing instruction information items in the list in the
+[children] property of the document type declaration item in the same 
+order.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
+a document type declaration information item, the list in the [children] 
+property <em class=rfc2119>MUST</em> contain the processng instruction
+information items created from the 
+<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
+in the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<p>The implementation of the 
+<a href="#DocumentType"><code>DocumentType</code></a> interface
+<em class=rfc2119>MUST</em> be modified as following:</p>
+<pre class=idl><code>// Modifications to the DocumentType interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+
+  attribute DOMString <a href="#internalSubset">internalSubset</a>;
+</code></pre>
+
+<p>The <code id=publicId>publicId</code> attribute and the 
+<code id=systemId>systemId</code> attribute of
+<a href="#DocumentType"><code>DocumentType</code></a>,
+<a href="#Entity"><code>Entity</code></a>, and
+<a href="#Notation"><code>Notation</code></a> interfaces are no longer
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+exception if the node is read‐only <span class=ed>@@ ref</span>.  
+Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
+associated to the attribute.  No normalization, relative reference resolution,
+or lexical validation is performed. <span class=ed>@@ If the new
+value is <code>null</code>, ...</span></p>
+
+<div class="note memo">
+<p>Setting an invalid identifier might make the node unserializable.
+Setting a public identifier while leaveing system identifier unspecified 
+would also make the <a href="#DocumentType"><code>DocumentType</code></a>
+or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
+</div>
+
+<div class=ed>
+<p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
+</div>
+
+<p>The <code id=internalSubset>internalSubset</code> attribute of the
+<a href="#DocumentType"><code>DocumentType</code></a> interface is no longer
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+exception if the node is read‐only <span class=ed>@@ ref</span>.  
+Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
+associated to the attribute.  No normalization, or lexical validation is
+performed. <span class=ed>@@ If the new value is <code>null</code>, 
+...</span></p>
+
+</div>
+
 <div class=section id=section-documenttypedefinition>
 <h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
@@ -924,96 +1015,6 @@ type <code>unsigned short</code></dt>
   <a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</p>
   </div></dd>
 </dl>
-
-</div>
-
-<div class=section id=section-documenttype>
-<h3>Modifications to the <code id=DocumentType>DocumentType</code> 
-Interface</h3>
-
-<p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
-<em class=rfc2119>MAY</em> contain zero or more
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
-nodes in the <code>NodeList</code> object contained in the 
-<code>childNodes</code> attribute of the 
-<a href="#DocumentType"><code>DocumentType</code></a> node.</p>
-
-<p>If the <a href="#DocumentType"><code>DocumentType</code></a> node is created
-during the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr>
-document, the <code>NodeList</code> object in the <code>childNodes</code> 
-object <em class=rfc2119>MUST</em> contains the 
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
-nodes representing the processing instructions in the document type
-definition of the document processed <span class=ed>@@ ref</span> by
-the <abbr>XML</abbr> processor.  If the
-<a href="#DocumentType"><code>DocumentType</code></a> node is marked
-as read‐only, then all the child nodes <em class=rfc2119>MUST</em>
-also be marked as read‐only.</p>
-
-<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
-from a document type declaration information item <span class=ed>@@ ref</span>,
-the <code>NodeList</code> object in the <code>childNodes</code> attribute
-of the node <em class=rfc2119>MUST</em> contain the
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
-created from the processing instruction information items in the list in the
-[children] property of the document type declaration item in the same 
-order.</p>
-
-<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
-a document type declaration information item, the list in the [children] 
-property <em class=rfc2119>MUST</em> contain the processng instruction
-information items created from the 
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
-in the <code>NodeList</code> object in the <code>childNodes</code> attribute
-of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
-
-<p>The implementation of the 
-<a href="#DocumentType"><code>DocumentType</code></a> interface
-<em class=rfc2119>MUST</em> be modified as following:</p>
-<pre class=idl><code>// Modifications to the DocumentType interface
-  attribute DOMString <a href="#publicId">publicId</a>;
-  attribute DOMString <a href="#systemId">systemId</a>;
-
-  attribute DOMString <a href="#internalSubset">internalSubset</a>;
-</code></pre>
-
-<p>The <code id=publicId>publicId</code> attribute and the 
-<code id=systemId>systemId</code> attribute of
-<a href="#DocumentType"><code>DocumentType</code></a>,
-<a href="#Entity"><code>Entity</code></a>, and
-<a href="#Notation"><code>Notation</code></a> interfaces are no longer
-read‐only.</p>
-
-<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-exception if the node is read‐only <span class=ed>@@ ref</span>.  
-Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
-associated to the attribute.  No normalization, relative reference resolution,
-or lexical validation is performed. <span class=ed>@@ If the new
-value is <code>null</code>, ...</span></p>
-
-<div class="note memo">
-<p>Setting an invalid identifier might make the node unserializable.
-Setting a public identifier while leaveing system identifier unspecified 
-would also make the <a href="#DocumentType"><code>DocumentType</code></a>
-or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
-</div>
-
-<div class=ed>
-<p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
-</div>
-
-<p>The <code id=internalSubset>internalSubset</code> attribute of the
-<a href="#DocumentType"><code>DocumentType</code></a> interface is no longer
-read‐only.</p>
-
-<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-exception if the node is read‐only <span class=ed>@@ ref</span>.  
-Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
-associated to the attribute.  No normalization, or lexical validation is
-performed. <span class=ed>@@ If the new value is <code>null</code>, 
-...</span></p>
 
 </div>
 

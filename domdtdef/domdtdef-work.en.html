@@ -174,6 +174,64 @@ feature names with or without version number, including the methods
 aforementioned cases.</p>
 </div>
 
+<div class=section id=section-node>
+<h3>Modifications to the <code id=Node>Node</code> Interface</h3>
+
+<pre class=idl><code>// Additions to the Node interface
+
+// Additions to the NodeType definition group
+const unsigned short <a href="#ELEMENT_TYPE_DEFINITION_NODE">ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
+const unsigned short <a href="#ATTRIBUTE_DEFINITION_NODE">ATTRIBUTE_DEFINITION_NODE</a> = 81002;
+</pre>
+
+<p>This specification adds two new types (subinterfaces) of 
+<a href="#Node"><code>Node</code></a>: element type definition (node type 
+<a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>,
+interface
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>) and
+attribute definition (node type
+<a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>,
+interface
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a>).  For
+these kinds of nodes, methods and attributes in the 
+<a href="#Node"><code>Node</code></a> interface must behave as following:</p>
+
+<dl>
+<dt><code id=nodeType>nodeType</code></dt>
+  <dd>
+    <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+    <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
+    (if the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>) or
+    <a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
+    (if the node is an
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>).</p>
+
+    <!-- NodeType -->
+<p>Two constants are added to the <code id=NodeType>NodeType</code>
+definition group of the <a href="#Node"><code>Node</code></a> interface as
+following:</p>
+<table>
+<thead>
+<tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+</thead>
+<tbody>
+<tr>
+<th scope=row><dfn id=ELEMENT_TYPE_DEFINITION_NODE class=dom-const><code>ELEMENT_TYPE_DEFINITION_NODE</code></dfn>
+<td><code>81001</code><td>The node is an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>.</tr>
+<tr>
+<th scope=row><dfn id=ATTRIBUTE_DEFINITION_NODE class=dom-const><code>ATTRIBUTE_DEFINITION_NODE</code></dfn>
+<td><code>81002</code><td>The node is an 
+<a href="#ElementTypeDefinition"><code>AttributeDefinition</code></a>.</tr>
+</tbody>
+</table>
+  </dd>
+<dt class=ed>@@ ...</dt>
+</dl>
+
+</div>
+
 <div class=section id=section-documentxdoctype>
 <h3>The <code>DocumentXDoctype</code> Interface</h3>
 

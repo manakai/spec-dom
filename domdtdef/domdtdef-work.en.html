@@ -634,6 +634,13 @@ performed. <span class=ed>@@ If the new value is <code>null</code>,
 <div class=section id=section-documenttypedefinition>
 <h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
+<div class="note memo">
+<p>This interface is a separated interface from the
+<a href="#DocumentType"><code>DocumentType</code></a>, not a set of extensions
+to the <a href="#DocumentType"><code>DocumentType</code></a>,
+for the historical reason.</p>
+</div>
+
 <p>The 
 <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
@@ -784,6 +791,27 @@ reflected by that of the object.
 <div class=section id=section-elementtypedefinition>
 <h3>The <code>ElementTypeDefinition</code> Interface</h3>
 
+<p>The nodes of type 
+<a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
+represents an element type definition.  Such a node implements the
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
+interface, which extends the <a href="#Node"><code>Node</code></a> 
+interface.</p>
+
+<p>An element type definition represents a definition of the element type.
+It is corresponding to the element type declaration in <abbr>DTD</abbr>.
+However, an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node 
+does not represent the element type definition in <abbr>DTD</abbr> itself.  
+Even if there are more than one element type declarations for an element type 
+in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node for that element type.  In addition, if there are attribute definition
+declarations for an element type, even when there is no element type
+declaration for that element type, the <abbr>DOM</abbr> will contain an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node for that element type.</p>
+
 <p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
@@ -801,6 +829,22 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 <div class=section id=section-attributedefinition>
 <h3>The <code>AttributeDefinition</code> Interface</h3>
 
+<p>The nodes of type 
+<a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
+represents an attribute definition.  Such a node implements the
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> interface,
+which extends the <a href="#Node"><code>Node</code></a> interface.</p>
+
+<p>An attribute definition represents a definition of the attribute 
+associated to an element type.  It is corresponding to the attribute definition
+in the attribute list declaration in <abbr>DTD</abbr>.  However, an
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node does 
+not represent the attribute definition in <abbr>DTD</abbr> itself.  Even if 
+there are more than one attribute definitions for an attribute of an element 
+type in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node for 
+that attribute.</p>
+
 <p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> : <a href="#Node">Node</a> {
@@ -817,6 +861,13 @@ interface <em class=rfc2119>MUST</em> be implemented as following:</p>
   const unsigned short <a href="#NOTATION_ATTR">NOTATION_ATTR</a> = 9;
   const unsigned short <a href="#ENUMERATION_ATTR">ENUMERATION_ATTR</a> = 10;
   const unsigned short <a href="#UNKNOWN_ATTR">UNKNOWN_ATTR</a> = 11;
+
+  <span class=comment>// <a href="#DefaultValueType">DefaultValueType</a></span>
+  const unsigned short <a href="#UNKNOWN_DEFAULT">UNKNOWN_DEFAULT</a> = 0;
+  const unsigned short <a href="#FIXED_DEFAULT">FIXED_DEFAULT</a> = 1;
+  const unsigned short <a href="#REQUIRED_DEFAULT">REQUIRED_DEFAULT</a> = 2;
+  const unsigned short <a href="#IMPLIED_DEFAULT">IMPLIED_DEFAULT</a> = 3;
+  const unsigned short <a href="#EXPLICIT_DEFAULT">EXPLICIT_DEFAULT</a> = 4;
   
   readonly attribute <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#ownerElementTypeDefinition">ownerElementTypeDefinition</a>;
 

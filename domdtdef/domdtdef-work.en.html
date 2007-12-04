@@ -177,6 +177,9 @@ aforementioned cases.</p>
 <div class=section id=section-node>
 <h3>Modifications to the <code id=Node>Node</code> Interface</h3>
 
+<p>The implementation of the 
+<a href="#Node"><code>Node</code></a> interface
+<em class=rfc2119>MUST</em> be modified as following:</p>
 <pre class=idl><code>// Additions to the Node interface
 
 // Additions to the NodeType definition group
@@ -197,6 +200,30 @@ these kinds of nodes, methods and attributes in the
 <a href="#Node"><code>Node</code></a> interface must behave as following:</p>
 
 <dl>
+<dt><code id=attributes>attributes</code></dt>
+  <dd>
+    <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+    <code>null</code>.</p>
+  </dd>
+<dt><code id=baseURI>baseURI</code></dt>
+  <dd>
+    <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+    value of the <a href="#baseURI"><code>baseURI</code></a> attribute
+    of the node in the <code>ownerDocument</code> attribute of the node.
+    Note that the value might be <code>null</code>.</p>
+  </dd>
+<dt><code id=nodeName>nodeName</code></dt>
+  <dd>
+    <p>If the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>:
+    On getting, the attribute <em class=rfc2119>MUST</em> return the
+    name of the element type definition represented by the node.</p>
+
+    <p>If the node is an 
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:
+    On getting, the attribute <em class=rfc2119>MUST</em> return the
+    name of the attribute definition represented by the node.</p>
+  </dd>
 <dt><code id=nodeType>nodeType</code></dt>
   <dd>
     <p>On getting, the attribute <em class=rfc2119>MUST</em> return
@@ -227,6 +254,54 @@ following:</p>
 </tbody>
 </table>
   </dd>
+<dt><code id=nodeValue>nodeValue</code> and 
+<code id=textContent>textContent</code></dt>
+  <dd>
+    <p>If the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>:
+    On getting, the attributes <em class=rfc2119>MUST</em> return the
+    name of the element type.</p>
+
+    <div class="note memo">
+      <p>Thus, on setting the attributes does nothing
+      <span class=ed>[DOM3]</span>.</p>
+    </div>
+
+    <p>On setting, the <a href="#textContent"><code>textContent</code></a>
+    attribute <em class=rfc2119>MUST NOT</em> raise a
+    <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>.
+    <span class=ed>@@ I forgot why this requirement is necessary.</span></p>
+
+    <p>If the node is an 
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:</p>
+
+    <pre class=ed>
+The getter of the [CODE(DOMa)@en[[[nodeValue]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] return the normalized default value
+of the attribute.
+
+@@
+
+[4] The getter of the [CODE(DOMa)@en[[[textContent]]]]
+attribute of an [CODE(DOMi)@en[[[AttributeDefinition]]]] 
+object [['''MUST''']] behave as if it were an
+[CODE(DOMi)@en[[[Attr]]]] object.
+
+The setter of the [CODE(DOMa)@en[[[textContent]]]] attribute
+of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
+[['''MUST''']] behave as if the following algorithm
+is performed:
+= If the [CODE(DOMi)@en[[[AttributeDefinition]]]]
+object is read-only, then throw an
+[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
+= Remove any child node the node has.
+= If the new value is not empty and not [CODE(IDL)@en[[[null]]]],
+then create a [CODE(DOMi)@en[[[Text]]]] node
+whose [CODE(DOMa)@en[[[data]]]] is the new value
+and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
+</pre>
+  </dd>
 <dt class=ed>@@ ...</dt>
 </dl>
 
@@ -235,6 +310,8 @@ following:</p>
 <div class=section id=section-documentxdoctype>
 <h3>The <code>DocumentXDoctype</code> Interface</h3>
 
+<p>The <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface 
+<em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
   DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
     (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
@@ -466,6 +543,9 @@ define it for <code>Document</code> methods.</p>
 <div class=section id=section-documenttypedefinition>
 <h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
+<p>The 
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
   readonly attribute NamedNodeMap <a href="#elementTypes">elementTypes</a>;
   readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
@@ -613,44 +693,15 @@ reflected by that of the object.
 <div class=section id=section-elementtypedefinition>
 <h3>The <code>ElementTypeDefinition</code> Interface</h3>
 
+<p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
   readonly attribute <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 
   <span class=ed>@@ more</span>
 }</code></pre>
 
-<pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
-
-[3] The getter of the [CODE(DOMa)@en[[[attributes]]]] attribute
-of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
-[['''MUST''']] return [CODE(IDL)@en[[[null]]]].
-
-[4] The getter of the [CODE(DOMa)@en[[[baseURI]]]] attribute
-of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
-[['''MUST''']] return the [CODE(DOMa)@en[[[baseURI]]]]
-of the [CDOE(DOMa)@en[[[ownerDocument]]]] of the
-[CODE(DOMi)@en[[[ElementTypeDefinition]]]] object.
-Note that it might be [CODE(IDL)@en[[[null]]]].
-
-[1] The getter of the [CODE(DOMa)@en[[[nodeName]]]] attribute
-of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]] object
-[['''MUST''']] return the name of the element type.
-
-[2] The getters of the [CODE(DOMa)@en[[[nodeValue]]]] 
-and [CODE(DOMa)@en[[[textContent]]]] attributes
-of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
-object [['''MUST''']] return [CODE(IDL)@en[[[null]]]].
-
-;; Thus, the setter of these attributes do nothing.
-
-The setter of the [CODE(DOMa)@en[[[textContent]]]]
-attribute of an [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
-object [['''MUST NOT''']] throw a 
-[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
-
-** The [CODE(DOMi)@en[ElementTypeDefinition]] Interface
-
-[5] The 
+<pre class=ed>
 [DFN@en[[CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]] attribute]]
 of the [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
 interface is defined in [[manakai//DOM Extensions]>>50].</pre>
@@ -659,6 +710,8 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 <div class=section id=section-attributedefinition>
 <h3>The <code>AttributeDefinition</code> Interface</h3>
 
+<p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> : <a href="#Node">Node</a> {
   <span class=comment>// <a href="#DeclaredValueType">DeclaredValueType</a></span>
   const unsigned short <a href="#NO_TYPE_ATTR">NO_TYPE_ATTR</a> = 0;
@@ -681,49 +734,6 @@ interface is defined in [[manakai//DOM Extensions]>>50].</pre>
 
   <span class=ed>...</span>
 }</code></pre>
-
-<pre class=ed>** Modifications to [CODE(DOMi)@en[[[Node]]]] members
-
-[3] The getter of the [CODE(DOMa)@en[[[attributes]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] return [CODE(IDL)@en[[[null]]]].
-
-[9] The getter of the [CODE(DOMa)@en[[[baseURI]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] return the [CODE(DOMa)@en[[[baseURI]]]]
-of the [CDOE(DOMa)@en[[[ownerDocument]]]] of the
-[CODE(DOMi)@en[[[AttributeDefinition]]]] object.
-Note that it might be [CODE(IDL)@en[[[null]]]].
-
-[1] The getter of the [CODE(DOMa)@en[[[nodeName]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] return the name of the attribute.
-
-[2] The getter of the [CODE(DOMa)@en[[[nodeValue]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] return the normalized default value
-of the attribute.
-
-@@
-
-[4] The getter of the [CODE(DOMa)@en[[[textContent]]]]
-attribute of an [CODE(DOMi)@en[[[AttributeDefinition]]]] 
-object [['''MUST''']] behave as if it were an
-[CODE(DOMi)@en[[[Attr]]]] object.
-
-The setter of the [CODE(DOMa)@en[[[textContent]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] behave as if the following algorithm
-is performed:
-= If the [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object is read-only, then throw an
-[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
-= Remove any child node the node has.
-= If the new value is not empty and not [CODE(IDL)@en[[[null]]]],
-then create a [CODE(DOMi)@en[[[Text]]]] node
-whose [CODE(DOMa)@en[[[data]]]] is the new value
-and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
-</pre>
 
 <dl>
 <dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
@@ -957,6 +967,9 @@ information items created from the
 in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
+<p>The implementation of the 
+<a href="#DocumentType"><code>DocumentType</code></a> interface
+<em class=rfc2119>MUST</em> be modified as following:</p>
 <pre class=idl><code>// Modifications to the DocumentType interface
   attribute DOMString <a href="#publicId">publicId</a>;
   attribute DOMString <a href="#systemId">systemId</a>;

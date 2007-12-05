@@ -10,7 +10,7 @@
 
 <div class="header">
 <h1>DOM Document Type Definition Module</h1>
-<h2>Working Draft <time datetime=2007-12-04>4 December 2007</time></h2>
+<h2>Working Draft <time datetime=2007-12-05>5 December 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -164,20 +164,21 @@ consists of three interfaces:</p>
 the <abbr>DOM</abbr> Document Type Definition module, the 
 <code>hasFeature</code> method of a <code>DOMImplementation</code> object 
 <em class=rfc2119>MUST</em> return <code>true</code> when the parameters are
-set to <code>http://suika.fam.cx/www/2006/feature/XDoctype</code> and 
-<code>3.0</code> respectively.</p>
+set to 
+<dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
+and <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn> respectively.</p>
 
 <p>In such an implementation, the <code>getFeature</code> method of a 
 <code>Document</code> object <em class=rfc2119>MUST</em> return the (at least
 conceptually) same object implementing the
 <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface when
 the parameters are set to 
-<code>http://suika.fam.cx/www/2006/feature/XDoctype</code> and 
-<code>3.0</code> respectively.  Likewise, any method that takes one or more
-feature names with or without version number, including the methods
-<code>hasFeature</code> and <code>getFeature</code>, 
-<em class=rfc2119>MUST</em> behave in a manner consistent with the 
-aforementioned cases.</p>
+<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively.  
+Likewise, any method that takes one or more feature names with or without 
+version number, including the methods <code>hasFeature</code> and 
+<code>getFeature</code>, <em class=rfc2119>MUST</em> behave in a manner 
+consistent with the aforementioned cases.</p>
 </div>
 
 <div class=section id=section-node>
@@ -218,6 +219,63 @@ these kinds of nodes, methods and attributes in the
     of the node in the <code>ownerDocument</code> attribute of the node.
     Note that the value might be <code>null</code>.</p>
   </dd>
+<dt><code id=isEqualNode>isEqualNode</code></dt>
+  <dd><p>For the <a href="#isEqualNode"><code>isEqualNode</code></a> method, 
+  following items are added to the list of conditions for equality:</p>
+
+  <ul>
+  <li>
+    <p>If the nodes are <a href="#DocumentType"><code>DocumentType</code></a>
+    and at least one of them has the support for the feature
+    <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>:</p>
+    <ul>
+    <li>they are equal according to <abbr>DOM</abbr> level 3 definition
+    <span class=ed>@@ ref</span>, and
+    <li>either:
+      <ul><!--
+      <li>both of them does not support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>,</li>-->
+      <li>exactly one of them support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+      and the <code>length</code> attribute of the <code>NamedNodeMap</code> 
+      object in the <a href="#elementTypes"><code>elementTypes</code></a> 
+      attribute of it is equal to <code>0</code>, or</li>
+      <li>both of them support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+      and the values of the
+      <a href="#elementTypes"><code>elementTypes</code></a> attributes are
+      equal (equality of the
+      <a href="#elementTypes"><code>elementTypes</code></a> attribute is same
+      as that for the <code>attributes</code> attribute).</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+
+  <li><p>If the nodes are
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+  the values of the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attributes are equal (equality of the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute is same as that for the <code>attributes</code> attribute).</p></li>
+
+  <li><p>If the nodes are 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>,
+  the values of the <a href="#declaredType"><code>declaredType</code></a> and
+  the <a href="#defaultType"><code>defaultType</code></a> attributes are
+  equal respectively.</p></li>
+
+  <li><p>If the nodes are
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>,
+  the values of the <code>DOMStringList</code> objects in the
+  <a href="#allowedTokens"><code>allowedTokens</code></a> attributes
+  are equal, i.e. their <code>length</code> attribute values are equal and
+  each string exists in a list is contained in another list (their indeces
+  may be different), with an additional constraint that the number of the
+  items that are equal to a string in a list is equal to the number
+  of the items equal to the string in another list.</p></li>
+  </ul></dd>
 <dt><code id=nodeName>nodeName</code></dt>
   <dd>
     <p>If the node is an 
@@ -472,7 +530,7 @@ method</dt>
     <code>manakaiEntityBaseURI</code>, and
     <code>manakaiEntityURI</code> <span class=ed>@@ ref</span></dt>
       <dd>No explicit value is set.</dd>
-    <dt><code>manakaiHasReplacementTree</code> and
+    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a> and
     <code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
       <dd><code>false</code>.</dd>
     <dt><code>nodeName</code></dt>
@@ -821,15 +879,36 @@ node for that element type.</p>
 <p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
-  readonly attribute <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 
   <span class=ed>@@ more</span>
 }</code></pre>
 
-<pre class=ed>
-[DFN@en[[CODE(DOMa)@en[[[ownerDocumentTypeDefinition]]]] attribute]]
-of the [CODE(DOMi)@en[[[ElementTypeDefinition]]]]
-interface is defined in [[manakai//DOM Extensions]>>50].</pre>
+<dl>
+<dt><dfn id=ownerDocumentTypeDefinition class=dom-attr><code>ownerDocumentTypeDefinition</code></dfn>
+of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only</dt>
+  <dd><p>The 
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute of
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+  <a href="#Entity"><code>Entity</code></a>, and
+  <a href="#Notation"><code>Notation</code></a> interface contains the
+  <a href="#DocumentType"><code>DocumentType</code></a> node to which the node
+  is attached.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return a
+  <a href="#DocumentType"><code>DocumentType</code></a> node.  It
+  <em class=rfc2119>MUST</em> be such a node that whose
+  <a href="#elementTypes"><code>elementTypes</code></a> (for an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node), <a href="#entities"><code>entities</code></a> (for an
+  <a href="#Entity"><code>Entity</code></a> node), or 
+  <a href="#notations"><code>notations</code></a> (for a
+  <a href="#Notation"><code>Notation</code></a> node) attribute contains the
+  <code>NamedNodeMap</code> object that contains the node.  If there is no such
+  a <a href="#DocumentType"><code>DocumentType</code></a> node,
+  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
+</dl>
 </div>
 
 <div class=section id=section-attributedefinition>
@@ -1075,11 +1154,102 @@ type <code>unsigned short</code></dt>
 
 </div>
 
+<div class=section id=section-entity>
+<h3>Modifications to the <code id=Entity>Entity</code> Interface</h3>
+
+<p>The implementation of the <a href="#Entity"><code>Entity</code></a> 
+interface <em class=rfc2119>MUST</em> be modified as following:</p>
+<pre class=idl><code>// Modifications to the Entity interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+  attribute DOMString <a href="#notationName">notationName</a>;
+
+  // Additions to the Entity interface
+  attribute DOMString <a href="#hasReplacementTree">hasReplacementTree</a>;
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+</code></pre>
+
+<p>The <code id=notationName>notationName</code> attribute of the
+<a href="#Entity"><code>Entity</code></a> interface is no longer 
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+exception if the node is read‐only <span class=ed>@@ ref</span>.
+Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
+associated to the attribute.  No lexical validation is performed.  The new
+value <em class=rfc2119>MAY</em> be <code>null</code>.</p>
+
+<dl>
+<dt><dfn id=hasReplacementTree class=dom-attr><code>hasReplacementTree</code></dfn>
+of type boolean</dt>
+  <dd><p>Whether the structure of the replacement text of the entity
+  is available via the <code>NodeList</code> object in the
+  <code>childNodes</code> attribute of the entity.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+  exception if the node is read‐only <span class=ed>@@ ref</span>.  
+  Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the 
+  value associated to this attribute.</p>
+
+  <div class="note memo">
+  <p>The attribute can be set to <code>false</code> even if the 
+  <a href="#Entity"><code>Entity</code></a> node has any child node.
+  If the attribute is set to <code>false</code>, then any child node of 
+  the <a href="#Entity"><code>Entity</code></a> node ought to be ignored,
+  say, for the purpose of serialization.</p>
+  </div>
+
+  <p>When an <code>EntityReference</code> node is created by cloning
+  the replacement subtree of the <a href="#Entity"><code>Entity</code></a> 
+  node, if the attribute is set to <code>false</code>, then any descendant
+  of the node <em class=rfc2119>MUST</em> be ignored.</p>
+
+  <p>If the <a href="#Entity"><code>Entity</code></a> node is created during 
+  the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document,
+  the following requirements are applied:  If the entity is an unparsed
+  entity, then the attribute <em class=rfc2119>MUST</em> be set to 
+  <code>false</code>.  Otherwise, if the entity is an external entity whose
+  replacement text is not available, or whose replacement text is not converted
+  to a replacement tree, then the attribute <em class=rfc2119>MUST</em> be set
+  to <code>false</code>.  Otherwise, the attribute
+  <em class=rfc2119>MUST</em> be set to <code>true</code>.</p>
+
+  <div class="note memo">
+  <p>An <a href="#Entity"><code>Entity</code></a> node created by the
+  <a href="#createGeneralEntity"><code>createGeneralEntity</code></a> method 
+  has its <a href="#hasReplacementTree"><code>hasReplacementTree</code></a> 
+  attribute set to <code>false</code>.</p>
+  </div></dd>
+</dl>
 </div>
 
+<div class=section id=section-notation>
+<h3>Modifications to the <code id=Notation>Notation</code> Interface</h3>
 
+<p>The implementation of the <a href="#Notation"><code>Notation</code></a> 
+interface <em class=rfc2119>MUST</em> be modified as following:</p>
+<pre class=idl><code>// Modifications to the Notation interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
 
+  // Addition to the Notation interface
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+</code></pre>
+</div>
 
+<div class=section id=section-processinginstruction>
+<h3>Modifications to the 
+<code id=ProcessingInstruction>ProcessingInstruction</code> Interface</h3>
+
+<div class=ed>...</div>
+</div>
+
+</div>
 
 <div id="references" class="section reference">
 <h2>References</h2>

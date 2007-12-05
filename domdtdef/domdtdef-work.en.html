@@ -141,21 +141,17 @@ XML Infoset -> DOM converter, and DOM -> XML Infoset converter.</p>
 <h2><abbr>DOM</abbr> Document Type Definition Module</h2>
 
 <p>The <abbr>DOM</abbr> Document Type Definition module, version 3.0, 
-consists of three interfaces:</p>
-<ul>
-<li><a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a></li>
-<li><a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a></li>
-<li><a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a></li>
-<li><a href="#AttributeDefinition"><code>AttributeDefinition</code></a></li>
-</ul>
-
-<p>In addition, it modifies interfaces
+introduces four interfaces:
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a>,
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>,
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+and <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>.
+In addition, it modifies existing interfaces 
 <a href="#Node"><code>Node</code></a>,
+<a href="#Document"><code>Document</code></a>,
 <a href="#DocumentType"><code>DocumentType</code></a>,
-<a href="#Entity"><code>Entity</code></a>,
-<a href="#EntityReference"><code>EntityReference</code></a>,
-<a href="#Notation"><code>Notation</code></a>, and
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>.</p>
+<a href="#Entity"><code>Entity</code></a>, and
+<a href="#Notation"><code>Notation</code></a>.</p>
 
 <div class=section id=features>
 <h3>Feature Name</h3>
@@ -219,6 +215,14 @@ these kinds of nodes, methods and attributes in the
     of the node in the <code>ownerDocument</code> attribute of the node.
     Note that the value might be <code>null</code>.</p>
   </dd>
+<dt><code id=cloneNode>cloneNode</code></dt>
+  <dd class=ed>@@</dd>
+  <dd class=ed>@@ If Attr and AttributeDefinition is inconsistent, then ...</dd>
+<dt><code id=compareDocumentPosition>compareDocumentPosition</code></dt>
+  <dd class=ed>@@</dd>
+<dt><code id=isDefaultNamespace>isDefaultNamespace</code></dt>
+  <dd><p>When invoked, the method <em class=rfc2119>MUST</em> return
+  <code>false</code>.</p></dd>
 <dt><code id=isEqualNode>isEqualNode</code></dt>
   <dd><p>For the <a href="#isEqualNode"><code>isEqualNode</code></a> method, 
   following items are added to the list of conditions for equality:</p>
@@ -276,6 +280,10 @@ these kinds of nodes, methods and attributes in the
   items that are equal to a string in a list is equal to the number
   of the items equal to the string in another list.</p></li>
   </ul></dd>
+<dt><code id=lookupNamespaceURI>lookupNamespaceURI</code> and
+<code id=lookupPrefix>lookupPrefix</code></dt>
+  <dd><p>When invoked, the methods <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
 <dt><code id=nodeName>nodeName</code></dt>
   <dd>
     <p>If the node is an 
@@ -366,9 +374,31 @@ whose [CODE(DOMa)@en[[[data]]]] is the new value
 and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
 </pre>
   </dd>
+<dt><code id=normalize>normalize</code></dt>
+  <dd><p>When a <a href="#DocumentType"><code>DocumentType</code></a> is
+  normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute
+  <em class=rfc2119>MUST</em> be normalized as well.</p>
+
+  <p>When an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  is normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a> 
+  attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
 <dt class=ed>@@ ...</dt>
 </dl>
 
+</div>
+
+<div class=section id=section-document>
+<h3>Modifications to the <code id=Document>Document</code> Interface</h3>
+
+<p>If an attempt is made to adopt an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
+the <code id=adoptNode>adoptNode</code> method <em class=rfc2119>MUST</em>
+raise a <code>NOT_SUPPORTED_ERR</code> exception <span class=ed>@@ 
+ref</span>.</p>
 </div>
 
 <div class=section id=section-documentxdoctype>
@@ -841,8 +871,84 @@ the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is
 and therefore any change of read-only flag on the node is immediately
 reflected by that of the object.
 -->
+<dt><dfn id=getElementTypeDefinitionNode class=dom-method><code>getElementTypeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  with the specified name.</p>
 
-<dt class=ed>@@ other members...
+  <p>The
+  <dfn id=getElementTypeDefinitionNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the element type.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=getElementTypeDefinitionNode class=dom-method><code>getElementTypeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getElementTypeDefinitionNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the element type.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=getGeneralEntityNode class=dom-method><code>getGeneralEntityNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the <a href="#Entity"><code>Entity</code></a> node
+  with the specified name.</p>
+
+  <p>The <dfn id=getEntityNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the general entity.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#Entity"><code>Entity</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getEntityNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#entities"><code>entities</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=getNotationNode class=dom-method><code>getNotationNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the <a href="#Notation"><code>Notation>/code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getNotationNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the notation.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#Notation"><code>Notation</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getNotationNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#notations"><code>notations</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=setElementTypeDefinitionNode class=dom-method><code>setElementTypeDefinitionNode</code></dfn>,
+method</dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=setGeneralEntityNode class=dom-method><code>setGeneralEntityNode</code></dfn>,
+method</dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=setNotationNode class=dom-method><code>setNotationNode</code></dfn>,
+method</dt>
+  <dd class=ed>@@</dd>
 </dl>
 
 <div class=ed>
@@ -909,6 +1015,12 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only<
   a <a href="#DocumentType"><code>DocumentType</code></a> node,
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
 </dl>
+
+<div class=ed>
+<p>A future version of the specification might define a set of attributes
+and methods for representing and accessing to the content model of the 
+element type.</p>
+</div>
 </div>
 
 <div class=section id=section-attributedefinition>
@@ -1167,6 +1279,8 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
   // Additions to the Entity interface
   attribute DOMString <a href="#hasReplacementTree">hasReplacementTree</a>;
   readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+
+  attribute boolean <a href="#isExternallyDeclared">isExternallyDeclared</a>;
 </code></pre>
 
 <p>The <code id=notationName>notationName</code> attribute of the
@@ -1225,6 +1339,30 @@ of type boolean</dt>
   has its <a href="#hasReplacementTree"><code>hasReplacementTree</code></a> 
   attribute set to <code>false</code>.</p>
   </div></dd>
+<dt><dfn id=isExternallyDeclared class=dom-attr><code>isExternallyDeclared</code></dfn>
+of type boolean</dt>
+  <dd><p>Whether the entity is declared by an external entity declaration or 
+  not.  If the value is <code>true</code>, the entity is declared in an entity
+  declaration in the external subset entity or in an external parameter entity.
+  If the value is <code>false</code>, the entity is declared in an entity
+  declaration in the internal subset, or the node is created in memory.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
+  exception if the node is read‐only <span class=ed>@@ ref</span>.  
+  Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the 
+  value associated to this attribute.</p>
+
+  <p>If the <a href="#Entity"><code>Entity</code></a> node is created during
+  the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document,
+  the following requirements are applied:  If the entity is an unparsed
+  entity, then the attribute <em class=rfc2119>MUST</em> be set to 
+  <code>false</code>.  Otherwise, i.e. the entity is a parsed entity, then the
+  attribute <em class=rfc2119>MUST</em> be set to the value of whether the
+  entity is declared by an external markup declaration or not.</p></dd>
 </dl>
 </div>
 
@@ -1240,13 +1378,6 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
   // Addition to the Notation interface
   readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 </code></pre>
-</div>
-
-<div class=section id=section-processinginstruction>
-<h3>Modifications to the 
-<code id=ProcessingInstruction>ProcessingInstruction</code> Interface</h3>
-
-<div class=ed>...</div>
 </div>
 
 </div>

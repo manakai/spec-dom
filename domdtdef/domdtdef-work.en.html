@@ -50,8 +50,10 @@ available at <code class="URI">&lt;<a
 <div id="abstract" class="section">
 <h2>Abstract</h2>
 
-<div class="ed issue">...</div>
-
+<p>The <abbr>DOM</abbr> Document Type Definition module is a set of 
+<abbr>DOM</abbr> interfaces, including both new interfaces and modifications 
+to existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr> 
+applications are able to access to the definitions of the document type.</p>
 </div>
 
 <div id="status" class="section">
@@ -80,12 +82,6 @@ normative version.</p>
 
 <p class=section-info>This section is <em>non‐normative</em>.</p>
 
-<div class="issue ed">
-<p>This is a work-in-progress specification for DOM Document Type
-Definition module, as implemented by manakai and 
-<a href="http://suika.fam.cx/gate/2005/sw/DOM%20XML%20Document%20Type%20Definition">partially documented in the SuikaWiki</a>.</p>
-</div>
-
 <p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type Definition</dfn>
 module is a set of <abbr>DOM</abbr> interfaces, including both new
 interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
@@ -99,41 +95,103 @@ early drafts of <abbr>DOM</abbr> level 1 <span class=ed>@@ ref</span>,
 any of them as a whole.</p>
 </div>
 
-<div class="section" id="terminology">
-<h2>Terminology</h2>
+<div class="section" id=conformance>
+<h2>Conformance Requirements</h2>
 
-<p>The key words <q><em class="rfc2119">MUST</em></q>,
-<q><em class="rfc2119">MUST NOT</em></q>,
-<q><em class="rfc2119">SHOULD</em></q>,
-<q><em class="rfc2119">SHOULD NOT</em></q>, and
-<q><em class=rfc2119>MAY</em></q> in this
-document are to be interpreted as described in 
-<a href="urn:ietf:rfc:2119"><abbr title="Request for Comments">RFC</abbr> 
-2119</a>
-<cite class="bibref normative">[<a href="#ref-KEYWORDS">KEYWORDS</a>]</cite>.</p>
+<div class=section id=terminology>
+<h3>Terminology</h3>
 
-<!-- Strictly speaking the paragraph below is not part of terminology. -->
 <p>All examples and notes in this specification are non‐normative,
 as are all sections explicitly marked non‐normative.  Everything
 else in this specification is normative.</p>
 
-<p><span class=ed>Algorithm is normative but non-normative</span>.
-In addition, the order in which <a href="#errors">errors</a> are
-raised is undefined.</p>
+<p>The key words <q><em class="rfc2119">MUST</em></q>,
+<q><em class="rfc2119">MUST NOT</em></q>, and <q><em class=rfc2119>MAY</em></q>
+in this document are to be interpreted as described in 
+<a href="urn:ietf:rfc:2119"><abbr title="Request for Comments">RFC</abbr> 
+2119</a>
+<cite class="bibref normative">[<a href="#ref-KEYWORDS">KEYWORDS</a>]</cite>.</p>
 
-<p class=ed><var>A</var> object is an object implementing <var>A</var>
-interface.</p>
+<p>Conformance requirements phrased as algorithms or specific steps 
+<em class=rfc2119>MAY</em> be implemented in any manner, so long as the end
+result is equivalent.  Requirements phrased in the imperative as part of 
+algorithms are to be interpreted with the meaning of the key word used in 
+introducing the algorithm.</p>
+
+<p>Sometimes an exception is phrased as being required to be raised.  As
+specified in the <abbr>DOM</abbr> Core specification
+<span class=ed>[DOM3]</span>,
+when the value of the <code>strictErrorChecking</code> attribute of the
+<a href="#Document"><code>Document</code></a> node is <code>false</code>,
+then the exception is not have to be raised.</p>
+
+<p>Some conformance requirements are phrased as requirements on interfaces,
+attributes, methods, or objects.  Such requirements are applied to
+implementations.</p>
+
+<p>The construction <q>a <code><var>Foo</var></code> object</q>, where
+<code><var>Foo</var></code> is an interface, is used instead of the more
+accurate <q>an object implementing the interface 
+<code><var>Foo</var></code></q>.</p>
+
+<p>The construction <q>raise a <code><var>Bar</var></code></q>, where
+<code><var>Bar</var></code> is an exception code, is used instead of the more
+accurate <q>raise an exception implementing the interface
+<code>DOMException</code> <span class=ed>[DOM3]</span> with its
+<code>code</code> attribute set to <code><var>Bar</var></code></q>.</p>
+
+<p>The term 
+<q id=live><a href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></q>
+is defined in the HTML5 specification <span class=ed>[HTML5]</span>.</p>
 
 <p class=ed>@@ ref to DOM Binding Spec</p>
+</div>
 
-<p>If the <code>strictErrorChecking</code> attribute of the 
-<code>Document</code> node is <code>false</code>, the methods are
-not required to raise exceptions <span class=ed>[DOM3]</span>.</p>
+<div class=section id=conformance-categories>
+<h3>Conformance Categories</h3>
 
-<div class=ed>
-<p>Conformant product classes: implementation, XML parser (XML document ->
-DOM converter), XML serializer (DOM -> XML document covnerter).
-XML Infoset -> DOM converter, and DOM -> XML Infoset converter.</p>
+<p>There are several kinds of products that can be claim to conform to
+this specification:</p>
+<dl>
+<dt id=category-dom-implementation><abbr>DOM</abbr> Implementation</dt>
+  <dd>A <abbr>DOM</abbr> implementation (or just written as 
+  <q>implementation</q> in this document) provides a way to access
+  <abbr>DOM</abbr> trees for applications by implementing interfaces defined 
+  by this and other documents.  Unless otherwise noted, requirements in this
+  document are applied to <abbr>DOM</abbr> implementations.  To implement
+  all the features in this document, the implementation have to implement
+  some version of <abbr>DOM</abbr> Core (e.g. <abbr>DOM</abbr> level 3
+  <span class=ed>[DOM3]</span>) with one or more language binding (e.g.
+  ECMAScript or Java binding <span class=ed>[BINDINGS]</span> or
+  Perl binding <span class=ed>[PERLBINDING]</span>).</dd>
+<dt id=category-xml-parser><abbr>XML</abbr> Parser (<abbr>XML</abbr> document
+to <abbr>DOM</abbr> tree converter)</dt>
+  <dd>A software component that converts
+  <abbr>XML</abbr> 1.0 or 1.1 document (or fragment thereof) into a 
+  <abbr>DOM</abbr> tree (or fragment thereof) in the context of this
+  document.  Note that this document does not define any particular way to
+  parse an <abbr>XML</abbr> document or to construct an <abbr>DOM</abbr>
+  document, but it defines constraints for such processing.</dd>
+<dt id=category-xml-serializer><abbr>XML</abbr> Serializer (<abbr>DOM</abbr>
+tree to <abbr>XML</abbr> document converter)</dt>
+  <dd>A software component that converts 
+  <abbr>DOM</abbr> tree (or fragment thereof) into an <abbr>XML</abbr> 1.0 or
+  1.1 document (or fragment thereof).  Note that this document does not define
+  any particular way to serialize a <abbr>DOM</abbr> tree, but it defines
+  constraints for such processing.</dd>
+<dt id=category-infoset-dom><abbr>XML</abbr> Information Set to
+<abbr>DOM</abbr> Tree Converter</dt>
+  <dd>A software component that converts an <abbr>XML</abbr> information set
+  into a <abbr>DOM</abbr> tree.  Note that this documetn does not define
+  any particular way for the convertion, but it defines constraints for
+  such processing.</dd>
+<dt id=category-dom-infoset><abbr>DOM</abbr> Tree to <abbr>XML</abbr>
+Information Set Converter</dt>
+  <dd>A software component that converts a <abbr>DOM</abbr> tree into 
+  an <abbr>XML</abbr> information set.  Note that this documetn does not define
+  any particular way for the convertion, but it defines constraints for
+  such processing.</dd>
+</dl>
 </div>
 </div>
 
@@ -154,7 +212,7 @@ In addition, it modifies existing interfaces
 <a href="#Notation"><code>Notation</code></a>.</p>
 
 <div class=section id=features>
-<h3>Feature Name</h3>
+<h3>Feature String</h3>
 
 <p>In a <abbr>DOM</abbr> implementation that supports the version 3.0 of 
 the <abbr>DOM</abbr> Document Type Definition module, the 
@@ -162,19 +220,10 @@ the <abbr>DOM</abbr> Document Type Definition module, the
 <em class=rfc2119>MUST</em> return <code>true</code> when the parameters are
 set to 
 <dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
-and <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn> respectively.</p>
-
-<p>In such an implementation, the <code>getFeature</code> method of a 
-<code>Document</code> object <em class=rfc2119>MUST</em> return the (at least
-conceptually) same object implementing the
-<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface when
-the parameters are set to 
-<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
-and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively.  
-Likewise, any method that takes one or more feature names with or without 
-version number, including the methods <code>hasFeature</code> and 
-<code>getFeature</code>, <em class=rfc2119>MUST</em> behave in a manner 
-consistent with the aforementioned cases.</p>
+and <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn> respectively.  Any 
+method that takes one or more feature names, with or without version number, 
+such as <code>hasFeature</code> or <code>getFeature</code>, 
+<em class=rfc2119>MUST</em> behave in a manner consistent with it.</p>
 </div>
 
 <div class=section id=section-node>
@@ -216,10 +265,26 @@ these kinds of nodes, methods and attributes in the
     Note that the value might be <code>null</code>.</p>
   </dd>
 <dt><code id=cloneNode>cloneNode</code></dt>
-  <dd class=ed>@@</dd>
+  <dd class=ed>
+    <p>A future version of the specification is expected to define the
+    behavior of the <a href="#cloneNode"><code>cloneNode</code></a> method
+    for those kinds of nodes.  In addition, it might revise behavior of 
+    the method for <a href="#Entity"><code>Entity</code></a>, 
+    <a href="#Notation"><code>Notation</code></a>, and/or
+    <a href="#DocumentType"><code>DocumentType</code></a> nodes.</p>
+  </dd>
+  <!--
   <dd class=ed>@@ If Attr and AttributeDefinition is inconsistent, then ...</dd>
+  -->
 <dt><code id=compareDocumentPosition>compareDocumentPosition</code></dt>
-  <dd class=ed>@@</dd>
+  <dd class=ed>
+    <p>A future version of the specification is expected to define the
+    behavior of the method
+    for those kinds of nodes.  In addition, it might revise behavior of
+    the method for <a href="#Entity"><code>Entity</code></a>,
+    <a href="#Notation"><code>Notation</code></a>, and/or
+    <a href="#DocumentType"><code>DocumentType</code></a> nodes.</p>
+  </dd>
 <dt><code id=isDefaultNamespace>isDefaultNamespace</code></dt>
   <dd><p>When invoked, the method <em class=rfc2119>MUST</em> return
   <code>false</code>.</p></dd>
@@ -359,7 +424,6 @@ following:</p>
   is normalized, any nodes in the <code>NamedNodeMap</code> object in the
   <a href="#attributeDefinitions"><code>attributeDefinitions</code></a> 
   attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
-<dt class=ed>@@ ...</dt>
 </dl>
 
 </div>
@@ -367,16 +431,50 @@ following:</p>
 <div class=section id=section-document>
 <h3>Modifications to the <code id=Document>Document</code> Interface</h3>
 
+<!--
 <p>If an attempt is made to adopt an
 <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
 <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
 the <code id=adoptNode>adoptNode</code> method <em class=rfc2119>MUST</em>
 raise a <code>NOT_SUPPORTED_ERR</code> exception <span class=ed>@@ 
 ref</span>.</p>
+-->
+
+<div class=ed>
+<p>Future version of the specification is expected to define what should
+be done if <code>adoptNode</code> or <code>importNode</code> method have to
+adopt or import an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node.
+In addition it might revise behavior of those methods for 
+<a href="#Entity"><code>Entity</code></a>, 
+<a href="#Notation"><code>Notation</code></a>, and/or
+<a href="#DocumentType"><code>DocumentType</code></a> nodes.
+Behavior of <code>normalizeDocument</code> method for these kinds of
+nodes might also be defined in some day.</p>
+</div>
+
 </div>
 
 <div class=section id=section-documentxdoctype>
 <h3>The <code>DocumentXDoctype</code> Interface</h3>
+
+<p>The <a href="#Document"><code>Document</code></a> nodes 
+<em class=rfc2119>MUST</em> also implement the 
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface.</p>
+
+<p>An instance of the 
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a>
+interface <em class=rfc2119>MUST</em> be able to be obtained by using 
+binding‐specific casting methods on an instance of the 
+<a href="#Document"><code>Document</code></a> interface (if such
+casting methods are available) or by using the method <code>getFeature</code> 
+with parameter values
+<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
+<a href="#Document"><code>Document</code></a> node supports the
+feature <code>Core</code> version <code>3.0</code> 
+<span class=ed>[DOM3]</span>).</p>
 
 <p>The <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface 
 <em class=rfc2119>MUST</em> be implemented as following:</p>
@@ -397,8 +495,6 @@ ref</span>.</p>
     (in DOMString <a href="#createNotation-name"><var>name</var></a>)
     raises (DOMException);
 }</code></pre>
-
-<div class=ed>@@ cast definition</div>
 
 <dl>
 <dt><dfn id=createDocumentTypeDefinition class=dom-method><code>createDocumentTypeDefinition</code></dfn>,
@@ -702,11 +798,32 @@ performed. <span class=ed>@@ If the new value is <code>null</code>,
 <div class=section id=section-documenttypedefinition>
 <h3>The <code>DocumentTypeDefinition</code> Interface</h3>
 
+<p>The <a href="#DocumentType"><code>DocumentType</code></a> nodes 
+<em class=rfc2119>MUST</em> also implement the
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+interface.</p>
+
+<p>An instance of the 
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+interface <em class=rfc2119>MUST</em> be able to be obtained by using 
+binding‐specific casting methods on an instance of the 
+<a href="#DocumentType"><code>DocumentType</code></a> interface (if such
+casting methods are available) or by using the method <code>getFeature</code> 
+with parameter values
+<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
+<a href="#DocumentType"><code>DocumentType</code></a> node supports the
+feature <code>Core</code> version <code>3.0</code> 
+<span class=ed>[DOM3]</span>).</p>
+
 <div class="note memo">
 <p>This interface is a separated interface from the
 <a href="#DocumentType"><code>DocumentType</code></a>, not a set of extensions
 to the <a href="#DocumentType"><code>DocumentType</code></a>,
 for the historical reason.</p>
+
+<p class=ed>Should the interface be merged with
+<a href="#DocumentType"><code>DocumentType</code></a>?</p>
 </div>
 
 <p>The 
@@ -735,20 +852,12 @@ interface <em class=rfc2119>MUST</em> be implemented as following:</p>
     raises (DOMException);
 }</code></pre>
 
-<pre class=ed>
-[1] In an implementation that supports the 
-[CODE(URI)@en[[[http://suika.fam.cx/www/2006/feature/XDoctype]]]]
-feature, a [CODE(DOMi)@en[[[DocumentType]]]] node
-must implement the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]]
-interface.  See [[DOM XML Document Type Definition]>>3] for
-details.
-</pre>
-
 <dl>
 <dt><dfn id=elementTypes class=dom-attr><code>elementTypes</code></dfn> of
 type <code>NamedNodeMap</code>, read‐only</dt>
-  <dd><p>A live <code>NamedNodeMap</code> object that contains all the element
-  type definitions belonging to the <code>DocumentType</code> node.</p>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the element type definitions belonging to the 
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
   <code>NamedNodeMap</code> object that contains all the 
@@ -756,8 +865,7 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   nodes belonging to the <code>DocumentType</code> node.  The
   <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read‐only
   if and only if the node is read‐only.  The <code>NamedNodeMap</code>
-  object <em class=rfc2119>MUST</em> be live and the same object
-  <em class=rfc2119>MUST</em> be returned for any invocation.</p>
+  object <em class=rfc2119>MUST</em> be <a href="#live">live</a>.</p>
 
   <p>If the <code>DocumentType</code> node is created during the process
   to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
@@ -773,12 +881,14 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   <code>NamedNodeMap</code> object.</p></dd>
 <dt><dfn id=generalEntities class=dom-attr><code>generalEntities</code></dfn>
 of type <code>NamedNodeMap</code>, read‐only</dt>
-  <dd><p>A live <code>NamedNodeMap</code> object that contains all the general
-  entities belonging to the <code>DocumentType</code> node.</p>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the general entities belonging to the 
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
   
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
   same value as the <code>entities</code> attribute (defined in the
-  <code>DocumentType</code> interface) of the same node.</p>
+  <a href="#DocumentType"><code>DocumentType</code></a> interface) of the same
+  node.</p>
 
   <div class="note memo">
     <p>This attribute is part of the interface for historical reason.</p>
@@ -806,19 +916,22 @@ reflected by that of the object.
 -->
 <dt><dfn id=notations class=dom-attr><code>notations</code></dfn> of type
 <code>notations</code>, read‐only</code>
-  <dd><p>A live <code>NamedNodeMap</code> object that contains all the 
-  notations belonging to the <code>DocumentType</code> node.</p>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the notations belonging to the
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
   
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
   same value as the <code>notations</code> attribute (defined in the
-  <code>DocumentType</code> interface) of the same node.</p>
+  <a href="#DocumentType"><code>DocumentType</code></a> interface) of the same
+  node.</p>
 
   <div class="note memo">
     <p>This attribute is part of the interface for historical reason.</p>
     <p>Implementations are not required to implement the 
-    <code>notations</code> attribute twice (for <code>DocumentType</code>
-    and <code>DocumentTypeDefinition</code> interfaces); they share exactly
-    same definition.</p>
+    <code>notations</code> attribute twice (for 
+    <a href="#DocumentType"><code>DocumentType</code></a> and
+    <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+    interfaces); they share exactly same definition.</p>
   </div></dd>
 <!--
 If the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node is
@@ -1001,8 +1114,8 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only<
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
 <dt><dfn id=attributeDefinitions class=dom-attr><code>attributeDefinitions</code></dfn>
 of type NamedNodeMap, read‐only</dt>
-  <dd><p>A live <code>NamedNodeMap</code> object that contains all the
-  attribute definitions belonging to the 
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the attribute definitions belonging to the 
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
   node.</p>
 
@@ -1013,9 +1126,8 @@ of type NamedNodeMap, read‐only</dt>
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
   The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
   read‐only if and only if the node is read‐only.  The
-  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be live and
-  the same object <em class=rfc2119>MUST</em> be returned for any
-  invocation.</p>
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  <a href="#live">live</a>.</p>
   
   <p>If the
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node

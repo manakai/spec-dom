@@ -764,18 +764,16 @@ Interface</h3>
 
 <p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
-nodes in the <code>NodeList</code> object contained in the 
-<code>childNodes</code> attribute of the 
+<code>ProcessingInstruction</code> nodes in the <code>NodeList</code> object 
+contained in the <code>childNodes</code> attribute of the 
 <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
 <p>If the <a href="#DocumentType"><code>DocumentType</code></a> node is created
 during the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr>
 document, the <code>NodeList</code> object in the <code>childNodes</code> 
 object <em class=rfc2119>MUST</em> contains the 
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
-nodes representing the processing instructions in the document type
-definition of the document processed
+<code>ProcessingInstruction</code> nodes representing the processing 
+instructions in the document type definition of the document processed
 <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
 <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor.  If
 the <a href="#DocumentType"><code>DocumentType</code></a> node is marked as 
@@ -790,8 +788,7 @@ type declaration information item</a>
 <cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>,
 the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the node <em class=rfc2119>MUST</em> contain the
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
-created from any
+<code>ProcessingInstruction</code> nodes created from any
 <a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.pi">processing
 instruction information items</a> in the list in the [children] property of the
 <a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.doctype">document
@@ -800,8 +797,7 @@ type declaration item</a> in the same order.</p>
 <p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
 a document type declaration information item, the list in the [children] 
 property <em class=rfc2119>MUST</em> contain the processng instruction
-information items created from the 
-<a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
+information items created from the <code>ProcessingInstruction</code> nodes
 in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
@@ -1040,36 +1036,19 @@ method</dt>
   <a href="#elementTypes"><code>elementTypes</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
   <code>null</code>.</p></dd>
-<dt><dfn id=getElementTypeDefinitionNode class=dom-method><code>getElementTypeDefinitionNode</code></dfn>,
-method</dt>
-  <dd><p>Returns the
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
-  with the specified name.</p>
-
-  <p>The
-  <dfn id=getElementTypeDefinitionNode-name class=dom-param><var>name</var></dfn>
-  parameter is the name of the element type.</p>
-
-  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
-  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
-  <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>, in the
-  <code>NamedNodeMap</code> object in the
-  <a href="#elementTypes"><code>elementTypes</code></a> attribute of the
-  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
 <dt><dfn id=getGeneralEntityNode class=dom-method><code>getGeneralEntityNode</code></dfn>,
 method</dt>
   <dd><p>Returns the <a href="#Entity"><code>Entity</code></a> node
   with the specified name.</p>
 
-  <p>The <dfn id=getEntityNode-name class=dom-param><var>name</var></dfn>
+  <p>The
+  <dfn id=getGeneralEntityNode-name class=dom-param><var>name</var></dfn>
   parameter is the name of the general entity.</p>
 
   <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
   <a href="#Entity"><code>Entity</code></a> node,
   whose <a href="#nodeName"><code>nodeName</code></a> is equal to
-  <a href="#getEntityNode-name"><var>name</var></a>, in the
+  <a href="#getGeneralEntityNode-name"><var>name</var></a>, in the
   <code>NamedNodeMap</code> object in the
   <a href="#entities"><code>entities</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
@@ -1149,7 +1128,7 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
   <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#getAttributeDefinitionNode">getAttributeDefinitionNode</a>
     (in DOMString <a href="#getAttributeDefinitionNode-name"><var>name</var></a>);
   void <a href="#setAttributeDefinitionNode">setAttributeDefinitionNode</a>
-    (in <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#setAttributeDefinitionNode-name"><var>node</var></a>)
+    (in <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#setAttributeDefinitionNode-node"><var>node</var></a>)
     raises (DOMException);
 }</code></pre>
 
@@ -1313,7 +1292,7 @@ read‐only</dt>
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return an
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
   It <em class=rfc2119>MUST</em> be such a node that whose
-  <a href="#attributeDefinitons"><code>attributeDefinitions</code></a>
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
   attribute contains the <code>NamedNodeMap</code> object that contains
   the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
   node.  If there is no such an 
@@ -1727,7 +1706,7 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Extensions">
   manakai's <abbr>DOM</abbr> Extensions</a></cite>, editor's draft.  Work in 
   progress.</dd>
-<dt id=ref-XML10">XML10</dt>
+<dt id=ref-XML10>XML10</dt>
   <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816">Extensible
   Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,
   <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 

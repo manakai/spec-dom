@@ -297,9 +297,14 @@ these kinds of nodes, methods and attributes in the
 <a href="#Node"><code>Node</code></a> interface must behave as following:</p>
 
 <dl>
-<dt><code id=attributes>attributes</code></dt>
+<dt><code id=attributes>attributes</code>,
+<code id=localName>localName</code>,
+<code id=manakaiLocalName>manakaiLocalName</code>
+<cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite>,
+<code id=namespaceURI>namespaceURI</code>, and
+<code id=prefix>prefix</code></dt>
   <dd>
-    <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+    <p>On getting, the attributes <em class=rfc2119>MUST</em> return
     <code>null</code>.</p>
   </dd>
 <dt><code id=baseURI>baseURI</code></dt>
@@ -567,14 +572,14 @@ method</dt>
     <a href="#publicId"><code>publicId</code></a>, and
     <a href="#systemId"><code>systemId</code></a></dt>
       <dd>Empty strings.</dd>
-    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
-      <dd><code>false</code>.</dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createDocumentTypeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <a href="#Document"><code>Document</code></a> node over which the
       method is invoked.</dd>
     </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
     <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
     containing five general entity declarations: <code>amp</code>,
     <code>lt</code>, <code>gt</code>, <code>quot</code>, and
@@ -596,21 +601,18 @@ method</dt>
     <dl>
     <dt><a href="#attributeDefinitions"><code>attributeDefinitions</code></a></dt>
       <dd>An empty <code>NamedNodeMap</code> object.</dd>
-    <dt><a href="#attributes"><code>attributes</code></a>,
-    <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
-    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
-      <dd><code>false</code>.</dd>
     <dt><a href="#nodeName"><code>nodeName</code></a></dt>
       <dd><a href="#createElementTypeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a></dt>
+    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
-    <dt class=ed>@@ Ensure all attributes are defined</dt>
     </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
   </dd>
 <dt><dfn id=createAttributeDefinition class=dom-method><code>createAttributeDefinition</code></dfn>,
 method</dt>
@@ -628,24 +630,22 @@ method</dt>
     <dl>
     <dt><a href="#allowedTokens"><code>allowedTokens</code></a></dt>
       <dd>An empty <code>DOMStringList</code> object.</dd>
-    <dt><a href="#attributes"><code>attributes</code></a>,
-    <a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>,
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href="#declaredType"><code>declaredType</code></a></dt>
       <dd><a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</dd>
     <dt><a href="#defaultType"><code>defaultType</code></a></dt>
       <dd><a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</dd>
-    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
-      <dd><code>false</code>.</dd>
     <dt><a href="#nodeName"><code>nodeName</code></a></dt>
       <dd><a href="#createAttributeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt class=ed>@@ Ensure all attributes are defined</dt>
+    <dt><a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
     </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
 
     <!-- This requirement, if not droped, should be part of xml-id spec.
     <div class=ed>
@@ -670,19 +670,13 @@ method</dt>
     an <a href="#Entity"><code>Entity</code></a> node with the following
     attributes:</p>
     <dl>
-    <dt><code>attributes</code>, 
-    <a href="#notationName"><code>notationName</code></a>,
-    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>,
-    <code>manakaiEntityBaseURI</code>, and
-    <code>manakaiEntityURI</code> <span class=ed>@@ ref</span></dt>
+    <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
+    <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
       <dd>No explicit value is set.</dd>
-    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a> and
-    <code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
+    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a></dt>
       <dd><code>false</code>.</dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createGeneralEntity-name"><var>name</var></a>.</dd>
@@ -698,15 +692,19 @@ method</dt>
           with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
         </div>
       </dd>
+    <dt><a href="#notationName"><code>notationName</code></a>,
+    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
     <dt><a href="#publicId"><code>publicId</code></a> and 
     <a href="#systemId"><code>systemId</code></a></dt>
       <dd><code>null</code>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
-    <dt class=ed>@@ Ensure all attributes are defined</dd>
     </dl>
-  </dd>
+  <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+  <a href="#read-only">read‐only</a>.</p></dd>
 <dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
 method</dt>
   <dd>
@@ -718,27 +716,25 @@ method</dt>
     <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
     a <code>Notation</code> node with the following attributes:</p>
     <dl>
-    <dt><code>attributes</code>,
-    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
-    <dt><code>manakaiDeclarationBaseURI</code></dt>
+    <dt><code>manakaiDeclarationBaseURI</code>
+    <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
       <dd>No explicit value is set.</dd>
-    <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
-      <dd><code>false</code>.</dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createNotation-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
     <dt><a href="#publicId"><code>publicId</code></a> and
     <a href="#systemId"><code>systemId</code></a></dt>
       <dd><code>null</code>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
-    <dt class=ed>@@ Ensure all attributes are defined</dt>
     </dl>
-  </dd>
+  <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+  <a href="#read-only">read‐only</a>.</p></dd>
 </dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
@@ -795,9 +791,11 @@ type declaration information item</a>
 the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the node <em class=rfc2119>MUST</em> contain the
 <a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
-created from the processing instruction information items in the list in the
-[children] property of the document type declaration item in the same 
-order.</p>
+created from any
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.pi">processing
+instruction information items</a> in the list in the [children] property of the
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.doctype">document
+type declaration item</a> in the same order.</p>
 
 <p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
 a document type declaration information item, the list in the [children] 
@@ -952,7 +950,7 @@ of type <code>NamedNodeMap</code>, read‐only</dt>
   <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
   
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
-  same value as the <code>entities</code> attribute (defined in the
+  same value as the <code id=entities>entities</code> attribute (defined in the
   <a href="#DocumentType"><code>DocumentType</code></a> interface) of the same
   node.</p>
 
@@ -1725,6 +1723,10 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   14</a>, <abbr title="Request for Comments">RFC</abbr> 2119, 
   <time datetime=1997-03>March 1997</time>.
   <em>This</em> version of the specification is referenced.</dd>
+<dt id=ref-MANAKAI>MANAKAI</dt>
+  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Extensions">
+  manakai's <abbr>DOM</abbr> Extensions</a></cite>, editor's draft.  Work in 
+  progress.</dd>
 <dt id=ref-XML10">XML10</dt>
   <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816">Extensible
   Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,

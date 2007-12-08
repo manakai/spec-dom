@@ -156,7 +156,26 @@ is defined in the HTML5 specification
 is defined in the <abbr>DOM</abbr> Level 3 Core specification
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
-<p class=ed>@@ ref to DOM Binding Spec</p>
+<p>The <em id=idl-fragment><abbr>IDL</abbr> fragments</em> in this document are
+to be interpreted as described in the <cite>Language Bindings for 
+<abbr>DOM</abbr> Specifications</cite> specification
+<cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.</p>
+
+<p>Some <abbr>IDL</abbr> fragments are presented as <i>patch</i> to an
+<abbr>IDL</abbr> fragment defined in another document.  They are to be
+interpreted as an instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMembers"><code>InterfaceMembers</code></a>
+<cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.
+If the <abbr>IDL</abbr> fragment to which the <i>patch</i> is applied has any 
+instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+with same 
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#prod-identifier"><code>identifier</code></a>
+part as that of any instance of 
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+in the <i>patch</i>, then the former instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+<em class=rfc2119>MUST</em> be ignored.</p>
 </div>
 
 <div class=section id=conformance-categories>
@@ -174,8 +193,16 @@ this specification:</p>
   all the features in this document, the implementation have to implement
   some version of <abbr>DOM</abbr> Core (e.g. <abbr>DOM</abbr> Level 3 Core
   <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>)
-  with one or more language binding (e.g. ECMAScript or Java binding <span class=ed>[BINDINGS]</span> or
-  Perl binding <span class=ed>[PERLBINDING]</span>).</dd>
+  with one or more language binding (e.g. ECMAScript and Java bindings
+  <cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>
+  or Perl binding
+  <cite class="bibref normative">[<a href="#ref-DOMPERL">DOMPERL</a>]</cite>).
+  A conforming implementation <em class=rfc2119>MUST</em> also be a 
+  <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#dfn-conforming-implementation">conforming
+  implementation</a> of the <abbr>IDL</abbr> fragments in this document, as
+  described in the <cite>Language Bindings for <abbr>DOM</abbr>
+  Specifications</cite> specification
+  <cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.</dd>
 <dt id=category-xml-parser><abbr>XML</abbr> Parser (<abbr>XML</abbr> document
 to <abbr>DOM</abbr> tree converter)</dt>
   <dd>A software component that converts
@@ -248,7 +275,8 @@ such as <code>hasFeature</code> or <code>getFeature</code>,
 
 <p>The implementation of the 
 <a href="#Node"><code>Node</code></a> interface
-<em class=rfc2119>MUST</em> be modified as following:</p>
+<em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>// Additions to the Node interface
 
 // Additions to the NodeType definition group
@@ -381,7 +409,9 @@ these kinds of nodes, methods and attributes in the
   </dd>
 <dt><code id=nodeType>nodeType</code></dt>
   <dd>
-    <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+    <p>On getting, the attribute <!--<em class=rfc2119>MUST</em>--> returns
+    <!-- NOTE: No MUST, to avoid circular reference (nodeType==8100[12]
+    is defined that they MUST implement ElementType|AttributeDefinition). -->
     <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
     (if the node is an 
     <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>) or
@@ -491,7 +521,8 @@ feature <code>Core</code> version <code>3.0</code>
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
 
 <p>The <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface 
-<em class=rfc2119>MUST</em> be implemented as following:</p>
+<em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
   DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
     (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
@@ -778,7 +809,8 @@ of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
 <p>The implementation of the 
 <a href="#DocumentType"><code>DocumentType</code></a> interface
-<em class=rfc2119>MUST</em> be modified as following:</p>
+<em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>// Modifications to the DocumentType interface
   attribute DOMString <a href="#publicId">publicId</a>;
   attribute DOMString <a href="#systemId">systemId</a>;
@@ -858,7 +890,8 @@ for the historical reason.</p>
 
 <p>The 
 <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a> 
-interface <em class=rfc2119>MUST</em> be implemented as following:</p>
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
   readonly attribute NamedNodeMap <a href="#elementTypes">elementTypes</a>;
   readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
@@ -1109,7 +1142,8 @@ node cannot be a child of any node.  An
 cannot have any child node.</p>
 
 <p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
-interface <em class=rfc2119>MUST</em> be implemented as following:</p>
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
   readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 
@@ -1237,7 +1271,8 @@ can have zero or more child nodes of same kinds as those allowed for
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
 <p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
-interface <em class=rfc2119>MUST</em> be implemented as following:</p>
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> : <a href="#Node">Node</a> {
   <span class=comment>// <a href="#DeclaredValueType">DeclaredValueType</a></span>
   const unsigned short <a href="#NO_TYPE_ATTR">NO_TYPE_ATTR</a> = 0;
@@ -1416,7 +1451,8 @@ value</a> and/or
 <a href="#CDATA_ATTR"><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
 be used.</p>
 
-<p>In Perl binding <span class=ed>[PERLBINDING]</span>, the
+<p>In Perl binding
+<cite class="bibref normative">[<a href="#ref-DOMPERL">DOMPERL</a>]</cite>, the
 <code>Attr</code> nodes <em class=rfc2119>MUST</em> implement the
 <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>
 definition group.</p>
@@ -1531,7 +1567,8 @@ type <code>unsigned short</code></dt>
 <h3>Modifications to the <code id=Entity>Entity</code> Interface</h3>
 
 <p>The implementation of the <a href="#Entity"><code>Entity</code></a> 
-interface <em class=rfc2119>MUST</em> be modified as following:</p>
+interface <em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>// Modifications to the Entity interface
   attribute DOMString <a href="#publicId">publicId</a>;
   attribute DOMString <a href="#systemId">systemId</a>;
@@ -1631,7 +1668,8 @@ of type boolean</dt>
 <h3>Modifications to the <code id=Notation>Notation</code> Interface</h3>
 
 <p>The implementation of the <a href="#Notation"><code>Notation</code></a> 
-interface <em class=rfc2119>MUST</em> be modified as following:</p>
+interface <em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>// Modifications to the Notation interface
   attribute DOMString <a href="#publicId">publicId</a>;
   attribute DOMString <a href="#systemId">systemId</a>;
@@ -1657,6 +1695,17 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
   April 2004</time>.  <em>This</em> version of the specification is referenced.
   The latest version of the specification is available at
   <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Level-3-Core">http://www.w3.org/TR/DOM-Level-3-Core</a>></code>.</dd>
+<dt id=ref-DOMBIND>DOMBIND</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/">Language
+  Bindings for <abbr>DOM</abbr> Specifications</a></cite>, <abbr>W3C</abbr>
+  Working Draft, <time datetime=2007-10-17>17 October 2007</time>.  
+  <em>This</em> version of the specification is referenced.  The latest version
+  of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Bindings/">http://www.w3.org/TR/DOM-Bindings/</a>></code>.</dd>
+<dt id=ref-DOMPERL>DOMPERL</dt>
+  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
+  <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
+  progress.</dd>
 <dt id=ref-HTML5>HTML5</dt>
   <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
   <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
@@ -1689,7 +1738,7 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
   Markup Language (<abbr>XML</abbr>) 1.1 (Second Edition)</a></cite>,
   <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
   2006</time>, edited in place <time datetime=2006-09-29>29 September
-  2006</time>.  <em>This version of the specification is referenced.  The
+  2006</time>.  <em>This</em> version of the specification is referenced.  The
   latest version of the specification is available at
   <code class=uri>&lt;<a href="http://www.w3.org/TR/xml11">http://www.w3.org/TR/xml11</a>></code>.</dd>
 </dl>

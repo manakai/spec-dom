@@ -88,11 +88,14 @@ interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
 over which <abbr>DOM</abbr> applications are able to access to the
 definitions of the document type.</p>
 
-<p>Interfaces defined in this specification are partially modeled from
-early drafts of <abbr>DOM</abbr> level 1 <span class=ed>@@ ref</span>,
-<abbr>DOM</abbr> Abstract Schema level 3 <span class=ed>@@ ref</span>, and
-<abbr>XML</abbr> Schema <abbr>API</abbr>, but are not compatible with
-any of them as a whole.</p>
+<p>Interfaces defined in this document are partially modeled and inspired by
+early drafts of <abbr>DOM</abbr> Level 1
+<cite class="bibref informative">[<a href="#ref-DOM1WD">DOM1WD</a>]</cite>,
+<abbr>DOM</abbr> Level 3 Abstract Schemas <abbr>W3C</abbr> Note
+<cite class="bibref informative">[<a href="#ref-DOM3AS">DOM3AS</a>]</cite>,
+and <abbr>XML</abbr> Schema <abbr>API</abbr> specification
+<cite class="bibref informative">[<a href="#ref-XSAPI">XSAPI</a>]</cite>, but 
+they are not compatible with any of them as a whole.</p>
 </div>
 
 <div class="section" id=conformance>
@@ -120,7 +123,7 @@ introducing the algorithm.</p>
 
 <p>Sometimes an exception is phrased as being required to be raised.  As
 specified in the <abbr>DOM</abbr> Core specification
-<span class=ed>[DOM3]</span>,
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>,
 when the value of the <code>strictErrorChecking</code> attribute of the
 <a href="#Document"><code>Document</code></a> node is <code>false</code>,
 then the exception is not have to be raised.</p>
@@ -137,12 +140,21 @@ accurate <q>an object implementing the interface
 <p>The construction <q>raise a <code><var>Bar</var></code></q>, where
 <code><var>Bar</var></code> is an exception code, is used instead of the more
 accurate <q>raise an exception implementing the interface
-<code>DOMException</code> <span class=ed>[DOM3]</span> with its
-<code>code</code> attribute set to <code><var>Bar</var></code></q>.</p>
+<code>DOMException</code> 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite> 
+with its <code>code</code> attribute set to 
+<code><var>Bar</var></code></q>.</p>
+
+<p>The terms
+<em id=live><a href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>
+and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
+is defined in the HTML5 specification
+<cite class="bibref normative">[<a href="#ref-HTML5">HTML5</a>]</cite>.</p>
 
 <p>The term 
-<q id=live><a href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></q>
-is defined in the HTML5 specification <span class=ed>[HTML5]</span>.</p>
+<em id=read-only><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-readonly-node">read‐only (node)</a></em>
+is defined in the <abbr>DOM</abbr> Level 3 Core specification
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
 <p class=ed>@@ ref to DOM Binding Spec</p>
 </div>
@@ -160,14 +172,16 @@ this specification:</p>
   by this and other documents.  Unless otherwise noted, requirements in this
   document are applied to <abbr>DOM</abbr> implementations.  To implement
   all the features in this document, the implementation have to implement
-  some version of <abbr>DOM</abbr> Core (e.g. <abbr>DOM</abbr> level 3
-  <span class=ed>[DOM3]</span>) with one or more language binding (e.g.
-  ECMAScript or Java binding <span class=ed>[BINDINGS]</span> or
+  some version of <abbr>DOM</abbr> Core (e.g. <abbr>DOM</abbr> Level 3 Core
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>)
+  with one or more language binding (e.g. ECMAScript or Java binding <span class=ed>[BINDINGS]</span> or
   Perl binding <span class=ed>[PERLBINDING]</span>).</dd>
 <dt id=category-xml-parser><abbr>XML</abbr> Parser (<abbr>XML</abbr> document
 to <abbr>DOM</abbr> tree converter)</dt>
   <dd>A software component that converts
-  <abbr>XML</abbr> 1.0 or 1.1 document (or fragment thereof) into a 
+  <abbr>XML</abbr> 1.0 or 1.1 document
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> (or fragment thereof) into a 
   <abbr>DOM</abbr> tree (or fragment thereof) in the context of this
   document.  Note that this document does not define any particular way to
   parse an <abbr>XML</abbr> document or to construct an <abbr>DOM</abbr>
@@ -182,6 +196,7 @@ tree to <abbr>XML</abbr> document converter)</dt>
 <dt id=category-infoset-dom><abbr>XML</abbr> Information Set to
 <abbr>DOM</abbr> Tree Converter</dt>
   <dd>A software component that converts an <abbr>XML</abbr> information set
+  <cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>
   into a <abbr>DOM</abbr> tree.  Note that this documetn does not define
   any particular way for the convertion, but it defines constraints for
   such processing.</dd>
@@ -209,7 +224,8 @@ In addition, it modifies existing interfaces
 <a href="#Document"><code>Document</code></a>,
 <a href="#DocumentType"><code>DocumentType</code></a>,
 <a href="#Entity"><code>Entity</code></a>, and
-<a href="#Notation"><code>Notation</code></a>.</p>
+<a href="#Notation"><code>Notation</code></a>
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
 <div class=section id=features>
 <h3>Feature String</h3>
@@ -217,6 +233,7 @@ In addition, it modifies existing interfaces
 <p>In a <abbr>DOM</abbr> implementation that supports the version 3.0 of 
 the <abbr>DOM</abbr> Document Type Definition module, the 
 <code>hasFeature</code> method of a <code>DOMImplementation</code> object 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
 <em class=rfc2119>MUST</em> return <code>true</code> when the parameters are
 set to 
 <dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
@@ -298,8 +315,9 @@ these kinds of nodes, methods and attributes in the
     and at least one of them has the support for the feature
     <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>:</p>
     <ul>
-    <li>they are equal according to <abbr>DOM</abbr> level 3 definition
-    <span class=ed>@@ ref</span>, and
+    <li>they are equal according to <abbr>DOM</abbr> Level 3 Core definition
+    <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>,
+    and
     <li>either:
       <ul><!--
       <li>both of them does not support the feature
@@ -399,20 +417,16 @@ following:</p>
     On getting, the attributes <em class=rfc2119>MUST</em> return 
     <code>null</code>.</p>
 
-    <div class="note memo">
-      <p>Thus, on setting the attributes does nothing
-      <span class=ed>[DOM3]</span>.</p>
-    </div>
-
-    <p>On setting, the <a href="#textContent"><code>textContent</code></a>
-    attribute <em class=rfc2119>MUST NOT</em> raise a
-    <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>.
-    <span class=ed>@@ I forgot why this requirement is necessary.</span></p>
+  <div class="note memo">
+  <p>Thus, on setting the attributes does nothing
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
+  </div>
 
   <p>If the node is an 
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:
   The attribute <em class=rfc2119>MUST</em> behave as if the node
-  were <code>Attr</code> <span class=ed>[DOM3]</span>.</p></dd>
+  were <code>Attr</code>
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p></dd>
 <dt><code id=normalize>normalize</code></dt>
   <dd><p>When a <a href="#DocumentType"><code>DocumentType</code></a> is
   normalized, any nodes in the <code>NamedNodeMap</code> object in the
@@ -474,7 +488,7 @@ with parameter values
 and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
 <a href="#Document"><code>Document</code></a> node supports the
 feature <code>Core</code> version <code>3.0</code> 
-<span class=ed>[DOM3]</span>).</p>
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
 
 <p>The <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface 
 <em class=rfc2119>MUST</em> be implemented as following:</p>
@@ -502,30 +516,33 @@ method</dt>
   <dd>
     <p>This method creates a <code>DocumentType</code> node with the specified
     name, belonging to the document.</p>
-    <p>The <dfn id=createDocumentTypeDefinition-name class=dom-param><var>name</var></dfn>
+    <p>The
+    <dfn id=createDocumentTypeDefinition-name class=dom-param><var>name</var></dfn>
     parameter is the name of the document type.</p>
 
     <p>When invoked, the method <em class=rfc2119>MUST</em> create and
-    return a <code>DocumentType</code> node with the following attributes:</p>
+    return a <a href="#DocumentType"><code>DocumentType</code></a> node with
+    the following attributes:</p>
     <dl>
     <dt><code>attributes</code>, <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
-    <dt><code>elementTypes</code>, <code>generalEntities</code>, and
-    <code>notations</code></dt>
-      <dd>Empty <code>NamedNodeMap</code> objects.</dd>
-    <dt><code>entities</code></dt>
-      <dd>The same value as the <code>generalEntities</code> attribute.</dd>
+    <dt><a href="#elementTypes"><code>elementTypes</code></a>,
+    <a href="#entities"><code>entities</code></a>, and
+    <a href="#notations"><code>notations</code></a></dt>
+      <dd>Empty <code>NamedNodeMap</code> objects respectively.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
-    <dt><code>internalSubset</code>, <code>publicId</code>, and
-    <code>systemId</code></dt>
+    <dt><a href="#internalSubset"><code>internalSubset</code></a>, 
+    <a href="#publicId"><code>publicId</code></a>, and
+    <a href="#systemId"><code>systemId</code></a></dt>
       <dd>Empty strings.</dd>
     <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
       <dd><code>false</code>.</dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createDocumentTypeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
-      <dd>The <code>Document</code> over which the method is invoked.</dd>
+      <dd>The <a href="#Document"><code>Document</code></a> node over which the
+      method is invoked.</dd>
     </dl>
     <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
     containing five general entity declarations: <code>amp</code>,
@@ -548,13 +565,14 @@ method</dt>
     <dl>
     <dt><a href="#attributeDefinitions"><code>attributeDefinitions</code></a></dt>
       <dd>An empty <code>NamedNodeMap</code> object.</dd>
-    <dt><code>attributes</code>, <code>parentNode</code></dt>
+    <dt><a href="#attributes"><code>attributes</code></a>,
+    <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
       <dd><code>false</code>.</dd>
-    <dt><code>nodeName</code></dt>
+    <dt><a href="#nodeName"><code>nodeName</code></a></dt>
       <dd><a href="#createElementTypeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
@@ -577,27 +595,28 @@ method</dt>
     <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
     node with the following attributes:</p>
     <dl>
-    <dt><code>allowedTokens</code></dt>
+    <dt><a href="#allowedTokens"><code>allowedTokens</code></a></dt>
       <dd>An empty <code>DOMStringList</code> object.</dd>
-    <dt><code>attributes</code>,
+    <dt><a href="#attributes"><code>attributes</code></a>,
     <a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>,
     and <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
-    <dt><code>declaredType</code></dt>
+    <dt><a href="#declaredType"><code>declaredType</code></a></dt>
       <dd><a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</dd>
-    <dt><code>defaultType</code></dt>
+    <dt><a href="#defaultType"><code>defaultType</code></a></dt>
       <dd><a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</dd>
     <dt><code>manakaiReadOnly</code> <span class=ed>[manakai]</span></dt>
       <dd><code>false</code>.</dd>
-    <dt><code>nodeName</code></dt>
+    <dt><a href="#nodeName"><code>nodeName</code></a></dt>
       <dd><a href="#createAttributeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
     <dt class=ed>@@ Ensure all attributes are defined</dt>
     </dl>
 
+    <!-- This requirement, if not droped, should be part of xml-id spec.
     <div class=ed>
     <p>@@ Should we keep these statements?: 
 However, if the &lt;cfg::cfg|xml-id> configuration
@@ -605,7 +624,7 @@ parameter is set to <code>true</code> and the <var>name</var>
 is <code>xml:id</code>, then the [CODE(DOMa)@en[[[declaredType]]]]
 attribute is set to <code>ID_ATTR</code>.
 [CODE(DOMa)@en[[[defaultType]]]]?</p>
-    </div>
+    </div>-->
   </dd>
 <dt><dfn id=createGeneralEntity class=dom-method><code>createGeneralEntity</code></dfn>,
 method</dt>
@@ -620,7 +639,8 @@ method</dt>
     an <a href="#Entity"><code>Entity</code></a> node with the following
     attributes:</p>
     <dl>
-    <dt><code>attributes</code>, <code>notationName</code>,
+    <dt><code>attributes</code>, 
+    <a href="#notationName"><code>notationName</code></a>,
     <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
     and <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
@@ -649,7 +669,8 @@ method</dt>
       </dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><code>publicId</code>, and <code>systemId</code></dt>
+    <dt><a href="#publicId"><code>publicId</code></a> and 
+    <a href="#systemId"><code>systemId</code></a></dt>
       <dd><code>null</code>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     <dt class=ed>@@ Ensure all attributes are defined</dd>
@@ -680,7 +701,8 @@ method</dt>
       <dd><a href="#createNotation-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><code>publicId</code> and <code>systemId</code></dt>
+    <dt><a href="#publicId"><code>publicId</code></a> and
+    <a href="#systemId"><code>systemId</code></a></dt>
       <dd><code>null</code>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     <dt class=ed>@@ Ensure all attributes are defined</dt>
@@ -689,15 +711,19 @@ method</dt>
 </dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
-<code>INVALID_CHARACTER_ERR</code> exception <span class=ed>@@ ref</span>
-if <var>name</var> is <em>not</em> a legal <code>Name</code> according to
-the <abbr>XML</abbr> version in use, as specified in the 
-<code>xmlVersion</code> attribute of the <code>Document</code> node.</p>
+<code>INVALID_CHARACTER_ERR</code> if <var>name</var> is <em>not</em> a legal 
+<code>Name</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite> according to the <abbr>XML</abbr> 
+version specified in the <code>xmlVersion</code> attribute of the 
+<a href="#Document"><code>Document</code></a> node.</p>
 
 <div class="note memo">
 <p>Non‐<abbr>XML</abbr> case is intentionally left unspecified for now,
-since <abbr>DOM3</abbr> specification <span class=ed>@@ ref</span> does not
-define it for <code>Document</code> methods.</p>
+since <abbr>DOM</abbr> Level 3 Core specification
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
+does not define it for <a href="#Document"><code>Document</code></a> 
+methods.</p>
 
 <p><var>name</var> does not have to be a namespace qualified name.</p>
 </div>
@@ -722,14 +748,19 @@ document, the <code>NodeList</code> object in the <code>childNodes</code>
 object <em class=rfc2119>MUST</em> contains the 
 <a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a>
 nodes representing the processing instructions in the document type
-definition of the document processed <span class=ed>@@ ref</span> by
-the <abbr>XML</abbr> processor.  If the
-<a href="#DocumentType"><code>DocumentType</code></a> node is marked
-as read‐only, then all the child nodes <em class=rfc2119>MUST</em>
-also be marked as read‐only.</p>
+definition of the document processed
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor.  If
+the <a href="#DocumentType"><code>DocumentType</code></a> node is marked as 
+<a href="#read-only">read‐only</a>, then all the child nodes 
+<em class=rfc2119>MUST</em> also be marked as 
+<a href="#read-only">read‐only</a>.</p>
 
 <p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
-from a document type declaration information item <span class=ed>@@ ref</span>,
+from a
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.doctype">document
+type declaration information item</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>,
 the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the node <em class=rfc2119>MUST</em> contain the
 <a href="#ProcessingInstruction"><code>ProcessingInstruction</code></a> nodes
@@ -763,12 +794,12 @@ of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 read‐only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-exception if the node is read‐only <span class=ed>@@ ref</span>.  
-Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
-associated to the attribute.  No normalization, relative reference resolution,
-or lexical validation is performed. <span class=ed>@@ If the new
-value is <code>null</code>, ...</span></p>
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No 
+normalization, relative reference resolution, or lexical validation is 
+performed. <span class=ed>@@ If the new value is <code>null</code>, should an e
+mpty string be set?</span></p>
 
 <div class="note memo">
 <p>Setting an invalid identifier might make the node unserializable.
@@ -786,12 +817,11 @@ or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
 read‐only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-exception if the node is read‐only <span class=ed>@@ ref</span>.  
-Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
-associated to the attribute.  No normalization, or lexical validation is
-performed. <span class=ed>@@ If the new value is <code>null</code>, 
-...</span></p>
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No 
+normalization, or lexical validation is performed.  <span class=ed>@@ If the 
+new value is <code>null</code>, should an empty string be set?</span></p>
 
 </div>
 
@@ -814,7 +844,7 @@ with parameter values
 and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
 <a href="#DocumentType"><code>DocumentType</code></a> node supports the
 feature <code>Core</code> version <code>3.0</code> 
-<span class=ed>[DOM3]</span>).</p>
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
 
 <div class="note memo">
 <p>This interface is a separated interface from the
@@ -864,8 +894,9 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
   nodes belonging to the <code>DocumentType</code> node.  The
   <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read‐only
-  if and only if the node is read‐only.  The <code>NamedNodeMap</code>
-  object <em class=rfc2119>MUST</em> be <a href="#live">live</a>.</p>
+  if and only if the node is <a href="#read-only">read‐only</a>.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  <a href="#live">live</a>.</p>
 
   <p>If the <code>DocumentType</code> node is created during the process
   to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
@@ -874,7 +905,9 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   <em class=rfc2119>MUST</em> be so transformed that the object contains
   the <code>ElementTypeDefinition</code> nodes for the element types
   whose name is presented as the <code>Name</code> of the element type or
-  attribute definition list declarations processed by the <abbr>XML</abbr>
+  attribute definition list declarations processed
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr>
   processor.  If there are more than one element type declarations for an
   element type, then the declarations other than the first one 
   <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
@@ -1012,7 +1045,7 @@ method</dt>
   <code>null</code>.</p></dd>
 <dt><dfn id=getNotationNode class=dom-method><code>getNotationNode</code></dfn>,
 method</dt>
-  <dd><p>Returns the <a href="#Notation"><code>Notation>/code></a> node
+  <dd><p>Returns the <a href="#Notation"><code>Notation</code></a> node
   with the specified name.</p>
 
   <p>The
@@ -1096,7 +1129,7 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only<
   attribute of
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
   <a href="#Entity"><code>Entity</code></a>, and
-  <a href="#Notation"><code>Notation</code></a> interface contains the
+  <a href="#Notation"><code>Notation</code></a> interfaces contain the
   <a href="#DocumentType"><code>DocumentType</code></a> node to which the node
   is attached.</p>
 
@@ -1125,8 +1158,8 @@ of type NamedNodeMap, read‐only</dt>
   belonging to the
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
   The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
-  read‐only if and only if the node is read‐only.  The
-  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  read‐only if and only if the node is <a href="#read-only">read‐only</a>.  
+  The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
   <a href="#live">live</a>.</p>
   
   <p>If the
@@ -1139,7 +1172,9 @@ of type NamedNodeMap, read‐only</dt>
   contains the
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
   corresponding to the attribute definitions in the attribute definition
-  list declarations processed by the <abbr>XML</abbr> processor and
+  list declarations processed
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor and
   associated to the element type represented by the node.  If there are more
   than one attribute definitions for an attribute, then the definitions other
   than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
@@ -1198,7 +1233,8 @@ that attribute.</p>
 node cannot be a child of any node.  An
 <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
 can have zero or more child nodes of same kinds as those allowed for
-<code>Attr</code> nodes <span class=ed>[DOM3]</span>.</p>
+<code>Attr</code> nodes
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
 <p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
@@ -1252,18 +1288,19 @@ read‐only</dt>
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
 <dt><dfn id=declaredType class=dom-attr><code>declaredType</code></dfn> of type
 <code>unsigned short</code></dt>
-  <dd><p>The declared type <span class=ed>@@ ref</span> of the attribute.
-  It is expected that this attribute contains a value from the definition group
+  <dd><p>The declared type
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> of the attribute.  It is expected that
+  this attribute contains a value from the definition group
   <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>.</p>
 
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
   value associated to this attribute.</p>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-  exception if the
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
-  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
+  is <a href="#read-only">read‐only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the value
   associated to this attribute.</p>
 
@@ -1286,48 +1323,77 @@ group contains the following constants:</p>
 <tbody>
 <tr>
 <th scope=row><dfn id=NO_TYPE_ATTR class=dom-const><code>NO_TYPE_ATTR</code>
-<td><code>0</code><td>No value <span class=ed>[INFOSET]</span>.</tr>
+<td><code>0</code><td><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">No
+value</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=CDATA_ATTR class=dom-const><code>CDATA_ATTR</code>
-<td><code>1</code><td><code>CDATA</code> <span class=ed>[XML]</span>.</tr>
+<td><code>1</code><td><code>CDATA</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=ID_ATTR class=dom-const><code>ID_ATTR</code>
-<td><code>2</code><td><code>ID</code> <span class=ed>[XML]</span>.</tr>
+<td><code>2</code><td><code>ID</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=IDREF_ATTR class=dom-const><code>IDREF_ATTR</code>
-<td><code>3</code><td><code>IDREF</code> <span class=ed>[XML]</span>.</tr>
+<td><code>3</code><td><code>IDREF</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=IDREFS_ATTR class=dom-const><code>IDREFS_ATTR</code>
-<td><code>4</code><td><code>IDREFS</code> <span class=ed>[XML]</span>.</tr>
+<td><code>4</code><td><code>IDREFS</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=ENTITY_ATTR class=dom-const><code>ENTITY_ATTR</code>
-<td><code>5</code><td><code>ENTITY</code> <span class=ed>[XML]</span>.</tr>
+<td><code>5</code><td><code>ENTITY</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=ENTITIES_ATTR class=dom-const><code>ENTITIES_ATTR</code>
-<td><code>6</code><td><code>ENTITIES</code> <span class=ed>[XML]</span>.</tr>
+<td><code>6</code><td><code>ENTITIES</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=NMTOKEN_ATTR class=dom-const><code>NMTOKEN_ATTR</code>
-<td><code>7</code><td><code>NMTOKEN</code> <span class=ed>[XML]</span>.</tr>
+<td><code>7</code><td><code>NMTOKEN</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=NMTOKENS_ATTR class=dom-const><code>NMTOKENS_ATTR</code>
-<td><code>8</code><td><code>NMTOKENS</code> <span class=ed>[XML]</span>.</tr>
+<td><code>8</code><td><code>NMTOKENS</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=NOTATION_ATTR class=dom-const><code>NOTATION_ATTR</code>
-<td><code>9</code><td><code>NOTATION</code> <span class=ed>[XML]</span>.</tr>
+<td><code>9</code><td><code>NOTATION</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=ENUMERATION_ATTR class=dom-const><code>ENUMERATION_ATTR</code>
-<td><code>10</code><td>Enumeration <span class=ed>[XML]</span>.</tr>
+<td><code>10</code><td>Enumeration
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
 <tr>
 <th scope=row><dfn id=UNKNOWN_ATTR class=dom-const><code>UNKNOWN_ATTR</code>
-<td><code>11</code><td>Unknown, because no declaration for the attribute
-has been read but the [all declaration processed] property
-<span class=ed>[INFOSET]</span> would be false.</tr>
+<td><code>11</code><td><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">Unknown</a>,
+because no declaration for the attribute has been read but the 
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.document">[all declaration processed]</a>
+property
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>
+would be false.</tr>
 </tbody>
 </table>
 
 <p>If no attribute type information is available, or if the source
-of the information does not distinguish <q>no value</q> and <q>unknown</q>
-<span class=ed>[INFOSET]</span>, then the value
+of the information does not distinguish 
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">no
+value</a> and
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">unknown</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>, 
+then the value
 <a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a> 
 <em class=rfc2119>MUST</em> be used.</p>
 
@@ -1339,9 +1405,14 @@ method has its <a href="#declaredType"><code>declaredType</code></a> attribute
 set to <a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</p>
 </div>
 
-<p>If the source of the information does not distinguish <q>no value</q>
-and/or <q>unknown</q> <span class=ed>[INFOSET]</span> and
-<code>CDATA</code> <span class=ed>[XML]</span>, then the value
+<p>If the source of the information does not distinguish
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">no
+value</a> and/or
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">unknown</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite> and
+<code>CDATA</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>, then the value
 <a href="#CDATA_ATTR"><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
 be used.</p>
 
@@ -1360,7 +1431,7 @@ type <code>DOMStringList</code>, read‐only</dt>
   <em class=rfc2119>MAY</em> contain zero or more ordered strings, consist of
   zero or more characters respectively, possibly with duplications.  The 
   object <em class=rfc2119>MUST</em> be read‐only if and only if the node
-  is read‐only.</p>
+  is <a href="#read-only">read‐only</a>.</p>
 
   <p>If the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
   node is created during the process to create a <abbr>DOM</abbr> from an 
@@ -1392,10 +1463,9 @@ type <code>unsigned short</code></dt>
   the value associated to this attribute.</p>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-  exception if the
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
-  is read‐only <span class=ed>@@ ref</span>.  Otherwise, it
+  is <a href="#read-only">read‐only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the value
   associated to this attribute.</p>
 
@@ -1422,15 +1492,18 @@ type <code>unsigned short</code></dt>
   <td><code>0</code><td>Unknown.</tr>
   <tr>
   <th scope=row><dfn id=FIXED_DEFAULT class=dom-const><code>FIXED_DEFAULT</code></dfn>
-  <td><code>1</code><td>Provided explicitly and fixed
-  <span class=ed>@@ ref</span> to that value.</tr>
+  <td><code>1</code><td>Provided explicitly and only the value is allowed.
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite>.</tr>
   <tr>
   <th scope=row><dfn id=REQUIRED_DEFAULT class=dom-const><code>REQUIRED_DEFAULT</code></dfn>
   <td><code>2</code><td>No default value and the attribute have to be
   explicitly specified.</tr>
   <tr>
   <th scope=row><dfn id=IMPLIED_DEFAULT class=dom-const><code>IMPLIED_DEFAULT</code></dfn>
-  <td><code>3</code><td>Implied <span class=ed>@@ ref</span>.</tr>
+  <td><code>3</code><td>Implied
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite>.</tr>
   <tr>
   <th scope=row><dfn id=EXPLICIT_DEFAULT class=dom-const><code>EXPLICIT_DEFAULT</code></dfn>
   <td><code>4</code><td>Provided explicitly.</tr>
@@ -1476,11 +1549,11 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
 read‐only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-<code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-exception if the node is read‐only <span class=ed>@@ ref</span>.
-Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the value
-associated to the attribute.  No lexical validation is performed.  The new
-value <em class=rfc2119>MAY</em> be <code>null</code>.</p>
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No lexical 
+validation is performed.  The new value <em class=rfc2119>MAY</em> be 
+<code>null</code>.</p>
 
 <dl>
 <dt><dfn id=hasReplacementTree class=dom-attr><code>hasReplacementTree</code></dfn>
@@ -1493,9 +1566,9 @@ of type boolean</dt>
   the value associated to this attribute.</p>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-  exception if the node is read‐only <span class=ed>@@ ref</span>.  
-  Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the 
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the 
   value associated to this attribute.</p>
 
   <div class="note memo">
@@ -1539,10 +1612,10 @@ of type boolean</dt>
   the value associated to this attribute.</p>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
-  <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>
-  exception if the node is read‐only <span class=ed>@@ ref</span>.  
-  Otherwise, it <em class=rfc2119>MUST</em> set the specified value as the 
-  value associated to this attribute.</p>
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value associated
+  to this attribute.</p>
 
   <p>If the <a href="#Entity"><code>Entity</code></a> node is created during
   the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document,
@@ -1578,9 +1651,23 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
 
 <dl>
 <dt id=ref-DOM3CORE>DOM3CORE</dt>
-  <dd class=ed>@@ W3C DOM Level 3 Core</dd>
-<dt id=ref-DOMDTDEF>DOMDTDEF</dt>
-  <dd class=ed>@@ manakai's extension to DOM for document type definitions</dd>
+  <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407">Document
+  Object Model (<abbr>DOM</abbr>) Level 3 Core Specification, Version 
+  1.0</a></cite>, <abbr>W3C</abbr> Recommendation, <time datetime=2004-04-07>7
+  April 2004</time>.  <em>This</em> version of the specification is referenced.
+  The latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Level-3-Core">http://www.w3.org/TR/DOM-Level-3-Core</a>></code>.</dd>
+<dt id=ref-HTML5>HTML5</dt>
+  <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
+  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
+  Working Draft.  Work in progress.</dd>
+<dt id=ref-INFOSET>INFOSET</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204"><abbr>XML</abbr>
+  Information Set (Second Edition)</a></cite>, <abbr>W3C</abbr> Recommendation,
+  <time datetime=2004-02-04>4 February 2004</time>.  <em>This</em> version of
+  the specification is referenced.  The latest version of the specification is
+  available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml-infoset">http://www.w3.org/TR/xml-infoset</a>></code>.</dd>
 <dt id="ref-KEYWORDS">KEYWORDS</dt>
   <dd><cite><a href="urn:ietf:rfc:2119">Key words for use in 
   <abbr>RFCs</abbr> to Indicate Requirement Levels</a></cite>,
@@ -1589,62 +1676,51 @@ interface <em class=rfc2119>MUST</em> be modified as following:</p>
   14</a>, <abbr title="Request for Comments">RFC</abbr> 2119, 
   <time datetime=1997-03>March 1997</time>.
   <em>This</em> version of the specification is referenced.</dd>
-<dt id=ref-INFOSET>INFOSET</dt>
-  <dd class=ed>@@</dd>
 <dt id=ref-XML10">XML10</dt>
   <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816">Extensible
   Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,
   <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
   2006</time>, edited in place <time datetime=2006-09-29>29 September
-  2006</time>.  Tje latest version of the specification is available at
-  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>&gt;</code>.
-  <em>This</em> version of the specification is referenced.</dd>
+  2006</time>.  <em>This</em> version of the specification is referenced.  The
+  latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>&gt;</code>.</dd>
 <dt id=ref-XML11>XML11</dt>
-  <dd class=ed>@@</dd>
+  <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml11-20060816/">Extensible
+  Markup Language (<abbr>XML</abbr>) 1.1 (Second Edition)</a></cite>,
+  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
+  2006</time>, edited in place <time datetime=2006-09-29>29 September
+  2006</time>.  <em>This version of the specification is referenced.  The
+  latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml11">http://www.w3.org/TR/xml11</a>></code>.</dd>
 </dl>
 </div>
 
 <div id="informative-references" class="section informative reference">
 <h3>Non‐normative References</h3>
 
-<dl class=ed>
-<dt id=ref-CSS>CSS</dt>
-  <dd><cite><a href="http://www.w3.org/TR/2007/CR-CSS21-20070719">Cascading
-  Style Sheets Level 2 Revision 1 (<abbr>CSS</abbr> 2.1)
-  Specification</a></cite>, 
-  <abbr title="World Wide Web Consortium">W3C</abbr> Candidate
-  Recommendation, <time datetime=2007-07-19>19 July 2007</time>.
-  Work in progress.  The latest version of the specification is
-  available at 
-  <code class=URI>&lt;<a href="http://www.w3.org/TR/CSS21">http://www.w3.org/TR/CSS21</a>></code>.</dd>
-<dt id=ref-CSSOM>CSSOM</dt>
-  <dd><cite><a href="http://dev.w3.org/cvsweb/~checkout~/csswg/cssom/Overview.html?rev=1.55&amp;content-type=text/html;%20charset=utf-8">Cascading
-  Style Sheets Object Model (<abbr>CSSOM</abbr>)</a></cite>,
-  <abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft,
-  <time datetime=2007-06-18>18 June 2007</time>.  Work in progress.
-  The latest Editor's Draft of the specification is available at
-  <code class=URI>&lt;<a href="http://dev.w3.org/csswg/cssom/Overview.html">http://dev.w3.org/csswg/cssom/Overview.html</a>></code>.</dd>
-<dt id=ref-HTML5>HTML5</dt>
-  <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
-  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
-  Working Draft.  Work in progress.</dd>
-<dt id=ref-SAPI>SAPI</dt>
-  <dd><cite><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/selectors-api/Overview.html?rev=1.28&amp;content-type=text/html;%20charset=utf-8">Selectors <abbr>API</abbr></a></cite>,
-  <abbr title="World Wide Web Consortium">W3C</abbr> Editor's Draft,
-  <time datetime=2007-08-29>29 August 2007</time>.  Work in progress.
-  The latest Editor's Draft of the specification is available at
-  <code class=URI>&lt;<a href="http://dev.w3.org/2006/webapi/selectors-api/Overview.html">http://dev.w3.org/2006/webapi/selectors-api/Overview.html</a>></code>.
-  The latest published version of the specification is available at
-  <code class=URI>&lt;<a href="http://www.w3.org/TR/selectors-api/">http://www.w3.org/TR/selectors-api/</a>></code>.</dd>
-<dt id=XBL2>XBL2</dt>
-  <dd><cite><a href="http://www.mozilla.org/projects/xbl/xbl2.html"><abbr>XBL</abbr>
-  2.0</a></cite>, Mozilla.org, <time datetime=2007-03-15>15 Mar 2007</time>.
-  Work in progress.  The latest
-  <abbr title="World Wide Web Consortium">W3C</abbr>‐published
-  version of the specification is available at
-  <code class=URI>&lt;<a href="http://www.w3.org/TR/xbl/">http://www.w3.org/TR/xbl/</a>></code>.</dd>
-<dt id=ref-XML5>XML5</dt>
-  <dd class=ed>@@</dd>
+<dl>
+<dt id=ref-DOM1WD>DOM1WD</dt>
+  <dd><cite><a href="http://www.w3.org/TR/WD-DOM-971209/">Document Object
+  Model Specification</a></cite>, <abbr>W3C</abbr> Working Draft,
+  <time datetime=1997-12-09>9 December 1998</time>.</dd>
+  <dd><cite><a href="http://www.w3.org/TR/WD-DOM-19980318/">Document Object
+  Model Specification</a></cite>, <abbr>W3C</abbr> Working Draft,
+  <time datetime=1998-03-18>18 March 1998</time>.</dd>
+  <dd><cite><a href="http://www.w3.org/TR/1998/WD-DOM-19980416/">Document 
+  Object Model Specification, Version 1.0</a></cite>, <abbr>W3C</abbr> Working
+  Draft, <time datetime=1998-04-16>16 April 1998</time>.</dd>
+<dt id=ref-DOM3AS>DOM3AS</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2002/NOTE-DOM-Level-3-AS-20020725/">Document
+  Object Model (<abbr>DOM</abbr>) Level 3 Abstract Schemas Specification,
+  Version 1.0</a></cite>, <abbr>W3C</abbr> Note, <time datetime=2002-07-25>25
+  July 2002</time>.  The latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Level-3-AS">http://www.w3.org/TR/DOM-Level-3-AS</a>></code>.</dd>
+<dt id=ref-XSAPI>XSAPI</dt>
+  <dd><cite><a href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/"><abbr>XML</abbr>
+  Schema <abbr>API</abbr></a></cite>, <abbr>W3C</abbr> Member Submission,
+  <time datetime=2004-03-09>9 March 2004</time>.  The latest version of the
+  specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/Submission/xmlschema-api/">http://www.w3.org/Submission/xmlschema-api/</a>></code>.</dd>
 </dl>
 </div>
 

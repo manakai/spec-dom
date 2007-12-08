@@ -10,7 +10,7 @@
 
 <div class="header">
 <h1>DOM Document Type Definition Module</h1>
-<h2>Working Draft <time datetime=2007-12-05>5 December 2007</time></h2>
+<h2>Working Draft <time datetime=2007-12-08>8 December 2007</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -331,8 +331,8 @@ following:</p>
   <dd>
     <p>If the node is an 
     <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>:
-    On getting, the attributes <em class=rfc2119>MUST</em> return the
-    name of the element type.</p>
+    On getting, the attributes <em class=rfc2119>MUST</em> return 
+    <code>null</code>.</p>
 
     <div class="note memo">
       <p>Thus, on setting the attributes does nothing
@@ -344,36 +344,10 @@ following:</p>
     <code>NO_MODIFICATION_ALLOWED_ERR</code> <span class=ed>@@ ref</span>.
     <span class=ed>@@ I forgot why this requirement is necessary.</span></p>
 
-    <p>If the node is an 
-    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:</p>
-
-    <pre class=ed>
-The getter of the [CODE(DOMa)@en[[[nodeValue]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] return the normalized default value
-of the attribute.
-
-@@
-
-[4] The getter of the [CODE(DOMa)@en[[[textContent]]]]
-attribute of an [CODE(DOMi)@en[[[AttributeDefinition]]]] 
-object [['''MUST''']] behave as if it were an
-[CODE(DOMi)@en[[[Attr]]]] object.
-
-The setter of the [CODE(DOMa)@en[[[textContent]]]] attribute
-of an [CODE(DOMi)@en[[[AttributeDefinition]]]] object
-[['''MUST''']] behave as if the following algorithm
-is performed:
-= If the [CODE(DOMi)@en[[[AttributeDefinition]]]]
-object is read-only, then throw an
-[CODE(DOMc)@en[[[NO_MODIFICATION_ALLOWED_ERR]]]].
-= Remove any child node the node has.
-= If the new value is not empty and not [CODE(IDL)@en[[[null]]]],
-then create a [CODE(DOMi)@en[[[Text]]]] node
-whose [CODE(DOMa)@en[[[data]]]] is the new value
-and append it to the [CODE(DOMi)@en[[[AttributeDefinition]]]].
-</pre>
-  </dd>
+  <p>If the node is an 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:
+  The attribute <em class=rfc2119>MUST</em> behave as if the node
+  were <code>Attr</code> <span class=ed>[DOM3]</span>.</p></dd>
 <dt><code id=normalize>normalize</code></dt>
   <dd><p>When a <a href="#DocumentType"><code>DocumentType</code></a> is
   normalized, any nodes in the <code>NamedNodeMap</code> object in the
@@ -793,7 +767,7 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   the <code>ElementTypeDefinition</code> nodes for the element types
   whose name is presented as the <code>Name</code> of the element type or
   attribute definition list declarations processed by the <abbr>XML</abbr>
-  processor.  If there is more than one element type declarations for an
+  processor.  If there are more than one element type declarations for an
   element type, then the declarations other than the first one 
   <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
   <code>NamedNodeMap</code> object.</p></dd>
@@ -963,7 +937,8 @@ method</dt>
 
 <p>The nodes of type 
 <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
-represents an element type definition.  Such a node implements the
+represents an element type definition.  Such a node 
+<em class=rfc2119>MUST</em> implement the
 <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
 interface, which extends the <a href="#Node"><code>Node</code></a> 
 interface.</p>
@@ -982,12 +957,22 @@ declaration for that element type, the <abbr>DOM</abbr> will contain an
 <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
 node for that element type.</p>
 
+<p>An <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node cannot be a child of any node.  An
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+cannot have any child node.</p>
+
 <p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
 <pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
   readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 
-  <span class=ed>@@ more</span>
+  readonly attribute NamedNodeMap <a href="#attributeDefinitions">attributeDefinitions</a>;
+  <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#getAttributeDefinitionNode">getAttributeDefinitionNode</a>
+    (in DOMString <a href="#getAttributeDefinitionNode-name"><var>name</var></a>);
+  void <a href="#setAttributeDefinitionNode">setAttributeDefinitionNode</a>
+    (in <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#setAttributeDefinitionNode-name"><var>node</var></a>)
+    raises (DOMException);
 }</code></pre>
 
 <dl>
@@ -1014,6 +999,60 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only<
   <code>NamedNodeMap</code> object that contains the node.  If there is no such
   a <a href="#DocumentType"><code>DocumentType</code></a> node,
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
+<dt><dfn id=attributeDefinitions class=dom-attr><code>attributeDefinitions</code></dfn>
+of type NamedNodeMap, read‐only</dt>
+  <dd><p>A live <code>NamedNodeMap</code> object that contains all the
+  attribute definitions belonging to the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>NamedNodeMap</code> object that contains all the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  belonging to the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
+  The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  read‐only if and only if the node is read‐only.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be live and
+  the same object <em class=rfc2119>MUST</em> be returned for any
+  invocation.</p>
+  
+  <p>If the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  is created during the process to create a <abbr>DOM</abbr> from an
+  <abbr>XML</abbr> document, the following requirements are applied:  The
+  <code>NamedNodeMap</code> object in the 
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute <em class=rfc2119>MUST</em> be so transformed that the object
+  contains the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  corresponding to the attribute definitions in the attribute definition
+  list declarations processed by the <abbr>XML</abbr> processor and
+  associated to the element type represented by the node.  If there are more
+  than one attribute definitions for an attribute, then the definitions other
+  than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
+  of constructing the <code>NamedNodeMap</code> object.</p></dd>
+<dt><dfn id=getAttributeDefinitionNode class=dom-method><code>getAttributeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Return the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getAttributeDefinitionNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the attribute.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> attribute value is
+  equal to <a href="#getAttributeDefinitionNode-name"><var>name</var></a>,
+  in the <code>NamedNodeMap</code> in the 
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute of the node.  If there is no such node, it 
+  <em class=rfc2119>MUST</em> return <code>null</code>.</p></dd>
+<dt><dfn id=setAttributeDefinitionNode class=dom-method><code>setAttributeDefinitionNode</code></dfn>,
+method</dt>
+  <dd class=ed>@@</dd>
 </dl>
 
 <div class=ed>
@@ -1028,7 +1067,8 @@ element type.</p>
 
 <p>The nodes of type 
 <a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
-represents an attribute definition.  Such a node implements the
+represents an attribute definition.  Such a node 
+<em class=rfc2119>MUST</em> implement the
 <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> interface,
 which extends the <a href="#Node"><code>Node</code></a> interface.</p>
 
@@ -1041,6 +1081,12 @@ there are more than one attribute definitions for an attribute of an element
 type in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
 <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node for 
 that attribute.</p>
+
+<p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+node cannot be a child of any node.  An
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+can have zero or more child nodes of same kinds as those allowed for
+<code>Attr</code> nodes <span class=ed>[DOM3]</span>.</p>
 
 <p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
 interface <em class=rfc2119>MUST</em> be implemented as following:</p>
@@ -1069,9 +1115,8 @@ interface <em class=rfc2119>MUST</em> be implemented as following:</p>
   readonly attribute <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#ownerElementTypeDefinition">ownerElementTypeDefinition</a>;
 
   readonly attribute unsigned short <a href="#declaredType">declaredType</a>;
+  readonly attribute DOMStringList <a href="#allowedTokens">allowedTokens</a>;
   readonly attribute unsigned short <a href="#defaultType">defaultType</a>;
-
-  <span class=ed>...</span>
 }</code></pre>
 
 <dl>
@@ -1194,6 +1239,37 @@ be used.</p>
 definition group.</p>
 
   </dd>
+<dt><dfn id=allowedTokens class=dom-attr><code>allowedTokens</code></dfn> of
+type <code>DOMStringList</code>, read‐only</dt>
+  <dd><p>The list of allowed attribute values.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>DOMStringList</code> object associated to this attribute.  The object
+  <em class=rfc2119>MAY</em> contain zero or more ordered strings, consist of
+  zero or more characters respectively, possibly with duplications.  The 
+  object <em class=rfc2119>MUST</em> be read‐only if and only if the node
+  is read‐only.</p>
+
+  <p>If the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node is created during the process to create a <abbr>DOM</abbr> from an 
+  <abbr>XML</abbr> document, the object <em class=rfc2119>MUST</em> contain
+  the names or name tokens allowed for the attribute defined by the node.
+  If the document is well‐formed, the object will be empty unless 
+  the <a href="#declaredType"><code>declaredType</code></a> is 
+  <a href="#ENUMERATION_ATTR"><code>ENUMERATION_ATTR</code></a> or
+  <a href="#NOTATION_ATTR"><code>NOTATION_ATTR</code></a>.</p>
+
+  <p>If the <a href="#declaredType"><code>declaredType</code></a> is different
+  from <a href="#ENUMERATION_ATTR"><code>ENUMERATION_ATTR</code></a> or
+  <a href="#NOTATION_ATTR"><code>NOTATION_ATTR</code></a>, this attribute
+  <em class=rfc2119>MUST</em> be ignored for the purpose of serializing
+  into (part of) <abbr>XML</abbr> document.</p>
+
+  <div class="note memo">
+    <p>When serializing the node it should be noted that the object might
+    be empty, might contain duplications, and might contain strings that are
+    not names or name tokens.</p>
+  </div></dd>
 <dt><dfn id=defaultType class=dom-attr><code>defaultType</code></dfn> of
 type <code>unsigned short</code></dt>
   <dd><p>The type of the default for the attribute.  It is expected that this 

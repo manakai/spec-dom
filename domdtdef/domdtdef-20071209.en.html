@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en" class="formal-specification"><!-- status-work-in-progress"-->
+<head>
+<title>DOM Document Type Definition Module</title>
+<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
+<link rel="stylesheet" href="http://suika.fam.cx/www/style/def/dom">
+<link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
+</head>
+<body class="has-abstract">
+
+<div class="header">
+<h1>DOM Document Type Definition Module</h1>
+<h2>First Edition <!-- Working Draft -->
+<time datetime=2007-12-09>9 December 2007</time></h2>
+
+<dl class="versions-uri">
+<dt>This Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
+      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
+<!--
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
+      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
+-->
+<dt>Latest Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef"
+      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
+<dt>Latest Working Draft</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
+      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
+<!-- <dt>Previous Version</dt> -->
+<dt>Version History</dt>
+  <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html</a>&gt;</code></dd>
+<dt id=author>Author</dt>
+  <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
+      lang=ja>Wakaba</a>
+  <code class="mail">&lt;<a href="mailto:w@suika.fam.cx" rel="author"
+      >w@suika.fam.cx</a>&gt;</code></dd>
+</dl>
+
+<p class="copyright" lang="en">&#xA9; <time>2007</time> <a
+    href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the <a rel="license"
+href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
+Version 1.2
+or any later version published by the <a
+href="http://www.fsf.org/">Free Software Foundation</a>;
+with no Invariant Sections, no Front‐Cover Texts, and no Back‐Cover
+Texts.  A copy of the license is
+available at <code class="URI">&lt;<a
+    href="http://www.gnu.org/copyleft/fdl.html"
+    rel="license">http://www.gnu.org/copyleft/fdl.html</a>&gt;</code>.</p>
+</div>
+
+<div id="abstract" class="section">
+<h2>Abstract</h2>
+
+<p>The <abbr>DOM</abbr> Document Type Definition module is a set of 
+<abbr>DOM</abbr> interfaces, including both new interfaces and modifications 
+to existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr> 
+applications are able to access to the definitions of the document type.</p>
+</div>
+
+<div id="status" class="section">
+<h2>Status of This Document</h2>
+
+<p class=section-info>This section describes the status of this document at the
+time of its publication.  Other documents might supersede this document.</p>
+
+<p>This document is a specification<!-- working draft -->, 
+produced as part of the 
+<a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> project.  
+It might be updated, replaced, or obsoleted by other documents at any time.  
+<!-- It is inappropriate to cite this document as other than 
+<q>work in progress</q>. --></p>
+
+<p>Comments on this document are welcome and
+may be sent to the <a href="#author">author</a>.</p>
+
+<p>Translations of this document might be available.
+The English version of the document is the only
+normative version.</p>
+</div>
+
+<div id="introduction" class="section">
+<h2>Introduction</h2>
+
+<p class=section-info>This section is <em>non‐normative</em>.</p>
+
+<p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type Definition</dfn>
+module is a set of <abbr>DOM</abbr> interfaces, including both new
+interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
+over which <abbr>DOM</abbr> applications are able to access to the
+definitions of the document type.</p>
+
+<p>Interfaces defined in this document are partially modeled and inspired by
+early drafts of <abbr>DOM</abbr> Level 1
+<cite class="bibref informative">[<a href="#ref-DOM1WD">DOM1WD</a>]</cite>,
+<abbr>DOM</abbr> Level 3 Abstract Schemas <abbr>W3C</abbr> Note
+<cite class="bibref informative">[<a href="#ref-DOM3AS">DOM3AS</a>]</cite>,
+and <abbr>XML</abbr> Schema <abbr>API</abbr> specification
+<cite class="bibref informative">[<a href="#ref-XSAPI">XSAPI</a>]</cite>, but 
+they are not compatible with any of them as a whole.</p>
+</div>
+
+<div class="section" id=conformance>
+<h2>Conformance Requirements</h2>
+
+<div class=section id=terminology>
+<h3>Terminology</h3>
+
+<p>All examples and notes in this specification are non‐normative,
+as are all sections explicitly marked non‐normative.</p>
+
+<p class=ed>Known issues are marked like this.  They are non‐normative.  <!--
+However, this paragraph itself is normative.  One may argue that this paragraph
+is non‐normative, because this paragraph is marked as an editor's note. 
+Anyway, the other editor's notes are non‐normative. --></p>
+
+<p>Everything else in this document is normative.</p>
+
+<p>The key words <q><em class="rfc2119">MUST</em></q>,
+<q><em class="rfc2119">MUST NOT</em></q>, and <q><em class=rfc2119>MAY</em></q>
+in this document are to be interpreted as described in 
+<a href="urn:ietf:rfc:2119"><abbr title="Request for Comments">RFC</abbr> 
+2119</a>
+<cite class="bibref normative">[<a href="#ref-KEYWORDS">KEYWORDS</a>]</cite>.</p>
+
+<p>Conformance requirements phrased as algorithms or specific steps 
+<em class=rfc2119>MAY</em> be implemented in any manner, so long as the end
+result is equivalent.  Requirements phrased in the imperative as part of 
+algorithms are to be interpreted with the meaning of the key word used in 
+introducing the algorithm.</p>
+
+<p>Sometimes an exception is phrased as being required to be raised.  As
+specified in the <abbr>DOM</abbr> Core specification
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>,
+when the value of the <code>strictErrorChecking</code> attribute of the
+<a href="#Document"><code>Document</code></a> node is <code>false</code>,
+then the exception is not have to be raised.</p>
+
+<p>Some conformance requirements are phrased as requirements on interfaces,
+attributes, methods, or objects.  Such requirements are applied to
+implementations.</p>
+
+<p>The construction <q>a <code><var>Foo</var></code> object</q>, where
+<code><var>Foo</var></code> is an interface, is used instead of the more
+accurate <q>an object implementing the interface 
+<code><var>Foo</var></code></q>.</p>
+
+<p>The construction <q>raise a <code><var>Bar</var></code></q>, where
+<code><var>Bar</var></code> is an exception code, is used instead of the more
+accurate <q>raise an exception implementing the interface
+<code>DOMException</code> 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite> 
+with its <code>code</code> attribute set to 
+<code><var>Bar</var></code></q>.</p>
+
+<p>The terms
+<em id=live><a href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>
+and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
+is defined in the HTML5 specification
+<cite class="bibref normative">[<a href="#ref-HTML5">HTML5</a>]</cite>.</p>
+
+<p>The term 
+<em id=read-only><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-readonly-node">read‐only (node)</a></em>
+is defined in the <abbr>DOM</abbr> Level 3 Core specification
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
+
+<p>The <em id=idl-fragment><abbr>IDL</abbr> fragments</em> in this document are
+to be interpreted as described in the <cite>Language Bindings for 
+<abbr>DOM</abbr> Specifications</cite> specification
+<cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.</p>
+
+<p>Some <abbr>IDL</abbr> fragments are presented as <i>patch</i> to an
+<abbr>IDL</abbr> fragment defined in another document.  They are to be
+interpreted as an instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMembers"><code>InterfaceMembers</code></a>
+<cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.
+If the <abbr>IDL</abbr> fragment to which the <i>patch</i> is applied has any 
+instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+with same 
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#prod-identifier"><code>identifier</code></a>
+part as that of any instance of 
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+in the <i>patch</i>, then the former instance of
+<a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
+<em class=rfc2119>MUST</em> be ignored.</p>
+</div>
+
+<div class=section id=conformance-categories>
+<h3>Conformance Categories</h3>
+
+<p>There are several kinds of products that can be claim to conform to
+this specification:</p>
+<dl>
+<dt id=category-dom-implementation><abbr>DOM</abbr> Implementation</dt>
+  <dd>A <abbr>DOM</abbr> implementation (or just written as 
+  <q>implementation</q> in this document) provides a way to access
+  <abbr>DOM</abbr> trees for applications by implementing interfaces defined 
+  by this and other documents.  Unless otherwise noted, requirements in this
+  document are applied to <abbr>DOM</abbr> implementations.  To implement
+  all the features in this document, the implementation have to implement
+  some version of <abbr>DOM</abbr> Core (e.g. <abbr>DOM</abbr> Level 3 Core
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>)
+  with one or more language binding (e.g. ECMAScript and Java bindings
+  <cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>
+  or Perl binding
+  <cite class="bibref normative">[<a href="#ref-DOMPERL">DOMPERL</a>]</cite>).
+  A conforming implementation <em class=rfc2119>MUST</em> also be a 
+  <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#dfn-conforming-implementation">conforming
+  implementation</a> of the <abbr>IDL</abbr> fragments in this document, as
+  described in the <cite>Language Bindings for <abbr>DOM</abbr>
+  Specifications</cite> specification
+  <cite class="bibref normative">[<a href="#ref-DOMBIND">DOMBIND</a>]</cite>.</dd>
+<dt id=category-xml-parser><abbr>XML</abbr> Parser (<abbr>XML</abbr> document
+to <abbr>DOM</abbr> tree converter)</dt>
+  <dd>A software component that converts
+  <abbr>XML</abbr> 1.0 or 1.1 document
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> (or fragment thereof) into a 
+  <abbr>DOM</abbr> tree (or fragment thereof) in the context of this
+  document.  Note that this document does not define any particular way to
+  parse an <abbr>XML</abbr> document or to construct an <abbr>DOM</abbr>
+  document, but it defines constraints for such processing.</dd>
+<dt id=category-xml-serializer><abbr>XML</abbr> Serializer (<abbr>DOM</abbr>
+tree to <abbr>XML</abbr> document converter)</dt>
+  <dd>A software component that converts 
+  <abbr>DOM</abbr> tree (or fragment thereof) into an <abbr>XML</abbr> 1.0 or
+  1.1 document (or fragment thereof).  Note that this document does not define
+  any particular way to serialize a <abbr>DOM</abbr> tree, but it defines
+  constraints for such processing.</dd>
+<dt id=category-infoset-dom><abbr>XML</abbr> Information Set to
+<abbr>DOM</abbr> Tree Converter</dt>
+  <dd>A software component that converts an <abbr>XML</abbr> information set
+  <cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>
+  into a <abbr>DOM</abbr> tree.  Note that this document does not define
+  any particular way for the conversion, but it defines constraints for
+  such processing.</dd>
+<dt id=category-dom-infoset><abbr>DOM</abbr> Tree to <abbr>XML</abbr>
+Information Set Converter</dt>
+  <dd>A software component that converts a <abbr>DOM</abbr> tree into 
+  an <abbr>XML</abbr> information set.  Note that this document does not define
+  any particular way for the conversion, but it defines constraints for
+  such processing.</dd>
+</dl>
+</div>
+</div>
+
+<div class=section id=dom-dtdef>
+<h2><abbr>DOM</abbr> Document Type Definition Module</h2>
+
+<p>The <abbr>DOM</abbr> Document Type Definition module, version 3.0, 
+introduces four interfaces:
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a>,
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>,
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+and <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>.
+In addition, it modifies existing interfaces 
+<a href="#Node"><code>Node</code></a>,
+<a href="#Document"><code>Document</code></a>,
+<a href="#DocumentType"><code>DocumentType</code></a>,
+<a href="#Entity"><code>Entity</code></a>, and
+<a href="#Notation"><code>Notation</code></a>
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
+
+<div class=section id=features>
+<h3>Feature String</h3>
+
+<p>In a <abbr>DOM</abbr> implementation that supports the version 3.0 of 
+the <abbr>DOM</abbr> Document Type Definition module, the 
+<code>hasFeature</code> method of a <code>DOMImplementation</code> object 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
+<em class=rfc2119>MUST</em> return <code>true</code> when the parameters are
+set to 
+<dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
+and <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn> respectively.  Any 
+method that takes one or more feature names, with or without version number, 
+such as <code>hasFeature</code> or <code>getFeature</code>, 
+<em class=rfc2119>MUST</em> behave in a manner consistent with it.</p>
+</div>
+
+<div class=section id=section-node>
+<h3>Modifications to the <code id=Node>Node</code> Interface</h3>
+
+<p>The implementation of the 
+<a href="#Node"><code>Node</code></a> interface
+<em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>// Additions to the Node interface
+
+// Additions to the NodeType definition group
+const unsigned short <a href="#ELEMENT_TYPE_DEFINITION_NODE">ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
+const unsigned short <a href="#ATTRIBUTE_DEFINITION_NODE">ATTRIBUTE_DEFINITION_NODE</a> = 81002;
+</pre>
+
+<p>This specification adds two new types (subinterfaces) of 
+<a href="#Node"><code>Node</code></a>: element type definition (node type 
+<a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>,
+interface
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>) and
+attribute definition (node type
+<a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>,
+interface
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a>).  For
+these kinds of nodes, methods and attributes in the 
+<a href="#Node"><code>Node</code></a> interface must behave as following:</p>
+
+<dl>
+<dt><code id=attributes>attributes</code>,
+<code id=localName>localName</code>,
+<code id=namespaceURI>namespaceURI</code>, and
+<code id=prefix>prefix</code></dt>
+  <dd>
+    <p>On getting, the attributes <em class=rfc2119>MUST</em> return
+    <code>null</code>.</p>
+  </dd>
+<dt><code id=baseURI>baseURI</code></dt>
+  <dd>
+    <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+    value of the <a href="#baseURI"><code>baseURI</code></a> attribute
+    of the node in the <code>ownerDocument</code> attribute of the node.
+    Note that the value might be <code>null</code>.</p>
+  </dd>
+<dt><code id=cloneNode>cloneNode</code></dt>
+  <dd class=ed>
+    <p>A future version of the specification is expected to define the
+    behavior of the <a href="#cloneNode"><code>cloneNode</code></a> method
+    for those kinds of nodes.  In addition, it might revise behavior of 
+    the method for <a href="#Entity"><code>Entity</code></a>, 
+    <a href="#Notation"><code>Notation</code></a>, and/or
+    <a href="#DocumentType"><code>DocumentType</code></a> nodes.</p>
+  </dd>
+  <!--
+  <dd class=ed>@@ If Attr and AttributeDefinition is inconsistent, then ...</dd>
+  -->
+<dt><code id=compareDocumentPosition>compareDocumentPosition</code></dt>
+  <dd class=ed>
+    <p>A future version of the specification is expected to define the
+    behavior of the method
+    for those kinds of nodes.  In addition, it might revise behavior of
+    the method for <a href="#Entity"><code>Entity</code></a>,
+    <a href="#Notation"><code>Notation</code></a>, and/or
+    <a href="#DocumentType"><code>DocumentType</code></a> nodes.</p>
+  </dd>
+<dt><code id=isDefaultNamespace>isDefaultNamespace</code></dt>
+  <dd><p>When invoked, the method <em class=rfc2119>MUST</em> return
+  <code>false</code>.</p></dd>
+<dt><code id=isEqualNode>isEqualNode</code></dt>
+  <dd><p>For the <a href="#isEqualNode"><code>isEqualNode</code></a> method, 
+  following items are added to the list of conditions for equality:</p>
+
+  <ul>
+  <li>
+    <p>If the nodes are <a href="#DocumentType"><code>DocumentType</code></a>
+    and at least one of them has the support for the feature
+    <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>:</p>
+    <ul>
+    <li>they are equal according to <abbr>DOM</abbr> Level 3 Core definition
+    <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>,
+    and
+    <li>either:
+      <ul><!--
+      <li>both of them does not support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>,</li>-->
+      <li>exactly one of them support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+      and the <code>length</code> attribute of the <code>NamedNodeMap</code> 
+      object in the <a href="#elementTypes"><code>elementTypes</code></a> 
+      attribute of it is equal to <code>0</code>, or</li>
+      <li>both of them support the feature
+      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+      and the values of the
+      <a href="#elementTypes"><code>elementTypes</code></a> attributes are
+      equal (equality of the
+      <a href="#elementTypes"><code>elementTypes</code></a> attribute is same
+      as that for the <code>attributes</code> attribute).</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+
+  <li><p>If the nodes are
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+  the values of the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attributes are equal (equality of the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute is same as that for the <code>attributes</code> attribute).</p></li>
+
+  <li><p>If the nodes are 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>,
+  the values of the <a href="#declaredType"><code>declaredType</code></a> and
+  the <a href="#defaultType"><code>defaultType</code></a> attributes are
+  equal respectively.</p></li>
+
+  <li><p>If the nodes are
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>,
+  the values of the <code>DOMStringList</code> objects in the
+  <a href="#allowedTokens"><code>allowedTokens</code></a> attributes
+  are equal, i.e. their <code>length</code> attribute values are equal and
+  each string exists in a list is contained in another list (their indecies
+  may be different), with an additional constraint that the number of the
+  items that are equal to a string in a list is equal to the number
+  of the items equal to the string in another list.</p></li>
+  </ul></dd>
+<dt><code id=manakaiLocalName>manakaiLocalName</code>
+<cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
+  <dd><p class=section-info>This entry is applied only to implementations
+  that support this attribute.</p>
+
+  <p>On getting, the attributes <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><code id=lookupNamespaceURI>lookupNamespaceURI</code> and
+<code id=lookupPrefix>lookupPrefix</code></dt>
+  <dd><p>When invoked, the methods <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><code id=nodeName>nodeName</code></dt>
+  <dd>
+    <p>If the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>:
+    On getting, the attribute <em class=rfc2119>MUST</em> return the
+    name of the element type definition represented by the node.</p>
+
+    <p>If the node is an 
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:
+    On getting, the attribute <em class=rfc2119>MUST</em> return the
+    name of the attribute definition represented by the node.</p>
+  </dd>
+<dt><code id=nodeType>nodeType</code></dt>
+  <dd>
+    <p>On getting, the attribute <!--<em class=rfc2119>MUST</em>--> returns
+    <!-- NOTE: No MUST, to avoid circular reference (nodeType==8100[12]
+    is defined that they MUST implement ElementType|AttributeDefinition). -->
+    <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
+    (if the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>) or
+    <a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
+    (if the node is an
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>).</p>
+
+    <!-- NodeType -->
+<p>Two constants are added to the <code id=NodeType>NodeType</code>
+definition group of the <a href="#Node"><code>Node</code></a> interface as
+following:</p>
+<table>
+<thead>
+<tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+</thead>
+<tbody>
+<tr>
+<th scope=row><dfn id=ELEMENT_TYPE_DEFINITION_NODE class=dom-const><code>ELEMENT_TYPE_DEFINITION_NODE</code></dfn>
+<td><code>81001</code><td>The node is an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>.</tr>
+<tr>
+<th scope=row><dfn id=ATTRIBUTE_DEFINITION_NODE class=dom-const><code>ATTRIBUTE_DEFINITION_NODE</code></dfn>
+<td><code>81002</code><td>The node is an 
+<a href="#ElementTypeDefinition"><code>AttributeDefinition</code></a>.</tr>
+</tbody>
+</table>
+  </dd>
+<dt><code id=nodeValue>nodeValue</code> and 
+<code id=textContent>textContent</code></dt>
+  <dd>
+    <p>If the node is an 
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>:
+    On getting, the attributes <em class=rfc2119>MUST</em> return 
+    <code>null</code>.</p>
+
+  <div class="note memo">
+  <p>Thus, on setting the attributes does nothing
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
+  </div>
+
+  <p>If the node is an 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>:
+  The attribute <em class=rfc2119>MUST</em> behave as if the node
+  were <code>Attr</code>
+  <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p></dd>
+<dt><code id=normalize>normalize</code></dt>
+  <dd><p>When a <a href="#DocumentType"><code>DocumentType</code></a> is
+  normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute
+  <em class=rfc2119>MUST</em> be normalized as well.</p>
+
+  <p>When an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  is normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a> 
+  attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
+</dl>
+
+</div>
+
+<div class=section id=section-document>
+<h3>Modifications to the <code id=Document>Document</code> Interface</h3>
+
+<!--
+<p>If an attempt is made to adopt an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
+the <code id=adoptNode>adoptNode</code> method <em class=rfc2119>MUST</em>
+raise a <code>NOT_SUPPORTED_ERR</code> exception <span class=ed>@@ 
+ref</span>.</p>
+-->
+
+<div class=ed>
+<p>Future version of the specification is expected to define what should
+be done if <code>adoptNode</code> or <code>importNode</code> method have to
+adopt or import an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node.
+In addition it might revise behavior of those methods for 
+<a href="#Entity"><code>Entity</code></a>, 
+<a href="#Notation"><code>Notation</code></a>, and/or
+<a href="#DocumentType"><code>DocumentType</code></a> nodes.
+Behavior of <code>normalizeDocument</code> method for these kinds of
+nodes might also be defined in some day.</p>
+</div>
+
+</div>
+
+<div class=section id=section-documentxdoctype>
+<h3>The <code>DocumentXDoctype</code> Interface</h3>
+
+<p>The <a href="#Document"><code>Document</code></a> nodes 
+<em class=rfc2119>MUST</em> also implement the 
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface.</p>
+
+<p>An instance of the 
+<a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a>
+interface <em class=rfc2119>MUST</em> be able to be obtained by using 
+binding‐specific casting methods on an instance of the 
+<a href="#Document"><code>Document</code></a> interface (if such
+casting methods are available) or by using the method <code>getFeature</code> 
+with parameter values
+<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
+<a href="#Document"><code>Document</code></a> node supports the
+feature <code>Core</code> version <code>3.0</code> 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
+
+<p>The <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a> interface 
+<em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>interface <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> {
+  DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
+    (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#createElementTypeDefinition">createElementTypeDefinition</a>
+    (in DOMString <a href="#createElementTypeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#createAttributeDefinition">createAttributeDefinition</a>
+    (in DOMString <a href="#createAttributeDefinition-name"><var>name</var></a>)
+    raises (DOMException);
+  <a href="#Entity">Entity</a> <a href="#createGeneralEntity">createGeneralEntityDefinition</a>
+    (in DOMString <a href="#createGeneralEntity-name"><var>name</var></a>)
+    raises (DOMException);
+  <a href="#Notation">Notation</a> <a href="#createNotation">createNotation</a>
+    (in DOMString <a href="#createNotation-name"><var>name</var></a>)
+    raises (DOMException);
+}</code></pre>
+
+<dl>
+<dt><dfn id=createDocumentTypeDefinition class=dom-method><code>createDocumentTypeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>DocumentType</code> node with the specified
+    name, belonging to the document.</p>
+    <p>The
+    <dfn id=createDocumentTypeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the document type.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and
+    return a <a href="#DocumentType"><code>DocumentType</code></a> node with
+    the following attributes:</p>
+    <dl>
+    <dt><code>attributes</code>, <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><a href="#elementTypes"><code>elementTypes</code></a>,
+    <a href="#entities"><code>entities</code></a>, and
+    <a href="#notations"><code>notations</code></a></dt>
+      <dd>Empty <code>NamedNodeMap</code> objects respectively.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><a href="#internalSubset"><code>internalSubset</code></a>, 
+    <a href="#publicId"><code>publicId</code></a>, and
+    <a href="#systemId"><code>systemId</code></a></dt>
+      <dd>Empty strings.</dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createDocumentTypeDefinition-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <a href="#Document"><code>Document</code></a> node over which the
+      method is invoked.</dd>
+    </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
+    <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
+    containing five general entity declarations: <code>amp</code>,
+    <code>lt</code>, <code>gt</code>, <code>quot</code>, and
+    <code>apos</code>.</p>
+  </dd>
+<dt><dfn id=createElementTypeDefinition class=dom-method><code>createElementTypeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>ElementTypeDefinition</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createElementTypeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the element type defined by the element
+    type definition.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and 
+    return an
+    <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+    node with the following attributes:</p>
+    <dl>
+    <dt><a href="#attributeDefinitions"><code>attributeDefinitions</code></a></dt>
+      <dd>An empty <code>NamedNodeMap</code> object.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><a href="#nodeName"><code>nodeName</code></a></dt>
+      <dd><a href="#createElementTypeDefinition-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
+  </dd>
+<dt><dfn id=createAttributeDefinition class=dom-method><code>createAttributeDefinition</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>AttributeDefinition</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createAttributeDefinition-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the attribute defined by the attribute
+    definition.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and 
+    return an
+    <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+    node with the following attributes:</p>
+    <dl>
+    <dt><a href="#allowedTokens"><code>allowedTokens</code></a></dt>
+      <dd>An empty <code>DOMStringList</code> object.</dd>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><a href="#declaredType"><code>declaredType</code></a></dt>
+      <dd><a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</dd>
+    <dt><a href="#defaultType"><code>defaultType</code></a></dt>
+      <dd><a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</dd>
+    <dt><a href="#nodeName"><code>nodeName</code></a></dt>
+      <dd><a href="#createAttributeDefinition-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    </dl>
+    <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+    <a href="#read-only">read‐only</a>.</p>
+
+    <!-- This requirement, if not droped, should be part of xml-id spec.
+    <div class=ed>
+    <p>@@ Should we keep these statements?: 
+However, if the &lt;cfg::cfg|xml-id> configuration
+parameter is set to <code>true</code> and the <var>name</var>
+is <code>xml:id</code>, then the [CODE(DOMa)@en[[[declaredType]]]]
+attribute is set to <code>ID_ATTR</code>.
+[CODE(DOMa)@en[[[defaultType]]]]?</p>
+    </div>-->
+  </dd>
+<dt><dfn id=createGeneralEntity class=dom-method><code>createGeneralEntity</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <a href="#Entity"><code>Entity</code></a> node
+    with the specified name, which represents a general entity, belonging to
+    the document.</p>
+    <p>The <dfn id=createGeneralEntity-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the general entity.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
+    an <a href="#Entity"><code>Entity</code></a> node with the following
+    attributes:</p>
+    <dl>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><code>manakaiDeclarationBaseURI</code>,
+    <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
+    <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
+      <dd><p class=section-info>This entry is applied only to implementations
+      that support these attributes.</p>
+
+      <p>No explicit value is set.</p></dd>
+    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a> and
+    <a href="#isExternallyDeclared"><code>isExternallyDeclared</code></a></dt>
+      <dd><p><code>false</code>.</p></dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createGeneralEntity-name"><var>name</var></a>.</dd>
+      <dd>
+        <div class="note memo">
+          <p>It is not an error for
+          <a href="#createGeneralEntity-name"><var>name</var></a> matching
+          to the name of one of predefined general parsed entities in
+          <abbr>XML</abbr> or <abbr>HTML</abbr>.  For example, 
+          <a href="#createGeneralEntity-name"><var>name</var></a> might be
+          <code>amp</code>, resulting in an
+          <a href="#Entity"><code>Entity</code></a> node
+          with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
+        </div>
+      </dd>
+    <dt><a href="#notationName"><code>notationName</code></a>,
+    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+    <dt><a href="#publicId"><code>publicId</code></a> and 
+    <a href="#systemId"><code>systemId</code></a></dt>
+      <dd><code>null</code>.</dd>
+      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+    </dl>
+  <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+  <a href="#read-only">read‐only</a>.</p></dd>
+<dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
+method</dt>
+  <dd>
+    <p>This method creates a <code>Notation</code> node with the
+    specified name, belonging to the document.</p>
+    <p>The <dfn id=createNotation-name class=dom-param><var>name</var></dfn>
+    parameter is the name of the notation.</p>
+
+    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
+    a <code>Notation</code> node with the following attributes:</p>
+    <dl>
+    <dt><code>childNodes</code></dt>
+      <dd>An empty <code>NodeList</code> object.</dd>
+    <dt><code>manakaiDeclarationBaseURI</code>
+    <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
+      <dd><p class=section-info>This entry is applied only to implementations
+      that support these attributes.</p>
+
+      <p>No explicit value is set.</p></dd>
+    <dt><code>nodeName</code></dt>
+      <dd><a href="#createNotation-name"><var>name</var></a>.</dd>
+    <dt><code>ownerDocument</code></dt>
+      <dd><p>The <a href="#Document"><code>Document</code></a> node over which
+      the method is invoked.</p></dd>
+    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+    and <code>parentNode</code></dt>
+      <dd><code>null</code>.</dd>
+    <dt><a href="#publicId"><code>publicId</code></a> and
+    <a href="#systemId"><code>systemId</code></a></dt>
+      <dd><code>null</code>.</dd>
+      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+    </dl>
+  <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
+  <a href="#read-only">read‐only</a>.</p></dd>
+</dl>
+
+<p>These methods <em class=rfc2119>MUST</em> raise an
+<code>INVALID_CHARACTER_ERR</code> if <var>name</var> is <em>not</em> a legal 
+<code>Name</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite> according to the <abbr>XML</abbr> 
+version specified in the <code>xmlVersion</code> attribute of the 
+<a href="#Document"><code>Document</code></a> node.</p>
+
+<div class="note memo">
+<p>Non‐<abbr>XML</abbr> case is intentionally left unspecified for now,
+since <abbr>DOM</abbr> Level 3 Core specification
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
+does not define it for <a href="#Document"><code>Document</code></a> 
+methods.</p>
+
+<p><var>name</var> does not have to be a namespace qualified name.</p>
+</div>
+
+</div>
+
+
+<div class=section id=section-documenttype>
+<h3>Modifications to the <code id=DocumentType>DocumentType</code> 
+Interface</h3>
+
+<p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
+<em class=rfc2119>MAY</em> contain zero or more
+<code>ProcessingInstruction</code> nodes in the <code>NodeList</code> object 
+contained in the <code>childNodes</code> attribute of the 
+<a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<p>If the <a href="#DocumentType"><code>DocumentType</code></a> node is created
+during the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr>
+document, the <code>NodeList</code> object in the <code>childNodes</code> 
+object <em class=rfc2119>MUST</em> contains the 
+<code>ProcessingInstruction</code> nodes representing the processing 
+instructions in the document type definition of the document processed
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor.  If
+the <a href="#DocumentType"><code>DocumentType</code></a> node is marked as 
+<a href="#read-only">read‐only</a>, then all the child nodes 
+<em class=rfc2119>MUST</em> also be marked as 
+<a href="#read-only">read‐only</a>.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
+from a
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.doctype">document
+type declaration information item</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>,
+the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the node <em class=rfc2119>MUST</em> contain the
+<code>ProcessingInstruction</code> nodes created from any
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.pi">processing
+instruction information items</a> in the list in the [children] property of the
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.doctype">document
+type declaration item</a> in the same order.</p>
+
+<p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is mapped to
+a document type declaration information item, the list in the [children] 
+property <em class=rfc2119>MUST</em> contain the processng instruction
+information items created from the <code>ProcessingInstruction</code> nodes
+in the <code>NodeList</code> object in the <code>childNodes</code> attribute
+of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+<p>The implementation of the 
+<a href="#DocumentType"><code>DocumentType</code></a> interface
+<em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>// Modifications to the DocumentType interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+
+  attribute DOMString <a href="#internalSubset">internalSubset</a>;
+</code></pre>
+
+<p>The <code id=publicId>publicId</code> attribute and the 
+<code id=systemId>systemId</code> attribute of
+<a href="#DocumentType"><code>DocumentType</code></a>,
+<a href="#Entity"><code>Entity</code></a>, and
+<a href="#Notation"><code>Notation</code></a> interfaces are no longer
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No 
+normalization, relative reference resolution, or lexical validation is 
+performed. <span class=ed>@@ If the new value is <code>null</code>, should an 
+empty string be set?</span></p>
+
+<div class="note memo">
+<p>Setting an invalid identifier might make the node unserializable.
+Setting a public identifier while leaving system identifier unspecified 
+would also make the <a href="#DocumentType"><code>DocumentType</code></a>
+or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
+</div>
+
+<div class=ed>
+<p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
+</div>
+
+<p>The <code id=internalSubset>internalSubset</code> attribute of the
+<a href="#DocumentType"><code>DocumentType</code></a> interface is no longer
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No 
+normalization, or lexical validation is performed.  <span class=ed>@@ If the 
+new value is <code>null</code>, should an empty string be set?</span></p>
+
+</div>
+
+<div class=section id=section-documenttypedefinition>
+<h3>The <code>DocumentTypeDefinition</code> Interface</h3>
+
+<p>The <a href="#DocumentType"><code>DocumentType</code></a> nodes 
+<em class=rfc2119>MUST</em> also implement the
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+interface.</p>
+
+<p>An instance of the 
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+interface <em class=rfc2119>MUST</em> be able to be obtained by using 
+binding‐specific casting methods on an instance of the 
+<a href="#DocumentType"><code>DocumentType</code></a> interface (if such
+casting methods are available) or by using the method <code>getFeature</code> 
+with parameter values
+<a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
+and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the 
+<a href="#DocumentType"><code>DocumentType</code></a> node supports the
+feature <code>Core</code> version <code>3.0</code> 
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
+
+<p>The 
+<a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>interface <dfn id=DocumentTypeDefinition><code>DocumentTypeDefinition</code></dfn> {
+  readonly attribute NamedNodeMap <a href="#elementTypes">elementTypes</a>;
+  readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
+  readonly attribute NamedNodeMap <a href="#notations">notations</a>;
+
+  <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#getElementTypeDefinitionNode">getElementTypeDefinitionNode</a>
+    (in DOMString <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>);
+  <a href="#Entity">Entity</a> <a href="#getGeneralEntityNode">getGeneralEntityNode</a>
+    (in DOMString <a href="#getGeneralEntityNode-name"><var>name</var></a>);
+  <a href="#Notation">Notation</a> <a href="#getNotationNode">getNotationNode</a>
+    (in DOMString <a href="#getNotationNode-name"><var>name</var></a>);
+
+  void <a href="#setElementTypeDefinitionNode">setElementTypeDefinitionNode</a>
+    (in DOMString <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>)
+    raises (DOMException);
+  void <a href="#setGeneralEntityNode">setGeneralEntityNode</a>
+    (in DOMString <a href="#setGeneralEntityNode-node"><var>node</var></a>)
+    raises (DOMException);
+  void <a href="#setNotationNode">setNotationNode</a>
+    (in DOMString <a href="#setNotationNode-node"><var>node</var></a>)
+    raises (DOMException);
+}</code></pre>
+
+<dl>
+<dt><dfn id=elementTypes class=dom-attr><code>elementTypes</code></dfn> of
+type <code>NamedNodeMap</code>, read‐only</dt>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the element type definitions belonging to the 
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>NamedNodeMap</code> object that contains all the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  nodes belonging to the <code>DocumentType</code> node.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read‐only
+  if and only if the node is <a href="#read-only">read‐only</a>.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  <a href="#live">live</a>.</p>
+
+  <p>If the <code>DocumentType</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
+  requirements are applied:  The <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementType</code></a> attribute 
+  <em class=rfc2119>MUST</em> be so transformed that the object contains
+  the <code>ElementTypeDefinition</code> nodes for the element types
+  whose name is presented as the <code>Name</code> of the element type or
+  attribute definition list declarations processed
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr>
+  processor.  If there are more than one element type declarations for an
+  element type, then the declarations other than the first one 
+  <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
+  <code>NamedNodeMap</code> object.</p></dd>
+<dt><dfn id=generalEntities class=dom-attr><code>generalEntities</code></dfn>
+of type <code>NamedNodeMap</code>, read‐only</dt>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the general entities belonging to the 
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+  
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
+  same value as the <code id=entities>entities</code> attribute (defined in the
+  <a href="#DocumentType"><code>DocumentType</code></a> interface) of the same
+  node.</p>
+
+  <div class="note memo">
+    <p>This attribute is part of the interface for historical reason.</p>
+  </div></dd>
+<!--
+All entities declared in the document type definition
+contained in or referenced from the document entity
+might not be exposed through this collection, depending
+on the information provided by the XML processor for
+the DOM implementation.  In particular, it might not
+contain any entity if entity references are expanded
+at the parse time.  An implementation [['''MUST NOT''']]
+expose an [CODE(DOMi)@en[[[Entity]]]] node whose [CODE(DOMa)@en[[[nodeName]]]]
+is equal to the name of one of five predefined general entities in
+XML through the collection as the result of parsing of an XML
+document that has no error.  Duplicate entity declarations are also discarded.
+
+The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object that contains all the [CODE(DOMi)@en[[[Entity]]]] nodes
+representing general entities belong to the node.  The returned 
+[CODE(DOMi)@en[[[NamedNodeMap]]]] object [['''MUST''']] be read-only if and only if 
+the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
+and therefore any change of read-only flag on the node is immediately
+reflected by that of the object.
+-->
+<dt><dfn id=notations class=dom-attr><code>notations</code></dfn> of type
+<code>notations</code>, read‐only</code>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the notations belonging to the
+  <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+  
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
+  same value as the <code>notations</code> attribute (defined in the
+  <a href="#DocumentType"><code>DocumentType</code></a> interface) of the same
+  node.</p>
+
+  <div class="note memo">
+    <p>This attribute is part of the interface for historical reason.</p>
+    <p>Implementations are not required to implement the 
+    <code>notations</code> attribute twice (for 
+    <a href="#DocumentType"><code>DocumentType</code></a> and
+    <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
+    interfaces); they share exactly same definition.</p>
+  </div></dd>
+<!--
+If the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node is
+created from an XML document, duplicate notation declarations, if any, in DTD 
+[['''MUST NOT''']] result in a node in the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object and only the first declaration [['''MUST''']] be
+made available as a [CODE(DOMi)@en[[[Notation]]]] node.
+
+;; This definition is based on one for the 
+[CODE(DOMa)@en[[[notations]]]] attribute of the
+[CODE(DOMi)@en[[[DocumentType]]]] interface in DOM XML module.
+Since duplication is violation to the Validity Constraint,
+XML parsers might vary on how notations are notified to
+the application.  In particular, [CODE(InfoProp)@en[[[notations]]]]
+property of the document information item in XML Information Set
+is so defined that in case ''any'' notation is declared for 
+multiple times then the property has no value.
+
+The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
+object that contains all the [CODE(DOMi)@en[[[Notation]]]] nodes
+representing notations belong to the node.  The returned 
+[CODE(DOMi)@en[[[NamedNodeMap]]]] object [['''MUST''']] be read-only if and only if 
+the node is read-only. Note that the [CODE(DOMi)@en[[[NamedNodeMap]]]] object is live
+and therefore any change of read-only flag on the node is immediately
+reflected by that of the object.
+-->
+<dt><dfn id=getElementTypeDefinitionNode class=dom-method><code>getElementTypeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getElementTypeDefinitionNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the element type.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getElementTypeDefinitionNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=getGeneralEntityNode class=dom-method><code>getGeneralEntityNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the <a href="#Entity"><code>Entity</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getGeneralEntityNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the general entity.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#Entity"><code>Entity</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getGeneralEntityNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#entities"><code>entities</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=getNotationNode class=dom-method><code>getNotationNode</code></dfn>,
+method</dt>
+  <dd><p>Returns the <a href="#Notation"><code>Notation</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getNotationNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the notation.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the 
+  <a href="#Notation"><code>Notation</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> is equal to
+  <a href="#getNotationNode-name"><var>name</var></a>, in the
+  <code>NamedNodeMap</code> object in the
+  <a href="#notations"><code>notations</code></a> attribute of the
+  node.  If there is no such node, it <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
+<dt><dfn id=setElementTypeDefinitionNode class=dom-method><code>setElementTypeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Associate an 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The
+  <dfn id=setElementTypeDefinitionNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
+<dt><dfn id=setGeneralEntityNode class=dom-method><code>setGeneralEntityNode</code></dfn>,
+method</dt>
+  <dd><p>Associate an <a href="#Entity"><code>Entity</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The
+  <dfn id=setGeneralEntityNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#entities"><code>entities</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setGeneralEntityNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
+<dt><dfn id=setNotationNode class=dom-method><code>setNotationNode</code></dfn>,
+method</dt>
+  <dd><p>Associate an <a href="#Notation"><code>Notation</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The <dfn id=setNotationNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#notations"><code>notations</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setNotationNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
+</dl>
+
+<p>When a <dfn id=algorithm-attach-node title="attach a node">node is 
+attached</dfn>, the rules below, with parameters 
+<dfn id=attach-node-n><var>n</var></dfn>, 
+<dfn id=attach-node-l><var>l</var></dfn>, 
+<dfn id=attach-node-node><var>node</var></dfn>, and
+<dfn id=attach-node-owner-attr><var>owner-attr</var></dfn>,
+<em class=rfc2119>MUST</em> be followed:</p>
+  <ol>
+  <li><p>Let
+  <dfn id=attach-node-r><var>r</var></dfn> be the node in
+  <var>l</var> whose <code>nodeName</code> attribute value is equal to the
+  <code>nodeName</code> attribute value of <var>node</var>, if any.</p></li>
+  <li><p>If <var>r</var> is different from <code>null</code> and <var>r</var>
+  is same node as <var>node</var>, then abort these steps.</p></li>
+  <li><p>If <var>n</var> is <a href="#read-only">read‐only</a>, then raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> and abort these steps.</p></li>
+  <li><p>If the <code>ownerDocument</code> attribute value of <var>node</var>
+  is different from that of <var>n</var>, then raise a
+  <code>WRONG_DOCUMENT_ERR</code> and abort these steps.</p></li>
+  <li><p>If the value of the attribute <var>owner-attr</var> of <var>node</var>
+  is different from <code>null</code>, then raise a
+  <code>HIERARCHY_REQUEST_ERR</code> and abort these steps.</p></li>
+  <li><p>If <var>r</var> is a node, then remove it from <var>r</var>.</p>
+
+  <div class="note memo">
+  <p>By the removal of <var>r</var>, the attribute <var>owner-attr</var> of
+  <var>r</var> is set to <code>null</code>.</p>
+  </div></li>
+  <li><p>Add <var>node</var> to <var>l</var>.</p>
+
+  <div class="note memo">
+  <p>By the addition of <var>node</var>, the attribute <var>owner-attr</var> of
+  <var>node</var> is set to <var>n</var>.</p>
+  </div></li>
+  </ol>
+
+<div class=ed>
+<p>A future version of this interface might define the
+<code>parameterEntities</code> and getter/setter for parameter entities.
+</div>
+
+</div>
+
+<div class=section id=section-elementtypedefinition>
+<h3>The <code>ElementTypeDefinition</code> Interface</h3>
+
+<p>The nodes of type 
+<a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
+represents an element type definition.  Such a node 
+<em class=rfc2119>MUST</em> implement the
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
+interface, which extends the <a href="#Node"><code>Node</code></a> 
+interface.</p>
+
+<p>An element type definition represents a definition of the element type.
+It is corresponding to the element type declaration in <abbr>DTD</abbr>.
+However, an 
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node 
+does not represent the element type definition in <abbr>DTD</abbr> itself.  
+Even if there are more than one element type declarations for an element type 
+in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node for that element type.  In addition, if there are attribute definition
+declarations for an element type, even when there is no element type
+declaration for that element type, the <abbr>DOM</abbr> will contain an
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node for that element type.</p>
+
+<p>An <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node cannot be a child of any node.  An
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+cannot have any child node.</p>
+
+<p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+
+  readonly attribute NamedNodeMap <a href="#attributeDefinitions">attributeDefinitions</a>;
+  <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#getAttributeDefinitionNode">getAttributeDefinitionNode</a>
+    (in DOMString <a href="#getAttributeDefinitionNode-name"><var>name</var></a>);
+  void <a href="#setAttributeDefinitionNode">setAttributeDefinitionNode</a>
+    (in <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#setAttributeDefinitionNode-node"><var>node</var></a>)
+    raises (DOMException);
+}</code></pre>
+
+<dl>
+<dt><dfn id=ownerDocumentTypeDefinition class=dom-attr><code>ownerDocumentTypeDefinition</code></dfn>
+of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only</dt>
+  <dd><p>The 
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute of
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>,
+  <a href="#Entity"><code>Entity</code></a>, and
+  <a href="#Notation"><code>Notation</code></a> interfaces contain the
+  <a href="#DocumentType"><code>DocumentType</code></a> node to which the node
+  is attached.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return a
+  <a href="#DocumentType"><code>DocumentType</code></a> node.  It
+  <em class=rfc2119>MUST</em> be such a node that whose
+  <a href="#elementTypes"><code>elementTypes</code></a> (for an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node), <a href="#entities"><code>entities</code></a> (for an
+  <a href="#Entity"><code>Entity</code></a> node), or 
+  <a href="#notations"><code>notations</code></a> (for a
+  <a href="#Notation"><code>Notation</code></a> node) attribute contains the
+  <code>NamedNodeMap</code> object that contains the node.  If there is no such
+  a <a href="#DocumentType"><code>DocumentType</code></a> node,
+  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
+<dt><dfn id=attributeDefinitions class=dom-attr><code>attributeDefinitions</code></dfn>
+of type NamedNodeMap, read‐only</dt>
+  <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
+  contains all the attribute definitions belonging to the 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>NamedNodeMap</code> object that contains all the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  belonging to the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
+  The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  read‐only if and only if the node is <a href="#read-only">read‐only</a>.  
+  The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  <a href="#live">live</a>.</p>
+  
+  <p>If the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
+  is created during the process to create a <abbr>DOM</abbr> from an
+  <abbr>XML</abbr> document, the following requirements are applied:  The
+  <code>NamedNodeMap</code> object in the 
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute <em class=rfc2119>MUST</em> be so transformed that the object
+  contains the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  corresponding to the attribute definitions in the attribute definition
+  list declarations processed
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor and
+  associated to the element type represented by the node.  If there are more
+  than one attribute definitions for an attribute, then the definitions other
+  than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
+  of constructing the <code>NamedNodeMap</code> object.</p></dd>
+<dt><dfn id=getAttributeDefinitionNode class=dom-method><code>getAttributeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Return the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  with the specified name.</p>
+
+  <p>The
+  <dfn id=getAttributeDefinitionNode-name class=dom-param><var>name</var></dfn>
+  parameter is the name of the attribute.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> return the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
+  whose <a href="#nodeName"><code>nodeName</code></a> attribute value is
+  equal to <a href="#getAttributeDefinitionNode-name"><var>name</var></a>,
+  in the <code>NamedNodeMap</code> in the 
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute of the node.  If there is no such node, it 
+  <em class=rfc2119>MUST</em> return <code>null</code>.</p></dd>
+<dt><dfn id=setAttributeDefinitionNode class=dom-method><code>setAttributeDefinitionNode</code></dfn>,
+method</dt>
+  <dd><p>Associate an
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node with
+  the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node.</p>
+
+  <p>The
+  <dfn id=setAttributeDefinitionNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node, <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute value of the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setAttributeDefinitionNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
+  attribute.</p></dd>
+</dl>
+
+<div class=ed>
+<p>A future version of the specification might define a set of attributes
+and methods for representing and accessing to the content model of the 
+element type.</p>
+</div>
+</div>
+
+<div class=section id=section-attributedefinition>
+<h3>The <code>AttributeDefinition</code> Interface</h3>
+
+<p>The nodes of type 
+<a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
+represents an attribute definition.  Such a node 
+<em class=rfc2119>MUST</em> implement the
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> interface,
+which extends the <a href="#Node"><code>Node</code></a> interface.</p>
+
+<p>An attribute definition represents a definition of the attribute 
+associated to an element type.  It is corresponding to the attribute definition
+in the attribute list declaration in <abbr>DTD</abbr>.  However, an
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node does 
+not represent the attribute definition in <abbr>DTD</abbr> itself.  Even if 
+there are more than one attribute definitions for an attribute of an element 
+type in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node for 
+that attribute.</p>
+
+<p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+node cannot be a child of any node.  An
+<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+can have zero or more child nodes of same kinds as those allowed for
+<code>Attr</code> nodes
+<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
+
+<p>The <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> 
+interface <em class=rfc2119>MUST</em> be implemented as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>interface <dfn id=AttributeDefinition><code>AttributeDefinition</code></dfn> : <a href="#Node">Node</a> {
+  <span class=comment>// <a href="#DeclaredValueType">DeclaredValueType</a></span>
+  const unsigned short <a href="#NO_TYPE_ATTR">NO_TYPE_ATTR</a> = 0;
+  const unsigned short <a href="#CDATA_ATTR">CDATA_ATTR</a> = 1;
+  const unsigned short <a href="#ID_ATTR">ID_ATTR</a> = 2;
+  const unsigned short <a href="#IDREF_ATTR">IDREF_ATTR</a> = 3;
+  const unsigned short <a href="#IDREFS_ATTR">IDREFS_ATTR</a> = 4;
+  const unsigned short <a href="#ENTITY_ATTR">ENTITY_ATTR</a> = 5;
+  const unsigned short <a href="#ENTITIES_ATTR">ENTITIES_ATTR</a> = 6;
+  const unsigned short <a href="#NMTOKEN_ATTR">NMTOKEN_ATTR</a> = 7;
+  const unsigned short <a href="#NMTOKENS_ATTR">NMTOKENS_ATTR</a> = 8;
+  const unsigned short <a href="#NOTATION_ATTR">NOTATION_ATTR</a> = 9;
+  const unsigned short <a href="#ENUMERATION_ATTR">ENUMERATION_ATTR</a> = 10;
+  const unsigned short <a href="#UNKNOWN_ATTR">UNKNOWN_ATTR</a> = 11;
+
+  <span class=comment>// <a href="#DefaultValueType">DefaultValueType</a></span>
+  const unsigned short <a href="#UNKNOWN_DEFAULT">UNKNOWN_DEFAULT</a> = 0;
+  const unsigned short <a href="#FIXED_DEFAULT">FIXED_DEFAULT</a> = 1;
+  const unsigned short <a href="#REQUIRED_DEFAULT">REQUIRED_DEFAULT</a> = 2;
+  const unsigned short <a href="#IMPLIED_DEFAULT">IMPLIED_DEFAULT</a> = 3;
+  const unsigned short <a href="#EXPLICIT_DEFAULT">EXPLICIT_DEFAULT</a> = 4;
+  
+  readonly attribute <a href="#ElementTypeDefinition">ElementTypeDefinition</a> <a href="#ownerElementTypeDefinition">ownerElementTypeDefinition</a>;
+
+  readonly attribute unsigned short <a href="#declaredType">declaredType</a>;
+  readonly attribute DOMStringList <a href="#allowedTokens">allowedTokens</a>;
+  readonly attribute unsigned short <a href="#defaultType">defaultType</a>;
+}</code></pre>
+
+<dl>
+<dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
+of type
+<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>, 
+read‐only</dt>
+  <dd><p>The
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> to
+  which the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node belongs.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return an
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
+  It <em class=rfc2119>MUST</em> be such a node that whose
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute contains the <code>NamedNodeMap</code> object that contains
+  the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node.  If there is no such an 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
+<dt><dfn id=declaredType class=dom-attr><code>declaredType</code></dfn> of type
+<code>unsigned short</code></dt>
+  <dd><p>The declared type
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite> of the attribute.  It is expected that
+  this attribute contains a value from the definition group
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a>.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  is <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value
+  associated to this attribute.</p>
+
+  <p>If the <code>AttributeDefinition</code> node is created during the process
+  to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, an
+  appropriate value from the
+  <a href="#DeclaredValueType"><code>DeclaredValueType</code></a> constant
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p>
+
+  <!-- DeclaredValueType -->
+<p>The definition group 
+<dfn id=DeclaredValueType><code>DeclaredValueType</code></dfn> contains
+integers indicating the declared type of attributes.  The definition
+group contains the following constants:</p>
+
+<table>
+<thead>
+<tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+</thead>
+<tbody>
+<tr>
+<th scope=row><dfn id=NO_TYPE_ATTR class=dom-const><code>NO_TYPE_ATTR</code>
+<td><code>0</code><td><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">No
+value</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=CDATA_ATTR class=dom-const><code>CDATA_ATTR</code>
+<td><code>1</code><td><code>CDATA</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=ID_ATTR class=dom-const><code>ID_ATTR</code>
+<td><code>2</code><td><code>ID</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=IDREF_ATTR class=dom-const><code>IDREF_ATTR</code>
+<td><code>3</code><td><code>IDREF</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=IDREFS_ATTR class=dom-const><code>IDREFS_ATTR</code>
+<td><code>4</code><td><code>IDREFS</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=ENTITY_ATTR class=dom-const><code>ENTITY_ATTR</code>
+<td><code>5</code><td><code>ENTITY</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=ENTITIES_ATTR class=dom-const><code>ENTITIES_ATTR</code>
+<td><code>6</code><td><code>ENTITIES</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=NMTOKEN_ATTR class=dom-const><code>NMTOKEN_ATTR</code>
+<td><code>7</code><td><code>NMTOKEN</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=NMTOKENS_ATTR class=dom-const><code>NMTOKENS_ATTR</code>
+<td><code>8</code><td><code>NMTOKENS</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=NOTATION_ATTR class=dom-const><code>NOTATION_ATTR</code>
+<td><code>9</code><td><code>NOTATION</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=ENUMERATION_ATTR class=dom-const><code>ENUMERATION_ATTR</code>
+<td><code>10</code><td>Enumeration
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>.</tr>
+<tr>
+<th scope=row><dfn id=UNKNOWN_ATTR class=dom-const><code>UNKNOWN_ATTR</code>
+<td><code>11</code><td><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">Unknown</a>,
+because no declaration for the attribute has been read but the 
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.document">[all declaration processed]</a>
+property
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>
+would be false.</tr>
+</tbody>
+</table>
+
+<p>If no attribute type information is available, or if the source
+of the information does not distinguish 
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">no
+value</a> and
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">unknown</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite>, 
+then the value
+<a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a> 
+<em class=rfc2119>MUST</em> be used.</p>
+
+<div class="note memo">
+<p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+created by the 
+<a href="#createAttributeDefinition"><code>createAttributeDefinition</code></a>
+method has its <a href="#declaredType"><code>declaredType</code></a> attribute
+set to <a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</p>
+</div>
+
+<p>If the source of the information does not distinguish
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">no
+value</a> and/or
+<a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null">unknown</a>
+<cite class="bibref normative">[<a href="#ref-INFOSET">INFOSET</a>]</cite> and
+<code>CDATA</code>
+<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+<a href="#ref-XML11">XML11</a>]</cite>, then the value
+<a href="#CDATA_ATTR"><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
+be used.</p>
+
+<p>In Perl binding
+<cite class="bibref normative">[<a href="#ref-DOMPERL">DOMPERL</a>]</cite>, the
+<code>Attr</code> nodes <em class=rfc2119>MUST</em> implement the
+<a href="#DeclaredValueType"><code>DeclaredValueType</code></a>
+definition group.</p>
+
+  </dd>
+<dt><dfn id=allowedTokens class=dom-attr><code>allowedTokens</code></dfn> of
+type <code>DOMStringList</code>, read‐only</dt>
+  <dd><p>The list of allowed attribute values.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
+  <code>DOMStringList</code> object associated to this attribute.  The object
+  <em class=rfc2119>MAY</em> contain zero or more ordered strings, consist of
+  zero or more characters respectively, possibly with duplications.  The 
+  object <em class=rfc2119>MUST</em> be read‐only if and only if the node
+  is <a href="#read-only">read‐only</a>.</p>
+
+  <p>If the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node is created during the process to create a <abbr>DOM</abbr> from an 
+  <abbr>XML</abbr> document, the object <em class=rfc2119>MUST</em> contain
+  the names or name tokens allowed for the attribute defined by the node.
+  If the document is well‐formed, the object will be empty unless 
+  the <a href="#declaredType"><code>declaredType</code></a> is 
+  <a href="#ENUMERATION_ATTR"><code>ENUMERATION_ATTR</code></a> or
+  <a href="#NOTATION_ATTR"><code>NOTATION_ATTR</code></a>.</p>
+
+  <p>If the <a href="#declaredType"><code>declaredType</code></a> is different
+  from <a href="#ENUMERATION_ATTR"><code>ENUMERATION_ATTR</code></a> or
+  <a href="#NOTATION_ATTR"><code>NOTATION_ATTR</code></a>, this attribute
+  <em class=rfc2119>MUST</em> be ignored for the purpose of serializing
+  into (part of) <abbr>XML</abbr> document.</p>
+
+  <div class="note memo">
+    <p>When serializing the node it should be noted that the object might
+    be empty, might contain duplications, and might contain strings that are
+    not names or name tokens.</p>
+  </div></dd>
+<dt><dfn id=defaultType class=dom-attr><code>defaultType</code></dfn> of
+type <code>unsigned short</code></dt>
+  <dd><p>The type of the default for the attribute.  It is expected that this 
+  attribute contains a value from the definition group
+  <a href="#DefaultValueType"><code>DefaultValueType</code></a>.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
+  is <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value
+  associated to this attribute.</p>
+
+  <p>If the 
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node is
+  created during the process to create a <abbr>DOM</abbr> from an
+  <abbr>XML</abbr> document, an appropriate value from the
+  <a href="#DefaultValueType"><code>DefaultValueType</code></a> definition
+  group <em class=rfc2119>MUST</em> be set to the attribute.</p>
+
+  <!-- DefaultValueType -->
+  <p>The definition group
+  <dfn id=DefaultValueType><code>DefaultValueType</code></dfn>
+  contains integers indicating the type of the default for the attribute.
+  The definition group contains the following constants:</p>
+
+  <table>
+  <thead>
+  <tr><th scope=col>Name<th scope=col>Value<th scope=col>Description</tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th scope=row><dfn id=UNKNOWN_DEFAULT class=dom-const><code>UNKNOWN_DEFAULT</code></dfn>
+  <td><code>0</code><td>Unknown.</tr>
+  <tr>
+  <th scope=row><dfn id=FIXED_DEFAULT class=dom-const><code>FIXED_DEFAULT</code></dfn>
+  <td><code>1</code><td>Provided explicitly and only the value is allowed.
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite>.</tr>
+  <tr>
+  <th scope=row><dfn id=REQUIRED_DEFAULT class=dom-const><code>REQUIRED_DEFAULT</code></dfn>
+  <td><code>2</code><td>No default value and the attribute have to be
+  explicitly specified.</tr>
+  <tr>
+  <th scope=row><dfn id=IMPLIED_DEFAULT class=dom-const><code>IMPLIED_DEFAULT</code></dfn>
+  <td><code>3</code><td>Implied
+  <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
+  <a href="#ref-XML11">XML11</a>]</cite>.</tr>
+  <tr>
+  <th scope=row><dfn id=EXPLICIT_DEFAULT class=dom-const><code>EXPLICIT_DEFAULT</code></dfn>
+  <td><code>4</code><td>Provided explicitly.</tr>
+  </tbody>
+  </table>
+
+  <p>If the source of the default type does not distinguish
+  implied and unknown default types, then the value
+  <a href="#IMPLIED_DEFAULT"><code>IMPLIED_DEFAULT</code></a>
+  <em class=rfc2119>MUST</em> be used.</p>
+
+  <div class="note memo">
+  <p>An <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
+  node created by the
+  <a href="#createAttributeDefinition"><code>createAttributeDefinition</code></a>
+  method has its <a href="#defaultType"><code>defaultType</code></a>
+  attribute set to
+  <a href="#UNKNOWN_DEFAULT"><code>UNKNOWN_DEFAULT</code></a>.</p>
+  </div></dd>
+</dl>
+
+</div>
+
+<div class=section id=section-entity>
+<h3>Modifications to the <code id=Entity>Entity</code> Interface</h3>
+
+<p>The implementation of the <a href="#Entity"><code>Entity</code></a> 
+interface <em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>// Modifications to the Entity interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+  attribute DOMString <a href="#notationName">notationName</a>;
+
+  // Additions to the Entity interface
+  attribute DOMString <a href="#hasReplacementTree">hasReplacementTree</a>;
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+
+  attribute boolean <a href="#isExternallyDeclared">isExternallyDeclared</a>;
+</code></pre>
+
+<p>The <code id=notationName>notationName</code> attribute of the
+<a href="#Entity"><code>Entity</code></a> interface is no longer 
+read‐only.</p>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+<code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+set the specified value as the value associated to the attribute.  No lexical 
+validation is performed.  The new value <em class=rfc2119>MAY</em> be 
+<code>null</code>.</p>
+
+<dl>
+<dt><dfn id=hasReplacementTree class=dom-attr><code>hasReplacementTree</code></dfn>
+of type boolean</dt>
+  <dd><p>Whether the structure of the replacement text of the entity
+  is available via the <code>NodeList</code> object in the
+  <code>childNodes</code> attribute of the entity.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the 
+  value associated to this attribute.</p>
+
+  <div class="note memo">
+  <p>The attribute can be set to <code>false</code> even if the 
+  <a href="#Entity"><code>Entity</code></a> node has any child node.
+  If the attribute is set to <code>false</code>, then any child node of 
+  the <a href="#Entity"><code>Entity</code></a> node ought to be ignored,
+  say, for the purpose of serialization.</p>
+  </div>
+
+  <p>When an <code>EntityReference</code> node is created by cloning
+  the replacement subtree of the <a href="#Entity"><code>Entity</code></a> 
+  node, if the attribute is set to <code>false</code>, then any descendant
+  of the node <em class=rfc2119>MUST</em> be ignored.</p>
+
+  <p>If the <a href="#Entity"><code>Entity</code></a> node is created during 
+  the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document,
+  the following requirements are applied:  If the entity is an unparsed
+  entity, then the attribute <em class=rfc2119>MUST</em> be set to 
+  <code>false</code>.  Otherwise, if the entity is an external entity whose
+  replacement text is not available, or whose replacement text is not converted
+  to a replacement tree, then the attribute <em class=rfc2119>MUST</em> be set
+  to <code>false</code>.  Otherwise, the attribute
+  <em class=rfc2119>MUST</em> be set to <code>true</code>.</p>
+
+  <div class="note memo">
+  <p>An <a href="#Entity"><code>Entity</code></a> node created by the
+  <a href="#createGeneralEntity"><code>createGeneralEntity</code></a> method 
+  has its <a href="#hasReplacementTree"><code>hasReplacementTree</code></a> 
+  attribute set to <code>false</code>.</p>
+  </div></dd>
+<dt><dfn id=isExternallyDeclared class=dom-attr><code>isExternallyDeclared</code></dfn>
+of type boolean</dt>
+  <dd><p>Whether the entity is declared by an external entity declaration or 
+  not.  If the value is <code>true</code>, the entity is declared in an entity
+  declaration in the external subset entity or in an external parameter entity.
+  If the value is <code>false</code>, the entity is declared in an entity
+  declaration in the internal subset, or the node is created in memory.</p>
+
+  <p>On getting, the attribute <em class=rfc2119>MUST</em> return
+  the value associated to this attribute.</p>
+
+  <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
+  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <em class=rfc2119>MUST</em> set the specified value as the value associated
+  to this attribute.</p>
+
+  <p>If the <a href="#Entity"><code>Entity</code></a> node is created during
+  the process to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document,
+  the following requirements are applied:  If the entity is an unparsed
+  entity, then the attribute <em class=rfc2119>MUST</em> be set to 
+  <code>false</code>.  Otherwise, i.e. the entity is a parsed entity, then the
+  attribute <em class=rfc2119>MUST</em> be set to the value of whether the
+  entity is declared by an external markup declaration or not.</p></dd>
+</dl>
+</div>
+
+<div class=section id=section-notation>
+<h3>Modifications to the <code id=Notation>Notation</code> Interface</h3>
+
+<p>The implementation of the <a href="#Notation"><code>Notation</code></a> 
+interface <em class=rfc2119>MUST</em> be modified as the following
+<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<pre class=idl><code>// Modifications to the Notation interface
+  attribute DOMString <a href="#publicId">publicId</a>;
+  attribute DOMString <a href="#systemId">systemId</a>;
+
+  // Addition to the Notation interface
+  readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
+</code></pre>
+</div>
+
+</div>
+
+<div id="references" class="section reference">
+<h2>References</h2>
+
+<div id="normative-references" class="section normative reference">
+<h3>Normative References</h3>
+
+<dl>
+<dt id=ref-DOM3CORE>DOM3CORE</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407">Document
+  Object Model (<abbr>DOM</abbr>) Level 3 Core Specification, Version 
+  1.0</a></cite>, <abbr>W3C</abbr> Recommendation, <time datetime=2004-04-07>7
+  April 2004</time>.  <em>This</em> version of the specification is referenced.
+  The latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Level-3-Core">http://www.w3.org/TR/DOM-Level-3-Core</a>></code>.</dd>
+<dt id=ref-DOMBIND>DOMBIND</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/">Language
+  Bindings for <abbr>DOM</abbr> Specifications</a></cite>, <abbr>W3C</abbr>
+  Working Draft, <time datetime=2007-10-17>17 October 2007</time>.  
+  <em>This</em> version of the specification is referenced.  The latest version
+  of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Bindings/">http://www.w3.org/TR/DOM-Bindings/</a>></code>.</dd>
+<dt id=ref-DOMPERL>DOMPERL</dt>
+  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
+  <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
+  progress.</dd>
+<dt id=ref-HTML5>HTML5</dt>
+  <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
+  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
+  Working Draft.  Work in progress.</dd>
+<dt id=ref-INFOSET>INFOSET</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204"><abbr>XML</abbr>
+  Information Set (Second Edition)</a></cite>, <abbr>W3C</abbr> Recommendation,
+  <time datetime=2004-02-04>4 February 2004</time>.  <em>This</em> version of
+  the specification is referenced.  The latest version of the specification is
+  available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml-infoset">http://www.w3.org/TR/xml-infoset</a>></code>.</dd>
+<dt id="ref-KEYWORDS">KEYWORDS</dt>
+  <dd><cite><a href="urn:ietf:rfc:2119">Key words for use in 
+  <abbr>RFCs</abbr> to Indicate Requirement Levels</a></cite>,
+  <abbr title="Internet Engineering Task Force">IETF</abbr> 
+  <a href="urn:ietf:bcp:14"><abbr title="Best Current Practice">BCP</abbr> 
+  14</a>, <abbr title="Request for Comments">RFC</abbr> 2119, 
+  <time datetime=1997-03>March 1997</time>.
+  <em>This</em> version of the specification is referenced.</dd>
+<dt id=ref-MANAKAI>MANAKAI</dt>
+  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Extensions">
+  manakai's <abbr>DOM</abbr> Extensions</a></cite>, editor's draft.  Work in 
+  progress.</dd>
+<dt id=ref-XML10>XML10</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816">Extensible
+  Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,
+  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
+  2006</time>, edited in place <time datetime=2006-09-29>29 September
+  2006</time>.  <em>This</em> version of the specification is referenced.  The
+  latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>&gt;</code>.</dd>
+<dt id=ref-XML11>XML11</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml11-20060816/">Extensible
+  Markup Language (<abbr>XML</abbr>) 1.1 (Second Edition)</a></cite>,
+  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
+  2006</time>, edited in place <time datetime=2006-09-29>29 September
+  2006</time>.  <em>This</em> version of the specification is referenced.  The
+  latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/xml11">http://www.w3.org/TR/xml11</a>></code>.</dd>
+</dl>
+</div>
+
+<div id="informative-references" class="section informative reference">
+<h3>Non‐normative References</h3>
+
+<dl>
+<dt id=ref-DOM1WD>DOM1WD</dt>
+  <dd><cite><a href="http://www.w3.org/TR/WD-DOM-971209/">Document Object
+  Model Specification</a></cite>, <abbr>W3C</abbr> Working Draft,
+  <time datetime=1997-12-09>9 December 1997</time>.</dd>
+  <dd><cite><a href="http://www.w3.org/TR/WD-DOM-19980318/">Document Object
+  Model Specification</a></cite>, <abbr>W3C</abbr> Working Draft,
+  <time datetime=1998-03-18>18 March 1998</time>.</dd>
+  <dd><cite><a href="http://www.w3.org/TR/1998/WD-DOM-19980416/">Document 
+  Object Model Specification, Version 1.0</a></cite>, <abbr>W3C</abbr> Working
+  Draft, <time datetime=1998-04-16>16 April 1998</time>.</dd>
+<dt id=ref-DOM3AS>DOM3AS</dt>
+  <dd><cite><a href="http://www.w3.org/TR/2002/NOTE-DOM-Level-3-AS-20020725/">Document
+  Object Model (<abbr>DOM</abbr>) Level 3 Abstract Schemas Specification,
+  Version 1.0</a></cite>, <abbr>W3C</abbr> Note, <time datetime=2002-07-25>25
+  July 2002</time>.  The latest version of the specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Level-3-AS">http://www.w3.org/TR/DOM-Level-3-AS</a>></code>.</dd>
+<dt id=ref-XSAPI>XSAPI</dt>
+  <dd><cite><a href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/"><abbr>XML</abbr>
+  Schema <abbr>API</abbr></a></cite>, <abbr>W3C</abbr> Member Submission,
+  <time datetime=2004-03-09>9 March 2004</time>.  The latest version of the
+  specification is available at
+  <code class=uri>&lt;<a href="http://www.w3.org/Submission/xmlschema-api/">http://www.w3.org/Submission/xmlschema-api/</a>></code>.</dd>
+</dl>
+</div>
+
+</div>
+
+</body>
+</html>

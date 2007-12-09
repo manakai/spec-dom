@@ -59,9 +59,8 @@ applications are able to access to the definitions of the document type.</p>
 <div id="status" class="section">
 <h2>Status of This Document</h2>
 
-<p class=section-info><em>This section describes the status of this document
-at the time of its publication.  Other documents
-might supersede this document.</em></p>
+<p class=section-info>This section describes the status of this document at the
+time of its publication.  Other documents might supersede this document.</p>
 
 <p>This document is a working draft, produced as part of the 
 <a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> 
@@ -299,8 +298,6 @@ these kinds of nodes, methods and attributes in the
 <dl>
 <dt><code id=attributes>attributes</code>,
 <code id=localName>localName</code>,
-<code id=manakaiLocalName>manakaiLocalName</code>
-<cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite>,
 <code id=namespaceURI>namespaceURI</code>, and
 <code id=prefix>prefix</code></dt>
   <dd>
@@ -396,6 +393,13 @@ these kinds of nodes, methods and attributes in the
   items that are equal to a string in a list is equal to the number
   of the items equal to the string in another list.</p></li>
   </ul></dd>
+<dt><code id=manakaiLocalName>manakaiLocalName</code>
+<cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
+  <dd><p class=section-info>This entry is applied only to implementations
+  that support this attribute.</p>
+
+  <p>On getting, the attributes <em class=rfc2119>MUST</em> return
+  <code>null</code>.</p></dd>
 <dt><code id=lookupNamespaceURI>lookupNamespaceURI</code> and
 <code id=lookupPrefix>lookupPrefix</code></dt>
   <dd><p>When invoked, the methods <em class=rfc2119>MUST</em> return
@@ -675,9 +679,13 @@ method</dt>
     <dt><code>manakaiDeclarationBaseURI</code>,
     <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
     <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
-      <dd>No explicit value is set.</dd>
-    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a></dt>
-      <dd><code>false</code>.</dd>
+      <dd><p class=section-info>This entry is applied only to implementations
+      that support these attributes.</p>
+
+      <p>No explicit value is set.</p></dd>
+    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a> and
+    <a href="#isExternallyDeclared"><code>isExternallyDeclared</code></a></dt>
+      <dd><p><code>false</code>.</p></dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createGeneralEntity-name"><var>name</var></a>.</dd>
       <dd>
@@ -720,11 +728,15 @@ method</dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>
     <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
-      <dd>No explicit value is set.</dd>
+      <dd><p class=section-info>This entry is applied only to implementations
+      that support these attributes.</p>
+
+      <p>No explicit value is set.</p></dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createNotation-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
-      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+      <dd><p>The <a href="#Document"><code>Document</code></a> node over which
+      the method is invoked.</p></dd>
     <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
     and <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
@@ -871,16 +883,6 @@ and <a href="#feature-XDoctype-3.0"><code>3.0</code></a> respectively (if the
 <a href="#DocumentType"><code>DocumentType</code></a> node supports the
 feature <code>Core</code> version <code>3.0</code> 
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>).</p>
-
-<div class="note memo">
-<p>This interface is a separated interface from the
-<a href="#DocumentType"><code>DocumentType</code></a>, not a set of extensions
-to the <a href="#DocumentType"><code>DocumentType</code></a>,
-for the historical reason.</p>
-
-<p class=ed>Should the interface be merged with
-<a href="#DocumentType"><code>DocumentType</code></a>?</p>
-</div>
 
 <p>The 
 <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a> 
@@ -1072,14 +1074,104 @@ method</dt>
   <code>null</code>.</p></dd>
 <dt><dfn id=setElementTypeDefinitionNode class=dom-method><code>setElementTypeDefinitionNode</code></dfn>,
 method</dt>
-  <dd class=ed>@@</dd>
+  <dd><p>Associate an 
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The
+  <dfn id=setElementTypeDefinitionNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#elementTypes"><code>elementTypes</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
 <dt><dfn id=setGeneralEntityNode class=dom-method><code>setGeneralEntityNode</code></dfn>,
 method</dt>
-  <dd class=ed>@@</dd>
+  <dd><p>Associate an <a href="#Entity"><code>Entity</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The
+  <dfn id=setGeneralEntityNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#entities"><code>entities</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setGeneralEntityNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
 <dt><dfn id=setNotationNode class=dom-method><code>setNotationNode</code></dfn>,
 method</dt>
-  <dd class=ed>@@</dd>
+  <dd><p>Associate an <a href="#Notation"><code>Notation</code></a>
+  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+
+  <p>The <dfn id=setNotationNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#DocumentType"><code>DocumentType</code></a> node, 
+  <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#notations"><code>notations</code></a> attribute value of the
+  <a href="#DocumentType"><code>DocumentType</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setNotationNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
+  attribute.</p></dd>
 </dl>
+
+<p>When a <dfn id=algorithm-attach-node title="attach a node">node is 
+attached</dfn>, the rules below, with parameters 
+<dfn id=attach-node-n><var>n</var></dfn>, 
+<dfn id=attach-node-l><var>l</var></dfn>, 
+<dfn id=attach-node-node><var>node</var></dfn>, and
+<dfn id=attach-node-owner-attr><var>owner-attr</var></dfn>,
+<em class=rfc2119>MUST</em> be followed:</p>
+  <ol>
+  <li><p>Let
+  <dfn id=attach-node-r><var>r</var></dfn> be the node in
+  <var>l</var> whose <code>nodeName</code> attribute value is equal to the
+  <code>nodeName</code> attribute value of <var>node</var>, if any.</p></li>
+  <li><p>If <var>r</var> is different from <code>null</code> and <var>r</var>
+  is same node as <var>node</var>, then abort these steps.</p></li>
+  <li><p>If <var>n</var> is <a href="#read-only">read‐only</a>, then raise a
+  <code>NO_MODIFICATION_ALLOWED_ERR</code> and abort these steps.</p></li>
+  <li><p>If the <code>ownerDocument</code> attribute value of <var>node</var>
+  is different from that of <var>n</var>, then raise a
+  <code>WRONG_DOCUMENT_ERR</code> and abort these steps.</p></li>
+  <li><p>If the value of the attribute <var>owner-attr</var> of <var>node</var>
+  is different from <code>null</code>, then raise a
+  <code>HIERARCHY_REQUEST_ERR</code> and abort these steps.</p></li>
+  <li><p>If <var>r</var> is a node, then remove it from <var>r</var>.</p>
+
+  <div class="note memo">
+  <p>By the removal of <var>r</var>, the attribute <var>owner-attr</var> of
+  <var>r</var> is set to <code>null</code>.</p>
+  </div></li>
+  <li><p>Add <var>node</var> to <var>l</var>.</p>
+
+  <div class="note memo">
+  <p>By the addition of <var>node</var>, the attribute <var>owner-attr</var> of
+  <var>node</var> is set to <var>n</var>.</p>
+  </div></li>
+  </ol>
 
 <div class=ed>
 <p>A future version of this interface might define the
@@ -1210,7 +1302,29 @@ method</dt>
   <em class=rfc2119>MUST</em> return <code>null</code>.</p></dd>
 <dt><dfn id=setAttributeDefinitionNode class=dom-method><code>setAttributeDefinitionNode</code></dfn>,
 method</dt>
-  <dd class=ed>@@</dd>
+  <dd><p>Associate an
+  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node with
+  the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node.</p>
+
+  <p>The
+  <dfn id=setAttributeDefinitionNode-node class=dom-param><var>node</var></dfn>
+  parameter is the node to associate.</p>
+
+  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
+  to <a href="#algorithm-attach-node">attach a node</a>, where 
+  <a href="#attach-node-n"><var>n</var></a> is the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+  node, <a href="#attach-node-l"><var>l</var></a> is the
+  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
+  attribute value of the
+  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
+  <a href="#attach-node-node"><var>node</var></a> is the
+  <a href="#setAttributeDefinitionNode-node"><var>node</var></a>, and
+  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
+  <a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
+  attribute.</p></dd>
 </dl>
 
 <div class=ed>

@@ -214,7 +214,10 @@ can be easily serialized into a valid XML document.</p>
 
 <div class=ed><p>@@ TODO: #dt-atuseroption at user option
 (MAY or MUST), #dt-compat for compatibility,
-#dt-interop for interoperability</p></div>
+#dt-interop for interoperability</p>
+
+<p>TODO: XML 1.1, XML Namespace 1.0/1.1, xml:base, xml:id
+</div>
 
 </div>
 
@@ -299,6 +302,10 @@ are applied:</p>
 @@ in parsing phase
 
 "It is a fatal error when an XML processor encounters an entity with an encoding that it is unable to process. It is a fatal error if an XML entity is determined (via default, encoding declaration, or higher-level protocol) to be in a certain encoding but contains byte sequences that are not legal in that encoding."
+
+@@ We should phrase out what the parser should do where the XML specification
+left undefined.  For example: Comment must be converted to a Comment node,
+illegal xml:space value must be preserved, so on.
 
 -->
 </dl>

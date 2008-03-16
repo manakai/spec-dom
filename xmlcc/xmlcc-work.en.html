@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
-<h2>Working Draft <time datetime=2007-12-01>1 December 2007</time></h2>
+<h2>Working Draft <time datetime=2008-03-16>16 March 2008</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -42,7 +42,7 @@
       >w@suika.fam.cx</a>&gt;</code></dd>
 </dl>
 
-<p class="copyright" lang="en">&#xA9; <time>2007</time> <a
+<p class="copyright" lang="en">&#xA9; <time>2007</time>‐<time>2008</time> <a
     href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a rel="license"
@@ -118,6 +118,11 @@ else in this specification is normative.</p>
 <p><span class=ed>Algorithm is normative but non-normative</span>.
 In addition, the order in which <a href="#errors">errors</a> are
 raised is undefined.</p>
+
+<p>This document sometimes cites parts of <abbr>XML</abbr> 1.0 specification
+by hyperlinks.  When the document being processed is an <abbr>XML</abbr> 1.1
+document, however, corresponding parts of the <abbr>XML</abbr> 1.1 
+specification should be consulted instead.</p>
 </div>
 
 
@@ -216,31 +221,42 @@ can be easily serialized into a valid XML document.</p>
 <div class=section id=parsing-xml>
 <h2>Parsing <abbr>XML</abbr> Document</h2>
 
-<ul>
-<li>If the <abbr>XML</abbr> document does not begin with an
-<abbr>XML</abbr> declaration, then raise an
-<a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.</li>
-<li>If the replacement text of an entity declaration is
-<code>&lt;</code>, then raise an
-<a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
+<p>When an <abbr>XML</abbr> document is parsed, the following clauses
+are applied:</p>
+<dl>
+<dt>For each document
+  <dd>If the <abbr>XML</abbr> document does not begin with an
+  <abbr>XML</abbr> declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an
+  <a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.
+<dt>For each internal general entity declaration processed by the parser
+  <dd>If the 
+  <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-EntityValue"><code>EntityValue</code></a>
+  part of the general entity declaration contains a bare <code>U+003C</code>
+  <code>LESS-THAN SIGN</code> (<code>&lt;</code>) character, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
 "strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
---></li>
-<li>If there is an element type declaration whose <code>Name</code>
-value is already declared, then raise an 
-<a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.</li>
-<li>If attribute definition whose <code>Name</code> is
-<code>xml:space</code> has <span class=ed>declared type different from 
-(default|preserve), (default), or (preserve)</span>, then raise an
-<a href="#xml-misc-error" id=xme-ad-xml-space><code>xml-misc-error</code></a>.
-<span class=ed>@@ duplication with 
-<a href="#xml-at-xml-space">#xml-at-xml-space</a>.<!--
-<!ATTLIST e xml:space CDATA #IMPLIED xml:space CDATA #IMPLIED> --></span></li>
-<li>If an empty-element tag is used for an element which is <em>not</em>
-declared <code>EMPTY</code>, then raise an
-<a href="#xml-misc-recommentation" id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.</li>
-<li>If an empty-element tag is <em>not</em> used for an element which is
-declared <code>EMPTY</code>, then raise an
-<a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.</li>
+-->
+<dt>For each element type declaration processed by the parser
+  <dd>If there is another element type declaration whose <code>Name</code>
+  is equal to the <code>Name</code> of the element type declaration, then
+  the parser <em class=rfc2119>MUST</em> raise an 
+  <a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.
+<!--
+  NOTE: <!ATTLIST a xml:space (default) #IMPLIED xml:space CDATA #IMPLIED>
+  will not be warned.
+-->
+<dt>For each empty-element tag
+  <dd>If the <code>Name</code> of the tag is not declared by a processed
+  element type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-recommentation" id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.
+<dt>For each start-tag
+  <dd>If the <code>Name</code> of the tag is declared by a processed element
+  type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
 <!--
 
 #vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
@@ -285,7 +301,7 @@ declared <code>EMPTY</code>, then raise an
 "It is a fatal error when an XML processor encounters an entity with an encoding that it is unable to process. It is a fatal error if an XML entity is determined (via default, encoding declaration, or higher-level protocol) to be in a certain encoding but contains byte sequences that are not legal in that encoding."
 
 -->
-</ul>
+</dl>
 </div>
 
 <div class="section" id=checking-dom>
@@ -559,7 +575,7 @@ following:</p>
     <li>If <code>nodeName</code> attribute of <var>n</var> is
     <code>xml:space</code> <span class=ed>@@ or {xml namespace}:space ?</span>
     and <span class=ed>its declared type is different from (default|preserve),
-    (default), or (preserve)</span>, then raise an
+    (preserve|default), (default), or (preserve)</span>, then raise an
     <a href="#xml-misc-error" id=xme-at-xml-space><code>xml-misc-error</code></a>.</li>
     <li>For each node <dfn id=var-ad-nc><var>n<sub><var>c</var></sub></var></dfn> in the
     <code>childNodes</code> list of <var>n</var>,

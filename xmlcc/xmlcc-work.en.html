@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
-<h2>Working Draft <time datetime=2008-03-16>16 March 2008</time></h2>
+<h2>Working Draft <time datetime=2008-03-29>29 March 2008</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -260,27 +260,66 @@ are applied:</p>
   type declaration as <code>EMPTY</code> content, then the parser
   <em class=rfc2119>MUST</em> raise an
   <a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
+</dl>
+
+<p>In addition, the parser <em class=rfc2119>MUST</em> check whether the
+following constraints are met.
+
+<p><strong>Well-formedness constraints</strong>.  For each violation to
+one of constraints below, an
+<a href="#xml-well-formedness-error"><code>xml-well-formedness-error</code></a>
+<em class=rfc2119>MUST</em> be raised.  The list of well-formedness
+constraints is below:
+<ul>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset">Well-formedness constraint: PEs in Internal Subset</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch">Well-formedness constraint: Element Type Match</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#uniqattspec">Well-formedness constraint: Unique Att Spec</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NoExternalRefs">Well-formedness constraint: No External Entity References</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#CleanAttrVals">Well-formedness constraint: No &lt; in Attribute Values</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wf-Legalchar">Well-formedness constraint: Legal Character</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#textent">Well-formedness constraint: Parsed Entity</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#norecursion">Well-formedness constraint: No Recursion</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#indtd">Well-formedness constraint: In DTD</a>
+</ul>
+
+<p><strong>Validity constraints</strong>.  For each violation to
+one of constraints below, an
+<a href="#xml-validity-error"><code>xml-validity-error</code></a>.
+<em class=rfc2119>MUST</em> be raised.  The list of validity
+constraints is below:
+<ul>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting">Validity constraint: Proper Conditional Section/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a>
+</ul>
+
+<p><strong>Other creteria</strong>.  For each violation to
+one of constraints below, an
+<a href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>
+<em class=rfc2119>MUST</em> be raised.  The list of constraints is below:
+<ul>
+<li><q>For interoperability, if a parameter-entity reference appears in a 
+<code>choice</code>, <code>seq</code>, or <code>Mixed</code> construct, its 
+replacement text <em class=rfc2119>SHOULD</em> contain at least one non-blank 
+character, and neither the first nor last non-blank character of the 
+replacement text <em class=rfc2119>SHOULD</em> be a connector (<code>|</code> 
+or <code>,</code>).</q>
+<li><q>External parsed entities <em class=rfc2119>SHOULD</em> each begin with a
+text declaration.</q>
+</ul>
+
+<!--
+<li><q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at user option issue a warning when more than one attribute-list declaration is provided for a given element type, or more than one attribute definition is provided for a given attribute, but this is not an error.</q>
+
+<a href="#xml-misc-error" id=xme-attr-xml-space><code>xml-misc-error</code></a>.
+<li>It is an error for a reference to an unparsed entity to appear in the EntityValue in an entity declaration."
+-->
+
 <!--
 
-#vc-PEinMarkupDecl Validity constraint: Proper Declaration/PE Nesting
-#wfc-PEinInternalSubset Well-formedness constraint: PEs in Internal Subset
-#ExtSubset Well-formedness constraint: External Subset
-#PE-between-Decls Well-formedness constraint: PE Between Declarations
-#GIMatch Well-formedness constraint: Element Type Match
-#uniqattspec Well-formedness constraint: Unique Att Spec
-#NoExternalRefs Well-formedness constraint: No External Entity References
-#CleanAttrVals Well-formedness constraint: No < in Attribute Values
-#vc-PEinGroup Validity constraint: Proper Group/PE Nesting
-"For interoperability, if a parameter-entity reference appears in a choice, seq, or Mixed construct, its replacement text SHOULD contain at least one non-blank character, and neither the first nor last non-blank character of the replacement text SHOULD be a connector (| or ,)."
-"For interoperability, an XML processor MAY at user option issue a warning when more than one attribute-list declaration is provided for a given element type, or more than one attribute definition is provided for a given attribute, but this is not an error."
-#condsec-nesting Validity constraint: Proper Conditional Section/PE Nesting
-#wf-Legalchar Well-formedness constraint: Legal Character
-#textent Well-formedness constraint: Parsed Entity
-#norecursion Well-formedness constraint: No Recursion
-#indtd Well-formedness constraint: In DTD
-"External parsed entities SHOULD each begin with a text declaration."
-"It is an error for a reference to an unparsed entity to appear in the EntityValue in an entity declaration."
-#UniqueNotationName Validity constraint: Unique Notation Name
 
 @@ Need detailed review, but maybe should be in parsing phase
 
@@ -308,7 +347,6 @@ left undefined.  For example: Comment must be converted to a Comment node,
 illegal xml:space value must be preserved, so on.
 
 -->
-</dl>
 </div>
 
 <div class="section" id=checking-dom>

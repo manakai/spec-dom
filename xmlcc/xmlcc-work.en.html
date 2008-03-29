@@ -226,13 +226,15 @@ can be easily serialized into a valid XML document.</p>
 
 <p>When an <abbr>XML</abbr> document is parsed, the following clauses
 are applied:</p>
-<dl>
-<dt>For each document
+<dl class=switch>
+<dt>For the document
   <dd>If the <abbr>XML</abbr> document does not begin with an
   <abbr>XML</abbr> declaration, then the parser <em class=rfc2119>MUST</em>
   raise an
   <a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.
-<dt>For each internal general entity declaration processed by the parser
+<dt>For the document type declaration
+  <dd class=ed>@@ read external entity
+<dt>For each internal general entity declaration being processed by the parser
   <dd>If the 
   <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-EntityValue"><code>EntityValue</code></a>
   part of the general entity declaration contains a bare <code>U+003C</code>
@@ -241,15 +243,57 @@ are applied:</p>
   <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
 "strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
 -->
-<dt>For each element type declaration processed by the parser
-  <dd>If there is another element type declaration whose <code>Name</code>
-  is equal to the <code>Name</code> of the element type declaration, then
-  the parser <em class=rfc2119>MUST</em> raise an 
+<dt>For each element type declaration being processed by the parser
+  <dd>If there is another processed element type declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the element type
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
   <a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.
+<dt>For each attribute definition list declaration being processed by the
+parser
+  <dd>If there is another processed attribute defintion list declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the attribute
+  definition list declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an 
+  <a href="#xml-misc-warning" id=xme-attlist-unique><code>xml-misc-warning</code></a>.
+  <dd>For each attribute definition in the attribute definition list 
+  declaration, if there is another processed attribute definition whose
+  <code>Name</code> is equal to the <code>Name</code> of the attribute
+  definition (whether or not in the same attribute definition list
+  declaration), then the parser <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-warning" id=xme-attrdef-unique><code>xml-misc-warning</code></a>.
+  <!--
+    <q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at
+    user option issue a warning when more than one attribute-list declaration
+    is provided for a given element type, or more than one attribute definition
+    is provided for a given attribute, but this is not an error.</q>
+  -->
 <!--
   NOTE: <!ATTLIST a xml:space (default) #IMPLIED xml:space CDATA #IMPLIED>
   will not be warned.
 -->
+
+<dt>For each entity declaration being processed by the parser
+  <dd>If the entity declaration declares a parameter entity and the
+  <code>Name</code> of the entity begins with the string <code>xml</code>
+  (in any combination of upper- and lowercase letters), then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-warning" id=xmw-reserved-pe-name><code>xml-misc-warning</code></a>.
+  <dd>If the entity declaration contains the <code>EntityValue</code>, then
+  for each occurence of any references to unparsed entities in the
+  <code>EntityValue</code>, the parser <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-error" id=xme-unparsed-in-ev><code>xml-misc-error</code></a>.
+  <!--
+    <q>It is an error for a reference to an unparsed entity to appear in the
+    EntityValue in an entity declaration.</q>
+  -->
+
+<dt>For each notation declaration being processed by the parser
+  <dd>If there is another processed notation declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the notation
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
+  <a href="#xml-validity-error" id=vc-uniquenotationname><code>xml-validity-error</code></a>.
+  <!-- <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a> -->
+
 <dt>For each empty-element tag
   <dd>If the <code>Name</code> of the tag is not declared by a processed
   element type declaration as <code>EMPTY</code> content, then the parser
@@ -260,9 +304,52 @@ are applied:</p>
   type declaration as <code>EMPTY</code> content, then the parser
   <em class=rfc2119>MUST</em> raise an
   <a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
+
+<dt>For each parameter entity reference
+  <dd>If the declaration for the entity is not read (i.e. no declaration
+  for the entity is processed or the external entity referenced by the
+  declaration cannot be retrieved), then:
+    <ul>
+    <li>If the parameter entity is contained in a declaration, then the
+    declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
+    any error before the parameter entity <em class=rfc2119>MUST</em> be
+    raised as usual.
+    <li>If the parameter entity is contained in the status portion of a
+    conditional section, then the conditional section
+    <em class=rfc2119>MUST</em> be processed as if it were an
+    <code>IGNORE</code>d section.
+    <li>The parser <em class=rfc2119>MUST NOT</em> process any entity or
+    attribute-list declaration after the parameter entity reference in the DTD
+    <em>except</em> when the <code>standalone</code> pseudo-attribute of the
+    XML declaration (if any) is set to <code>yes</code>.
+    <!-- This requirement is enforced for internal DTD subset case in
+    XML 1.0/1.1 specification (section 5.1) but not for any other cases. -->
+    <!-- According to this definition, element type declarations, notation
+    declarations, and PIs ARE processed. -->
+    <li>If the parameter entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href="#entity-error" id=ee-unread-pe><code>entity-error</code></a>.
+    <li>The <code>allDeclarationsProcessed</code> <span class=ed>@@ ref</span>
+    attribute of the <code>Document</code> node <em class=rfc2119>MUST</em> be
+    set to <code>false</code>.
+    </ul>
+<dt>For each general entity reference in an attribute value or in the content
+of an element
+  <dd>If the declaration for the entity is not read (i.e. no declaration for
+  the entity is processed or the external entity referenced by the declaration
+  cannot be retrieved), then:
+    <ul>
+    <li>If the general entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href="#entity-error" id=ee-unread-ge><code>entity-error</code></a>.
+    <span class=ed>@@ entity declared WFC?</span>
+    <li class=ed>An unexpended entity reference node <em class=rfc2119>MUST</em> be inserted to the current node.
+    </ul>
 </dl>
 
-<p>In addition, the parser <em class=rfc2119>MUST</em> check whether the
+<p class=ed>@@ MUST try to read external entity
+
+<p>In addition, the parser has to check whether the
 following constraints are met.
 
 <p><strong>Well-formedness constraints</strong>.  For each violation to
@@ -272,8 +359,6 @@ one of constraints below, an
 constraints is below:
 <ul>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset">Well-formedness constraint: PEs in Internal Subset</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch">Well-formedness constraint: Element Type Match</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#uniqattspec">Well-formedness constraint: Unique Att Spec</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NoExternalRefs">Well-formedness constraint: No External Entity References</a>
@@ -293,7 +378,6 @@ constraints is below:
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting">Validity constraint: Proper Conditional Section/PE Nesting</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a>
 </ul>
 
 <p><strong>Other creteria</strong>.  For each violation to
@@ -311,12 +395,6 @@ or <code>,</code>).</q>
 text declaration.</q>
 </ul>
 
-<!--
-<li><q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at user option issue a warning when more than one attribute-list declaration is provided for a given element type, or more than one attribute definition is provided for a given attribute, but this is not an error.</q>
-
-<a href="#xml-misc-error" id=xme-attr-xml-space><code>xml-misc-error</code></a>.
-<li>It is an error for a reference to an unparsed entity to appear in the EntityValue in an entity declaration."
--->
 
 <!--
 
@@ -346,6 +424,16 @@ text declaration.</q>
 left undefined.  For example: Comment must be converted to a Comment node,
 illegal xml:space value must be preserved, so on.
 
+Warn <!ENTITY % xml... ...>
+
+-->
+
+<p>The parser <em class=rfc2119>MUST</em> raise an
+<a href="#xml-well-formedness-error" id=wfe-syntax><code>xml-well-formedness-error</code></a>
+for any failure to match to a production rule in the XML specification.
+<!--
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
 -->
 </div>
 
@@ -428,9 +516,9 @@ character that is <em>not</em> in the character class
 case combination), then raise an
 <a href="#xml-misc-warning" id=xmw-reserved-name><code>xml-misc-warning</code></a>.
 <span class=ed>@@ except for attribute names <code>xml:lang</code>,
-<code>xml:space</code>, <code>xml:base</code>, <code>xml:id</code>,
+<code>xml:space</code><!--, <code>xml:base</code>, <code>xml:id</code>,
 <code>xmlns</code>, <code>xmlns:<var>*</var></code>,
-pi name <code>xml-stylesheet</code>.</span><!--
+pi name <code>xml-stylesheet</code>-->.</span><!--
 "names beginning with a match to (('X'|'x')('M'|'m')('L'|'l')) are reserved for standardization in this or future versions of this specification.":
 xmlns, xml-stylesheet, xml:base and xml:id specifications violate to this sentense!
 --></li>

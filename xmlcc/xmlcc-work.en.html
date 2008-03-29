@@ -494,16 +494,34 @@ parser
   ignored. -->
 
 <dt>For each parameter entity reference
-  <dd>If the declaration for the entity is not read (i.e. no declaration
-  for the entity is processed or the external entity referenced by the
-  declaration cannot be retrieved), then:
+  <dd><p>Process as follows:
+    <ol>
+    <li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-well-formedness-error" id=wf-entdeclared-pe><code>xml-well-formedness-error</code></a>.
+      <dt>Otherwise
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-validity-error" id=vc-entdeclared-pe><code>xml-validity-error</code></a>.
+      </dl>
+    <li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </ol>
+
+    <p>In any of two cases above, process as follows:
     <ul>
-    <li>If the parameter entity is contained in a declaration, then the
-    declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
+    <li>If the parameter entity reference is contained in a declaration, then
+    the declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
     any error before the parameter entity <em class=rfc2119>MUST</em> be
     raised as usual.
-    <li>If the parameter entity is contained in the status portion of a
-    conditional section, then the conditional section
+    <li>If the parameter entity reference is contained in the status portion of
+    a conditional section, then the conditional section
     <em class=rfc2119>MUST</em> be processed as if it were an
     <code>IGNORE</code>d section.
     <li>The parser <em class=rfc2119>MUST NOT</em> process any entity or
@@ -523,9 +541,30 @@ parser
     </ul>
 <dt>For each general entity reference in an attribute value or in the content
 of an element
-  <dd>If the declaration for the entity is not read (i.e. no declaration for
-  the entity is processed or the external entity referenced by the declaration
-  cannot be retrieved), then:
+  <dd><p>Process as follows:
+    <ol>
+    <li>If the <code>Name</code> of the entity reference is either
+    <code>amp</code>, <code>lt</code>, <code>gt</code>, <code>quot</code>,
+    or <code>apos</code>, then abort these steps.
+    <li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-well-formedness-error" id=wf-entdeclared-ge><code>xml-well-formedness-error</code></a>.
+      <dt>Otherwise
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-validity-error" id=vc-entdeclared-ge><code>xml-validity-error</code></a>.
+      </dl>
+    <li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </ol>
+
+    <p>In any of two cases above, process as follows:
     <ul>
     <li>If the general entity reference is the first reference to an entity
     that is not read, then the parser <em class=rfc2119>MUST</em> raise an
@@ -540,7 +579,9 @@ of an element
   <!-- In XML 1.0/1.1 spec, this is optional. -->
 </dl>
 
-<p class=ed>@@ MUST try to read external entity
+<p>The parser <em class=rfc2119>MUST</em> try to read any entity referenced
+by general or parameter entity references, the external subset entity, if any,
+and any general entity declared in the document type definition.
 
 <p>In addition, the parser has to check whether the
 following constraints are met.
@@ -571,6 +612,7 @@ constraints is below:
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting">Validity constraint: Proper Conditional Section/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-check-rmd">Validity constraint: Standalone Document Declaration</a>
 </ul>
 
 <p><strong>Other creteria</strong>.  For each violation to
@@ -587,20 +629,6 @@ or <code>,</code>).</q>
 <li><q>External parsed entities <em class=rfc2119>SHOULD</em> each begin with a
 text declaration.</q>
 </ul>
-
-
-<!--
-
-@@ Need detailed review, but maybe should be in parsing phase
-
-#vc-check-rmd Validity constraint: Standalone Document Declaration
-
-@@ Need dtailed review
-
-#wf-entdeclared Well-formedness constraint: Entity Declared
-#vc-entdeclared Validity constraint: Entity Declared
-
--->
 
 <p>The parser <em class=rfc2119>MUST</em> act as if it is a 
 <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating">validating
@@ -620,7 +648,7 @@ content</a> (See
 
 <p>The parser <em class=rfc2119>MUST</em> raise an
 <a href="#xml-well-formedness-error" id=wfe-syntax><code>xml-well-formedness-error</code></a>
-for any failure to match to a production rule in the XML specification.
+for any failure for matching to a production rule in the XML specification.
 <!--
   <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
   <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>

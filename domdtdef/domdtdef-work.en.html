@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="formal-specification"><!-- status-work-in-progress"-->
+<html lang="en" class="formal-specification status-work-in-progress">
 <head>
 <title>DOM Document Type Definition Module</title>
 <link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
@@ -10,24 +10,26 @@
 
 <div class="header">
 <h1>DOM Document Type Definition Module</h1>
-<h2>First Edition <!-- Working Draft -->
-<time datetime=2007-12-09>9 December 2007</time></h2>
+<h2><!-- First Edition -->Working Draft
+<time datetime=2008-06-15>15 June 2008</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
+<!--
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
-<!--
+-->
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
--->
 <dt>Latest Version</dt>
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
 <dt>Latest Working Draft</dt>
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
-<!-- <dt>Previous Version</dt> -->
+<dt>Previous Stable Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
+      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
 <dt>Version History</dt>
   <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html</a>&gt;</code></dd>
 <dt id=author>Author</dt>
@@ -37,7 +39,7 @@
       >w@suika.fam.cx</a>&gt;</code></dd>
 </dl>
 
-<p class="copyright" lang="en">&#xA9; <time>2007</time> <a
+<p class="copyright" lang="en">&#xA9; <time>2007</time>‐<time>2008</time> <a
     href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a rel="license"
@@ -182,7 +184,7 @@ instance of
 <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
 with same 
 <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#prod-identifier"><code>identifier</code></a>
-part as that of any instance of 
+part as that of an instance of 
 <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
 in the <i>patch</i>, then the former instance of
 <a href="http://www.w3.org/TR/2007/WD-DOM-Bindings-20071017/#proddef-InterfaceMember"><code>InterfaceMember</code></a>
@@ -989,7 +991,7 @@ and therefore any change of read-only flag on the node is immediately
 reflected by that of the object.
 -->
 <dt><dfn id=notations class=dom-attr><code>notations</code></dfn> of type
-<code>notations</code>, read‐only</code>
+<code>NamedNodeMap</code>, read‐only</code>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the notations belonging to the
   <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
@@ -1261,7 +1263,7 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only<
   a <a href="#DocumentType"><code>DocumentType</code></a> node,
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
 <dt><dfn id=attributeDefinitions class=dom-attr><code>attributeDefinitions</code></dfn>
-of type NamedNodeMap, read‐only</dt>
+of type <code>NamedNodeMap</code>, read‐only</dt>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the attribute definitions belonging to the 
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
@@ -1697,7 +1699,7 @@ validation is performed.  The new value <em class=rfc2119>MAY</em> be
 
 <dl>
 <dt><dfn id=hasReplacementTree class=dom-attr><code>hasReplacementTree</code></dfn>
-of type boolean</dt>
+of type <code>boolean</code></dt>
   <dd><p>Whether the structure of the replacement text of the entity
   is available via the <code>NodeList</code> object in the
   <code>childNodes</code> attribute of the entity.</p>
@@ -1741,7 +1743,7 @@ of type boolean</dt>
   attribute set to <code>false</code>.</p>
   </div></dd>
 <dt><dfn id=isExternallyDeclared class=dom-attr><code>isExternallyDeclared</code></dfn>
-of type boolean</dt>
+of type <code>boolean</code></dt>
   <dd><p>Whether the entity is declared by an external entity declaration or 
   not.  If the value is <code>true</code>, the entity is declared in an entity
   declaration in the external subset entity or in an external parameter entity.

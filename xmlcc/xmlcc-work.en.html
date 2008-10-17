@@ -18,7 +18,7 @@
 
 <div class="header">
 <h1>manakai's <abbr>XML</abbr> Conformance Checking</h1>
-<h2>Working Draft <time datetime=2008-03-29>29 March 2008</time></h2>
+<h2>Working Draft <time datetime=2008-10-17>17 October 2008</time></h2>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
@@ -79,6 +79,19 @@ project.  It might be updated, replaced, or obsoleted by
 other documents at any time.  It is inappropriate to
 cite this document as other than <q>work in progress</q>.</p>
 
+<p>The scope of this specification is explicitly limited to the <a
+href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+implementation.  It is <em>not</em> the purpose of this specification
+to define a general guideline to parse or to check XML documents.
+This specification does <em>not</em> try to define a new version of
+XML at all.
+
+<p>This version of the specification supports the fourth edition of
+XML 1.0 and the second edition of XML 1.1.  The fifth edition of XML
+1.0 might be supported in a later version.  XML namespaces
+specifications is expected to be supported in a later version of this
+specification.
+
 <p>Comments on this document are welcome and
 may be sent to the <a href="#author">author</a>.</p>
 
@@ -91,6 +104,17 @@ normative version.</p>
 <h2>Introduction</h2>
 
 <p class=section-info>This section is <em>non‐normative</em>.</p>
+
+<p>This specification defines how the parsing and the conformance
+checking of XML documents should be implemented in the <a
+href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+XML parser and conformance checker.
+
+<p>It is <em>not</em> the purpose of this specification to define,
+e.g., how to parse XML documents in general; its scope is explicitly
+limited to the <a
+href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+implementation.
 
 <div class="issue ed">...
 
@@ -130,9 +154,35 @@ document, however, corresponding parts of the <abbr>XML</abbr> 1.1
 specification should be consulted instead.</p>
 </div>
 
+<div class=section id=processing-model>
+<h2>Processing Model</h2>
+
+<p>Conceptually, validation of an XML document is split into two
+stages for the purpose of this specification: the <dfn
+id=xml-document-parsing>XML document parsing</dfn> stage and the <dfn
+id=dom-xml-conformance-checking>DOM XML conformance checking</dfn>
+stage.
+
+<p>The input to the XML document parsing stage is a byte sequence
+representing the parsed XML document (and any additional metadata),
+and the output are a DOM tree representing the XML document and zero
+or more <a href="#error">errors</a>.  The processor that implements
+this stage is called <dfn id=parser>parser</dfn>.  Requirements for a
+parser are defined in the section of <a href="#parsing-xml">Parsing an
+XML Document</a>.
+
+<p>The input to the DOM XML conformance chcking stage is a DOM tree,
+and the output are zero or more <a href="#error">errors</a>.  The
+processor that implements this stage is called <dfn
+id=conformance-checker>conformance checker</dfn>.  Requirements for a
+conformance checker are defined in the section of <a
+href="#checking-dom">Checking an XML DOM Tree</a>.
+
 
 <div class=section id=error-categories>
-<h2>Error Classification</h2>
+<h3>Error Classification</h3>
+
+<p class=ed>An <dfn id=error>error</dfn> is ...
 
 <p class=ed>If a <code>Document</code> node has no 
 xml-well-formedness-error, entity-error, and unknown-error,
@@ -232,24 +282,37 @@ can be easily serialized into a valid XML document.</p>
 when MUST or SHOULD).
 </div>
 
-<p>The parser <em class=rfc2119>MAY</em> continue the parsing of the document
-even after a fatal error (as defined by the relavant specification) is
-encountered.  How the parsing ought to be continued is not defined by this
-specification.
+</div>
 
+</div>
+
+<div class=section id=parsing-xml>
+<h2>Parsing an <abbr>XML</abbr> Document</h2>
+
+<p>When a byte stream that represents an XML document is given to a
+parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
+relevant specifications <span class=ed>[XML10, XML11, XMLNAMES10,
+XMLNAMES11, DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
+
+<p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
+document even after a fatal error (as defined by the relavant
+specifications) is encountered.  How the parsing ought to be continued
+is not defined by this specification.
+
+<!--
   <div class="note memo informative">
   <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
   will define how the parser has to convert any string into DOM tree
   completely.
   </div>
+-->
 
-</div>
+<p class=ed>A future version of this specification might define the
+entire parser in terms of input stream preprocessor, tokenizer, and
+tree constructor.
 
-<div class=section id=parsing-xml>
-<h2>Parsing <abbr>XML</abbr> Document</h2>
+<p>In addition, the following requirements are applied to the parser:
 
-<p>When an <abbr>XML</abbr> document is parsed, the following clauses
-are applied:</p>
 <dl class=switch>
 <dt>For each external entity (including the document entity and the external
 subset entity, if any)
@@ -579,18 +642,17 @@ of an element
   <!-- In XML 1.0/1.1 spec, this is optional. -->
 </dl>
 
-<p>The parser <em class=rfc2119>MUST</em> try to read any entity referenced
-by general or parameter entity references, the external subset entity, if any,
-and any general entity declared in the document type definition.
+<p>The parser <em class=rfc2119>MUST</em> try to read any entity
+referenced by general or parameter entity references<!--,--> and the
+external subset entity, if any<!--, and any general entity declared-->
+in the document type definition.
 
-<p>In addition, the parser has to check whether the
-following constraints are met.
+<p><strong>Well-formedness constraints</strong>.  When the parser
+detects a voilation to one of certain well-formedness constraints, it
+<em class=rfc2119>MUST</em> raise an <a
+href="#xml-well-formedness-error"><code>xml-well-formedness-error</code></a>.
+The list of such well-formed constraints is as follows:
 
-<p><strong>Well-formedness constraints</strong>.  For each violation to
-one of constraints below, an
-<a href="#xml-well-formedness-error"><code>xml-well-formedness-error</code></a>
-<em class=rfc2119>MUST</em> be raised.  The list of well-formedness
-constraints is below:
 <ul>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset">Well-formedness constraint: PEs in Internal Subset</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch">Well-formedness constraint: Element Type Match</a>
@@ -603,11 +665,12 @@ constraints is below:
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#indtd">Well-formedness constraint: In DTD</a>
 </ul>
 
-<p><strong>Validity constraints</strong>.  For each violation to
-one of constraints below, an
-<a href="#xml-validity-error"><code>xml-validity-error</code></a>.
-<em class=rfc2119>MUST</em> be raised.  The list of validity
-constraints is below:
+<p><strong>Validity constraints</strong>.  When the parser detects a
+violation to one of certain validity contraints, it <em
+class=rfc2119>MUST</em> raise an <a
+href="#xml-validity-error"><code>xml-validity-error</code></a>.  The
+list of such validity constraints is as follows:
+
 <ul>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
@@ -615,10 +678,12 @@ constraints is below:
 <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-check-rmd">Validity constraint: Standalone Document Declaration</a>
 </ul>
 
-<p><strong>Other creteria</strong>.  For each violation to
-one of constraints below, an
-<a href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>
-<em class=rfc2119>MUST</em> be raised.  The list of constraints is below:
+<p><strong>Other creteria</strong>.  If the parser detects a violation
+to one of certain additional constraints, it <em
+class=rfc2119>MUST</em> raise an <a
+href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>.
+The list of such constraints is as follows:
+
 <ul>
 <li><q>For interoperability, if a parameter-entity reference appears in a 
 <code>choice</code>, <code>seq</code>, or <code>Mixed</code> construct, its 
@@ -630,12 +695,13 @@ or <code>,</code>).</q>
 text declaration.</q>
 </ul>
 
-<p>The parser <em class=rfc2119>MUST</em> act as if it is a 
-<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating">validating
-XML processor</a> for the informing of white space appearing in 
-<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-elemcontent">element 
-content</a> (See 
-<a href="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">Section
+<p>The parser <em class=rfc2119>MUST</em> act as if it is a <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating">validating
+XML processor</a> for the purpose of informing of white space
+characters appearing in <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-elemcontent">element
+content</a> (See <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">Section
 2.10</a> of the XML specification).
 
   <div class="note memo informative">
@@ -646,9 +712,16 @@ content</a> (See
   is not processed.
   </div>
 
-<p>The parser <em class=rfc2119>MUST</em> raise an
-<a href="#xml-well-formedness-error" id=wfe-syntax><code>xml-well-formedness-error</code></a>
-for any failure for matching to a production rule in the XML specification.
+<p>The parser <em class=rfc2119>MUST</em> raise at least one <a
+href="#xml-well-formedness-error"
+id=wfe-syntax><code>xml-well-formedness-error</code></a> if the entity
+it parses does not match to the appropriate production rule in the XML
+specification.  As an exception to this requirement, it <em
+class=rfc2119>MAY</em> choose not to raise such an error if the error
+will be raised by the conformance checker when the conformance checker
+<a href="#algorithm-to-check-a-node" title="check a node">checks</a>
+the <code>Document</code> object produced by the parser.
+
 <!--
   <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
   <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
@@ -663,7 +736,7 @@ for any failure for matching to a production rule in the XML specification.
 </div>
 
 <div class="section" id=checking-dom>
-<h2>Checking <abbr>DOM</abbr></h2>
+<h2>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</h2>
 
 <p>The following algorithms and definitions are applied to
 <abbr>XML</abbr> documents; especially, they are not applied

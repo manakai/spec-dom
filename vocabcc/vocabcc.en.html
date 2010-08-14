@@ -10,7 +10,7 @@
 <dt>Latest Version</dt>
   <dd><code class=URI>&lt;<a href=http://suika.fam.cx/www/markup/xml/vocabcc/vocabcc>http://suika.fam.cx/www/markup/xml/vocabcc/vocabcc</a>&gt;</code></dd>
 <dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/tree/HEAD:/vocabcc/vocabcc-src.en.html>http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/tree/HEAD:/vocabcc/vocabcc-src.en.html</a>&gt;</code></dd>
+  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/vocabcc/vocabcc-src.en.html>http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/vocabcc/vocabcc-src.en.html</a>&gt;</code></dd>
 <dt id=author>Author</dt>
   <dd><a href=http://suika.fam.cx/~wakaba/who? lang=ja rel=author>Wakaba</a>
   <code class=mail>&lt;<a href=mailto:w@suika.fam.cx rel=author>w@suika.fam.cx</a>&gt;</code></dd>
@@ -209,7 +209,8 @@ specification. -->
 <div class=section>
 <h3 id=namespaces><span class=secno>2.3 </span>Namespaces</h3>
 
-<p class=ed>...
+<p>The <dfn id=atom-namespace>Atom namespace</dfn> is
+<code>http://www.w3.org/2005/Atom</code>.
 
 </p></div>
 
@@ -218,14 +219,17 @@ specification. -->
 <div class=section>
 <h2 id=atom><span class=secno>3 </span>Atom</h2>
 
-<p>A <code>feed</code> element in the <span>Atom namespace</span>,
-when it contains no <code>entry</code> element in the <span>Atom
-namespace</span> as child, can but does not have to contain a child
-<code>author</code> element in the <span>Atom namespace</span>.
+<p class=section-info>This section only applies to user agents that
+support Atom <cite class="bibref normative">[<a href=#ref-ATOM>ATOM</a>]</cite>.
 
-</p><div class=note>
+</p><p>A <code>feed</code> element in the <a href=#atom-namespace>Atom namespace</a>,
+when it contains no <code>entry</code> element in the <a href=#atom-namespace>Atom
+namespace</a> as child, can but does not have to contain a child
+<code>author</code> element in the <a href=#atom-namespace>Atom namespace</a>.
 
-<p>In RFC 4287 <cite class=bibref>[<a href=#ref-ATOM>ATOM</a>]</cite> whether there has to be an
+</p><div class="note memo">
+
+<p>In RFC 4287 <cite class="bibref normative">[<a href=#ref-ATOM>ATOM</a>]</cite> whether there has to be an
 <code>author</code> child element or not is unclear when the
 <code>feed</code> element contains no <code>entry</code> element
 child.

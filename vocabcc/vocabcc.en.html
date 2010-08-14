@@ -1,0 +1,278 @@
+<!DOCTYPE html><html class="formal-specification status-work-in-progress anolis" lang=en><head><meta charset=utf-8>
+<title>manakai's Conformance Checking Guidelines for XML-based Markup Languages</title>
+<link href=/www/style/html/spec rel=stylesheet>
+
+</head><body><div class=header>
+<h1 class="no-toc no-num">manakai's Conformance Checking Guidelines for XML-based Markup Languages</h1>
+<h2 class="no-toc no-num" id=working-draft-date>Working Draft 14 August 2010</h2>
+
+<dl class=versions-uri>
+<dt>Latest Version</dt>
+  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/www/markup/xml/vocabcc/vocabcc>http://suika.fam.cx/www/markup/xml/vocabcc/vocabcc</a>&gt;</code></dd>
+<dt>Version History</dt>
+  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/tree/HEAD:/vocabcc/vocabcc-src.en.html>http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/tree/HEAD:/vocabcc/vocabcc-src.en.html</a>&gt;</code></dd>
+<dt id=author>Author</dt>
+  <dd><a href=http://suika.fam.cx/~wakaba/who? lang=ja rel=author>Wakaba</a>
+  <code class=mail>&lt;<a href=mailto:w@suika.fam.cx rel=author>w@suika.fam.cx</a>&gt;</code></dd>
+</dl>
+
+<p class=copyright lang=en>© 2010 <a href=http://suika.fam.cx/~wakaba/who? rel=author>Wakaba</a>.  You
+are granted a license to use, reproduce and create derivative works of
+this document.
+
+</p></div>
+
+<div class=section id=abstract>
+<h2 class="no-toc no-num" id=abstract-0>Abstract</h2>
+
+<p class=ed>...
+</p></div>
+
+<div class=section id=status>
+<h2 class="no-toc no-num" id=status-of-this-document>Status of this document</h2>
+
+<p class=section-info><em>This section describes the status of this
+document at the time of its publication.  Other documents might
+supersede this document.</em></p>
+
+<p>This document is a <!-- working draft --> technical specification,
+produced as part of the <a href=http://suika.fam.cx/www/manakai-core/doc/web/>manakai</a>
+project.  It might be updated, replaced, or obsoleted by other
+documents at any time.<!-- It is inappropriate to cite this document
+as other than <q>work in progress</q>. -->
+
+</p><p>Comments on this document are welcome and may be sent to the <a href=#author>author</a>.</p>
+
+<p>Translations of thie document might be available.  The English
+version of the document is the only normative version.</p>
+
+</div>
+
+<div class=section>
+<h2 class="no-toc no-num" id=table-of-contents>Table of contents</h2>
+
+
+<!--begin-toc-->
+<ol class=toc>
+ <li><a href=#introduction><span class=secno>1 </span>Introduction</a></li>
+ <li><a href=#common-infrastructure><span class=secno>2 </span>Common infrastructure</a>
+  <ol>
+   <li><a href=#terminology><span class=secno>2.1 </span>Terminology</a></li>
+   <li><a href=#conformance-requirements><span class=secno>2.2 </span>Conformance requirements</a></li>
+   <li><a href=#namespaces><span class=secno>2.3 </span>Namespaces</a></li></ol></li>
+ <li><a href=#atom><span class=secno>3 </span>Atom</a></li>
+ <li><a class=no-num href=#references>References</a>
+  <ol>
+   <li><a class=no-num href=#normative-references>Normative references</a></li></ol></li></ol>
+<!--end-toc-->
+</div>
+
+<div class=section>
+<h2 id=introduction><span class=secno>1 </span>Introduction</h2>
+
+<p><em>This section is non‐normative.</em>
+
+</p><p class=ed>...
+
+</p><p>This specification is developed as part of the <a href=http://suika.fam.cx/www/manakai-core/doc/web/>manakai</a>
+project.  Although it might be useful to other parties, the only
+intended audiences of this specification are contributors of the
+project.  This specification does not define or describe any kind of
+standard.
+
+</p></div>
+
+<div class=section>
+<h2 id=common-infrastructure><span class=secno>2 </span>Common infrastructure</h2>
+
+<div class=section>
+<h3 id=terminology><span class=secno>2.1 </span>Terminology</h3>
+
+<p>This specification relies heavily on the Web Applications 1.0
+specification <cite class="bibref normative">[<a href=#ref-WA1>WA1</a>]</cite> to define underlying terms.
+
+</p><p>Web Applications 1.0 defines the terms
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#other-applicable-specifications><dfn id=applicable-specifications>applicable specifications</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#willful-violation><dfn id=willful-violation>willful violation</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#ascii-case-insensitive><dfn id=ascii-case-insensitive>ASCII case-insensitive</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#html-namespace-0><dfn id=html-namespace>HTML namespace</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#html-elements><dfn id=html-elements>HTML elements</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#xml-documents><dfn id=xml-documents>XML documents</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-integer><dfn id=valid-integer>valid integer</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-floating-point-number><dfn id=valid-floating-point-number>valid floating point number</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-non-negative-integer><dfn id=valid-non-negative-integer>valid non-negative integer</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#set-of-comma-separated-tokens><dfn id=set-of-comma-separated-tokens>set of comma-separated tokens</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#set-of-space-separated-tokens><dfn id=set-of-space-separated-tokens>set of space-separated tokens</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#unordered-set-of-unique-space-separated-tokens><dfn id=unordered-set-of-unique-space-separated-tokens>unordered set of unique space-separated tokens</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-browsing-context-name><dfn id=valid-browsing-context-name>valid browsing context name</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-browsing-context-name-or-keyword><dfn id=valid-browsing-context-name-or-keyword>valid browsing context name or keyword</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#boolean-attribute><dfn id=boolean-attribute>boolean attribute</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#enumerated-attribute><dfn id=enumerated-attribute>enumerated attribute</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#event-handler-content-attributes><dfn id=event-handler-content-attributes>event handler content attributes</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#mime-type><dfn id=mime-type>MIME type</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-mime-type><dfn id=valid-mime-type>valid MIME type</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#xml-mime-type><dfn id=xml-mime-type>XML MIME type</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#url><dfn id=url>URL</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-url><dfn id=valid-url>valid URL</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-non-empty-url><dfn id=valid-non-empty-url>valid non-empty URL</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#absolute-url><dfn id=absolute-url>absolute URL</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#resolve-a-url><dfn id=resolve-a-url>resolve a URL</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#url-scheme><dfn id=url-scheme title=url-scheme>&lt;scheme&gt;</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#valid-e-mail-address><dfn id=valid-e-mail-address>valid e-mail address</dfn></a>,
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#maps-to-the-pixel-length-property><dfn id=maps-to-the-pixel-length-property>maps to the pixel length property</dfn></a>,
+
+and
+
+<a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#maps-to-the-dimension-property><dfn id=maps-to-the-dimension-property>maps to the dimension property</dfn></a>.
+
+</p><p>The term <dfn id=valid-dimension-value>valid dimension value</dfn> is <a href="http://html5.org/tools/web-apps-tracker?from=2749&amp;to=2750">defined
+in a commented out paragraph</a> of the Web Applications 1.0
+specification.
+
+</p><p>The concept of <a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html#content-models><dfn id=content-model>content
+model</dfn></a>, as well as the way to interpret it, is defined in the
+Web Applications 1.0 specification.
+
+</p></div>
+
+<div class=section>
+<h3 id=conformance-requirements><span class=secno>2.2 </span>Conformance requirements</h3>
+
+<p>All <!-- diagrams, examples, and --> notes in this specification
+are non-normative, as are all sections explicitly marked
+non-normative. Everything else in this specification is normative.
+
+</p><p>The key words “<em class=rfc2119>MUST</em>”, “<em class=rfc2119>MUST NOT</em>”, “<em class=rfc2119>SHOULD</em>”, and 
+“<em class=rfc2119>MAY</em>” in the normative parts of this document
+are to be interpreted as described in RFC 2119 <cite class="bibref
+normative">[<a href=#ref-RFC2119>RFC2119</a>]</cite>.
+
+<!--
+<p>Requirements phrased in the imperative as part of algorithms (such
+as “strip any leading space characters” or “return false and abort
+these steps”) are to be interpreted with the meaning of the key word
+(e.g. “<em class=rfc2119>MUST</em>”) used in introducing the
+algorithm.
+
+<p>Conformance requirements phrased as algorithms or specific steps
+<em class=rfc2119>MAY</em> be implemented in any manner, so long as
+the end result is equivalent. (In particular, the algorithms defined
+in this specification are intended to be easy to follow, and not
+intended to be performant.)
+-->
+
+</p><p>User agents may impose implementation-specific limits on otherwise
+unconstrained inputs, e.g. to prevent denial of service attacks, to
+guard against running out of memory, or to work around
+platform-specific limitations.
+
+</p><p>The language in this specification assumes that the user agent
+expands all entity references, and therefore does not include entity
+reference nodes in the DOM. If user agents do include entity reference
+nodes in the DOM, then user agents <em class=rfc2119>MUST</em> handle
+them as if they were fully expanded when implementing this
+specification.<!-- Entity references to unknown entities <em
+class=rfc2119>MUST</em> be treated as if they contained just an empty
+text node for the purposes of the algorithms defined in this
+specification. -->
+
+</p></div>
+
+<div class=section>
+<h3 id=namespaces><span class=secno>2.3 </span>Namespaces</h3>
+
+<p class=ed>...
+
+</p></div>
+
+</div>
+
+<div class=section>
+<h2 id=atom><span class=secno>3 </span>Atom</h2>
+
+<p>A <code>feed</code> element in the <span>Atom namespace</span>,
+when it contains no <code>entry</code> element in the <span>Atom
+namespace</span> as child, can but does not have to contain a child
+<code>author</code> element in the <span>Atom namespace</span>.
+
+</p><div class=note>
+
+<p>In RFC 4287 <cite class=bibref>[<a href=#ref-ATOM>ATOM</a>]</cite> whether there has to be an
+<code>author</code> child element or not is unclear when the
+<code>feed</code> element contains no <code>entry</code> element
+child.
+
+</p></div>
+
+</div>
+
+<div class="section reference">
+<h2 class=no-num id=references>References</h2>
+
+<div class="section reference normative">
+<h3 class=no-num id=normative-references>Normative references</h3>
+
+<dl>
+
+<dt id=ref-ATOM>ATOM
+
+</dt><dd>RFC 4287, <cite><a href=http://tools.ietf.org/html/rfc4287>The
+Atom Syndication Format</a></cite>, Mark Nottingham, Robert Sayre,
+IETF, December 2005.
+
+</dd><dt id=ref-RFC2119>RFC2119
+
+</dt><dd>RFC 2119, BCP 14, <cite><a href=http://tools.ietf.org/html/rfc2119>Key words for use in RFCs to
+Indicate Requirement Levels</a></cite>, Scott Bradner, IETF, March
+1997.
+
+</dd><dt id=ref-WA1>WA1
+
+</dt><dd><cite><a href=http://www.whatwg.org/specs/web-apps/current-work/complete.html>Web
+Applications 1.0</a></cite>, Ian Hickson, WHATWG Draft Standard.
+
+</dd></dl>
+
+</div>
+
+<!--
+<div class="section informative reference">
+<h3 class="no-num">Non‐normative references</h3>
+
+<dl>
+
+</dl>
+
+</div>
+-->
+
+</div>
+</body></html>

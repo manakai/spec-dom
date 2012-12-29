@@ -1,2 +1,9 @@
+AddCharset utf-8 .html
+
+RedirectMatch 301 ^/www/markup/xml/domdtdef/domdtdef-work.* http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef
+
+<Files domdtdef-20071209.en.html>
+  AddCharset iso-2022-jp .html
+</Files>
+
 ## License: Public Domain.
-## $Date: 2007/12/09 10:34:19 $

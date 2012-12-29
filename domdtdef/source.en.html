@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" class="formal-specification status-work-in-progress">
+<html lang="en" class="formal-specification anolis">
 <head>
-<title>DOM Document Type Definition Module</title>
+<title>DOM Document Type Definitions</title>
 <link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
 <link rel="stylesheet" href="http://suika.fam.cx/www/style/def/dom">
 <link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
@@ -9,25 +9,14 @@
 <body class="has-abstract">
 
 <div class="header">
-<h1>DOM Document Type Definition Module</h1>
-<h2><!-- First Edition -->Working Draft
-<time datetime=2008-06-15>15 June 2008</time></h2>
+<h1 class="no-toc no-num">DOM Document Type Definitions</h1>
+<h2 class="no-toc no-num">Living Standard [DATE]</h2>
 
 <dl class="versions-uri">
-<dt>This Version</dt>
-<!--
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
-      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
--->
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
-      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
 <dt>Latest Version</dt>
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
-<dt>Latest Working Draft</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
-      >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
-<dt>Previous Stable Version</dt>
+<dt>First Edition</dt>
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
 <dt>Version History</dt>
@@ -35,11 +24,11 @@
 <dt id=author>Author</dt>
   <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
       lang=ja>Wakaba</a>
-  <code class="mail">&lt;<a href="mailto:w@suika.fam.cx" rel="author"
-      >w@suika.fam.cx</a>&gt;</code></dd>
+  <code class="mail">&lt;<a href="mailto:wakaba@suikawiki.org" rel="author"
+      >wakaba@suikawiki.org</a>&gt;</code></dd>
 </dl>
 
-<p class="copyright" lang="en">&#xA9; <time>2007</time>‐<time>2008</time> <a
+<p class="copyright" lang="en">&#xA9; <time>2007</time>-<time>2012</time> <a
     href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a rel="license"
@@ -47,7 +36,7 @@ href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
 Version 1.2
 or any later version published by the <a
 href="http://www.fsf.org/">Free Software Foundation</a>;
-with no Invariant Sections, no Front‐Cover Texts, and no Back‐Cover
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
 Texts.  A copy of the license is
 available at <code class="URI">&lt;<a
     href="http://www.gnu.org/copyleft/fdl.html"
@@ -55,26 +44,30 @@ available at <code class="URI">&lt;<a
 </div>
 
 <div id="abstract" class="section">
-<h2>Abstract</h2>
+<h2 class="no-toc no-num">Abstract</h2>
 
-<p>The <abbr>DOM</abbr> Document Type Definition module is a set of 
-<abbr>DOM</abbr> interfaces, including both new interfaces and modifications 
-to existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr> 
-applications are able to access to the definitions of the document type.</p>
-</div>
+<p>The <abbr>DOM</abbr> Document Type Definitions specification
+defines a set of <abbr>DOM</abbr> interfaces, including both new
+interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
+over which <abbr>DOM</abbr> applications are able to access to the
+definitions of the document type.</p> </div>
 
 <div id="status" class="section">
-<h2>Status of This Document</h2>
+<h2 class="no-toc no-num">Status of This Document</h2>
 
 <p class=section-info>This section describes the status of this document at the
 time of its publication.  Other documents might supersede this document.</p>
 
-<p>This document is a specification<!-- working draft -->, 
-produced as part of the 
-<a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> project.  
-It might be updated, replaced, or obsoleted by other documents at any time.  
-<!-- It is inappropriate to cite this document as other than 
-<q>work in progress</q>. --></p>
+<p>This document is a specification produced as part of the <a
+href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a>
+project.  It is not intended to be implemented by any other DOM
+implementation, although nothing prevents it from being implemented by
+any other party.  It might be updated, replaced, or obsoleted by other
+documents at any time.
+
+<p class=ed>This specification was originllay developed in DOM3 age.
+Most part of this document need to be rewritten to align with modern
+Web standard specifications.
 
 <p>Comments on this document are welcome and
 may be sent to the <a href="#author">author</a>.</p>
@@ -84,16 +77,22 @@ The English version of the document is the only
 normative version.</p>
 </div>
 
+<div class=section>
+<h2 class="no-toc no-num">Table of contents</h2>
+<!-- toc -->
+</div>
+
 <div id="introduction" class="section">
 <h2>Introduction</h2>
 
-<p class=section-info>This section is <em>non‐normative</em>.</p>
+<p class=section-info>This section is <em>non-normative</em>.</p>
 
-<p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type Definition</dfn>
-module is a set of <abbr>DOM</abbr> interfaces, including both new
-interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
-over which <abbr>DOM</abbr> applications are able to access to the
-definitions of the document type.</p>
+<p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type
+Definitions</dfn> specification defines a set of <abbr>DOM</abbr>
+interfaces, including both new interfaces and modifications to
+existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr>
+applications are able to access to the definitions of the document
+type.</p>
 
 <p>Interfaces defined in this document are partially modeled and inspired by
 early drafts of <abbr>DOM</abbr> Level 1
@@ -111,13 +110,13 @@ they are not compatible with any of them as a whole.</p>
 <div class=section id=terminology>
 <h3>Terminology</h3>
 
-<p>All examples and notes in this specification are non‐normative,
-as are all sections explicitly marked non‐normative.</p>
+<p>All examples and notes in this specification are non-normative,
+as are all sections explicitly marked non-normative.</p>
 
-<p class=ed>Known issues are marked like this.  They are non‐normative.  <!--
+<p class=ed>Known issues are marked like this.  They are non-normative.  <!--
 However, this paragraph itself is normative.  One may argue that this paragraph
-is non‐normative, because this paragraph is marked as an editor's note. 
-Anyway, the other editor's notes are non‐normative. --></p>
+is non-normative, because this paragraph is marked as an editor's note. 
+Anyway, the other editor's notes are non-normative. --></p>
 
 <p>Everything else in this document is normative.</p>
 
@@ -165,7 +164,7 @@ is defined in the HTML5 specification
 <cite class="bibref normative">[<a href="#ref-HTML5">HTML5</a>]</cite>.</p>
 
 <p>The term 
-<em id=read-only><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-readonly-node">read‐only (node)</a></em>
+<em id=read-only><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-readonly-node">read-only (node)</a></em>
 is defined in the <abbr>DOM</abbr> Level 3 Core specification
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>.</p>
 
@@ -251,7 +250,7 @@ Information Set Converter</dt>
 </div>
 
 <div class=section id=dom-dtdef>
-<h2><abbr>DOM</abbr> Document Type Definition Module</h2>
+<h2><abbr>DOM</abbr> Document Type Definitions</h2>
 
 <p>The <abbr>DOM</abbr> Document Type Definition module, version 3.0, 
 introduces four interfaces:
@@ -295,7 +294,7 @@ such as <code>hasFeature</code> or <code>getFeature</code>,
 // Additions to the NodeType definition group
 const unsigned short <a href="#ELEMENT_TYPE_DEFINITION_NODE">ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
 const unsigned short <a href="#ATTRIBUTE_DEFINITION_NODE">ATTRIBUTE_DEFINITION_NODE</a> = 81002;
-</pre>
+</code></pre>
 
 <p>This specification adds two new types (subinterfaces) of 
 <a href="#Node"><code>Node</code></a>: element type definition (node type 
@@ -533,7 +532,7 @@ nodes might also be defined in some day.</p>
 <p>An instance of the 
 <a href="#DocumentXDoctype"><code>DocumentXDoctype</code></a>
 interface <em class=rfc2119>MUST</em> be able to be obtained by using 
-binding‐specific casting methods on an instance of the 
+binding-specific casting methods on an instance of the 
 <a href="#Document"><code>Document</code></a> interface (if such
 casting methods are available) or by using the method <code>getFeature</code> 
 with parameter values
@@ -597,7 +596,7 @@ method</dt>
       method is invoked.</dd>
     </dl>
     <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
-    <a href="#read-only">read‐only</a>.</p>
+    <a href="#read-only">read-only</a>.</p>
     <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
     containing five general entity declarations: <code>amp</code>,
     <code>lt</code>, <code>gt</code>, <code>quot</code>, and
@@ -630,7 +629,7 @@ method</dt>
       <dd><code>null</code>.</dd>
     </dl>
     <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
-    <a href="#read-only">read‐only</a>.</p>
+    <a href="#read-only">read-only</a>.</p>
   </dd>
 <dt><dfn id=createAttributeDefinition class=dom-method><code>createAttributeDefinition</code></dfn>,
 method</dt>
@@ -663,7 +662,7 @@ method</dt>
       <dd><code>null</code>.</dd>
     </dl>
     <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
-    <a href="#read-only">read‐only</a>.</p>
+    <a href="#read-only">read-only</a>.</p>
 
     <!-- This requirement, if not droped, should be part of xml-id spec.
     <div class=ed>
@@ -726,7 +725,7 @@ method</dt>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     </dl>
   <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
-  <a href="#read-only">read‐only</a>.</p></dd>
+  <a href="#read-only">read-only</a>.</p></dd>
 <dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
 method</dt>
   <dd>
@@ -760,7 +759,7 @@ method</dt>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     </dl>
   <p>The returned node <em class=rfc2119>MUST NOT</em> be marked as 
-  <a href="#read-only">read‐only</a>.</p></dd>
+  <a href="#read-only">read-only</a>.</p></dd>
 </dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
@@ -772,7 +771,7 @@ version specified in the <code>xmlVersion</code> attribute of the
 <a href="#Document"><code>Document</code></a> node.</p>
 
 <div class="note memo">
-<p>Non‐<abbr>XML</abbr> case is intentionally left unspecified for now,
+<p>Non-<abbr>XML</abbr> case is intentionally left unspecified for now,
 since <abbr>DOM</abbr> Level 3 Core specification
 <cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
 does not define it for <a href="#Document"><code>Document</code></a> 
@@ -803,9 +802,9 @@ instructions in the document type definition of the document processed
 <cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
 <a href="#ref-XML11">XML11</a>]</cite> by the <abbr>XML</abbr> processor.  If
 the <a href="#DocumentType"><code>DocumentType</code></a> node is marked as 
-<a href="#read-only">read‐only</a>, then all the child nodes 
+<a href="#read-only">read-only</a>, then all the child nodes 
 <em class=rfc2119>MUST</em> also be marked as 
-<a href="#read-only">read‐only</a>.</p>
+<a href="#read-only">read-only</a>.</p>
 
 <p>If a <a href="#DocumentType"><code>DocumentType</code></a> node is created
 from a
@@ -843,11 +842,11 @@ of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 <a href="#DocumentType"><code>DocumentType</code></a>,
 <a href="#Entity"><code>Entity</code></a>, and
 <a href="#Notation"><code>Notation</code></a> interfaces are no longer
-read‐only.</p>
+read-only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
 <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
-<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+<a href="#read-only">read-only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
 set the specified value as the value associated to the attribute.  No 
 normalization, relative reference resolution, or lexical validation is 
 performed. <span class=ed>@@ If the new value is <code>null</code>, should an 
@@ -866,11 +865,11 @@ or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
 
 <p>The <code id=internalSubset>internalSubset</code> attribute of the
 <a href="#DocumentType"><code>DocumentType</code></a> interface is no longer
-read‐only.</p>
+read-only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
 <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
-<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+<a href="#read-only">read-only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
 set the specified value as the value associated to the attribute.  No 
 normalization, or lexical validation is performed.  <span class=ed>@@ If the 
 new value is <code>null</code>, should an empty string be set?</span></p>
@@ -888,7 +887,7 @@ interface.</p>
 <p>An instance of the 
 <a href="#DocumentTypeDefinition"><code>DocumentTypeDefinition</code></a>
 interface <em class=rfc2119>MUST</em> be able to be obtained by using 
-binding‐specific casting methods on an instance of the 
+binding-specific casting methods on an instance of the 
 <a href="#DocumentType"><code>DocumentType</code></a> interface (if such
 casting methods are available) or by using the method <code>getFeature</code> 
 with parameter values
@@ -927,7 +926,7 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
 
 <dl>
 <dt><dfn id=elementTypes class=dom-attr><code>elementTypes</code></dfn> of
-type <code>NamedNodeMap</code>, read‐only</dt>
+type <code>NamedNodeMap</code>, read-only</dt>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the element type definitions belonging to the 
   <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
@@ -936,8 +935,8 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   <code>NamedNodeMap</code> object that contains all the 
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
   nodes belonging to the <code>DocumentType</code> node.  The
-  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read‐only
-  if and only if the node is <a href="#read-only">read‐only</a>.  The
+  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be read-only
+  if and only if the node is <a href="#read-only">read-only</a>.  The
   <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
   <a href="#live">live</a>.</p>
 
@@ -956,7 +955,7 @@ type <code>NamedNodeMap</code>, read‐only</dt>
   <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
   <code>NamedNodeMap</code> object.</p></dd>
 <dt><dfn id=generalEntities class=dom-attr><code>generalEntities</code></dfn>
-of type <code>NamedNodeMap</code>, read‐only</dt>
+of type <code>NamedNodeMap</code>, read-only</dt>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the general entities belonging to the 
   <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
@@ -991,7 +990,7 @@ and therefore any change of read-only flag on the node is immediately
 reflected by that of the object.
 -->
 <dt><dfn id=notations class=dom-attr><code>notations</code></dfn> of type
-<code>NamedNodeMap</code>, read‐only</code>
+<code>NamedNodeMap</code>, read-only</code>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the notations belonging to the
   <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
@@ -1165,7 +1164,7 @@ attached</dfn>, the rules below, with parameters
   <code>nodeName</code> attribute value of <var>node</var>, if any.</p></li>
   <li><p>If <var>r</var> is different from <code>null</code> and <var>r</var>
   is same node as <var>node</var>, then abort these steps.</p></li>
-  <li><p>If <var>n</var> is <a href="#read-only">read‐only</a>, then raise a
+  <li><p>If <var>n</var> is <a href="#read-only">read-only</a>, then raise a
   <code>NO_MODIFICATION_ALLOWED_ERR</code> and abort these steps.</p></li>
   <li><p>If the <code>ownerDocument</code> attribute value of <var>node</var>
   is different from that of <var>n</var>, then raise a
@@ -1240,7 +1239,7 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
 
 <dl>
 <dt><dfn id=ownerDocumentTypeDefinition class=dom-attr><code>ownerDocumentTypeDefinition</code></dfn>
-of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only</dt>
+of type <a href="#DocumentType"><code>DocumentType</code></a>, read-only</dt>
   <dd><p>The 
   <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
   attribute of
@@ -1263,7 +1262,7 @@ of type <a href="#DocumentType"><code>DocumentType</code></a>, read‐only</dt>
   a <a href="#DocumentType"><code>DocumentType</code></a> node,
   then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
 <dt><dfn id=attributeDefinitions class=dom-attr><code>attributeDefinitions</code></dfn>
-of type <code>NamedNodeMap</code>, read‐only</dt>
+of type <code>NamedNodeMap</code>, read-only</dt>
   <dd><p>A <a href="#live">live</a> <code>NamedNodeMap</code> object that
   contains all the attribute definitions belonging to the 
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
@@ -1275,7 +1274,7 @@ of type <code>NamedNodeMap</code>, read‐only</dt>
   belonging to the
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node.
   The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
-  read‐only if and only if the node is <a href="#read-only">read‐only</a>.  
+  read-only if and only if the node is <a href="#read-only">read-only</a>.  
   The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
   <a href="#live">live</a>.</p>
   
@@ -1411,7 +1410,7 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
 <dt><dfn id=ownerElementTypeDefinition class=dom-attr><code>ownerElementTypeDefinition</code></dfn>
 of type
 <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>, 
-read‐only</dt>
+read-only</dt>
   <dd><p>The
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> to
   which the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
@@ -1440,7 +1439,7 @@ read‐only</dt>
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
   <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
-  is <a href="#read-only">read‐only</a>.  Otherwise, it
+  is <a href="#read-only">read-only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the value
   associated to this attribute.</p>
 
@@ -1564,21 +1563,21 @@ definition group.</p>
 
   </dd>
 <dt><dfn id=allowedTokens class=dom-attr><code>allowedTokens</code></dfn> of
-type <code>DOMStringList</code>, read‐only</dt>
+type <code>DOMStringList</code>, read-only</dt>
   <dd><p>The list of allowed attribute values.</p>
 
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
   <code>DOMStringList</code> object associated to this attribute.  The object
   <em class=rfc2119>MAY</em> contain zero or more ordered strings, consist of
   zero or more characters respectively, possibly with duplications.  The 
-  object <em class=rfc2119>MUST</em> be read‐only if and only if the node
-  is <a href="#read-only">read‐only</a>.</p>
+  object <em class=rfc2119>MUST</em> be read-only if and only if the node
+  is <a href="#read-only">read-only</a>.</p>
 
   <p>If the <a href="#AttributeDefinition"><code>AttributeDefinition</code></a>
   node is created during the process to create a <abbr>DOM</abbr> from an 
   <abbr>XML</abbr> document, the object <em class=rfc2119>MUST</em> contain
   the names or name tokens allowed for the attribute defined by the node.
-  If the document is well‐formed, the object will be empty unless 
+  If the document is well-formed, the object will be empty unless 
   the <a href="#declaredType"><code>declaredType</code></a> is 
   <a href="#ENUMERATION_ATTR"><code>ENUMERATION_ATTR</code></a> or
   <a href="#NOTATION_ATTR"><code>NOTATION_ATTR</code></a>.</p>
@@ -1606,7 +1605,7 @@ type <code>unsigned short</code></dt>
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
   <code>NO_MODIFICATION_ALLOWED_ERR</code> if the
   <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node
-  is <a href="#read-only">read‐only</a>.  Otherwise, it
+  is <a href="#read-only">read-only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the value
   associated to this attribute.</p>
 
@@ -1688,11 +1687,11 @@ interface <em class=rfc2119>MUST</em> be modified as the following
 
 <p>The <code id=notationName>notationName</code> attribute of the
 <a href="#Entity"><code>Entity</code></a> interface is no longer 
-read‐only.</p>
+read-only.</p>
 
 <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
 <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
-<a href="#read-only">read‐only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
+<a href="#read-only">read-only</a>.  Otherwise, it <em class=rfc2119>MUST</em>
 set the specified value as the value associated to the attribute.  No lexical 
 validation is performed.  The new value <em class=rfc2119>MAY</em> be 
 <code>null</code>.</p>
@@ -1709,7 +1708,7 @@ of type <code>boolean</code></dt>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
   <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
-  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <a href="#read-only">read-only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the 
   value associated to this attribute.</p>
 
@@ -1755,7 +1754,7 @@ of type <code>boolean</code></dt>
 
   <p>On setting, the attribute <em class=rfc2119>MUST</em> raise a
   <code>NO_MODIFICATION_ALLOWED_ERR</code> if the node is 
-  <a href="#read-only">read‐only</a>.  Otherwise, it
+  <a href="#read-only">read-only</a>.  Otherwise, it
   <em class=rfc2119>MUST</em> set the specified value as the value associated
   to this attribute.</p>
 
@@ -1787,10 +1786,10 @@ interface <em class=rfc2119>MUST</em> be modified as the following
 </div>
 
 <div id="references" class="section reference">
-<h2>References</h2>
+<h2 class=no-num>References</h2>
 
 <div id="normative-references" class="section normative reference">
-<h3>Normative References</h3>
+<h3 class=no-num>Normative References</h3>
 
 <dl>
 <dt id=ref-DOM3CORE>DOM3CORE</dt>
@@ -1854,7 +1853,7 @@ interface <em class=rfc2119>MUST</em> be modified as the following
 </div>
 
 <div id="informative-references" class="section informative reference">
-<h3>Non‐normative References</h3>
+<h3 class=no-num>Non-normative References</h3>
 
 <dl>
 <dt id=ref-DOM1WD>DOM1WD</dt>

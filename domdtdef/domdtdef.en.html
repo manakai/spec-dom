@@ -74,19 +74,16 @@ normative version.</p>
  <li><a href=#conformance-requirements><span class=secno>2 </span>Conformance Requirements</a>
   <ol>
    <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li></ol></li>
- <li><a href=#dom-document-type-definitions><span class=secno>3 </span><abbr>DOM</abbr> Document Type Definitions</a>
+ <li><a href=#Node><span class=secno>3 </span>Nodes</a></li>
+ <li><a href=#Document><span class=secno>4 </span>Documents</a></li>
+ <li><a href=#DocumentType><span class=secno>5 </span>Document types</a></li>
+ <li><a href=#element-types><span class=secno>6 </span>Element types</a></li>
+ <li><a href=#attribute-definitions><span class=secno>7 </span>Attribute definitions</a></li>
+ <li><a href=#Entity><span class=secno>8 </span>General entities</a></li>
+ <li><a href=#Notation><span class=secno>9 </span>Notations</a></li>
+ <li><a href=#obsolete-features><span class=secno>10 </span>Obsolete features</a>
   <ol>
-   <li><a href=#feature-string><span class=secno>3.1 </span>Feature String</a></li>
-   <li><a href=#modifications-to-the-node-interface><span class=secno>3.2 </span>Modifications to the <code>Node</code> Interface</a></li>
-   <li><a href=#modifications-to-the-document-interface><span class=secno>3.3 </span>Modifications to the <code>Document</code> Interface</a></li>
-   <li><a href=#additions-to-the-document-interface><span class=secno>3.4 </span>Additions to the <code>Document</code> interface</a></li>
-   <li><a href=#modifications-to-the-documenttype-interface><span class=secno>3.5 </span>Modifications to the <code>DocumentType</code> 
-Interface</a></li>
-   <li><a href=#additions-to-the-documenttype-interface><span class=secno>3.6 </span>Additions to the <code>DocumentType</code> interface</a></li>
-   <li><a href=#the-elementtypedefinition-interface><span class=secno>3.7 </span>The <code>ElementTypeDefinition</code> Interface</a></li>
-   <li><a href=#the-attributedefinition-interface><span class=secno>3.8 </span>The <code>AttributeDefinition</code> Interface</a></li>
-   <li><a href=#modifications-to-the-entity-interface><span class=secno>3.9 </span>Modifications to the <code>Entity</code> Interface</a></li>
-   <li><a href=#modifications-to-the-notation-interface><span class=secno>3.10 </span>Modifications to the <code>Notation</code> Interface</a></li></ol></li>
+   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>10.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li></ol></li>
  <li><a class=no-num href=#references-0>References</a>
   <ol>
    <li><a class=no-num href=#normative-references-0>Normative References</a></li>
@@ -211,22 +208,8 @@ in the <i>patch</i>, then the former instance of
 
 </div><!-- section -->
 
-<div class=section id=dom-dtdef>
-<h2 id=dom-document-type-definitions><span class=secno>3 </span><abbr>DOM</abbr> Document Type Definitions</h2>
-
-<div class=section id=features>
-<h3 id=feature-string><span class=secno>3.1 </span>Feature String</h3>
-
-<div class="note memo">
-  <p>Ealier versions of this specification defined the DOM feature
-  <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> <dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
-  version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
-</p></div>
-
-</div><!-- section -->
-
 <div class=section id=section-node>
-<h3 id=modifications-to-the-node-interface><span class=secno>3.2 </span>Modifications to the <a href=#setAttributeDefinitionNode-node><code id=Node>Node</code></a> Interface</h3>
+<h2 id=Node><span class=secno>3 </span>Nodes</h2>
 
 <p>The implementation of the 
 <a href=#Node><code>Node</code></a> interface
@@ -438,7 +421,7 @@ following:</p>
 </div>
 
 <div class=section id=section-document>
-<h3 id=modifications-to-the-document-interface><span class=secno>3.3 </span>Modifications to the <code id=Document>Document</code> Interface</h3>
+<h2 id=Document><span class=secno>4 </span>Documents</h2>
 
 <!--
 <p>If an attempt is made to adopt an
@@ -463,12 +446,9 @@ Behavior of <code>normalizeDocument</code> method for these kinds of
 nodes might also be defined in some day.</p>
 </div>
 
-</div>
+<hr>
 
-<div class=section id=section-documentxdoctype>
-<h3 id=additions-to-the-document-interface><span class=secno>3.4 </span>Additions to the <code>Document</code> interface</h3>
-
-<pre class=idl><code>partial interface Document {
+<pre class=idl id=section-documentxdoctype><code>partial interface Document {
   DocumentType <a href=#createDocumentTypeDefinition>createDocumentTypeDefinition</a>
     (in DOMString <a href=#createDocumentTypeDefinition-name><var>name</var></a>)
     raises (DOMException);
@@ -701,8 +681,7 @@ methods.</p>
 
 
 <div class=section id=section-documenttype>
-<h3 id=modifications-to-the-documenttype-interface><span class=secno>3.5 </span>Modifications to the <code id=DocumentType>DocumentType</code> 
-Interface</h3>
+<h2 id=DocumentType><span class=secno>5 </span>Document types</h2>
 
 <p>A <a href=#DocumentType><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
@@ -772,12 +751,9 @@ or <a href=#Entity><code>Entity</code></a> node unserializable.</p>
 <p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
 </div>
 
-</div>
+<hr>
 
-<div class=section id=section-documenttypedefinition>
-<h3 id=additions-to-the-documenttype-interface><span class=secno>3.6 </span>Additions to the <code>DocumentType</code> interface</h3>
-
-<pre class=idl><code>partial interface DocumentType {
+<pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
   readonly attribute NamedNodeMap <a href=#elementTypes>elementTypes</a>;
   readonly attribute NamedNodeMap <a href=#generalEntities>generalEntities</a>;
   readonly attribute NamedNodeMap <a href=#notations>notations</a>;
@@ -1066,7 +1042,7 @@ attached</dfn>, the rules below, with parameters
 </div>
 
 <div class=section id=section-elementtypedefinition>
-<h3 id=the-elementtypedefinition-interface><span class=secno>3.7 </span>The <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> Interface</h3>
+<h2 id=element-types><span class=secno>6 </span>Element types</h2>
 
 <p>The nodes of type 
 <a href=#ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
@@ -1218,7 +1194,7 @@ element type.</p>
 </div>
 
 <div class=section id=section-attributedefinition>
-<h3 id=the-attributedefinition-interface><span class=secno>3.8 </span>The <a href=#AttributeDefinition><code>AttributeDefinition</code></a> Interface</h3>
+<h2 id=attribute-definitions><span class=secno>7 </span>Attribute definitions</h2>
 
 <p>The nodes of type 
 <a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>
@@ -1528,7 +1504,7 @@ type <code>unsigned short</code></dt>
 </div>
 
 <div class=section id=section-entity>
-<h3 id=modifications-to-the-entity-interface><span class=secno>3.9 </span>Modifications to the <code id=Entity>Entity</code> Interface</h3>
+<h2 id=Entity><span class=secno>8 </span>General entities</h2>
 
 <p>The implementation of the <a href=#Entity><code>Entity</code></a> 
 interface <em class=rfc2119>MUST</em> be modified as the following
@@ -1621,7 +1597,7 @@ of type <code>boolean</code></dt>
 </div>
 
 <div class=section id=section-notation>
-<h3 id=modifications-to-the-notation-interface><span class=secno>3.10 </span>Modifications to the <code id=Notation>Notation</code> Interface</h3>
+<h2 id=Notation><span class=secno>9 </span>Notations</h2>
 
 <p>The implementation of the <a href=#Notation><code>Notation</code></a> 
 interface <em class=rfc2119>MUST</em> be modified as the following
@@ -1633,9 +1609,22 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   // Addition to the Notation interface
   readonly attribute <a href=#DocumentType>DocumentType</a> <a href=#ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
 </code></pre>
-</div>
 
-</div>
+</div><!-- section -->
+
+<div class=section>
+<h2 id=obsolete-features><span class=secno>10 </span>Obsolete features</h2>
+
+<div class=section id=features>
+<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>10.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
+
+<p>Ealier versions of this specification defined the DOM feature <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
+<dfn id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
+version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
+
+</p></div><!-- section -->
+
+</div><!-- section -->
 
 <div class="section reference" id=references>
 <h2 class=no-num id=references-0>References</h2>

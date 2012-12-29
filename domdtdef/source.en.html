@@ -200,24 +200,8 @@ in the <i>patch</i>, then the former instance of
 
 </div><!-- section -->
 
-<div class=section id=dom-dtdef>
-<h2><abbr>DOM</abbr> Document Type Definitions</h2>
-
-<div class=section id=features>
-<h3>Feature String</h3>
-
-<div class="note memo">
-  <p>Ealier versions of this specification defined the DOM feature
-  <cite class="bibref normative">[<a
-  href="#ref-DOM3CORE">DOM3CORE</a>]</cite> <dfn
-  id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
-  version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
-</div>
-
-</div><!-- section -->
-
 <div class=section id=section-node>
-<h3>Modifications to the <code id=Node>Node</code> Interface</h3>
+<h2 id=Node>Nodes</h2>
 
 <p>The implementation of the 
 <a href="#Node"><code>Node</code></a> interface
@@ -429,7 +413,7 @@ following:</p>
 </div>
 
 <div class=section id=section-document>
-<h3>Modifications to the <code id=Document>Document</code> Interface</h3>
+<h2 id=Document>Documents</h2>
 
 <!--
 <p>If an attempt is made to adopt an
@@ -454,12 +438,9 @@ Behavior of <code>normalizeDocument</code> method for these kinds of
 nodes might also be defined in some day.</p>
 </div>
 
-</div>
+<hr>
 
-<div class=section id=section-documentxdoctype>
-<h3>Additions to the <code>Document</code> interface</h3>
-
-<pre class=idl><code>partial interface Document {
+<pre class=idl id=section-documentxdoctype><code>partial interface Document {
   DocumentType <a href="#createDocumentTypeDefinition">createDocumentTypeDefinition</a>
     (in DOMString <a href="#createDocumentTypeDefinition-name"><var>name</var></a>)
     raises (DOMException);
@@ -693,8 +674,7 @@ methods.</p>
 
 
 <div class=section id=section-documenttype>
-<h3>Modifications to the <code id=DocumentType>DocumentType</code> 
-Interface</h3>
+<h2 id=DocumentType>Document types</h2>
 
 <p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
@@ -765,12 +745,9 @@ or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
 <p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
 </div>
 
-</div>
+<hr>
 
-<div class=section id=section-documenttypedefinition>
-<h3>Additions to the <code>DocumentType</code> interface</h3>
-
-<pre class=idl><code>partial interface DocumentType {
+<pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
   readonly attribute NamedNodeMap <a href="#elementTypes">elementTypes</a>;
   readonly attribute NamedNodeMap <a href="#generalEntities">generalEntities</a>;
   readonly attribute NamedNodeMap <a href="#notations">notations</a>;
@@ -1060,7 +1037,7 @@ attached</dfn>, the rules below, with parameters
 </div>
 
 <div class=section id=section-elementtypedefinition>
-<h3>The <code>ElementTypeDefinition</code> Interface</h3>
+<h2>Element types</h2>
 
 <p>The nodes of type 
 <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
@@ -1212,7 +1189,7 @@ element type.</p>
 </div>
 
 <div class=section id=section-attributedefinition>
-<h3>The <code>AttributeDefinition</code> Interface</h3>
+<h2>Attribute definitions</h2>
 
 <p>The nodes of type 
 <a href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
@@ -1522,7 +1499,7 @@ type <code>unsigned short</code></dt>
 </div>
 
 <div class=section id=section-entity>
-<h3>Modifications to the <code id=Entity>Entity</code> Interface</h3>
+<h2 id=Entity>General entities</h2>
 
 <p>The implementation of the <a href="#Entity"><code>Entity</code></a> 
 interface <em class=rfc2119>MUST</em> be modified as the following
@@ -1615,7 +1592,7 @@ of type <code>boolean</code></dt>
 </div>
 
 <div class=section id=section-notation>
-<h3>Modifications to the <code id=Notation>Notation</code> Interface</h3>
+<h2 id=Notation>Notations</h2>
 
 <p>The implementation of the <a href="#Notation"><code>Notation</code></a> 
 interface <em class=rfc2119>MUST</em> be modified as the following
@@ -1627,9 +1604,24 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   // Addition to the Notation interface
   readonly attribute <a href="#DocumentType">DocumentType</a> <a href="#ownerDocumentTypeDefinition">ownerDocumentTypeDefinition</a>;
 </code></pre>
-</div>
 
-</div>
+</div><!-- section -->
+
+<div class=section>
+<h2>Obsolete features</h2>
+
+<div class=section id=features>
+<h3>The DOM feature string for the DOM Document Type Definitions</h3>
+
+<p>Ealier versions of this specification defined the DOM feature <cite
+class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
+<dfn
+id=feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></dfn>
+version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
+
+</div><!-- section -->
+
+</div><!-- section -->
 
 <div id="references" class="section reference">
 <h2 class=no-num>References</h2>

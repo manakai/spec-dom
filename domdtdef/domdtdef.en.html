@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=living-standard-date>Living Standard 29 December 2012</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 29 December 2012</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -76,7 +76,7 @@ normative version.</p>
    <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li></ol></li>
  <li><a href=#Node><span class=secno>3 </span>Nodes</a></li>
  <li><a href=#Document><span class=secno>4 </span>Documents</a></li>
- <li><a href=#DocumentType><span class=secno>5 </span>Document types</a></li>
+ <li><a href=#document-types><span class=secno>5 </span>Document types</a></li>
  <li><a href=#element-types><span class=secno>6 </span>Element types</a></li>
  <li><a href=#attribute-definitions><span class=secno>7 </span>Attribute definitions</a></li>
  <li><a href=#Entity><span class=secno>8 </span>General entities</a></li>
@@ -165,23 +165,34 @@ implementations.</p>
 accurate <q>an object implementing the interface 
 <code><var>Foo</var></code></q>.</p>
 
-<p>The construction <q>raise a <code><var>Bar</var></code></q>, where
-<code><var>Bar</var></code> is an exception code, is used instead of the more
-accurate <q>raise an exception implementing the interface
-<code>DOMException</code> 
-<cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> 
-with its <code>code</code> attribute set to 
+<p class=ed>The construction <q>raise a
+<code><var>Bar</var></code></q>, where <code><var>Bar</var></code> is
+an exception code, is used instead of the more accurate <q>raise an
+exception implementing the interface <a href=#domexception><code>DOMException</code></a> <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
+with its <code>code</code> attribute set to
 <code><var>Bar</var></code></q>.</p>
 
-<p>The terms
+<p>The <em id=idl-fragment>WebIDL fragments</em> in this document are
+to be interpreted as described in the WebIDL specification <cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.</p>
+
+<p>The term <dfn id=null>null</dfn> is definedby the WebIDL specification
+<cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.
+
+</p><p>The terms, interfaces, attributes, and exceptions <dfn id=context-object>context
+object</dfn>, <dfn id=node><code>Node</code></dfn>,
+<dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
+(<dfn id=document-0><code>Document</code></dfn>), <dfn id=doctype>doctype</dfn>
+(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=throw>throw</dfn>,
+<dfn id=domexception><code>DOMException</code></dfn>,
+<dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>, and
+<dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
+<cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
+
+</p><p>The terms
 <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>
 and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
 is defined in the HTML5 specification
 <cite class="bibref normative">[<a href=#ref-HTML5>HTML5</a>]</cite>.</p>
-
-<p>The <em id=idl-fragment><abbr>IDL</abbr> fragments</em> in this
-document are to be interpreted as described in the WebIDL
-specification <cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.</p>
 
 <div class=ed>
 <p>Following paragraph need to be updated:
@@ -241,14 +252,14 @@ these kinds of nodes, methods and attributes in the
 <code id=prefix>prefix</code></dt>
   <dd>
     <p>On getting, the attributes <em class=rfc2119>MUST</em> return
-    <code>null</code>.</p>
+    <a href=#null><code>null</code></a>.</p>
   </dd>
 <dt><code id=baseURI>baseURI</code></dt>
   <dd>
     <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
     value of the <a href=#baseURI><code>baseURI</code></a> attribute
     of the node in the <code>ownerDocument</code> attribute of the node.
-    Note that the value might be <code>null</code>.</p>
+    Note that the value might be <a href=#null><code>null</code></a>.</p>
   </dd>
 <dt><code id=cloneNode>cloneNode</code></dt>
   <dd class=ed>
@@ -338,11 +349,11 @@ these kinds of nodes, methods and attributes in the
   that support this attribute.</p>
 
   <p>On getting, the attributes <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
+  <a href=#null><code>null</code></a>.</p></dd>
 <dt><code id=lookupNamespaceURI>lookupNamespaceURI</code> and
 <code id=lookupPrefix>lookupPrefix</code></dt>
   <dd><p>When invoked, the methods <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
+  <a href=#null><code>null</code></a>.</p></dd>
 <dt><code id=nodeName>nodeName</code></dt>
   <dd>
     <p>If the node is an 
@@ -393,7 +404,7 @@ following:</p>
     <p>If the node is an 
     <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>:
     On getting, the attributes <em class=rfc2119>MUST</em> return 
-    <code>null</code>.</p>
+    <a href=#null><code>null</code></a>.</p>
 
   <div class="note memo">
   <p>Thus, on setting the attributes does nothing
@@ -403,7 +414,7 @@ following:</p>
   <p>If the node is an 
   <a href=#AttributeDefinition><code>AttributeDefinition</code></a>:
   The attribute <em class=rfc2119>MUST</em> behave as if the node
-  were <code>Attr</code>
+  were <a href=#attr><code>Attr</code></a>
   <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.</p></dd>
 <dt><code id=normalize>normalize</code></dt>
   <dd><p>When a <a href=#DocumentType><code>DocumentType</code></a> is
@@ -418,7 +429,15 @@ following:</p>
   attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
 </dl>
 
-</div>
+<p>A node of type <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
+<code>Entity</code>, or <code>Notation</code> has an associated <span title=concept-owner-document-type-definition>owner document type
+definition</span>.  The <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node has an
+associated <span title=concept-owner-element-type-definition>owner
+element type definition</span>.  Their values are <a href=#null>null</a>
+unless otherwise specified.  When not ambiguous, they are simply
+referred to as <dfn id=concept-owner title=concept-owner>owner</dfn> of the node.
+
+</p></div>
 
 <div class=section id=section-document>
 <h2 id=Document><span class=secno>4 </span>Documents</h2>
@@ -475,7 +494,7 @@ nodes might also be defined in some day.</p>
 <dt><dfn class=dom-method id=createDocumentTypeDefinition><code>createDocumentTypeDefinition</code></dfn>,
 method</dt>
   <dd>
-    <p>This method creates a <code>DocumentType</code> node with the specified
+    <p>This method creates a <a href=#documenttype><code>DocumentType</code></a> node with the specified
     name, belonging to the document.</p>
     <p>The
     <dfn class=dom-param id=createDocumentTypeDefinition-name><var>name</var></dfn>
@@ -486,7 +505,7 @@ method</dt>
     the following attributes:</p>
     <dl>
     <dt><code>attributes</code>, <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
     <dt><a href=#elementTypes><code>elementTypes</code></a>,
     <a href=#entities><code>entities</code></a>, and
     <a href=#notations><code>notations</code></a></dt>
@@ -528,10 +547,10 @@ method</dt>
     <dt><a href=#nodeName><code>nodeName</code></a></dt>
       <dd><a href=#createElementTypeDefinition-name><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
-      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
     <dt><a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
     and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
     </dl>
   </dd>
 <dt><dfn class=dom-method id=createAttributeDefinition><code>createAttributeDefinition</code></dfn>,
@@ -559,10 +578,10 @@ method</dt>
     <dt><a href=#nodeName><code>nodeName</code></a></dt>
       <dd><a href=#createAttributeDefinition-name><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
-      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
     <dt><a href=#ownerElementTypeDefinition><code>ownerElementTypeDefinition</code></a>
     and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
     </dl>
 
     <!-- This requirement, if not droped, should be part of xml-id spec.
@@ -617,12 +636,12 @@ method</dt>
     <dt><a href=#notationName><code>notationName</code></a>,
     <a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>,
     and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
     <dt><code>ownerDocument</code></dt>
-      <dd>The <code>Document</code> node over which the method is invoked.</dd>
+      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
     <dt><a href=#publicId><code>publicId</code></a> and 
     <a href=#systemId><code>systemId</code></a></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     </dl>
 </dd><dt><dfn class=dom-method id=createNotation><code>createNotation</code></dfn>,
@@ -651,10 +670,10 @@ method</dt>
       the method is invoked.</p></dd>
     <dt><a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
     and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
     <dt><a href=#publicId><code>publicId</code></a> and
     <a href=#systemId><code>systemId</code></a></dt>
-      <dd><code>null</code>.</dd>
+      <dd><a href=#null><code>null</code></a>.</dd>
       <dd class=ed>@@ publicId and systemId should be empty string?</dd>
     </dl>
 </dd></dl>
@@ -681,9 +700,13 @@ methods.</p>
 
 
 <div class=section id=section-documenttype>
-<h2 id=DocumentType><span class=secno>5 </span>Document types</h2>
+<h2 id=document-types><span class=secno>5 </span>Document types</h2>
 
-<p>A <a href=#DocumentType><code>DocumentType</code></a> interface 
+<p>Each <a href=#doctype>doctype</a> has associated unordered sets of nodes
+<dfn id=concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</dfn>, <dfn id=concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</dfn>, and
+<dfn id=concept-documenttype-notations title=concept-DocumentType-notations>notations</dfn>.
+
+</p><p>A <a href=#DocumentType><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
 <code>ProcessingInstruction</code> nodes in the <code>NodeList</code> object 
 contained in the <code>childNodes</code> attribute of the 
@@ -737,7 +760,7 @@ read-only.</p>
 
 <p>On setting, it <em class=rfc2119>MUST</em> set the specified value
 as the value associated to the attribute.  No normalization, relative
-reference resolution, or lexical validation is performed. <span class=ed>@@ If the new value is <code>null</code>, should an empty
+reference resolution, or lexical validation is performed. <span class=ed>@@ If the new value is <a href=#null><code>null</code></a>, should an empty
 string be set?</span></p>
 
 <div class="note memo">
@@ -765,16 +788,13 @@ or <a href=#Entity><code>Entity</code></a> node unserializable.</p>
   <a href=#Notation>Notation</a> <a href=#getNotationNode>getNotationNode</a>
     (in DOMString <a href=#getNotationNode-name><var>name</var></a>);
 
-  void <a href=#setElementTypeDefinitionNode>setElementTypeDefinitionNode</a>
-    (in DOMString <a href=#setElementTypeDefinitionNode-node><var>node</var></a>)
-    raises (DOMException);
-  void <a href=#setGeneralEntityNode>setGeneralEntityNode</a>
-    (in DOMString <a href=#setGeneralEntityNode-node><var>node</var></a>)
-    raises (DOMException);
-  void <a href=#setNotationNode>setNotationNode</a>
-    (in DOMString <a href=#setNotationNode-node><var>node</var></a>)
-    raises (DOMException);
-}</code></pre>
+  <a href=#ElementTypeDefinition>ElementTypeDefinition</a>? <a href=#dom-documenttype-setelementtypedefinitionnode title=dom-DocumentType-setElementTypeDefinitionNode>setElementTypeDefinitionNode</a>(<a href=#ElementTypeDefinition>ElementTypeDefinition</a> node);
+  <span>Entity</span>? <a href=#dom-documenttype-setgeneralentitynode title=dom-DocumentType-setGeneralEntityNode>setGeneralEntityNode</a>(<span>Entity</span> node);
+  <span>Notation</span>? <a href=#dom-documenttype-setnotationnode title=dom-DocumentType-setNotationNode>setNotationNode</a>(<span>Notation</span> node);
+  <a href=#ElementTypeDefinition>ElementTypeDefinition</a> <a href=#dom-documenttype-removeelementtypedefinitionnode title=dom-DocumentType-removeElementTypeDefinitionNode>removeElementTypeDefinitionNode</a>(<a href=#ElementTypeDefinition>ElementTypeDefinition</a> node);
+  <span>Entity</span> <a href=#dom-documenttype-removegeneralentitynode title=dom-DocumentType-removeGeneralEntityNode>removeGeneralEntityNode</a>(<span>Entity</span> node);
+  <span>Notation</span> <a href=#dom-documenttype-removenotationnode title=dom-DocumentType-removeNotationNode>removeNotationNode</a>(<span>Notation</span> node);
+};</code></pre>
 
 <div class="note memo">
 
@@ -794,11 +814,11 @@ type <code>NamedNodeMap</code>, read-only</dt>
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
   <code>NamedNodeMap</code> object that contains all the 
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-  nodes belonging to the <code>DocumentType</code> node.  The
+  nodes belonging to the <a href=#documenttype><code>DocumentType</code></a> node.  The
   <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
   <a href=#live>live</a>.</p>
 
-  <p>If the <code>DocumentType</code> node is created during the process
+  <p>If the <a href=#documenttype><code>DocumentType</code></a> node is created during the process
   to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
   requirements are applied:  The <code>NamedNodeMap</code> object in the
   <a href=#elementTypes><code>elementType</code></a> attribute 
@@ -900,7 +920,7 @@ method</dt>
   <code>NamedNodeMap</code> object in the
   <a href=#elementTypes><code>elementTypes</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
+  <a href=#null><code>null</code></a>.</p></dd>
 <dt><dfn class=dom-method id=getGeneralEntityNode><code>getGeneralEntityNode</code></dfn>,
 method</dt>
   <dd><p>Returns the <a href=#Entity><code>Entity</code></a> node
@@ -917,7 +937,7 @@ method</dt>
   <code>NamedNodeMap</code> object in the
   <a href=#entities><code>entities</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
+  <a href=#null><code>null</code></a>.</p></dd>
 <dt><dfn class=dom-method id=getNotationNode><code>getNotationNode</code></dfn>,
 method</dt>
   <dd><p>Returns the <a href=#Notation><code>Notation</code></a> node
@@ -934,117 +954,92 @@ method</dt>
   <code>NamedNodeMap</code> object in the
   <a href=#notations><code>notations</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
-  <code>null</code>.</p></dd>
-<dt><dfn class=dom-method id=setElementTypeDefinitionNode><code>setElementTypeDefinitionNode</code></dfn>,
+  <a href=#null><code>null</code></a>.</p></dd>
+
+<dt><dfn class=dom-method id=dom-documenttype-setelementtypedefinitionnode title=dom-DocumentType-setElementTypeDefinitionNode><code id=setElementTypeDefinitionNode>setElementTypeDefinitionNode</code></dfn>,
 method</dt>
-  <dd><p>Associate an 
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-  node with the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
 
-  <p>The
-  <dfn class=dom-param id=setElementTypeDefinitionNode-node><var>node</var></dfn>
-  parameter is the node to associate.</p>
+<dd>The <a href=#dom-documenttype-setelementtypedefinitionnode><code title=dom-DocumentType-setElementTypeDefinitionNode>setElementTypeDefinitionNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-set-node title=concept-set-node>setting</a> <var title="">node</var> to the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</a>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href=#algorithm-attach-node>attach a node</a>, where 
-  <a href=#attach-node-n><var>n</var></a> is the
-  <a href=#DocumentType><code>DocumentType</code></a> node, 
-  <a href=#attach-node-l><var>l</var></a> is the
-  <a href=#elementTypes><code>elementTypes</code></a> attribute value of the
-  <a href=#DocumentType><code>DocumentType</code></a> node,
-  <a href=#attach-node-node><var>node</var></a> is the
-  <a href=#setElementTypeDefinitionNode-node><var>node</var></a>, and
-  <a href=#attach-node-owner-attr><var>owner-attr</var></a> is the
-  <a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
-<dt><dfn class=dom-method id=setGeneralEntityNode><code>setGeneralEntityNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an <a href=#Entity><code>Entity</code></a>
-  node with the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
+</dd><dt><dfn class=dom-method id=dom-documenttype-setgeneralentitynode title=dom-DocumentType-setGeneralEntityNode><code id=setGeneralEntityNode>setGeneralEntityNode</code></dfn>, method</dt>
 
-  <p>The
-  <dfn class=dom-param id=setGeneralEntityNode-node><var>node</var></dfn>
-  parameter is the node to associate.</p>
+<dd>The <a href=#dom-documenttype-setgeneralentitynode><code title=dom-DocumentType-setGeneralEntityNode>setGeneralEntityNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-set-node title=concept-set-node>setting</a> <var title="">node</var> to the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</a>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href=#algorithm-attach-node>attach a node</a>, where 
-  <a href=#attach-node-n><var>n</var></a> is the
-  <a href=#DocumentType><code>DocumentType</code></a> node, 
-  <a href=#attach-node-l><var>l</var></a> is the
-  <a href=#entities><code>entities</code></a> attribute value of the
-  <a href=#DocumentType><code>DocumentType</code></a> node,
-  <a href=#attach-node-node><var>node</var></a> is the
-  <a href=#setGeneralEntityNode-node><var>node</var></a>, and
-  <a href=#attach-node-owner-attr><var>owner-attr</var></a> is the
-  <a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
-<dt><dfn class=dom-method id=setNotationNode><code>setNotationNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an <a href=#Notation><code>Notation</code></a>
-  node with the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
+</dd><dt><dfn class=dom-method id=dom-documenttype-setnotationnode title=dom-DocumentType-setNotationNode><code id=setNotationNode>setNotationNode</code></dfn>, method
 
-  <p>The <dfn class=dom-param id=setNotationNode-node><var>node</var></dfn>
-  parameter is the node to associate.</p>
+</dt><dd>The <a href=#dom-documenttype-setnotationnode><code title=dom-DocumentType-setNotationNode>setNotationNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-set-node title=concept-set-node>setting</a> <var title="">node</var> to the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href=#algorithm-attach-node>attach a node</a>, where 
-  <a href=#attach-node-n><var>n</var></a> is the
-  <a href=#DocumentType><code>DocumentType</code></a> node, 
-  <a href=#attach-node-l><var>l</var></a> is the
-  <a href=#notations><code>notations</code></a> attribute value of the
-  <a href=#DocumentType><code>DocumentType</code></a> node,
-  <a href=#attach-node-node><var>node</var></a> is the
-  <a href=#setNotationNode-node><var>node</var></a>, and
-  <a href=#attach-node-owner-attr><var>owner-attr</var></a> is the
-  <a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
-</dl>
+</dd><dt><dfn class=dom-method id=dom-documenttype-removeelementtypedefinitionnode title=dom-DocumentType-removeElementTypeDefinitionNode><code>removeElementTypeDefinitionNode</code></dfn>, method
 
-<p>When a <dfn id=algorithm-attach-node title="attach a node">node is 
-attached</dfn>, the rules below, with parameters 
-<dfn id=attach-node-n><var>n</var></dfn>, 
-<dfn id=attach-node-l><var>l</var></dfn>, 
-<dfn id=attach-node-node><var>node</var></dfn>, and
-<dfn id=attach-node-owner-attr><var>owner-attr</var></dfn>,
-<em class=rfc2119>MUST</em> be followed:</p>
-  <ol>
-  <li><p>Let
-  <dfn id=attach-node-r><var>r</var></dfn> be the node in
-  <a href=#attach-node-l><var>l</var></a> whose <code>nodeName</code> attribute value is equal to the
-  <code>nodeName</code> attribute value of <a href=#setAttributeDefinitionNode-node><var>node</var></a>, if any.</p></li>
-  <li><p>If <a href=#attach-node-r><var>r</var></a> is different from <code>null</code> and <a href=#attach-node-r><var>r</var></a>
-  is same node as <a href=#setAttributeDefinitionNode-node><var>node</var></a>, then abort these steps.</p></li>
-  <li><p>If the <code>ownerDocument</code> attribute value of <a href=#setAttributeDefinitionNode-node><var>node</var></a>
-  is different from that of <a href=#attach-node-n><var>n</var></a>, then raise a
-  <code>WRONG_DOCUMENT_ERR</code> and abort these steps.</p></li>
-  <li><p>If the value of the attribute <a href=#attach-node-owner-attr><var>owner-attr</var></a> of <a href=#setAttributeDefinitionNode-node><var>node</var></a>
-  is different from <code>null</code>, then raise a
-  <code>HIERARCHY_REQUEST_ERR</code> and abort these steps.</p></li>
-  <li><p>If <a href=#attach-node-r><var>r</var></a> is a node, then remove it from <a href=#attach-node-r><var>r</var></a>.</p>
+</dt><dd>The <a href=#dom-documenttype-removeelementtypedefinitionnode><code title=dom-DocumentType-removeElementTypeDefinitionNode>removeElementTypeDefinitionNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-remove-node title=concept-remove-node>removing</a> <var title="">node</var> from the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</a>.
 
-  <div class="note memo">
-  <p>By the removal of <a href=#attach-node-r><var>r</var></a>, the attribute <a href=#attach-node-owner-attr><var>owner-attr</var></a> of
-  <a href=#attach-node-r><var>r</var></a> is set to <code>null</code>.</p>
-  </div></li>
-  <li><p>Add <a href=#setAttributeDefinitionNode-node><var>node</var></a> to <a href=#attach-node-l><var>l</var></a>.</p>
+</dd><dt><dfn class=dom-method id=dom-documenttype-removegeneralentitynode title=dom-DocumentType-removeGeneralEntityNode><code>removeGeneralEntityNode</code></dfn>, method
 
-  <div class="note memo">
-  <p>By the addition of <a href=#setAttributeDefinitionNode-node><var>node</var></a>, the attribute <a href=#attach-node-owner-attr><var>owner-attr</var></a> of
-  <a href=#setAttributeDefinitionNode-node><var>node</var></a> is set to <a href=#attach-node-n><var>n</var></a>.</p>
-  </div></li>
-  </ol>
+</dt><dd>The <a href=#dom-documenttype-removegeneralentitynode><code title=dom-DocumentType-removeGeneralEntityNode>removeGeneralEntityNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-remove-node title=concept-remove-node>removing</a> <var title="">node</var> from the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</a>.
 
-<div class=ed>
-<p>A future version of this interface might define the
-<code>parameterEntities</code> and getter/setter for parameter entities.
-</p></div>
+</dd><dt><dfn class=dom-method id=dom-documenttype-removenotationnode title=dom-DocumentType-removeNotationNode><code>removeNotationNode</code></dfn>, method
 
-</div>
+</dt><dd>The <a href=#dom-documenttype-removenotationnode><code title=dom-DocumentType-removeNotationNode>removeNotationNode(<var title="">node</var>)</code></a> method <em class=rfc2119>MUST</em> return the
+result of <a href=#concept-remove-node title=concept-remove-node>removing</a> <var title="">node</var> from the <a href=#context-object>context object</a>'s <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
+
+</dd></dl>
+
+<p>To <dfn id=concept-remove-node title=concept-remove-node>remove</dfn> a node <var title="">node</var> from the set of nodes <var title="">set</var>, run these
+steps:
+
+</p><ol>
+
+  <li>If <var title="">set</var> does not contain <var title="">node</var>,
+  <a href=#throw>throw</a> an "<a href=#notfounderror><code>NotFoundError</code></a>" exception and
+  abort these steps.
+
+  </li><li>Remove <var title="">node</var> from <var title="">set</var>.
+
+  </li><li>Set the <a href=#concept-owner title=concept-owner>owner</a> of
+  <var title="">node</var> to <a href=#null>null</a>.
+
+  </li><li>Return <var title="">node</var>.
+</li></ol>
+
+<p>To <dfn id=concept-set-node title=concept-set-node>set</dfn> a node <var title="">node</var> to the set of nodes <var title="">set</var> associated
+to the node <var title="">owner</var>, run these steps:
+
+</p><ol>
+
+<li>If the <a href=#concept-owner title=concept-owner>owner</a> of <var title="">node</var> is not <a href=#null>null</a> and is not equal to <var title="">owner</var>, <a href=#throw>throw</a> a
+"<a href=#hierarchyrequesterror><code>HierarchyRequestError</code></a>" and abort these steps.
+
+</li><li>Let <var title="">oldNode</var> be <a href=#null>null</a>.
+
+</li><li>If there is a node whose <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> is equal to <var title="">node</var>'s <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> in
+<var title="">set</var>, let <var title="">oldNode</var> be the node and
+<a href=#concept-remove-node title=concept-remove-node>remove</a> <var title="">oldNode</var>
+from <var title="">set</var>.
+
+</li><li>Add <var title="">node</var> to <var title="">set</var>.
+
+</li><li>Return <var title="">oldNode</var>.
+
+</li></ol>
+
+</div><!-- section -->
 
 <div class=section id=section-elementtypedefinition>
 <h2 id=element-types><span class=secno>6 </span>Element types</h2>
 
-<p>The nodes of type 
+<p>The <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> objects are simply known as
+<dfn id=concept-element-type title=concept-element-type>element types</dfn>.
+
+</p><p>Each <span>element type</span> has an associated unordered set of
+nodes <dfn id=concept-elementtypedefinition-attributedefinitions title=concept-elementTypeDefinition-attributeDefinitions>attribute
+definitions</dfn>.
+
+</p><p>The nodes of type 
 <a href=#ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
 represents an element type definition.  Such a node 
 <em class=rfc2119>MUST</em> implement the
@@ -1080,10 +1075,9 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
   readonly attribute NamedNodeMap <a href=#attributeDefinitions>attributeDefinitions</a>;
   <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#getAttributeDefinitionNode>getAttributeDefinitionNode</a>
     (in DOMString <a href=#getAttributeDefinitionNode-name><var>name</var></a>);
-  void <a href=#setAttributeDefinitionNode>setAttributeDefinitionNode</a>
-    (in <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#setAttributeDefinitionNode-node><var>node</var></a>)
-    raises (DOMException);
-}</code></pre>
+  <a href=#AttributeDefinition>AttributeDefinition</a>? <a href=#dom-elementtypedefinition-setattributedefinitionnode title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
+  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#dom-elementtypedefinition-removeattributedefinitionnode title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
+};</code></pre>
 
 <dl>
 <dt><dfn class=dom-attr id=ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></dfn>
@@ -1108,7 +1102,7 @@ of type <a href=#DocumentType><code>DocumentType</code></a>, read-only</dt>
   <a href=#Notation><code>Notation</code></a> node) attribute contains the
   <code>NamedNodeMap</code> object that contains the node.  If there is no such
   a <a href=#DocumentType><code>DocumentType</code></a> node,
-  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p></dd>
+  then <a href=#null><code>null</code></a> <em class=rfc2119>MUST</em> be returned.</p></dd>
 <dt><dfn class=dom-attr id=attributeDefinitions><code>attributeDefinitions</code></dfn>
 of type <code>NamedNodeMap</code>, read-only</dt>
   <dd><p>A <a href=#live>live</a> <code>NamedNodeMap</code> object that
@@ -1158,35 +1152,21 @@ method</dt>
   in the <code>NamedNodeMap</code> in the 
   <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
   attribute of the node.  If there is no such node, it 
-  <em class=rfc2119>MUST</em> return <code>null</code>.</p></dd>
-<dt><dfn class=dom-method id=setAttributeDefinitionNode><code>setAttributeDefinitionNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an
-  <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node with
-  the
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-  node.</p>
-
-  <p>The
-  <dfn class=dom-param id=setAttributeDefinitionNode-node><var>node</var></dfn>
-  parameter is the node to associate.</p>
-
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href=#algorithm-attach-node>attach a node</a>, where 
-  <a href=#attach-node-n><var>n</var></a> is the
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-  node, <a href=#attach-node-l><var>l</var></a> is the
-  <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
-  attribute value of the
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node,
-  <a href=#attach-node-node><var>node</var></a> is the
-  <a href=#setAttributeDefinitionNode-node><var>node</var></a>, and
-  <a href=#attach-node-owner-attr><var>owner-attr</var></a> is the
-  <a href=#ownerElementTypeDefinition><code>ownerElementTypeDefinition</code></a>
-  attribute.</p></dd>
+  <em class=rfc2119>MUST</em> return <a href=#null><code>null</code></a>.</p></dd>
 </dl>
 
-<div class=ed>
+<p>The <dfn id=dom-elementtypedefinition-setattributedefinitionnode title=dom-ElementTypeDefinition-setAttributeDefinitionNode><code id=setAttributeDefinitionNode>setAttributeDefinitionNode(<var title="">node</var>)</code></dfn> method of the
+<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> object <em class=rfc2119>MUST</em>
+return the result of <a href=#concept-set-node title=concept-set-node>setting</a> <var title="">node</var> to the <a href=#context-object>context object</a>'s <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</a>.
+
+</p><p>The <dfn id=dom-elementtypedefinition-removeattributedefinitionnode title=dom-ElementTypeDefinition-removeAttributeDefinitionNode><code>removeAttributeDefinitionNode(<var title="">node</var>)</code></dfn> method of the
+<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> object <em class=rfc2119>MUST</em>
+return the result of <a href=#concept-remove-node title=concept-remove-node>removing</a>
+<var title="">node</var> from the <a href=#context-object>context object</a>'s <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</a>.
+
+</p><div class=ed>
 <p>A future version of the specification might define a set of attributes
 and methods for representing and accessing to the content model of the 
 element type.</p>
@@ -1217,7 +1197,7 @@ that attribute.</p>
 node cannot be a child of any node.  An
 <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node
 can have zero or more child nodes of same kinds as those allowed for
-<code>Attr</code> nodes
+<a href=#attr><code>Attr</code></a> nodes
 <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.</p>
 
 <p>The <a href=#AttributeDefinition><code>AttributeDefinition</code></a> 
@@ -1270,7 +1250,7 @@ read-only</dt>
   the <a href=#AttributeDefinition><code>AttributeDefinition</code></a>
   node.  If there is no such an 
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node,
-  then <code>null</code> <em class=rfc2119>MUST</em> be returned.</p>
+  then <a href=#null><code>null</code></a> <em class=rfc2119>MUST</em> be returned.</p>
 </dd><dt><dfn class=dom-attr id=declaredType><code>declaredType</code></dfn> of type
 <code>unsigned short</code></dt>
   <dd><p>The declared type
@@ -1399,7 +1379,7 @@ be used.</p>
 
 <p>In Perl binding
 <cite class="bibref normative">[<a href=#ref-DOMPERL>DOMPERL</a>]</cite>, the
-<code>Attr</code> nodes <em class=rfc2119>MUST</em> implement the
+<a href=#attr><code>Attr</code></a> nodes <em class=rfc2119>MUST</em> implement the
 <a href=#DeclaredValueType><code>DeclaredValueType</code></a>
 definition group.</p>
 
@@ -1528,7 +1508,7 @@ read-only.</p>
 <p>On setting, it <em class=rfc2119>MUST</em> set the specified value
 as the value associated to the attribute.  No lexical validation is
 performed.  The new value <em class=rfc2119>MAY</em> be
-<code>null</code>.</p>
+<a href=#null><code>null</code></a>.</p>
 
 <dl>
 <dt><dfn class=dom-attr id=hasReplacementTree><code>hasReplacementTree</code></dfn>
@@ -1637,7 +1617,12 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 <h3 class=no-num id=normative-references-0>Normative References</h3>
 
 <dl>
-<dt id=ref-DOM3CORE>DOM3CORE</dt>
+
+<dt id=ref-DOM>DOM
+</dt><dd><cite><a href=http://dom.spec.whatwg.org/>DOM
+Standard</a></cite>, WHATWG.
+
+</dd><dt id=ref-DOM3CORE>DOM3CORE</dt>
   <dd><cite><a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407>Document
   Object Model (<abbr>DOM</abbr>) Level 3 Core Specification, Version 
   1.0</a></cite>, <abbr>W3C</abbr> Recommendation, <time datetime=2004-04-07>7

@@ -10,7 +10,7 @@
 
 <div class="header">
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num">Living Standard [DATE]</h2>
+<h2 class="no-toc no-num">Manakai Project Living Standard [DATE]</h2>
 
 <dl class="versions-uri">
 <dt>Latest Version</dt>
@@ -156,24 +156,39 @@ implementations.</p>
 accurate <q>an object implementing the interface 
 <code><var>Foo</var></code></q>.</p>
 
-<p>The construction <q>raise a <code><var>Bar</var></code></q>, where
-<code><var>Bar</var></code> is an exception code, is used instead of the more
-accurate <q>raise an exception implementing the interface
-<code>DOMException</code> 
-<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite> 
-with its <code>code</code> attribute set to 
+<p class=ed>The construction <q>raise a
+<code><var>Bar</var></code></q>, where <code><var>Bar</var></code> is
+an exception code, is used instead of the more accurate <q>raise an
+exception implementing the interface <code>DOMException</code> <cite
+class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
+with its <code>code</code> attribute set to
 <code><var>Bar</var></code></q>.</p>
+
+<p>The <em id=idl-fragment>WebIDL fragments</em> in this document are
+to be interpreted as described in the WebIDL specification <cite
+class="bibref normative">[<a
+href="#ref-DOMBIND">DOMBIND</a>]</cite>.</p>
+
+<p>The term <dfn>null</dfn> is definedby the WebIDL specification
+<cite class="bibref normative">[<a
+href="#ref-DOMBIND">DOMBIND</a>]</cite>.
+
+<p>The terms, interfaces, attributes, and exceptions <dfn>context
+object</dfn>, <dfn><code>Node</code></dfn>,
+<dfn><code>Attr</code></dfn>, <dfn>document</dfn>
+(<dfn><code>Document</code></dfn>), <dfn>doctype</dfn>
+(<dfn><code>DocumentType</code></dfn>), <dfn
+title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn>throw</dfn>,
+<dfn><code>DOMException</code></dfn>,
+<dfn><code>HierarchyRequestError</code></dfn>, and
+<dfn><code>NotFoundError</code></dfn> are defined by the DOM Standard
+<cite class="bibref normative">[<a href="#ref-DOM">DOM</a>]</cite>.
 
 <p>The terms
 <em id=live><a href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>
 and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
 is defined in the HTML5 specification
 <cite class="bibref normative">[<a href="#ref-HTML5">HTML5</a>]</cite>.</p>
-
-<p>The <em id=idl-fragment><abbr>IDL</abbr> fragments</em> in this
-document are to be interpreted as described in the WebIDL
-specification <cite class="bibref normative">[<a
-href="#ref-DOMBIND">DOMBIND</a>]</cite>.</p>
 
 <div class=ed>
 <p>Following paragraph need to be updated:
@@ -409,6 +424,15 @@ following:</p>
   <a href="#attributeDefinitions"><code>attributeDefinitions</code></a> 
   attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
 </dl>
+
+<p>A node of type <code>ElementTypeDefinition</code>,
+<code>Entity</code>, or <code>Notation</code> has an associated <span
+title=concept-owner-document-type-definition>owner document type
+definition</span>.  The <code>AttributeDefinition</code> node has an
+associated <span title=concept-owner-element-type-definition>owner
+element type definition</span>.  Their values are <span>null</span>
+unless otherwise specified.  When not ambiguous, they are simply
+referred to as <dfn title=concept-owner>owner</dfn> of the node.
 
 </div>
 
@@ -674,7 +698,12 @@ methods.</p>
 
 
 <div class=section id=section-documenttype>
-<h2 id=DocumentType>Document types</h2>
+<h2>Document types</h2>
+
+<p>Each <span>doctype</span> has associated unordered sets of nodes
+<dfn title=concept-DocumentType-elementTypes>element types</dfn>, <dfn
+title=concept-DocumentType-generalEntities>general entities</dfn>, and
+<dfn title=concept-DocumentType-notations>notations</dfn>.
 
 <p>A <a href="#DocumentType"><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
@@ -759,16 +788,13 @@ or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
   <a href="#Notation">Notation</a> <a href="#getNotationNode">getNotationNode</a>
     (in DOMString <a href="#getNotationNode-name"><var>name</var></a>);
 
-  void <a href="#setElementTypeDefinitionNode">setElementTypeDefinitionNode</a>
-    (in DOMString <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>)
-    raises (DOMException);
-  void <a href="#setGeneralEntityNode">setGeneralEntityNode</a>
-    (in DOMString <a href="#setGeneralEntityNode-node"><var>node</var></a>)
-    raises (DOMException);
-  void <a href="#setNotationNode">setNotationNode</a>
-    (in DOMString <a href="#setNotationNode-node"><var>node</var></a>)
-    raises (DOMException);
-}</code></pre>
+  <span>ElementTypeDefinition</span>? <span title=dom-DocumentType-setElementTypeDefinitionNode>setElementTypeDefinitionNode</span>(<span>ElementTypeDefinition</span> node);
+  <span>Entity</span>? <span title=dom-DocumentType-setGeneralEntityNode>setGeneralEntityNode</span>(<span>Entity</span> node);
+  <span>Notation</span>? <span title=dom-DocumentType-setNotationNode>setNotationNode</span>(<span>Notation</span> node);
+  <span>ElementTypeDefinition</span> <span title=dom-DocumentType-removeElementTypeDefinitionNode>removeElementTypeDefinitionNode</span>(<span>ElementTypeDefinition</span> node);
+  <span>Entity</span> <span title=dom-DocumentType-removeGeneralEntityNode>removeGeneralEntityNode</span>(<span>Entity</span> node);
+  <span>Notation</span> <span title=dom-DocumentType-removeNotationNode>removeNotationNode</span>(<span>Notation</span> node);
+};</code></pre>
 
 <div class="note memo">
 
@@ -930,114 +956,125 @@ method</dt>
   <a href="#notations"><code>notations</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
   <code>null</code>.</p></dd>
-<dt><dfn id=setElementTypeDefinitionNode class=dom-method><code>setElementTypeDefinitionNode</code></dfn>,
+
+<dt><dfn title=dom-DocumentType-setElementTypeDefinitionNode
+class=dom-method><code
+id=setElementTypeDefinitionNode>setElementTypeDefinitionNode</code></dfn>,
 method</dt>
-  <dd><p>Associate an 
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
-  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 
-  <p>The
-  <dfn id=setElementTypeDefinitionNode-node class=dom-param><var>node</var></dfn>
-  parameter is the node to associate.</p>
+<dd>The <code
+title=dom-DocumentType-setElementTypeDefinitionNode>setElementTypeDefinitionNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-set-node>setting</span> <var
+title>node</var> to the <span>context object</span>'s <span
+title=concept-DocumentType-elementTypes>element types</span>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href="#algorithm-attach-node">attach a node</a>, where 
-  <a href="#attach-node-n"><var>n</var></a> is the
-  <a href="#DocumentType"><code>DocumentType</code></a> node, 
-  <a href="#attach-node-l"><var>l</var></a> is the
-  <a href="#elementTypes"><code>elementTypes</code></a> attribute value of the
-  <a href="#DocumentType"><code>DocumentType</code></a> node,
-  <a href="#attach-node-node"><var>node</var></a> is the
-  <a href="#setElementTypeDefinitionNode-node"><var>node</var></a>, and
-  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
-  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
-<dt><dfn id=setGeneralEntityNode class=dom-method><code>setGeneralEntityNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an <a href="#Entity"><code>Entity</code></a>
-  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+<dt><dfn title=dom-DocumentType-setGeneralEntityNode
+class=dom-method><code
+id=setGeneralEntityNode>setGeneralEntityNode</code></dfn>, method</dt>
 
-  <p>The
-  <dfn id=setGeneralEntityNode-node class=dom-param><var>node</var></dfn>
-  parameter is the node to associate.</p>
+<dd>The <code
+title=dom-DocumentType-setGeneralEntityNode>setGeneralEntityNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-set-node>setting</span> <var
+title>node</var> to the <span>context object</span>'s <span
+title=concept-DocumentType-generalEntities>general entities</span>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href="#algorithm-attach-node">attach a node</a>, where 
-  <a href="#attach-node-n"><var>n</var></a> is the
-  <a href="#DocumentType"><code>DocumentType</code></a> node, 
-  <a href="#attach-node-l"><var>l</var></a> is the
-  <a href="#entities"><code>entities</code></a> attribute value of the
-  <a href="#DocumentType"><code>DocumentType</code></a> node,
-  <a href="#attach-node-node"><var>node</var></a> is the
-  <a href="#setGeneralEntityNode-node"><var>node</var></a>, and
-  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
-  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
-<dt><dfn id=setNotationNode class=dom-method><code>setNotationNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an <a href="#Notation"><code>Notation</code></a>
-  node with the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
+<dt><dfn title=dom-DocumentType-setNotationNode class=dom-method><code
+id=setNotationNode>setNotationNode</code></dfn>, method
 
-  <p>The <dfn id=setNotationNode-node class=dom-param><var>node</var></dfn>
-  parameter is the node to associate.</p>
+<dd>The <code
+title=dom-DocumentType-setNotationNode>setNotationNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-set-node>setting</span> <var
+title>node</var> to the <span>context object</span>'s <span
+title=concept-DocumentType-notations>notations</span>.
 
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href="#algorithm-attach-node">attach a node</a>, where 
-  <a href="#attach-node-n"><var>n</var></a> is the
-  <a href="#DocumentType"><code>DocumentType</code></a> node, 
-  <a href="#attach-node-l"><var>l</var></a> is the
-  <a href="#notations"><code>notations</code></a> attribute value of the
-  <a href="#DocumentType"><code>DocumentType</code></a> node,
-  <a href="#attach-node-node"><var>node</var></a> is the
-  <a href="#setNotationNode-node"><var>node</var></a>, and
-  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
-  <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
-  attribute.</p></dd>
+<dt><dfn class=dom-method title=dom-DocumentType-removeElementTypeDefinitionNode><code>removeElementTypeDefinitionNode</code></dfn>, method
+
+<dd>The <code
+title=dom-DocumentType-removeElementTypeDefinitionNode>removeElementTypeDefinitionNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-remove-node>removing</span> <var
+title>node</var> from the <span>context object</span>'s <span
+title=concept-DocumentType-elementTypes>element types</span>.
+
+<dt><dfn class=dom-method title=dom-DocumentType-removeGeneralEntityNode><code>removeGeneralEntityNode</code></dfn>, method
+
+<dd>The <code
+title=dom-DocumentType-removeGeneralEntityNode>removeGeneralEntityNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-remove-node>removing</span> <var
+title>node</var> from the <span>context object</span>'s <span
+title=concept-DocumentType-generalEntities>general entities</span>.
+
+<dt><dfn class=dom-method title=dom-DocumentType-removeNotationNode><code>removeNotationNode</code></dfn>, method
+
+<dd>The <code
+title=dom-DocumentType-removeNotationNode>removeNotationNode(<var
+title>node</var>)</code> method <em class=rfc2119>MUST</em> return the
+result of <span title=concept-remove-node>removing</span> <var
+title>node</var> from the <span>context object</span>'s <span
+title=concept-DocumentType-notations>notations</span>.
+
 </dl>
 
-<p>When a <dfn id=algorithm-attach-node title="attach a node">node is 
-attached</dfn>, the rules below, with parameters 
-<dfn id=attach-node-n><var>n</var></dfn>, 
-<dfn id=attach-node-l><var>l</var></dfn>, 
-<dfn id=attach-node-node><var>node</var></dfn>, and
-<dfn id=attach-node-owner-attr><var>owner-attr</var></dfn>,
-<em class=rfc2119>MUST</em> be followed:</p>
-  <ol>
-  <li><p>Let
-  <dfn id=attach-node-r><var>r</var></dfn> be the node in
-  <var>l</var> whose <code>nodeName</code> attribute value is equal to the
-  <code>nodeName</code> attribute value of <var>node</var>, if any.</p></li>
-  <li><p>If <var>r</var> is different from <code>null</code> and <var>r</var>
-  is same node as <var>node</var>, then abort these steps.</p></li>
-  <li><p>If the <code>ownerDocument</code> attribute value of <var>node</var>
-  is different from that of <var>n</var>, then raise a
-  <code>WRONG_DOCUMENT_ERR</code> and abort these steps.</p></li>
-  <li><p>If the value of the attribute <var>owner-attr</var> of <var>node</var>
-  is different from <code>null</code>, then raise a
-  <code>HIERARCHY_REQUEST_ERR</code> and abort these steps.</p></li>
-  <li><p>If <var>r</var> is a node, then remove it from <var>r</var>.</p>
+<p>To <dfn title=concept-remove-node>remove</dfn> a node <var
+title>node</var> from the set of nodes <var title>set</var>, run these
+steps:
 
-  <div class="note memo">
-  <p>By the removal of <var>r</var>, the attribute <var>owner-attr</var> of
-  <var>r</var> is set to <code>null</code>.</p>
-  </div></li>
-  <li><p>Add <var>node</var> to <var>l</var>.</p>
+<ol>
 
-  <div class="note memo">
-  <p>By the addition of <var>node</var>, the attribute <var>owner-attr</var> of
-  <var>node</var> is set to <var>n</var>.</p>
-  </div></li>
-  </ol>
+  <li>If <var title>set</var> does not contain <var title>node</var>,
+  <span>throw</span> an "<code>NotFoundError</code>" exception and
+  abort these steps.
 
-<div class=ed>
-<p>A future version of this interface might define the
-<code>parameterEntities</code> and getter/setter for parameter entities.
-</div>
+  <li>Remove <var title>node</var> from <var title>set</var>.
 
-</div>
+  <li>Set the <span title=concept-owner>owner</span> of
+  <var title>node</var> to <span>null</span>.
+
+  <li>Return <var title>node</var>.
+</ol>
+
+<p>To <dfn title=concept-set-node>set</dfn> a node <var
+title>node</var> to the set of nodes <var title>set</var> associated
+to the node <var title>owner</var>, run these steps:
+
+<ol>
+
+<li>If the <span title=concept-owner>owner</span> of <var
+title>node</var> is not <span>null</span> and is not equal to <var
+title>owner</var>, <span>throw</span> a
+"<code>HierarchyRequestError</code>" and abort these steps.
+
+<li>Let <var title>oldNode</var> be <span>null</span>.
+
+<li>If there is a node whose <code
+title=dom-Node-nodeName>nodeName</code> is equal to <var
+title>node</var>'s <code title=dom-Node-nodeName>nodeName</code> in
+<var title>set</var>, let <var title>oldNode</var> be the node and
+<span title=concept-remove-node>remove</span> <var title>oldNode</var>
+from <var title>set</var>.
+
+<li>Add <var title>node</var> to <var title>set</var>.
+
+<li>Return <var title>oldNode</var>.
+
+</ol>
+
+</div><!-- section -->
 
 <div class=section id=section-elementtypedefinition>
 <h2>Element types</h2>
+
+<p>The <code>ElementTypeDefinition</code> objects are simply known as
+<dfn title=concept-element-type>element types</dfn>.
+
+<p>Each <span>element type</span> has an associated unordered set of
+nodes <dfn
+title=concept-elementTypeDefinition-attributeDefinitions>attribute
+definitions</dfn>.
 
 <p>The nodes of type 
 <a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
@@ -1075,10 +1112,9 @@ interface <em class=rfc2119>MUST</em> be implemented as the following
   readonly attribute NamedNodeMap <a href="#attributeDefinitions">attributeDefinitions</a>;
   <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#getAttributeDefinitionNode">getAttributeDefinitionNode</a>
     (in DOMString <a href="#getAttributeDefinitionNode-name"><var>name</var></a>);
-  void <a href="#setAttributeDefinitionNode">setAttributeDefinitionNode</a>
-    (in <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#setAttributeDefinitionNode-node"><var>node</var></a>)
-    raises (DOMException);
-}</code></pre>
+  <span>AttributeDefinition</span>? <span title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
+  <span>AttributeDefinition</span> <span title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
+};</code></pre>
 
 <dl>
 <dt><dfn id=ownerDocumentTypeDefinition class=dom-attr><code>ownerDocumentTypeDefinition</code></dfn>
@@ -1154,32 +1190,26 @@ method</dt>
   <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
   attribute of the node.  If there is no such node, it 
   <em class=rfc2119>MUST</em> return <code>null</code>.</p></dd>
-<dt><dfn id=setAttributeDefinitionNode class=dom-method><code>setAttributeDefinitionNode</code></dfn>,
-method</dt>
-  <dd><p>Associate an
-  <a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node with
-  the
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
-  node.</p>
-
-  <p>The
-  <dfn id=setAttributeDefinitionNode-node class=dom-param><var>node</var></dfn>
-  parameter is the node to associate.</p>
-
-  <p>When invoked, the method <em class=rfc2119>MUST</em> follow the rules
-  to <a href="#algorithm-attach-node">attach a node</a>, where 
-  <a href="#attach-node-n"><var>n</var></a> is the
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
-  node, <a href="#attach-node-l"><var>l</var></a> is the
-  <a href="#attributeDefinitions"><code>attributeDefinitions</code></a>
-  attribute value of the
-  <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node,
-  <a href="#attach-node-node"><var>node</var></a> is the
-  <a href="#setAttributeDefinitionNode-node"><var>node</var></a>, and
-  <a href="#attach-node-owner-attr"><var>owner-attr</var></a> is the
-  <a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
-  attribute.</p></dd>
 </dl>
+
+<p>The <dfn
+title=dom-ElementTypeDefinition-setAttributeDefinitionNode><code
+id=setAttributeDefinitionNode>setAttributeDefinitionNode(<var
+title>node</var>)</code></dfn> method of the
+<code>ElementTypeDefinition</code> object <em class=rfc2119>MUST</em>
+return the result of <span title=concept-set-node>setting</span> <var
+title>node</var> to the <span>context object</span>'s <span
+title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</span>.
+
+<p>The <dfn
+title=dom-ElementTypeDefinition-removeAttributeDefinitionNode><code>removeAttributeDefinitionNode(<var
+title>node</var>)</code></dfn> method of the
+<code>ElementTypeDefinition</code> object <em class=rfc2119>MUST</em>
+return the result of <span title=concept-remove-node>removing</span>
+<var title>node</var> from the <span>context object</span>'s <span
+title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</span>.
 
 <div class=ed>
 <p>A future version of the specification might define a set of attributes
@@ -1634,6 +1664,11 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 <h3 class=no-num>Normative References</h3>
 
 <dl>
+
+<dt id=ref-DOM>DOM
+<dd><cite><a href="http://dom.spec.whatwg.org/">DOM
+Standard</a></cite>, WHATWG.
+
 <dt id=ref-DOM3CORE>DOM3CORE</dt>
   <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407">Document
   Object Model (<abbr>DOM</abbr>) Level 3 Core Specification, Version 

@@ -182,7 +182,7 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 object</dfn>, <dfn id=node><code>Node</code></dfn>,
 <dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
 (<dfn id=document-0><code>Document</code></dfn>), <dfn id=doctype>doctype</dfn>
-(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=throw>throw</dfn>,
+(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=throw>throw</dfn>,
 <dfn id=domexception><code>DOMException</code></dfn>,
 <dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>, and
 <dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
@@ -989,8 +989,8 @@ result of <a href=#concept-remove-node title=concept-remove-node>removing</a> <v
 
 </dd></dl>
 
-<p>To <dfn id=concept-remove-node title=concept-remove-node>remove</dfn> a node <var title="">node</var> from the set of nodes <var title="">set</var>, run these
-steps:
+<p>To <dfn id=concept-remove-node title=concept-remove-node>remove</dfn> a node <var title="">node</var> from the set of nodes <var title="">set</var><!--
+associated to the node <var title>owner</var>-->, run these steps:
 
 </p><ol>
 
@@ -1013,6 +1013,10 @@ to the node <var title="">owner</var>, run these steps:
 
 <li>If the <a href=#concept-owner title=concept-owner>owner</a> of <var title="">node</var> is not <a href=#null>null</a> and is not equal to <var title="">owner</var>, <a href=#throw>throw</a> a
 "<a href=#hierarchyrequesterror><code>HierarchyRequestError</code></a>" and abort these steps.
+
+</li><li><a href=#concept-node-adopt title=concept-node-adopt>Adopt</a> <var title="">node</var>
+into the <a href=#concept-node-document title=concept-node-document>node document</a> of
+<var title="">owner</var>.
 
 </li><li>Let <var title="">oldNode</var> be <a href=#null>null</a>.
 

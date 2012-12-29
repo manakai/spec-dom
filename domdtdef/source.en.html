@@ -178,7 +178,9 @@ object</dfn>, <dfn><code>Node</code></dfn>,
 <dfn><code>Attr</code></dfn>, <dfn>document</dfn>
 (<dfn><code>Document</code></dfn>), <dfn>doctype</dfn>
 (<dfn><code>DocumentType</code></dfn>), <dfn
-title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn>throw</dfn>,
+title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn
+title=concept-node-adopt>adopt</dfn>, <dfn
+title=concept-node-document>node document</dfn>, <dfn>throw</dfn>,
 <dfn><code>DOMException</code></dfn>,
 <dfn><code>HierarchyRequestError</code></dfn>, and
 <dfn><code>NotFoundError</code></dfn> are defined by the DOM Standard
@@ -1020,8 +1022,8 @@ title=concept-DocumentType-notations>notations</span>.
 </dl>
 
 <p>To <dfn title=concept-remove-node>remove</dfn> a node <var
-title>node</var> from the set of nodes <var title>set</var>, run these
-steps:
+title>node</var> from the set of nodes <var title>set</var><!--
+associated to the node <var title>owner</var>-->, run these steps:
 
 <ol>
 
@@ -1047,6 +1049,10 @@ to the node <var title>owner</var>, run these steps:
 title>node</var> is not <span>null</span> and is not equal to <var
 title>owner</var>, <span>throw</span> a
 "<code>HierarchyRequestError</code>" and abort these steps.
+
+<li><span title=concept-node-adopt>Adopt</span> <var title>node</var>
+into the <span title=concept-node-document>node document</span> of
+<var title>owner</var>.
 
 <li>Let <var title>oldNode</var> be <span>null</span>.
 

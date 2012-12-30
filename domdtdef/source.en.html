@@ -151,10 +151,10 @@ then the exception is not have to be raised.</p>
 attributes, methods, or objects.  Such requirements are applied to
 implementations.</p>
 
-<p>The construction <q>a <code><var>Foo</var></code> object</q>, where
-<code><var>Foo</var></code> is an interface, is used instead of the more
-accurate <q>an object implementing the interface 
-<code><var>Foo</var></code></q>.</p>
+<p>The construction <q>a <code><var title>Foo</var></code> object</q>,
+where <code><var title>Foo</var></code> is an interface, is used
+instead of the more accurate <q>an object implementing the interface
+<code><var title>Foo</var></code></q>.</p>
 
 <p class=ed>The construction <q>raise a
 <code><var>Bar</var></code></q>, where <code><var>Bar</var></code> is
@@ -520,11 +520,11 @@ title=concept-owner>owner</span>.
 <hr>
 
 <p>A node of type <code>ElementTypeDefinition</code>,
-<code>Entity</code>, or <code>Notation</code> has an associated <span
+<code>Entity</code>, or <code>Notation</code> has an associated <dfn
 title=concept-owner-document-type-definition>owner document type
-definition</span>.  The <code>AttributeDefinition</code> node has an
-associated <span title=concept-owner-element-type-definition>owner
-element type definition</span>.  Their values are <span>null</span>
+definition</dfn>.  The <code>AttributeDefinition</code> node has an
+associated <dfn title=concept-owner-element-type-definition>owner
+element type definition</dfn>.  Their values are <span>null</span>
 unless otherwise specified.  When not ambiguous, they are simply
 referred to as <dfn title=concept-owner>owner</dfn> of the node.
 
@@ -541,6 +541,32 @@ attribute of the <code>AttributeDefinition</code> interface <em
 class=rfc2119>MUST</em> return the <span
 title=concept-owner-element-type-definition>owner element type
 definition</span> of the <span>context object</span>.
+
+<p>The <dfn title=dom-publicId><code id=publicId>publicId</code></dfn>
+attribute and the <dfn title=dom-systemId><code
+id=systemId>systemId</code></dfn> attribute of the <code>Entity</code>
+and <code>Notation</code> interfaces <em class=rfc2119>MUST</em>
+return the <span title=concept-publicid>public ID</span> and <span
+title=concept-systemid>system ID</span> of the <span>context
+object</span>, respectively.<!-- For DocumentType, defined in DOM -->.
+
+<p>On setting, the <code title=dom-publicId>publicId</code> attribute
+and the <code title=dom-systemId>systemId</code> attribute of the
+<code>DocumentType</code>, <code>Entity</code>, and
+<code>Notation</code> interfaces <em class=rfc2119>MUST</em> set the
+<span title=concept-publicid>public ID</span> and <span
+title=concept-systemid>system ID</span> of the <span>context
+object</span>, respectively, to the new value.
+
+<div class="note memo">
+<p>In DOM Standard and DOM3 Core specifications, these attributes are
+read-only.
+</div>
+
+<div class="note memo">
+<p>Setting an invalid identifier to these attribute might make the
+node unserializable in the XML syntax.
+</div>
 
 <hr>
 
@@ -687,8 +713,7 @@ method</dt>
       that support these attributes.</p>
 
       <p>No explicit value is set.</p></dd>
-    <dt><a href="#hasReplacementTree"><code>hasReplacementTree</code></a> and
-    <a href="#isExternallyDeclared"><code>isExternallyDeclared</code></a></dt>
+    <dt><a href="#isExternallyDeclared"><code>isExternallyDeclared</code></a></dt>
       <dd><p><code>false</code>.</p></dd>
     <dt><code>nodeName</code></dt>
       <dd><a href="#createGeneralEntity-name"><var>name</var></a>.</dd>
@@ -704,13 +729,8 @@ method</dt>
           with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
         </div>
       </dd>
-    <dt><a href="#notationName"><code>notationName</code></a>,
-      <dd><code>null</code>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><a href="#publicId"><code>publicId</code></a> and 
-    <a href="#systemId"><code>systemId</code></a></dt>
-      <dd>The empty string.
     </dl>
 <dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
 method</dt>
@@ -734,9 +754,6 @@ method</dt>
     <dt><code>ownerDocument</code></dt>
       <dd><p>The <a href="#Document"><code>Document</code></a> node over which
       the method is invoked.</p></dd>
-    <dt><a href="#publicId"><code>publicId</code></a> and
-    <a href="#systemId"><code>systemId</code></a></dt>
-      <dd>The empty string.
     </dl>
 </dl>
 
@@ -842,37 +859,10 @@ in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href="#DocumentType"><code>DocumentType</code></a> node.</p>
 </div>
 
-<p>The implementation of the 
-<a href="#DocumentType"><code>DocumentType</code></a> interface
-<em class=rfc2119>MUST</em> be modified as the following
-<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
-<pre class=idl><code>partial interface DocumentType {
-  [TreatNullAs=EmptyString] attribute DOMString <a href="#publicId">publicId</a>;
-  [TreatNullAs=EmptyString] attribute DOMString <a href="#systemId">systemId</a>;
-};
-</code></pre>
-
-<p>The <code id=publicId>publicId</code> attribute and the 
-<code id=systemId>systemId</code> attribute of
-<a href="#DocumentType"><code>DocumentType</code></a>,
-<a href="#Entity"><code>Entity</code></a>, and
-<a href="#Notation"><code>Notation</code></a> interfaces are no longer
-read-only.</p>
-
-<p>On setting, it <em class=rfc2119>MUST</em> set the specified value
-as the value associated to the attribute.  No normalization, relative
-reference resolution, or lexical validation is performed.
-
-<div class="note memo">
-<p>Setting an invalid identifier might make the node unserializable.
-Setting a public identifier while leaving system identifier unspecified 
-would also make the <a href="#DocumentType"><code>DocumentType</code></a>
-or <a href="#Entity"><code>Entity</code></a> node unserializable.</p>
-</div>
-
-<hr>
-
 <pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-publicId>publicId</span>;
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-systemId>systemId</span>;
+
   readonly attribute <span>NamedNodeMap</span> <span title=dom-DocumentType-elementTypes>elementTypes</span>;
   readonly attribute <span>NamedNodeMap</span> <span title=dom-DocumentType-generalEntities>generalEntities</span>;
 
@@ -1572,33 +1562,54 @@ type <code>unsigned short</code></dt>
 <div class=section id=section-entity>
 <h2>General entities</h2>
 
-<p>The implementation of the <a href="#Entity"><code>Entity</code></a>
-(<dfn title=concept-entity>entity</dfn>) interface <em
-class=rfc2119>MUST</em> be modified as the following <a
-href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
+<p>The <code>Entity</code> node is known as <dfn
+title=concept-general-entity>general entity</dfn>, or when not
+ambiguous, simply <dfn title=concept-entity>entity</dfn>.
+
+<p>Each <span title=concept-entity>entity</span> has an associated
+<dfn title=concept-entity-publicid>public ID</dfn> and <dfn
+title=concept-entity-systemid>system ID</dfn>.  Unless otherwise
+specified, their values are the empty string when the <span
+title=concept-entity>entity</span> is created.
 
 <pre class=idl><code>partial interface <span>Entity</span> {
   readonly attribute <span>DocumentType</span>? <span title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</span>;
 
-  attribute DOMString <a href="#publicId">publicId</a>;
-  attribute DOMString <a href="#systemId">systemId</a>;
-  attribute DOMString <a href="#notationName">notationName</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-publicId>publicId</span>;
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-systemId>systemId</span>;
+  attribute <span>DOMString</span>? <span title=dom-Entity-notationName>notationName</span>;
   readonly attribute <span>DOMString</span> <span title=dom-Entity-hasReplacementTree>hasReplacementTree</span>;
 
   attribute boolean <a href="#isExternallyDeclared">isExternallyDeclared</a>;
 };</code></pre>
 
-<p>The <code id=notationName>notationName</code> attribute of the
-<a href="#Entity"><code>Entity</code></a> interface is no longer 
-read-only.</p>
+<p>Each <span title=concept-entity>entity</span> has an associated
+<dfn title=concept-entity-notation-name>notation name</dfn>.  Unless
+otherwise specified, it is <span>null</span> when the <span
+title=concept-entity>entity</span> is created.
 
-<p>On setting, it <em class=rfc2119>MUST</em> set the specified value
-as the value associated to the attribute.  No lexical validation is
-performed.  The new value <em class=rfc2119>MAY</em> be
-<code>null</code>.</p>
+<p>The <code title=dom-Entity-notationName>notationName</code>
+attribute returns the <span
+title=concept-entity-notation-name>notation name</span> of the
+<span>context object</span>.<!-- Normatively defined in DOM3CORE -->
+
+<p>On setting, the <code
+title=dom-Entity-notationName>notationName</code> attribute of the
+<code>Entity</code> interface <em class=rfc2119>MUST</em> set the
+<span title=concept-entity-notation-name>notation name</span> of the
+<span>context object</span> to the new value.
+
+<div class="note memo">
+<p>In DOM3 Core specification, this attribute was read-only.
+</div>
+
+<div class="note memo">
+<p>Setting an invalid name to this attribute would make the node
+unserializable in the XML syntax.
+</div>
 
 <p>Each <span title=concept-entity>entity</span> has an associated
-<span title=concept-entity-replacement-text>replacement text</span>.
+<dfn title=concept-entity-replacement-text>replacement text</dfn>.
 Unless otherwise specified, the <span
 title=concept-entity-replacement-text>replacement text</span> is the
 empty string when an <span title=concept-entity>entity</span> is
@@ -1632,11 +1643,19 @@ of type <code>boolean</code></dt>
 <div class=section id=section-notation>
 <h2>Notations</h2>
 
+<p>The <code>Notation</code> node is simply known as <dfn
+title=concept-notation>notation</span>.
+
+<p>Each <span title=concept-notation>notation</span> has an associated
+<dfn title=concept-notation-publicid>public ID</dfn> and <dfn
+title=concept-notation-systemid>system ID</dfn>.  Unless otherwise
+specified, their values are the empty string when the <span
+title=concept-notation>notation</span> is created.
+
 <pre class=idl><code>partial interface <span>Notation</span> {
   readonly attribute <span>DocumentType</span>? <span title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</span>;
-
-  attribute DOMString <a href="#publicId">publicId</a>;
-  attribute DOMString <a href="#systemId">systemId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-publicId>publicId</span>;
+  [TreatNullAs=EmptyString] attribute DOMString <span title=dom-systemId>systemId</span>;
 };</code></pre>
 
 </div><!-- section -->

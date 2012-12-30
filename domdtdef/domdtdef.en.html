@@ -161,10 +161,10 @@ then the exception is not have to be raised.</p>
 attributes, methods, or objects.  Such requirements are applied to
 implementations.</p>
 
-<p>The construction <q>a <code><var>Foo</var></code> object</q>, where
-<code><var>Foo</var></code> is an interface, is used instead of the more
-accurate <q>an object implementing the interface 
-<code><var>Foo</var></code></q>.</p>
+<p>The construction <q>a <code><var title="">Foo</var></code> object</q>,
+where <code><var title="">Foo</var></code> is an interface, is used
+instead of the more accurate <q>an object implementing the interface
+<code><var title="">Foo</var></code></q>.</p>
 
 <p class=ed>The construction <q>raise a
 <code><var>Bar</var></code></q>, where <code><var>Bar</var></code> is
@@ -232,7 +232,7 @@ in the <i>patch</i>, then the former instance of
 <p>This specification introduces two kinds of nodes: <a href=#concept-element-type title=concept-element-type>element types</a> and <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definitions</a>.
 Also, this specification reuses two kinds of nodes defined by DOM3
 Core specification <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> but obsoleted by current DOM
-Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>: <a href=#concept-entity title=concept-entity>entities</a> and <span title=concept-notation>notations</span>.  This specification defines
+Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>: <a href=#concept-entity title=concept-entity>entities</a> and <a href=#concept-notation title=concept-notation>notations</a>.  This specification defines
 how DOM Core methods and attribute have to behave, if it is not
 convered by those DOM specifications.  For node types not specified by
 this specification, the requirements in the DOM Standard have to be
@@ -301,8 +301,8 @@ the <code title=dom-Node-textContent>textContent</code> attribute <em class=rfc2
 of the <a href=#context-object>context object</a>.
 
 </dd><dt><a href=#entity><code>Entity</code></a>
-</dt><dd>The <span title=concept-entity-replacement-text>replacement
-text</span> of the <a href=#context-object>context object</a>.
+</dt><dd>The <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement
+text</a> of the <a href=#context-object>context object</a>.
 
 <!-- For Notation, defined by DOM3CORE -->
 </dd></dl>
@@ -323,8 +323,8 @@ the <a href=#context-object>context object</a>:
 of the <a href=#context-object>context object</a> to the new value.
 
 </dd><dt><a href=#entity><code>Entity</code></a>
-</dt><dd>Set the <span title=concept-entity-replacement-text>replacement
-text</span> of the <a href=#context-object>context object</a> to the new value.
+</dt><dd>Set the <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement
+text</a> of the <a href=#context-object>context object</a> to the new value.
 
 <!-- For Notation, defined by DOM3CORE -->
 </dd></dl>
@@ -356,11 +356,11 @@ value</a>.
 
 </dd><dt><a href=#entity><code>Entity</code></a>
 <!-- Implementation dependent in DOM3CORE -->
-</dt><dd>Its <span title=concept-entity-name>name</span>, <span title=concept-entity-publicid>public ID</span>, <span title=concept-entity-systemid>system ID</span>, <span title=concept-entity-notation-name>notation name</span>, and <span title=concept-entity-replacement-text>replacement text</span>.
+</dt><dd>Its <span title=concept-entity-name>name</span>, <a href=#concept-entity-publicid title=concept-entity-publicid>public ID</a>, <a href=#concept-entity-systemid title=concept-entity-systemid>system ID</a>, <a href=#concept-entity-notation-name title=concept-entity-notation-name>notation name</a>, and <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement text</a>.
 
 </dd><dt><a href=#notation><code>Notation</code></a>
 <!-- Implementation dependent in DOM3CORE -->
-</dt><dd>Its <span title=concept-notation-name>name</span>, <span title=concept-notation-publicid>public ID</span>, and <span title=concept-notation-systemid>system ID</span>.
+</dt><dd>Its <span title=concept-notation-name>name</span>, <a href=#concept-notation-publicid title=concept-notation-publicid>public ID</a>, and <a href=#concept-notation-systemid title=concept-notation-systemid>system ID</a>.
 
 </dd></dl>
 
@@ -389,11 +389,11 @@ value</a>.
 
 </dd><dt><a href=#entity><code>Entity</code></a>
 <!-- Modify DOM3CORE definition -->
-</dt><dd>Its <span title=concept-entity-name>name</span>, <span title=concept-entity-publicid>public ID</span>, <span title=concept-entity-systemid>system ID</span>, <span title=concept-entity-notation-name>notation name</span>, and <span title=concept-entity-replacement-text>replacement text</span>.
+</dt><dd>Its <span title=concept-entity-name>name</span>, <a href=#concept-entity-publicid title=concept-entity-publicid>public ID</a>, <a href=#concept-entity-systemid title=concept-entity-systemid>system ID</a>, <a href=#concept-entity-notation-name title=concept-entity-notation-name>notation name</a>, and <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement text</a>.
 
 </dd><dt><a href=#notation><code>Notation</code></a>
 <!-- Modify DOM3CORE definition -->
-</dt><dd>Its <span title=concept-notation-name>name</span>, <span title=concept-notation-publicid>public ID</span>, and <span title=concept-notation-systemid>system ID</span>.
+</dt><dd>Its <span title=concept-notation-name>name</span>, <a href=#concept-notation-publicid title=concept-notation-publicid>public ID</a>, and <a href=#concept-notation-systemid title=concept-notation-systemid>system ID</a>.
 
 </dd></dl>
 
@@ -453,21 +453,44 @@ be considered as preceding any <a href=#concept-tree-child title=concept-tree-ch
 <hr>
 
 <p>A node of type <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
-<a href=#entity><code>Entity</code></a>, or <a href=#notation><code>Notation</code></a> has an associated <span title=concept-owner-document-type-definition>owner document type
-definition</span>.  The <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node has an
-associated <span title=concept-owner-element-type-definition>owner
-element type definition</span>.  Their values are <a href=#null>null</a>
+<a href=#entity><code>Entity</code></a>, or <a href=#notation><code>Notation</code></a> has an associated <dfn id=concept-owner-document-type-definition title=concept-owner-document-type-definition>owner document type
+definition</dfn>.  The <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node has an
+associated <dfn id=concept-owner-element-type-definition title=concept-owner-element-type-definition>owner
+element type definition</dfn>.  Their values are <a href=#null>null</a>
 unless otherwise specified.  When not ambiguous, they are simply
 referred to as <dfn id=concept-owner title=concept-owner>owner</dfn> of the node.
 
 </p><p>The <dfn id=dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition><code id=ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</code></dfn>
 attribute of the <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
-<a href=#entity><code>Entity</code></a>, and <a href=#notation><code>Notation</code></a> interfaces <em class=rfc2119>MUST</em> return the <span title=concept-owner-document-type-definition>owner document type
-definition</span> of the <a href=#context-object>context object</a>.  The <dfn id=dom-ownerelementtypedefinition title=dom-ownerElementTypeDefinition><code id=ownerElementTypeDefinition>ownerElementTypeDefinition</code></dfn>
-attribute of the <a href=#AttributeDefinition><code>AttributeDefinition</code></a> interface <em class=rfc2119>MUST</em> return the <span title=concept-owner-element-type-definition>owner element type
-definition</span> of the <a href=#context-object>context object</a>.
+<a href=#entity><code>Entity</code></a>, and <a href=#notation><code>Notation</code></a> interfaces <em class=rfc2119>MUST</em> return the <a href=#concept-owner-document-type-definition title=concept-owner-document-type-definition>owner document type
+definition</a> of the <a href=#context-object>context object</a>.  The <dfn id=dom-ownerelementtypedefinition title=dom-ownerElementTypeDefinition><code id=ownerElementTypeDefinition>ownerElementTypeDefinition</code></dfn>
+attribute of the <a href=#AttributeDefinition><code>AttributeDefinition</code></a> interface <em class=rfc2119>MUST</em> return the <a href=#concept-owner-element-type-definition title=concept-owner-element-type-definition>owner element type
+definition</a> of the <a href=#context-object>context object</a>.
 
-</p><hr>
+</p><p>The <dfn id=dom-publicid title=dom-publicId><code id=publicId>publicId</code></dfn>
+attribute and the <dfn id=dom-systemid title=dom-systemId><code id=systemId>systemId</code></dfn> attribute of the <a href=#entity><code>Entity</code></a>
+and <a href=#notation><code>Notation</code></a> interfaces <em class=rfc2119>MUST</em>
+return the <span title=concept-publicid>public ID</span> and <span title=concept-systemid>system ID</span> of the <a href=#context-object>context
+object</a>, respectively.<!-- For DocumentType, defined in DOM -->.
+
+</p><p>On setting, the <a href=#dom-publicid><code title=dom-publicId>publicId</code></a> attribute
+and the <a href=#dom-systemid><code title=dom-systemId>systemId</code></a> attribute of the
+<a href=#documenttype><code>DocumentType</code></a>, <a href=#entity><code>Entity</code></a>, and
+<a href=#notation><code>Notation</code></a> interfaces <em class=rfc2119>MUST</em> set the
+<span title=concept-publicid>public ID</span> and <span title=concept-systemid>system ID</span> of the <a href=#context-object>context
+object</a>, respectively, to the new value.
+
+</p><div class="note memo">
+<p>In DOM Standard and DOM3 Core specifications, these attributes are
+read-only.
+</p></div>
+
+<div class="note memo">
+<p>Setting an invalid identifier to these attribute might make the
+node unserializable in the XML syntax.
+</p></div>
+
+<hr>
 
 <p>When a <a href=#namednodemap><code>NamedNodeMap</code></a> <a href=#concept-collection title=concept-collection>collection</a> represents <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</a>, <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</a>,
 <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>, or <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
@@ -603,8 +626,7 @@ method</dt>
       that support these attributes.</p>
 
       <p>No explicit value is set.</p></dd>
-    <dt><a href=#hasReplacementTree><code>hasReplacementTree</code></a> and
-    <a href=#isExternallyDeclared><code>isExternallyDeclared</code></a></dt>
+    <dt><a href=#isExternallyDeclared><code>isExternallyDeclared</code></a></dt>
       <dd><p><code>false</code>.</p></dd>
     <dt><code>nodeName</code></dt>
       <dd><a href=#createGeneralEntity-name><var>name</var></a>.</dd>
@@ -620,14 +642,9 @@ method</dt>
           with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
         </div>
       </dd>
-    <dt><a href=#notationName><code>notationName</code></a>,
-      </dt><dd><a href=#null><code>null</code></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    <dt><a href=#publicId><code>publicId</code></a> and 
-    <a href=#systemId><code>systemId</code></a></dt>
-      <dd>The empty string.
-    </dd></dl>
+    </dl>
 </dd><dt><dfn class=dom-method id=createNotation><code>createNotation</code></dfn>,
 method</dt>
   <dd>
@@ -650,10 +667,7 @@ method</dt>
     <dt><code>ownerDocument</code></dt>
       <dd><p>The <a href=#Document><code>Document</code></a> node over which
       the method is invoked.</p></dd>
-    <dt><a href=#publicId><code>publicId</code></a> and
-    <a href=#systemId><code>systemId</code></a></dt>
-      <dd>The empty string.
-    </dd></dl>
+    </dl>
 </dd></dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
@@ -741,37 +755,10 @@ in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
 </div>
 
-<p>The implementation of the 
-<a href=#DocumentType><code>DocumentType</code></a> interface
-<em class=rfc2119>MUST</em> be modified as the following
-<a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
-<pre class=idl><code>partial interface DocumentType {
-  [TreatNullAs=EmptyString] attribute DOMString <a href=#publicId>publicId</a>;
-  [TreatNullAs=EmptyString] attribute DOMString <a href=#systemId>systemId</a>;
-};
-</code></pre>
-
-<p>The <code id=publicId>publicId</code> attribute and the 
-<code id=systemId>systemId</code> attribute of
-<a href=#DocumentType><code>DocumentType</code></a>,
-<a href=#Entity><code>Entity</code></a>, and
-<a href=#Notation><code>Notation</code></a> interfaces are no longer
-read-only.</p>
-
-<p>On setting, it <em class=rfc2119>MUST</em> set the specified value
-as the value associated to the attribute.  No normalization, relative
-reference resolution, or lexical validation is performed.
-
-</p><div class="note memo">
-<p>Setting an invalid identifier might make the node unserializable.
-Setting a public identifier while leaving system identifier unspecified 
-would also make the <a href=#DocumentType><code>DocumentType</code></a>
-or <a href=#Entity><code>Entity</code></a> node unserializable.</p>
-</div>
-
-<hr>
-
 <pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
+
   readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-documenttype-elementtypes title=dom-DocumentType-elementTypes>elementTypes</a>;
   readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-documenttype-generalentities title=dom-DocumentType-generalEntities>generalEntities</a>;
 
@@ -1409,32 +1396,49 @@ type <code>unsigned short</code></dt>
 <div class=section id=section-entity>
 <h2 id=general-entities><span class=secno>8 </span>General entities</h2>
 
-<p>The implementation of the <a href=#Entity><code>Entity</code></a>
-(<dfn id=concept-entity title=concept-entity>entity</dfn>) interface <em class=rfc2119>MUST</em> be modified as the following <a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
+<p>The <a href=#entity><code>Entity</code></a> node is known as <dfn id=concept-general-entity title=concept-general-entity>general entity</dfn>, or when not
+ambiguous, simply <dfn id=concept-entity title=concept-entity>entity</dfn>.
 
-<pre class=idl><code>partial interface <a href=#entity>Entity</a> {
+</p><p>Each <a href=#concept-entity title=concept-entity>entity</a> has an associated
+<dfn id=concept-entity-publicid title=concept-entity-publicid>public ID</dfn> and <dfn id=concept-entity-systemid title=concept-entity-systemid>system ID</dfn>.  Unless otherwise
+specified, their values are the empty string when the <a href=#concept-entity title=concept-entity>entity</a> is created.
+
+</p><pre class=idl><code>partial interface <a href=#entity>Entity</a> {
   readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
 
-  attribute DOMString <a href=#publicId>publicId</a>;
-  attribute DOMString <a href=#systemId>systemId</a>;
-  attribute DOMString <a href=#notationName>notationName</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
+  attribute <span>DOMString</span>? <span title=dom-Entity-notationName>notationName</span>;
   readonly attribute <span>DOMString</span> <a href=#dom-entity-hasreplacementtree title=dom-Entity-hasReplacementTree>hasReplacementTree</a>;
 
   attribute boolean <a href=#isExternallyDeclared>isExternallyDeclared</a>;
 };</code></pre>
 
-<p>The <code id=notationName>notationName</code> attribute of the
-<a href=#Entity><code>Entity</code></a> interface is no longer 
-read-only.</p>
+<p>Each <a href=#concept-entity title=concept-entity>entity</a> has an associated
+<dfn id=concept-entity-notation-name title=concept-entity-notation-name>notation name</dfn>.  Unless
+otherwise specified, it is <a href=#null>null</a> when the <a href=#concept-entity title=concept-entity>entity</a> is created.
 
-<p>On setting, it <em class=rfc2119>MUST</em> set the specified value
-as the value associated to the attribute.  No lexical validation is
-performed.  The new value <em class=rfc2119>MAY</em> be
-<a href=#null><code>null</code></a>.</p>
+</p><p>The <code title=dom-Entity-notationName>notationName</code>
+attribute returns the <a href=#concept-entity-notation-name title=concept-entity-notation-name>notation name</a> of the
+<a href=#context-object>context object</a>.<!-- Normatively defined in DOM3CORE -->
+
+</p><p>On setting, the <code title=dom-Entity-notationName>notationName</code> attribute of the
+<a href=#entity><code>Entity</code></a> interface <em class=rfc2119>MUST</em> set the
+<a href=#concept-entity-notation-name title=concept-entity-notation-name>notation name</a> of the
+<a href=#context-object>context object</a> to the new value.
+
+</p><div class="note memo">
+<p>In DOM3 Core specification, this attribute was read-only.
+</p></div>
+
+<div class="note memo">
+<p>Setting an invalid name to this attribute would make the node
+unserializable in the XML syntax.
+</p></div>
 
 <p>Each <a href=#concept-entity title=concept-entity>entity</a> has an associated
-<span title=concept-entity-replacement-text>replacement text</span>.
-Unless otherwise specified, the <span title=concept-entity-replacement-text>replacement text</span> is the
+<dfn id=concept-entity-replacement-text title=concept-entity-replacement-text>replacement text</dfn>.
+Unless otherwise specified, the <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement text</a> is the
 empty string when an <a href=#concept-entity title=concept-entity>entity</a> is
 created.
 
@@ -1466,11 +1470,16 @@ of type <code>boolean</code></dt>
 <div class=section id=section-notation>
 <h2 id=notations><span class=secno>9 </span>Notations</h2>
 
-<pre class=idl><code>partial interface <a href=#notation>Notation</a> {
-  readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
+<p>The <a href=#notation><code>Notation</code></a> node is simply known as <dfn id=concept-notation title=concept-notation>notation.
 
-  attribute DOMString <a href=#publicId>publicId</a>;
-  attribute DOMString <a href=#systemId>systemId</a>;
+</dfn></p><p>Each <a href=#concept-notation title=concept-notation>notation</a> has an associated
+<dfn id=concept-notation-publicid title=concept-notation-publicid>public ID</dfn> and <dfn id=concept-notation-systemid title=concept-notation-systemid>system ID</dfn>.  Unless otherwise
+specified, their values are the empty string when the <a href=#concept-notation title=concept-notation>notation</a> is created.
+
+</p><pre class=idl><code>partial interface <a href=#notation>Notation</a> {
+  readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
 };</code></pre>
 
 </div><!-- section -->

@@ -334,10 +334,12 @@ text</span> of the <a href=#context-object>context object</a> to the new value.
 <p>When a node is <a href=#concept-node-clone title=concept-node-clone>cloned</a>, the
 following values <em class=rfc2119>MUST</em> be copied:
 
+<!-- This list should be equal to isEqualNode's list -->
 </p><dl class=switch>
 
+<dt><a href=#documenttype><code>DocumentType</code></a>
 <!-- Modify DOM definition -->
-<dd>Its <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element
+</dt><dd>Its <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element
 types</a>, <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general
 entities</a>, and <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
 
@@ -384,7 +386,14 @@ type</span>, <span title=concept-attribute-definition-allowed-tokens>allowed
 tokens</span>, and <span title=concept-attribute-default-type>default
 type</span>.
 
-<!-- For Entity and Notation, defined by DOM3CORE -->
+</dd><dt><code>Entity</code>
+<!-- Modify DOM3CORE definition -->
+</dt><dd>Its <span title=concept-entity-name>name</span>, <span title=concept-entity-publicid>public ID</span>, <span title=concept-entity-systemid>system ID</span>, <span title=concept-entity-notation-name>notation name</span>, and <span title=concept-entity-replacement-text>replacement text</span>.
+
+</dd><dt><code>Notation</code>
+<!-- Modify DOM3CORE definition -->
+</dt><dd>Its <span title=concept-notation-name>name</span>, <span title=concept-notation-publicid>public ID</span>, and <span title=concept-notation-systemid>system ID</span>.
+
 </dd></dl>
 
 <p>For the comparison of node sets, only the length and equality of
@@ -503,7 +512,7 @@ method</dt>
     return a <a href=#DocumentType><code>DocumentType</code></a> node with
     the following attributes:</p>
     <dl>
-    <dt><code>attributes</code>, <code>parentNode</code></dt>
+    <dt><code>parentNode</code></dt>
       <dd><a href=#null><code>null</code></a>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
@@ -516,10 +525,6 @@ method</dt>
       <dd>The <a href=#Document><code>Document</code></a> node over which the
       method is invoked.</dd>
     </dl>
-    <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
-    containing five general entity declarations: <code>amp</code>,
-    <code>lt</code>, <code>gt</code>, <code>quot</code>, and
-    <code>apos</code>.</p>
   </dd>
 <dt><dfn class=dom-method id=createElementTypeDefinition><code>createElementTypeDefinition</code></dfn>,
 method</dt>
@@ -535,15 +540,10 @@ method</dt>
     <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
     node with the following attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href=#nodeName><code>nodeName</code></a></dt>
       <dd><a href=#createElementTypeDefinition-name><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    <dt><a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
     </dl>
   </dd>
 <dt><dfn class=dom-method id=createAttributeDefinition><code>createAttributeDefinition</code></dfn>,
@@ -562,8 +562,6 @@ method</dt>
     <dl>
     <dt><a href=#allowedTokens><code>allowedTokens</code></a></dt>
       <dd>An empty <code>DOMStringList</code> object.</dd>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href=#declaredType><code>declaredType</code></a></dt>
       <dd><a href=#NO_TYPE_ATTR><code>NO_TYPE_ATTR</code></a>.</dd>
     <dt><a href=#defaultType><code>defaultType</code></a></dt>
@@ -572,20 +570,18 @@ method</dt>
       <dd><a href=#createAttributeDefinition-name><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    <dt><a href=#ownerElementTypeDefinition><code>ownerElementTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
     </dl>
 
-    <!-- This requirement, if not droped, should be part of xml-id spec.
     <div class=ed>
-    <p>@@ Should we keep these statements?: 
-However, if the &lt;cfg::cfg|xml-id> configuration
-parameter is set to <code>true</code> and the <var>name</var>
+<p>If xml:id is supported and the DOM is created by an xml:id aware
+XML parser:
+
+</p><p>However, if the &lt;cfg::cfg|xml-id&gt; configuration
+parameter is set to <code>true</code> and the <a href=#getAttributeDefinitionNode-name><var>name</var></a>
 is <code>xml:id</code>, then the [CODE(DOMa)@en[[[declaredType]]]]
-attribute is set to <code>ID_ATTR</code>.
+attribute is set to <a href=#ID_ATTR><code>ID_ATTR</code></a>.
 [CODE(DOMa)@en[[[defaultType]]]]?</p>
-    </div>-->
+    </div>
   </dd>
 <dt><dfn class=dom-method id=createGeneralEntity><code>createGeneralEntity</code></dfn>,
 method</dt>
@@ -600,8 +596,6 @@ method</dt>
     an <a href=#Entity><code>Entity</code></a> node with the following
     attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>,
     <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
     <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite></dt>
@@ -627,16 +621,13 @@ method</dt>
         </div>
       </dd>
     <dt><a href=#notationName><code>notationName</code></a>,
-    <a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>,
-    and <code>parentNode</code></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
+      </dt><dd><a href=#null><code>null</code></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
     <dt><a href=#publicId><code>publicId</code></a> and 
     <a href=#systemId><code>systemId</code></a></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
-      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
-    </dl>
+      <dd>The empty string.
+    </dd></dl>
 </dd><dt><dfn class=dom-method id=createNotation><code>createNotation</code></dfn>,
 method</dt>
   <dd>
@@ -648,8 +639,6 @@ method</dt>
     <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
     a <code>Notation</code> node with the following attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>
     <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite></dt>
       <dd><p class=section-info>This entry is applied only to implementations
@@ -661,31 +650,17 @@ method</dt>
     <dt><code>ownerDocument</code></dt>
       <dd><p>The <a href=#Document><code>Document</code></a> node over which
       the method is invoked.</p></dd>
-    <dt><a href=#ownerDocumentTypeDefinition><code>ownerDocumentTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
     <dt><a href=#publicId><code>publicId</code></a> and
     <a href=#systemId><code>systemId</code></a></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
-      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
-    </dl>
+      <dd>The empty string.
+    </dd></dl>
 </dd></dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
-<code>INVALID_CHARACTER_ERR</code> if <a href=#getAttributeDefinitionNode-name><var>name</var></a> is <em>not</em> a legal 
-<a href=#getAttributeDefinitionNode-name><code>Name</code></a>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
-<a href=#ref-XML11>XML11</a>]</cite> according to the <abbr>XML</abbr> 
-version specified in the <code>xmlVersion</code> attribute of the 
-<a href=#Document><code>Document</code></a> node.</p>
+<code>INVALID_CHARACTER_ERR</code> if <a href=#getAttributeDefinitionNode-name><var>name</var></a> is <em>not</em>
+a legal <a href=#getAttributeDefinitionNode-name><code>Name</code></a> <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.
 
-<div class="note memo">
-<p>Non-<abbr>XML</abbr> case is intentionally left unspecified for now,
-since <abbr>DOM</abbr> Level 3 Core specification
-<cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
-does not define it for <a href=#Document><code>Document</code></a> 
-methods.</p>
-
+</p><div class="note memo">
 <p><a href=#getAttributeDefinitionNode-name><var>name</var></a> does not have to be a namespace qualified name.</p>
 </div>
 

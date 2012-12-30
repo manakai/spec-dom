@@ -355,8 +355,10 @@ text</span> of the <span>context object</span> to the new value.
 <p>When a node is <span title=concept-node-clone>cloned</span>, the
 following values <em class=rfc2119>MUST</em> be copied:
 
+<!-- This list should be equal to isEqualNode's list -->
 <dl class=switch>
 
+<dt><code>DocumentType</code>
 <!-- Modify DOM definition -->
 <dd>Its <span title=concept-DocumentType-elementTypes>element
 types</span>, <span title=concept-DocumentType-generalEntities>general
@@ -419,7 +421,20 @@ title=concept-attribute-definition-allowed-tokens>allowed
 tokens</span>, and <span title=concept-attribute-default-type>default
 type</span>.
 
-<!-- For Entity and Notation, defined by DOM3CORE -->
+<dt><code>Entity</code>
+<!-- Modify DOM3CORE definition -->
+<dd>Its <span title=concept-entity-name>name</span>, <span
+title=concept-entity-publicid>public ID</span>, <span
+title=concept-entity-systemid>system ID</span>, <span
+title=concept-entity-notation-name>notation name</span>, and <span
+title=concept-entity-replacement-text>replacement text</span>.
+
+<dt><code>Notation</code>
+<!-- Modify DOM3CORE definition -->
+<dd>Its <span title=concept-notation-name>name</span>, <span
+title=concept-notation-publicid>public ID</span>, and <span
+title=concept-notation-systemid>system ID</span>.
+
 </dl>
 
 <p>For the comparison of node sets, only the length and equality of
@@ -565,7 +580,7 @@ method</dt>
     return a <a href="#DocumentType"><code>DocumentType</code></a> node with
     the following attributes:</p>
     <dl>
-    <dt><code>attributes</code>, <code>parentNode</code></dt>
+    <dt><code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
@@ -578,10 +593,6 @@ method</dt>
       <dd>The <a href="#Document"><code>Document</code></a> node over which the
       method is invoked.</dd>
     </dl>
-    <p>In addition, the method <em class=rfc2119>MUST</em> be marked as 
-    containing five general entity declarations: <code>amp</code>,
-    <code>lt</code>, <code>gt</code>, <code>quot</code>, and
-    <code>apos</code>.</p>
   </dd>
 <dt><dfn id=createElementTypeDefinition class=dom-method><code>createElementTypeDefinition</code></dfn>,
 method</dt>
@@ -597,15 +608,10 @@ method</dt>
     <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
     node with the following attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href="#nodeName"><code>nodeName</code></a></dt>
       <dd><a href="#createElementTypeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     </dl>
   </dd>
 <dt><dfn id=createAttributeDefinition class=dom-method><code>createAttributeDefinition</code></dfn>,
@@ -624,8 +630,6 @@ method</dt>
     <dl>
     <dt><a href="#allowedTokens"><code>allowedTokens</code></a></dt>
       <dd>An empty <code>DOMStringList</code> object.</dd>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href="#declaredType"><code>declaredType</code></a></dt>
       <dd><a href="#NO_TYPE_ATTR"><code>NO_TYPE_ATTR</code></a>.</dd>
     <dt><a href="#defaultType"><code>defaultType</code></a></dt>
@@ -634,20 +638,18 @@ method</dt>
       <dd><a href="#createAttributeDefinition-name"><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
-    <dt><a href="#ownerElementTypeDefinition"><code>ownerElementTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     </dl>
 
-    <!-- This requirement, if not droped, should be part of xml-id spec.
     <div class=ed>
-    <p>@@ Should we keep these statements?: 
-However, if the &lt;cfg::cfg|xml-id> configuration
+<p>If xml:id is supported and the DOM is created by an xml:id aware
+XML parser:
+
+<p>However, if the &lt;cfg::cfg|xml-id> configuration
 parameter is set to <code>true</code> and the <var>name</var>
 is <code>xml:id</code>, then the [CODE(DOMa)@en[[[declaredType]]]]
 attribute is set to <code>ID_ATTR</code>.
 [CODE(DOMa)@en[[[defaultType]]]]?</p>
-    </div>-->
+    </div>
   </dd>
 <dt><dfn id=createGeneralEntity class=dom-method><code>createGeneralEntity</code></dfn>,
 method</dt>
@@ -662,8 +664,6 @@ method</dt>
     an <a href="#Entity"><code>Entity</code></a> node with the following
     attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>,
     <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
     <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
@@ -689,15 +689,12 @@ method</dt>
         </div>
       </dd>
     <dt><a href="#notationName"><code>notationName</code></a>,
-    <a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>,
-    and <code>parentNode</code></dt>
       <dd><code>null</code>.</dd>
     <dt><code>ownerDocument</code></dt>
       <dd>The <code>Document</code> node over which the method is invoked.</dd>
     <dt><a href="#publicId"><code>publicId</code></a> and 
     <a href="#systemId"><code>systemId</code></a></dt>
-      <dd><code>null</code>.</dd>
-      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+      <dd>The empty string.
     </dl>
 <dt><dfn id=createNotation class=dom-method><code>createNotation</code></dfn>,
 method</dt>
@@ -710,8 +707,6 @@ method</dt>
     <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
     a <code>Notation</code> node with the following attributes:</p>
     <dl>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
     <dt><code>manakaiDeclarationBaseURI</code>
     <cite class="bibref normative">[<a href="#ref-MANAKAI">MANAKAI</a>]</cite></dt>
       <dd><p class=section-info>This entry is applied only to implementations
@@ -723,31 +718,18 @@ method</dt>
     <dt><code>ownerDocument</code></dt>
       <dd><p>The <a href="#Document"><code>Document</code></a> node over which
       the method is invoked.</p></dd>
-    <dt><a href="#ownerDocumentTypeDefinition"><code>ownerDocumentTypeDefinition</code></a>
-    and <code>parentNode</code></dt>
-      <dd><code>null</code>.</dd>
     <dt><a href="#publicId"><code>publicId</code></a> and
     <a href="#systemId"><code>systemId</code></a></dt>
-      <dd><code>null</code>.</dd>
-      <dd class=ed>@@ publicId and systemId should be empty string?</dd>
+      <dd>The empty string.
     </dl>
 </dl>
 
 <p>These methods <em class=rfc2119>MUST</em> raise an
-<code>INVALID_CHARACTER_ERR</code> if <var>name</var> is <em>not</em> a legal 
-<code>Name</code>
-<cite class="bibref normative">[<a href="#ref-XML10">XML10</a>,
-<a href="#ref-XML11">XML11</a>]</cite> according to the <abbr>XML</abbr> 
-version specified in the <code>xmlVersion</code> attribute of the 
-<a href="#Document"><code>Document</code></a> node.</p>
+<code>INVALID_CHARACTER_ERR</code> if <var>name</var> is <em>not</em>
+a legal <code>Name</code> <cite class="bibref normative">[<a
+href="#ref-XML10">XML10</a>]</cite>.
 
 <div class="note memo">
-<p>Non-<abbr>XML</abbr> case is intentionally left unspecified for now,
-since <abbr>DOM</abbr> Level 3 Core specification
-<cite class="bibref normative">[<a href="#ref-DOM3CORE">DOM3CORE</a>]</cite>
-does not define it for <a href="#Document"><code>Document</code></a> 
-methods.</p>
-
 <p><var>name</var> does not have to be a namespace qualified name.</p>
 </div>
 

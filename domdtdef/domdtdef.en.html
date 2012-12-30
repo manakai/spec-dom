@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 29 December 2012</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 30 December 2012</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -194,7 +194,13 @@ and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
 is defined in the HTML5 specification
 <cite class="bibref normative">[<a href=#ref-HTML5>HTML5</a>]</cite>.</p>
 
-<div class=ed>
+<p>The interfaces and attributes
+<dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, and
+<a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a> are
+defined in the DOM3 Core specification <cite class="bibref
+normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.
+
+</p><div class=ed>
 <p>Following paragraph need to be updated:
 
 </p><p>Some <abbr>IDL</abbr> fragments are presented as <i>patch</i> to an
@@ -304,7 +310,7 @@ these kinds of nodes, methods and attributes in the
       <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>,</li>-->
       <li>exactly one of them support the feature
       <a href=#feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
-      and the <code>length</code> attribute of the <code>NamedNodeMap</code> 
+      and the <code>length</code> attribute of the <a href=#namednodemap><code>NamedNodeMap</code></a> 
       object in the <a href=#elementTypes><code>elementTypes</code></a> 
       attribute of it is equal to <code>0</code>, or</li>
       <li>both of them support the feature
@@ -418,13 +424,13 @@ following:</p>
   <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.</p></dd>
 <dt><code id=normalize>normalize</code></dt>
   <dd><p>When a <a href=#DocumentType><code>DocumentType</code></a> is
-  normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  normalized, any nodes in the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#elementTypes><code>elementTypes</code></a> attribute
   <em class=rfc2119>MUST</em> be normalized as well.</p>
 
   <p>When an
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node
-  is normalized, any nodes in the <code>NamedNodeMap</code> object in the
+  is normalized, any nodes in the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#attributeDefinitions><code>attributeDefinitions</code></a> 
   attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
 </dl>
@@ -509,7 +515,7 @@ method</dt>
     <dt><a href=#elementTypes><code>elementTypes</code></a>,
     <a href=#entities><code>entities</code></a>, and
     <a href=#notations><code>notations</code></a></dt>
-      <dd>Empty <code>NamedNodeMap</code> objects respectively.</dd>
+      <dd>Empty <a href=#namednodemap><code>NamedNodeMap</code></a> objects respectively.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href=#publicId><code>publicId</code></a> and
@@ -541,7 +547,7 @@ method</dt>
     node with the following attributes:</p>
     <dl>
     <dt><a href=#attributeDefinitions><code>attributeDefinitions</code></a></dt>
-      <dd>An empty <code>NamedNodeMap</code> object.</dd>
+      <dd>An empty <a href=#namednodemap><code>NamedNodeMap</code></a> object.</dd>
     <dt><code>childNodes</code></dt>
       <dd>An empty <code>NodeList</code> object.</dd>
     <dt><a href=#nodeName><code>nodeName</code></a></dt>
@@ -706,6 +712,20 @@ methods.</p>
 <dfn id=concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</dfn>, <dfn id=concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</dfn>, and
 <dfn id=concept-documenttype-notations title=concept-DocumentType-notations>notations</dfn>.
 
+</p><p>The <span>general entities</span> of the <a href=#doctype>doctype</a> is
+exposed by the <a href=#dom-documenttype-entities><code title=dom-DocumentType-entities>entities</code></a>
+attribute of the <a href=#documenttype><code>DocumentType</code></a> interface <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.  The <dfn id=dom-documenttype-generalentities title=dom-DocumentType-generalEntities><code id=generalEntities>generalEntities</code></dfn> attribute of the
+<a href=#documenttype><code>DocumentType</code></a> interface <em class=rfc2119>MUST</em> return
+the same object as the <a href=#dom-documenttype-entities><code title=dom-DocumentType-entities>entities</code></a> attribute.
+
+</p><p>The <span>notations</span> of the <a href=#doctype>doctype</a> is exposed
+by the <a href=#dom-documenttype-notations><code title=dom-DocumentType-notations>notations</code></a>
+attribute of the <a href=#documenttype><code>DocumentType</code></a> interface <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.
+
+</p><div class=ed>
+<p>Need to merge with <code>manakai-allow-doctype-children</code>
+configuration parameter spec...
+
 </p><p>A <a href=#DocumentType><code>DocumentType</code></a> interface 
 <em class=rfc2119>MAY</em> contain zero or more
 <code>ProcessingInstruction</code> nodes in the <code>NodeList</code> object 
@@ -740,14 +760,15 @@ property <em class=rfc2119>MUST</em> contain the processng instruction
 information items created from the <code>ProcessingInstruction</code> nodes
 in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
+</div>
 
 <p>The implementation of the 
 <a href=#DocumentType><code>DocumentType</code></a> interface
 <em class=rfc2119>MUST</em> be modified as the following
 <a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
 <pre class=idl><code>partial interface DocumentType {
-  attribute DOMString <a href=#publicId>publicId</a>;
-  attribute DOMString <a href=#systemId>systemId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#publicId>publicId</a>;
+  [TreatNullAs=EmptyString] attribute DOMString <a href=#systemId>systemId</a>;
 };
 </code></pre>
 
@@ -760,26 +781,20 @@ read-only.</p>
 
 <p>On setting, it <em class=rfc2119>MUST</em> set the specified value
 as the value associated to the attribute.  No normalization, relative
-reference resolution, or lexical validation is performed. <span class=ed>@@ If the new value is <a href=#null><code>null</code></a>, should an empty
-string be set?</span></p>
+reference resolution, or lexical validation is performed.
 
-<div class="note memo">
+</p><div class="note memo">
 <p>Setting an invalid identifier might make the node unserializable.
 Setting a public identifier while leaving system identifier unspecified 
 would also make the <a href=#DocumentType><code>DocumentType</code></a>
 or <a href=#Entity><code>Entity</code></a> node unserializable.</p>
 </div>
 
-<div class=ed>
-<p>ISSUE: In HTML5, Firefox 1.5, and Opera 9, not specifying public or system identifier results in empty strings.</p>
-</div>
-
 <hr>
 
 <pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
-  readonly attribute NamedNodeMap <a href=#elementTypes>elementTypes</a>;
-  readonly attribute NamedNodeMap <a href=#generalEntities>generalEntities</a>;
-  readonly attribute NamedNodeMap <a href=#notations>notations</a>;
+  readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#elementTypes>elementTypes</a>;
+  readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-documenttype-generalentities title=dom-DocumentType-generalEntities>generalEntities</a>;
 
   <a href=#ElementTypeDefinition>ElementTypeDefinition</a> <a href=#getElementTypeDefinitionNode>getElementTypeDefinitionNode</a>
     (in DOMString <a href=#getElementTypeDefinitionNode-name><var>name</var></a>);
@@ -806,21 +821,21 @@ or <a href=#Entity><code>Entity</code></a> node unserializable.</p>
 
 <dl>
 <dt><dfn class=dom-attr id=elementTypes><code>elementTypes</code></dfn> of
-type <code>NamedNodeMap</code>, read-only</dt>
-  <dd><p>A <a href=#live>live</a> <code>NamedNodeMap</code> object that
+type <a href=#namednodemap><code>NamedNodeMap</code></a>, read-only</dt>
+  <dd><p>A <a href=#live>live</a> <a href=#namednodemap><code>NamedNodeMap</code></a> object that
   contains all the element type definitions belonging to the 
   <a href=#DocumentType><code>DocumentType</code></a> node.</p>
 
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
-  <code>NamedNodeMap</code> object that contains all the 
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object that contains all the 
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
   nodes belonging to the <a href=#documenttype><code>DocumentType</code></a> node.  The
-  <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object <em class=rfc2119>MUST</em> be 
   <a href=#live>live</a>.</p>
 
   <p>If the <a href=#documenttype><code>DocumentType</code></a> node is created during the process
   to create a <abbr>DOM</abbr> from an <abbr>XML</abbr> document, the following
-  requirements are applied:  The <code>NamedNodeMap</code> object in the
+  requirements are applied:  The <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#elementTypes><code>elementType</code></a> attribute 
   <em class=rfc2119>MUST</em> be so transformed that the object contains
   the <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> nodes for the element types
@@ -831,21 +846,7 @@ type <code>NamedNodeMap</code>, read-only</dt>
   processor.  If there are more than one element type declarations for an
   element type, then the declarations other than the first one 
   <em class=rfc2119>MUST</em> be ignored for the purpose of constructing the
-  <code>NamedNodeMap</code> object.</p></dd>
-<dt><dfn class=dom-attr id=generalEntities><code>generalEntities</code></dfn>
-of type <code>NamedNodeMap</code>, read-only</dt>
-  <dd><p>A <a href=#live>live</a> <code>NamedNodeMap</code> object that
-  contains all the general entities belonging to the 
-  <a href=#DocumentType><code>DocumentType</code></a> node.</p>
-  
-  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
-  same value as the <code id=entities>entities</code> attribute (defined in the
-  <a href=#DocumentType><code>DocumentType</code></a> interface) of the same
-  node.</p>
-
-  <div class="note memo">
-    <p>This attribute is part of the interface for historical reason.</p>
-  </div></dd>
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object.</p></dd>
 <!--
 All entities declared in the document type definition
 contained in or referenced from the document entity
@@ -863,25 +864,6 @@ The attribute [['''MUST''']] return the [CODE(DOMi)@en[[[NamedNodeMap]]]]
 object that contains all the [CODE(DOMi)@en[[[Entity]]]] nodes
 representing general entities belong to the node.
 -->
-<dt><dfn class=dom-attr id=notations><code>notations</code></dfn> of type
-<code>NamedNodeMap</code>, read-only
-  </dt><dd><p>A <a href=#live>live</a> <code>NamedNodeMap</code> object that
-  contains all the notations belonging to the
-  <a href=#DocumentType><code>DocumentType</code></a> node.</p>
-  
-  <p>On getting, the attribute <em class=rfc2119>MUST</em> return the 
-  same value as the <a href=#notations><code>notations</code></a> attribute (defined in the
-  <a href=#DocumentType><code>DocumentType</code></a> interface) of the same
-  node.</p>
-
-  <div class="note memo">
-    <p>This attribute is part of the interface for historical reason.</p>
-    <p>Implementations are not required to implement the 
-    <a href=#notations><code>notations</code></a> attribute twice (for 
-    <a href=#DocumentType><code>DocumentType</code></a> and
-    <a href=#DocumentTypeDefinition><code>DocumentTypeDefinition</code></a>
-    interfaces); they share exactly same definition.</p>
-  </div></dd>
 <!--
 If the [CODE(DOMi)@en[[[DocumentTypeDefinition]]]] node is
 created from an XML document, duplicate notation declarations, if any, in DTD 
@@ -917,7 +899,7 @@ method</dt>
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node,
   whose <a href=#nodeName><code>nodeName</code></a> is equal to
   <a href=#getElementTypeDefinitionNode-name><var>name</var></a>, in the
-  <code>NamedNodeMap</code> object in the
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#elementTypes><code>elementTypes</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
   <a href=#null><code>null</code></a>.</p></dd>
@@ -934,7 +916,7 @@ method</dt>
   <a href=#Entity><code>Entity</code></a> node,
   whose <a href=#nodeName><code>nodeName</code></a> is equal to
   <a href=#getGeneralEntityNode-name><var>name</var></a>, in the
-  <code>NamedNodeMap</code> object in the
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#entities><code>entities</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
   <a href=#null><code>null</code></a>.</p></dd>
@@ -951,7 +933,7 @@ method</dt>
   <a href=#Notation><code>Notation</code></a> node,
   whose <a href=#nodeName><code>nodeName</code></a> is equal to
   <a href=#getNotationNode-name><var>name</var></a>, in the
-  <code>NamedNodeMap</code> object in the
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
   <a href=#notations><code>notations</code></a> attribute of the
   node.  If there is no such node, it <em class=rfc2119>MUST</em> return
   <a href=#null><code>null</code></a>.</p></dd>
@@ -1027,7 +1009,7 @@ from <var title="">set</var>.
 
 </li><li>Add <var title="">node</var> to <var title="">set</var>.
 
-</li><li>Set <a href=#concept-owner title=concept-owner>owner</a> of <var title="">node</var> to <var title="">owner</var>.
+</li><li>Set the <a href=#concept-owner title=concept-owner>owner</a> of <var title="">node</var> to <var title="">owner</var>.
 
 </li><li>Return <var title="">oldNode</var>.
 
@@ -1106,29 +1088,29 @@ of type <a href=#DocumentType><code>DocumentType</code></a>, read-only</dt>
   <a href=#Entity><code>Entity</code></a> node), or 
   <a href=#notations><code>notations</code></a> (for a
   <a href=#Notation><code>Notation</code></a> node) attribute contains the
-  <code>NamedNodeMap</code> object that contains the node.  If there is no such
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object that contains the node.  If there is no such
   a <a href=#DocumentType><code>DocumentType</code></a> node,
   then <a href=#null><code>null</code></a> <em class=rfc2119>MUST</em> be returned.</p></dd>
 <dt><dfn class=dom-attr id=attributeDefinitions><code>attributeDefinitions</code></dfn>
-of type <code>NamedNodeMap</code>, read-only</dt>
-  <dd><p>A <a href=#live>live</a> <code>NamedNodeMap</code> object that
+of type <a href=#namednodemap><code>NamedNodeMap</code></a>, read-only</dt>
+  <dd><p>A <a href=#live>live</a> <a href=#namednodemap><code>NamedNodeMap</code></a> object that
   contains all the attribute definitions belonging to the 
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
   node.</p>
 
   <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
-  <code>NamedNodeMap</code> object that contains all the
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object that contains all the
   <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node
   belonging to the
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node.
-  The <code>NamedNodeMap</code> object <em class=rfc2119>MUST</em> be 
+  The <a href=#namednodemap><code>NamedNodeMap</code></a> object <em class=rfc2119>MUST</em> be 
   <a href=#live>live</a>.</p>
   
   <p>If the
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node
   is created during the process to create a <abbr>DOM</abbr> from an
   <abbr>XML</abbr> document, the following requirements are applied:  The
-  <code>NamedNodeMap</code> object in the 
+  <a href=#namednodemap><code>NamedNodeMap</code></a> object in the 
   <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
   attribute <em class=rfc2119>MUST</em> be so transformed that the object
   contains the
@@ -1140,7 +1122,7 @@ of type <code>NamedNodeMap</code>, read-only</dt>
   associated to the element type represented by the node.  If there are more
   than one attribute definitions for an attribute, then the definitions other
   than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
-  of constructing the <code>NamedNodeMap</code> object.</p></dd>
+  of constructing the <a href=#namednodemap><code>NamedNodeMap</code></a> object.</p></dd>
 <dt><dfn class=dom-method id=getAttributeDefinitionNode><code>getAttributeDefinitionNode</code></dfn>,
 method</dt>
   <dd><p>Return the
@@ -1155,7 +1137,7 @@ method</dt>
   <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node,
   whose <a href=#nodeName><code>nodeName</code></a> attribute value is
   equal to <a href=#getAttributeDefinitionNode-name><var>name</var></a>,
-  in the <code>NamedNodeMap</code> in the 
+  in the <a href=#namednodemap><code>NamedNodeMap</code></a> in the 
   <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
   attribute of the node.  If there is no such node, it 
   <em class=rfc2119>MUST</em> return <a href=#null><code>null</code></a>.</p></dd>
@@ -1252,7 +1234,7 @@ read-only</dt>
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node.
   It <em class=rfc2119>MUST</em> be such a node that whose
   <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
-  attribute contains the <code>NamedNodeMap</code> object that contains
+  attribute contains the <a href=#namednodemap><code>NamedNodeMap</code></a> object that contains
   the <a href=#AttributeDefinition><code>AttributeDefinition</code></a>
   node.  If there is no such an 
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node,

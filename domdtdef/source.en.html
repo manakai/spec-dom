@@ -352,6 +352,10 @@ text</span> of the <span>context object</span> to the new value.
 <!-- For Notation, defined by DOM3CORE -->
 </dl>
 
+<p>On setting, the <code title=dom-Node-textContent>textContent</code>
+attribute <em class=rfc2119>MUST</em> act as if it was the empty
+string instead if the new value is <span>null</span>.
+
 <p>When a node is <span title=concept-node-clone>cloned</span>, the
 following values <em class=rfc2119>MUST</em> be copied:
 
@@ -491,11 +495,13 @@ title=concept-owner>owners</span> are the same node,
 
   </ul>
 
-<li>Otherwise, one of the nodes are of these four node types.  If the
-node has non-<span>null</span> <span title=concept-owner>owner</span>,
-the <span title=concept-owner>owner</span> <em class=rfc2119>MUST</em>
-be considered as the <span title=concept-tree-parent>parent</span> of
-the node for the purpose of comparison.
+<li>Otherwise, the <span title=concept-owner>owner</span> <em
+class=rfc2119>MUST</em> be considered as the <span
+title=concept-tree-parent>parent</span> of the node for the purpose of
+comparison.  The nodes of these four types <em class=rfc2119>MUST</em>
+be considered as preceding any <span
+title=concept-tree-child>child</span> node of the <span
+title=concept-owner>owner</span>.
 
 </ul>
 

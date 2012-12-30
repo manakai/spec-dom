@@ -331,7 +331,11 @@ text</span> of the <a href=#context-object>context object</a> to the new value.
 <!-- For Notation, defined by DOM3CORE -->
 </dd></dl>
 
-<p>When a node is <a href=#concept-node-clone title=concept-node-clone>cloned</a>, the
+<p>On setting, the <code title=dom-Node-textContent>textContent</code>
+attribute <em class=rfc2119>MUST</em> act as if it was the empty
+string instead if the new value is <a href=#null>null</a>.
+
+</p><p>When a node is <a href=#concept-node-clone title=concept-node-clone>cloned</a>, the
 following values <em class=rfc2119>MUST</em> be copied:
 
 <!-- This list should be equal to isEqualNode's list -->
@@ -433,11 +437,9 @@ rules are applied:
 
   </li></ul>
 
-</li><li>Otherwise, one of the nodes are of these four node types.  If the
-node has non-<a href=#null>null</a> <a href=#concept-owner title=concept-owner>owner</a>,
-the <a href=#concept-owner title=concept-owner>owner</a> <em class=rfc2119>MUST</em>
-be considered as the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of
-the node for the purpose of comparison.
+</li><li>Otherwise, the <a href=#concept-owner title=concept-owner>owner</a> <em class=rfc2119>MUST</em> be considered as the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of the node for the purpose of
+comparison.  The nodes of these four types <em class=rfc2119>MUST</em>
+be considered as preceding any <a href=#concept-tree-child title=concept-tree-child>child</a> node of the <a href=#concept-owner title=concept-owner>owner</a>.
 
 </li></ul>
 

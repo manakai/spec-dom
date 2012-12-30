@@ -180,10 +180,10 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 <cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.
 
 </p><p>The terms, interfaces, attributes, and exceptions <dfn id=context-object>context
-object</dfn>, <dfn id=node><code>Node</code></dfn>,
+object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node><code>Node</code></dfn>,
 <dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
 (<dfn id=document-0><code>Document</code></dfn>), <dfn id=concept-doctype title=concept-doctype>doctype</dfn>
-(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
+(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
 <dfn id=domexception><code>DOMException</code></dfn>,
 <dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>, and
 <dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
@@ -229,38 +229,210 @@ in the <i>patch</i>, then the former instance of
 <div class=section id=section-node>
 <h2 id=Node><span class=secno>3 </span>Nodes</h2>
 
-<p>The implementation of the 
-<a href=#Node><code>Node</code></a> interface
-<em class=rfc2119>MUST</em> be modified as the following
-<a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
-<pre class=idl><code>// Additions to the Node interface
+<p>This specification introduces two kinds of nodes: <a href=#concept-element-type title=concept-element-type>element types</a> and <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definitions</a>.
+Also, this specification reuses two kinds of nodes defined by DOM3
+Core specification <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> but obsoleted by current DOM
+Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>: <a href=#concept-entity title=concept-entity>entities</a> and <a href=#concept-notation title=concept-notation>notations</a>.  This specification defines
+how DOM Core methods and attribute have to behave, if it is not
+convered by those DOM specifications.  For node types not specified by
+this specification, the requirements in the DOM Standard have to be
+followed (except for <a href=#concept-doctype title=concept-doctype>doctypes</a> -
+this specification sometimes modifies the original definition of the
+DOM Standard for the integration with new node types).  For node types
+introduced by this specification, unless otherwise specified by this
+specification, the requirements in the DOM Standard <em class=rfc2119>MUST</em> be followed.  For node types specified by DOM3
+Core specification but obsoleted by the DOM Standard, unless otherwise
+specified by this specification, the requirements in the DOM3 Core
+specification <em class=rfc2119>MUST</em> be followed.
 
-// Additions to the NodeType definition group
-const unsigned short <a href=#ELEMENT_TYPE_DEFINITION_NODE>ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
-const unsigned short <a href=#ATTRIBUTE_DEFINITION_NODE>ATTRIBUTE_DEFINITION_NODE</a> = 81002;
-</code></pre>
+</p><p>Nodes of types <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
+<a href=#AttributeDefinition><code>AttributeDefinition</code></a>, <code>Entity</code>, and
+<code>Notation</code> cannot contain, or cannot be contained by, any
+kind of node as <a href=#concept-tree-child title=concept-tree-child>child</a>.
 
-<p>This specification adds two new types (subinterfaces) of 
-<a href=#Node><code>Node</code></a>: element type definition (node type 
-<a href=#ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>,
-interface
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>) and
-attribute definition (node type
-<a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>,
-interface
-<a href=#AttributeDefinition><code>AttributeDefinition</code></a>).  For
-these kinds of nodes, methods and attributes in the 
-<a href=#Node><code>Node</code></a> interface must behave as following:</p>
+</p><div class="note memo">
 
-<dl>
-<dt><code id=attributes>attributes</code>,
-<code id=localName>localName</code>,
-<code id=namespaceURI>namespaceURI</code>, and
-<code id=prefix>prefix</code></dt>
-  <dd>
-    <p>On getting, the attributes <em class=rfc2119>MUST</em> return
-    <a href=#null><code>null</code></a>.</p>
-  </dd>
+  <p>Historically, DOM3 Core specification and earlier versions of
+  this specification have allowed <a href=#AttributeDefinition><code>AttributeDefinition</code></a> and
+  <code>Entity</code> nodes containing <a href=#concept-tree-child title=concept-tree-child>children</a>.
+
+</p></div>
+
+<pre class=idl><code>partial interface <a href=#node>Node</a> {
+  const unsigned short <a href=#dom-node-element_type_definition_node title=dom-Node-ELEMENT_TYPE_DEFINITION_NODE>ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
+  const unsigned short <a href=#dom-node-attribute_definition_node title=dom-Node-ATTRIBUTE_DEFINITION_NODE>ATTRIBUTE_DEFINITION_NODE</a> = 81002;
+};</code></pre>
+
+<p>The <code title=dom-Node-nodeType>nodeType</code> attribute <em class=rfc2119>MUST</em> return the following, depending on the
+<a href=#context-object>context object</a>:
+
+</p><dl class=switch>
+
+<dt><a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
+</dt><dd><dfn id=dom-node-element_type_definition_node title=dom-Node-ELEMENT_TYPE_DEFINITION_NODE><code id=ELEMENT_TYPE_DEFINITION_NODE>ELEMENT_TYPE_DEFINITION_NODE</code></dfn>
+(<code>81001</code>)
+
+</dd><dt><a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+</dt><dd><dfn id=dom-node-attribute_definition_node title=dom-Node-ATTRIBUTE_DEFINITION_NODE><code id=ATTRIBUTE_DEFINITION_NODE>ATTRIBUTE_DEFINITION_NODE</code></dfn>
+(<code>81002</code>)
+
+<!-- For Entity and Notation, defined by DOM3CORE -->
+</dd></dl>
+
+<p>The <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> attribute <em class=rfc2119>MUST</em> return the name (<a href=#concept-element-type-name title=concept-element-type-name>element type name</a> or <a href=#concept-attribute-definition-name title=concept-attribute-definition-name>attribute definition
+name</a>) of the node.
+
+</p><p>The attributes <code title=dom-Node-attributes>attributes</code>,
+<code title=dom-Node-localName>localName</code>, <code title=dom-Node-namespaceURI>namespaceURI</code>, and <code title=dom-Node-prefix>prefix</code> <em class=rfc2119>MUST</em> return
+<a href=#null><code>null</code></a>.<!-- NodeExodus / AttrExodus -->
+
+</p><p>The <code title=dom-Node-nodeValue>nodeValue</code> attribute and
+the <code title=dom-Node-textContent>textContent</code> attribute <em class=rfc2119>MUST</em> return the following, depending on the
+<a href=#context-object>context object</a>:
+
+</p><dl class=switch>
+
+<!--
+<dt><code>ElementTypeDefinition</code>
+<dd><span>Null</span>.
+-->
+
+<dt><a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+</dt><dd>The <span title=concept-attribute-definition-value>value</span> of
+the <a href=#context-object>context object</a>.
+
+</dd><dt><code>Entity</code>
+</dt><dd>The <span title=concept-entity-replacement-text>replacement
+text</span> of the <a href=#context-object>context object</a>.
+
+<!-- For Notation, defined by DOM3CORE -->
+</dd></dl>
+
+<p>Setting the <code title=dom-Node-nodeValue>nodeValue</code>
+attribute or the <code title=dom-Node-textContent>textContent</code>
+attribute <em class=rfc2119>MUST</em> do the following, depending on
+the <a href=#context-object>context object</a>:
+
+</p><dl class=switch>
+
+<!--
+<dt><code>ElementTypeDefinition</code>
+<dd>Do nothing.
+-->
+
+<dt><a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+</dt><dd>Set the <span title=concept-attribute-definition-value>value</span> of the
+<a href=#context-object>context object</a> to the new value.
+
+</dd><dt><code>Entity</code>
+</dt><dd>Set the <span title=concept-entity-replacement-text>replacement
+text</span> of the <a href=#context-object>context object</a> to the new value.
+
+<!-- For Notation, defined by DOM3CORE -->
+</dd></dl>
+
+<p>When a node is <a href=#concept-node-clone title=concept-node-clone>cloned</a>, the
+following values <em class=rfc2119>MUST</em> be copied:
+
+</p><dl class=switch>
+
+<!-- Modify DOM definition -->
+<dd>Its <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element
+types</a>, <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general
+entities</a>, and <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
+
+</dd><dt><a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> </dt><dd>Its <a href=#concept-element-type-name title=concept-element-type-name>name</a> and <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</a>.<!-- XXX content model -->
+
+</dd><dt><a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+</dt><dd>Its <a href=#concept-attribute-definition-name title=concept-attribute-definition-name>name</a>,
+<span title=concept-attribute-definition-declared-type>declared
+type</span>, <span title=concept-attribute-definition-allowed-tokens>allowed
+tokens</span>, and <span title=concept-attribute-default-type>default
+type</span>.
+
+</dd><dt><code>Entity</code>
+<!-- Implementation dependent in DOM3CORE -->
+</dt><dd>Its <span title=concept-entity-name>name</span>, <span title=concept-entity-publicid>public ID</span>, <span title=concept-entity-systemid>system ID</span>, <span title=concept-entity-notation-name>notation name</span>, and <span title=concept-entity-replacement-text>replacement text</span>.
+
+</dd><dt><code>Notation</code>
+<!-- Implementation dependent in DOM3CORE -->
+</dt><dd>Its <span title=concept-notation-name>name</span>, <span title=concept-notation-publicid>public ID</span>, and <span title=concept-notation-systemid>system ID</span>.
+
+</dd></dl>
+
+<p>When two nodes are compared for the <code title=dom-Node-isEqualNode>isEqualNode</code> method, equality of the
+following values <em class=rfc2119>MUST</em> also be taken into
+account:
+
+</p><dl class=switch>
+
+<dt><a href=#documenttype><code>DocumentType</code></a>
+<!-- Modify DOM definition -->
+</dt><dd>Its <a href=#concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element
+types</a>, <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general
+entities</a>, and <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
+
+</dd><dt><a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
+</dt><dd>Its <a href=#concept-element-type-name title=concept-element-type-name>name</a> and <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</a>.<!-- XXX and content model -->
+
+</dd><dt><a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+</dt><dd>Its <a href=#concept-attribute-definition-name title=concept-attribute-definition-name>name</a>,
+<span title=concept-attribute-definition-declared-type>declared
+type</span>, <span title=concept-attribute-definition-allowed-tokens>allowed
+tokens</span>, and <span title=concept-attribute-default-type>default
+type</span>.
+
+<!-- For Entity and Notation, defined by DOM3CORE -->
+</dd></dl>
+
+<p>For the comparison of node sets, only the length and equality of
+nodes with same <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> in the
+set are significant.  The order of the nodes are not ignored for the
+purpose of the comparison.  For the comparison of <span title=concept-attribute-definition-allowed-tokens>allowed
+tokens</span>, the length of items and existence of the values in both
+are taken into account.
+
+</p><p>If at least one of two nodes compared by the <code title=dom-Node-compareDocumentPosition>compareDocumentPosition</code>
+method (i.e. <var title="">reference</var> and <var title="">other</var>)
+are <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
+<a href=#AttributeDefinition><code>AttributeDefinition</code></a>, <code>Entity</code>, or
+<code>Notation</code> and they are different nodes, the following
+rules are applied:
+
+</p><ul>
+
+<li>If both nodes are of these four node types and their <a href=#concept-owner title=concept-owner>owners</a> are the same node,
+
+  <ul>
+
+  <li>If <var title="">other</var>'s node type is less than <var title="">reference</var>'s node type, the method <em class=rfc2119>MUST</em> return the result of adding <code title=dom-Node-DOCUMENT_POSITION_PRECEDING>DOCUMENT_POSITION_PRECEDING</code>
+  to <code title=dom-Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC>DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code>.
+
+  </li><li>Otherwise, if <var title="">other</var>'s node type is greater than
+  <var title="">reference</var>'s node type, the method <em class=rfc2119>MUST</em> return the result of adding <code title=dom-Node-DOCUMENT_POSITION_FOLLOWING>DOCUMENT_POSITION_FOLLOWING</code>
+  to <code title=dom-Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC>DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code>.
+
+  </li><li>Otherwise, if <var title="">other</var>'s <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> is less than <var title="">reference</var>'s <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a> in code point order, the
+  method <em class=rfc2119>MUST</em> return the resulf of adding <code title=dom-Node-DOCUMENT_POSITION_PRECEDING>DOCUMENT_POSITION_PRECEDING</code>
+  to <code title=dom-Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC>DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code>.
+
+  </li><li>Otherwise, the method <em class=rfc2119>MUST</em> return the
+  result of adding <code title=dom-Node-DOCUMENT_POSITION_FOLLOWING>DOCUMENT_POSITION_FOLLOWING</code>
+  to <code title=dom-Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC>DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code>.
+
+  </li></ul>
+
+</li><li>Otherwise, one of the nodes are of these four node types.  If the
+node has non-<a href=#null>null</a> <a href=#concept-owner title=concept-owner>owner</a>,
+the <a href=#concept-owner title=concept-owner>owner</a> <em class=rfc2119>MUST</em>
+be considered as the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of
+the node for the purpose of comparison.
+
+</li></ul>
+
+<dl class=ed>
 <dt><code id=baseURI>baseURI</code></dt>
   <dd>
     <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
@@ -268,173 +440,9 @@ these kinds of nodes, methods and attributes in the
     of the node in the <code>ownerDocument</code> attribute of the node.
     Note that the value might be <a href=#null><code>null</code></a>.</p>
   </dd>
-<dt><code id=cloneNode>cloneNode</code></dt>
-  <dd class=ed>
-    <p>A future version of the specification is expected to define the
-    behavior of the <a href=#cloneNode><code>cloneNode</code></a> method
-    for those kinds of nodes.  In addition, it might revise behavior of 
-    the method for <a href=#Entity><code>Entity</code></a>, 
-    <a href=#Notation><code>Notation</code></a>, and/or
-    <a href=#DocumentType><code>DocumentType</code></a> nodes.</p>
-  </dd>
-  <!--
-  <dd class=ed>@@ If Attr and AttributeDefinition is inconsistent, then ...</dd>
-  -->
-<dt><code id=compareDocumentPosition>compareDocumentPosition</code></dt>
-  <dd class=ed>
-    <p>A future version of the specification is expected to define the
-    behavior of the method
-    for those kinds of nodes.  In addition, it might revise behavior of
-    the method for <a href=#Entity><code>Entity</code></a>,
-    <a href=#Notation><code>Notation</code></a>, and/or
-    <a href=#DocumentType><code>DocumentType</code></a> nodes.</p>
-  </dd>
-<dt><code id=isDefaultNamespace>isDefaultNamespace</code></dt>
-  <dd><p>When invoked, the method <em class=rfc2119>MUST</em> return
-  <code>false</code>.</p></dd>
-<dt><code id=isEqualNode>isEqualNode</code></dt>
-  <dd><p>For the <a href=#isEqualNode><code>isEqualNode</code></a> method, 
-  following items are added to the list of conditions for equality:</p>
-
-  <ul>
-  <li>
-    <p>If the nodes are <a href=#DocumentType><code>DocumentType</code></a>
-    and at least one of them has the support for the feature
-    <a href=#feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>:</p>
-    <ul>
-    <li>they are equal according to <abbr>DOM</abbr> Level 3 Core definition
-    <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>,
-    and
-    </li><li>either:
-      <ul><!--
-      <li>both of them does not support the feature
-      <a href="#feature-XDoctype"><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>,</li>-->
-      <li>exactly one of them support the feature
-      <a href=#feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
-      and the <code>length</code> attribute of the <a href=#namednodemap><code>NamedNodeMap</code></a> 
-      object in the <a href=#elementTypes><code>elementTypes</code></a> 
-      attribute of it is equal to <code>0</code>, or</li>
-      <li>both of them support the feature
-      <a href=#feature-XDoctype><code>http://suika.fam.cx/www/2006/feature/XDoctype</code></a>
-      and the values of the
-      <a href=#elementTypes><code>elementTypes</code></a> attributes are
-      equal (equality of the
-      <a href=#elementTypes><code>elementTypes</code></a> attribute is same
-      as that for the <code>attributes</code> attribute).</li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-
-  <li><p>If the nodes are
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
-  the values of the
-  <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
-  attributes are equal (equality of the
-  <a href=#attributeDefinitions><code>attributeDefinitions</code></a>
-  attribute is same as that for the <code>attributes</code> attribute).</p></li>
-
-  <li><p>If the nodes are 
-  <a href=#AttributeDefinition><code>AttributeDefinition</code></a>,
-  the values of the <a href=#declaredType><code>declaredType</code></a> and
-  the <a href=#defaultType><code>defaultType</code></a> attributes are
-  equal respectively.</p></li>
-
-  <li><p>If the nodes are
-  <a href=#AttributeDefinition><code>AttributeDefinition</code></a>,
-  the values of the <code>DOMStringList</code> objects in the
-  <a href=#allowedTokens><code>allowedTokens</code></a> attributes
-  are equal, i.e. their <code>length</code> attribute values are equal and
-  each string exists in a list is contained in another list (their indecies
-  may be different), with an additional constraint that the number of the
-  items that are equal to a string in a list is equal to the number
-  of the items equal to the string in another list.</p></li>
-  </ul></dd>
-<dt><code id=manakaiLocalName>manakaiLocalName</code>
-<cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite></dt>
-  <dd><p class=section-info>This entry is applied only to implementations
-  that support this attribute.</p>
-
-  <p>On getting, the attributes <em class=rfc2119>MUST</em> return
-  <a href=#null><code>null</code></a>.</p></dd>
-<dt><code id=lookupNamespaceURI>lookupNamespaceURI</code> and
-<code id=lookupPrefix>lookupPrefix</code></dt>
-  <dd><p>When invoked, the methods <em class=rfc2119>MUST</em> return
-  <a href=#null><code>null</code></a>.</p></dd>
-<dt><code id=nodeName>nodeName</code></dt>
-  <dd>
-    <p>If the node is an 
-    <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>:
-    On getting, the attribute <em class=rfc2119>MUST</em> return the
-    name of the element type definition represented by the node.</p>
-
-    <p>If the node is an 
-    <a href=#AttributeDefinition><code>AttributeDefinition</code></a>:
-    On getting, the attribute <em class=rfc2119>MUST</em> return the
-    name of the attribute definition represented by the node.</p>
-  </dd>
-<dt><code id=nodeType>nodeType</code></dt>
-  <dd>
-    <p>On getting, the attribute <!--<em class=rfc2119>MUST</em>--> returns
-    <!-- NOTE: No MUST, to avoid circular reference (nodeType==8100[12]
-    is defined that they MUST implement ElementType|AttributeDefinition). -->
-    <a href=#ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
-    (if the node is an 
-    <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>) or
-    <a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>
-    (if the node is an
-    <a href=#AttributeDefinition><code>AttributeDefinition</code></a>).</p>
-
-    <!-- NodeType -->
-<p>Two constants are added to the <code id=NodeType>NodeType</code>
-definition group of the <a href=#Node><code>Node</code></a> interface as
-following:</p>
-<table>
-<thead>
-<tr><th scope=col>Name</th><th scope=col>Value</th><th scope=col>Description</th></tr>
-</thead>
-<tbody>
-<tr>
-<th scope=row><dfn class=dom-const id=ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></dfn>
-</th><td><code>81001</code></td><td>The node is an 
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>.</td></tr>
-<tr>
-<th scope=row><dfn class=dom-const id=ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></dfn>
-</th><td><code>81002</code></td><td>The node is an 
-<a href=#ElementTypeDefinition><code>AttributeDefinition</code></a>.</td></tr>
-</tbody>
-</table>
-  </dd>
-<dt><code id=nodeValue>nodeValue</code> and 
-<code id=textContent>textContent</code></dt>
-  <dd>
-    <p>If the node is an 
-    <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>:
-    On getting, the attributes <em class=rfc2119>MUST</em> return 
-    <a href=#null><code>null</code></a>.</p>
-
-  <div class="note memo">
-  <p>Thus, on setting the attributes does nothing
-  <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.</p>
-  </div>
-
-  <p>If the node is an 
-  <a href=#AttributeDefinition><code>AttributeDefinition</code></a>:
-  The attribute <em class=rfc2119>MUST</em> behave as if the node
-  were <a href=#attr><code>Attr</code></a>
-  <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.</p></dd>
-<dt><code id=normalize>normalize</code></dt>
-  <dd><p>When a <a href=#DocumentType><code>DocumentType</code></a> is
-  normalized, any nodes in the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
-  <a href=#elementTypes><code>elementTypes</code></a> attribute
-  <em class=rfc2119>MUST</em> be normalized as well.</p>
-
-  <p>When an
-  <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node
-  is normalized, any nodes in the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
-  <a href=#attributeDefinitions><code>attributeDefinitions</code></a> 
-  attribute <em class=rfc2119>MUST</em> be normalized as well.</p></dd>
 </dl>
+
+<hr>
 
 <p>A node of type <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
 <code>Entity</code>, or <code>Notation</code> has an associated <span title=concept-owner-document-type-definition>owner document type
@@ -457,31 +465,6 @@ normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> <em class=rfc2119>MUST</e
 
 <div class=section id=section-document>
 <h2 id=Document><span class=secno>4 </span>Documents</h2>
-
-<!--
-<p>If an attempt is made to adopt an
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> or
-<a href="#AttributeDefinition"><code>AttributeDefinition</code></a> node,
-the <code id=adoptNode>adoptNode</code> method <em class=rfc2119>MUST</em>
-raise a <code>NOT_SUPPORTED_ERR</code> exception <span class=ed>@@ 
-ref</span>.</p>
--->
-
-<div class=ed>
-<p>Future version of the specification is expected to define what should
-be done if <code>adoptNode</code> or <code>importNode</code> method have to
-adopt or import an 
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> or
-<a href=#AttributeDefinition><code>AttributeDefinition</code></a> node.
-In addition it might revise behavior of those methods for 
-<a href=#Entity><code>Entity</code></a>, 
-<a href=#Notation><code>Notation</code></a>, and/or
-<a href=#DocumentType><code>DocumentType</code></a> nodes.
-Behavior of <code>normalizeDocument</code> method for these kinds of
-nodes might also be defined in some day.</p>
-</div>
-
-<hr>
 
 <pre class=idl id=section-documentxdoctype><code>partial interface Document {
   DocumentType <a href=#createDocumentTypeDefinition>createDocumentTypeDefinition</a>
@@ -1033,11 +1016,14 @@ from <var title="">set</var>.
 <dfn id=concept-element-type title=concept-element-type>element types</dfn>.
 
 </p><p>Each <a href=#concept-element-type title=concept-element-type>element type</a> has an
+associated <dfn id=concept-element-type-name title=concept-element-type-name>name.
+
+</dfn></p><p>Each <a href=#concept-element-type title=concept-element-type>element type</a> has an
 associated unordered set of nodes <dfn id=concept-elementtypedefinition-attributedefinitions title=concept-elementTypeDefinition-attributeDefinitions>attribute
 definitions</dfn>.  Unless otherwise specified, it <em class=rfc2119>MUST</em> be empty when the <a href=#concept-element-type title=concept-element-type>element type</a> is created.
 
 </p><p>The set <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
-definitions</a> can only contains <span title=concept-attribute-definition>attribute definition</span>.
+definitions</a> can only contains <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definition</a>.
 
 </p><p>The <dfn id=dom-elementtypedefinition-attributedefinitions title=dom-ElementTypeDefinition-attributeDefinitions><code id=attributeDefinitions>attributeDefinitions</code></dfn> attribute of
 the <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> interface <em class=rfc2119>MUST</em> return an <a href=#namednodemap><code>NamedNodeMap</code></a> <a href=#concept-collection title=concept-collection>collection</a> containing the nodes in the
@@ -1170,14 +1156,17 @@ element type.</p>
 <div class=section id=section-attributedefinition>
 <h2 id=attribute-definitions><span class=secno>7 </span>Attribute definitions</h2>
 
-<p>The nodes of type 
-<a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>
-represents an attribute definition.  Such a node 
-<em class=rfc2119>MUST</em> implement the
-<a href=#AttributeDefinition><code>AttributeDefinition</code></a> interface,
-which extends the <a href=#Node><code>Node</code></a> interface.</p>
+<p>The nodes of type <a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>
+represents an <dfn id=concept-attribute-definition title=concept-attribute-definition>attribute
+definition</dfn>.  Such a node <em class=rfc2119>MUST</em> implement
+the <a href=#AttributeDefinition><code>AttributeDefinition</code></a>
+interface, which extends the <a href=#Node><code>Node</code></a>
+interface.</p>
 
-<p>An attribute definition represents a definition of the attribute 
+<p>Each <a href=#concept-attribute-definition title=concept-attribute-definition>attribute
+definition</a> has an associated <dfn id=concept-attribute-definition-name title=concept-attribute-definition-name>name</dfn>.
+
+</p><p>An attribute definition represents a definition of the attribute 
 associated to an element type.  It is corresponding to the attribute definition
 in the attribute list declaration in <abbr>DTD</abbr>.  However, an
 <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node does 
@@ -1480,9 +1469,9 @@ type <code>unsigned short</code></dt>
 <div class=section id=section-entity>
 <h2 id=Entity><span class=secno>8 </span>General entities</h2>
 
-<p>The implementation of the <a href=#Entity><code>Entity</code></a> 
-interface <em class=rfc2119>MUST</em> be modified as the following
-<a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
+<p>The implementation of the <a href=#Entity><code>Entity</code></a>
+(<dfn id=concept-entity title=concept-entity>entity</dfn>) interface <em class=rfc2119>MUST</em> be modified as the following <a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
+
 <pre class=idl><code>// Modifications to the Entity interface
   attribute DOMString <a href=#publicId>publicId</a>;
   attribute DOMString <a href=#systemId>systemId</a>;
@@ -1573,9 +1562,10 @@ of type <code>boolean</code></dt>
 <div class=section id=section-notation>
 <h2 id=Notation><span class=secno>9 </span>Notations</h2>
 
-<p>The implementation of the <a href=#Notation><code>Notation</code></a> 
-interface <em class=rfc2119>MUST</em> be modified as the following
-<a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
+<p>The implementation of the <a href=#Notation><code>Notation</code></a> interface (<dfn id=concept-notation title=concept-notation>notation</dfn>) <em class=rfc2119>MUST</em> be
+modified as the following <a href=#idl-fragment><abbr>IDL</abbr>
+fragment</a>:</p>
+
 <pre class=idl><code>// Modifications to the Notation interface
   attribute DOMString <a href=#publicId>publicId</a>;
   attribute DOMString <a href=#systemId>systemId</a>;

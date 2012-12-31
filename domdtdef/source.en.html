@@ -1116,19 +1116,33 @@ title>node</var> to <var title>owner</var>.
 <h2>Element types</h2>
 
 <p>The <code>ElementTypeDefinition</code> objects are simply known as
-<dfn title=concept-element-type>element types</dfn>.
+<dfn title=concept-element-type>element types</dfn>.  It represents
+the definition of the element, identified by the <dfn
+title=concept-element-type-name>name</span>.
 
-<p>Each <span title=concept-element-type>element type</span> has an
-associated <dfn title=concept-element-type-name>name</span>.
+<div class="note memo">
+<p>Although the <span title=concept-element-type>element type</span>
+is corresponding to the <code>ELEMENT</code> declaration in the XML
+DTD, the <span title=concept-element-type>element type</span> does not
+directly represent the <code>ELEMENT</code> declaration.
+</div>
+
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition>ElementTypeDefinition</dfn> : <span>Node</span> {
+  readonly attribute <span>DocumentType</span>? <span title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</span>;
+
+  readonly attribute <span>NamedNodeMap</span> <span title=dom-ElementTypeDefinition-attributeDefinitions>attributeDefinitions</span>;
+  <span>AttributeDefinition</span>? <span title=dom-ElementTypeDefinition-getAttributeDefinitionNode>getAttributeDefinitionNode</span>(<span>DOMString</span> name);
+  <span>AttributeDefinition</span>? <span title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
+  <span>AttributeDefinition</span> <span title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
+};</code></pre>
 
 <p>Each <span title=concept-element-type>element type</span> has an
 associated unordered set of nodes <dfn
 title=concept-elementTypeDefinition-attributeDefinitions>attribute
 definitions</dfn>.  Unless otherwise specified, it <em
 class=rfc2119>MUST</em> be empty when the <span
-title=concept-element-type>element type</span> is created.
-
-<p>The set <span
+title=concept-element-type>element type</span> is created.  The set
+<span
 title=concept-ElementTypeDefinition-attributeDefinitions>attribute
 definitions</span> can only contains <span
 title="concept-attribute-definition">attribute definition</span>.
@@ -1143,29 +1157,19 @@ title=concept-ElementTypeDefinition-attributeDefinitions>attribute
 definitions</span> set of the <span>context object</span>, sorted by
 their <code title=dom-Node-nodeName>nodeName</code>'s code point.
 
-<p>The nodes of type 
-<a href="#ELEMENT_TYPE_DEFINITION_NODE"><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
-represents an element type definition.  Such a node 
-<em class=rfc2119>MUST</em> implement the
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
-interface, which extends the <a href="#Node"><code>Node</code></a> 
-interface.</p>
+<div class=ed>
 
-<p>An element type definition represents a definition of the element type.
-It is corresponding to the element type declaration in <abbr>DTD</abbr>.
-However, an 
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node 
-does not represent the element type definition in <abbr>DTD</abbr> itself.  
-Even if there are more than one element type declarations for an element type 
-in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
-node for that element type.  In addition, if there are attribute definition
-declarations for an element type, even when there is no element type
-declaration for that element type, the <abbr>DOM</abbr> will contain an
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+<p>Even if there are more than one element type declarations for an
+element type in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will
+contain only an <a
+href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
+node for that element type.  In addition, if there are attribute
+definition declarations for an element type, even when there is no
+element type declaration for that element type, the <abbr>DOM</abbr>
+will contain an <a
+href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
 node for that element type.</p>
 
-<div class=ed>
   <p>If the
   <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
   is created during the process to create a <abbr>DOM</abbr> from an
@@ -1184,24 +1188,6 @@ node for that element type.</p>
   than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
   of constructing the <code>NamedNodeMap</code> object.</p></dd>
 </div>
-
-<p>An <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a>
-node cannot be a child of any node.  An
-<a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> node
-cannot have any child node.</p>
-
-<p>The <a href="#ElementTypeDefinition"><code>ElementTypeDefinition</code></a> 
-interface <em class=rfc2119>MUST</em> be implemented as the following
-<a href="#idl-fragment"><abbr>IDL</abbr> fragment</a>:</p>
-<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href="#Node">Node</a> {
-  readonly attribute <span>DocumentType</span>? <span title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</span>;
-
-  readonly attribute <span>NamedNodeMap</span> <span title=dom-ElementTypeDefinition-attributeDefinitions>attributeDefinitions</span>;
-  <a href="#AttributeDefinition">AttributeDefinition</a> <a href="#getAttributeDefinitionNode">getAttributeDefinitionNode</a>
-    (in DOMString <a href="#getAttributeDefinitionNode-name"><var>name</var></a>);
-  <span>AttributeDefinition</span>? <span title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
-  <span>AttributeDefinition</span> <span title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</span>(<span>AttributeDefinition</span> node);
-};</code></pre>
 
 <dl>
 <dt><dfn id=getAttributeDefinitionNode class=dom-method><code>getAttributeDefinitionNode</code></dfn>,
@@ -1248,7 +1234,8 @@ definitions</span>.
 and methods for representing and accessing to the content model of the 
 element type.</p>
 </div>
-</div>
+
+</div><!-- section -->
 
 <div class=section id=section-attributedefinition>
 <h2>Attribute definitions</h2>

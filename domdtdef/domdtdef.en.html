@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 30 December 2012</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 31 December 2012</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -975,16 +975,29 @@ from <var title="">set</var>.
 <h2 id=element-types><span class=secno>6 </span>Element types</h2>
 
 <p>The <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> objects are simply known as
-<dfn id=concept-element-type title=concept-element-type>element types</dfn>.
+<dfn id=concept-element-type title=concept-element-type>element types</dfn>.  It represents
+the definition of the element, identified by the <dfn id=concept-element-type-name title=concept-element-type-name>name.
 
-</p><p>Each <a href=#concept-element-type title=concept-element-type>element type</a> has an
-associated <dfn id=concept-element-type-name title=concept-element-type-name>name.
+</dfn></p><div class="note memo">
+<p>Although the <a href=#concept-element-type title=concept-element-type>element type</a>
+is corresponding to the <code>ELEMENT</code> declaration in the XML
+DTD, the <a href=#concept-element-type title=concept-element-type>element type</a> does not
+directly represent the <code>ELEMENT</code> declaration.
+</p></div>
 
-</dfn></p><p>Each <a href=#concept-element-type title=concept-element-type>element type</a> has an
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition>ElementTypeDefinition</dfn> : <a href=#node>Node</a> {
+  readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
+
+  readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-elementtypedefinition-attributedefinitions title=dom-ElementTypeDefinition-attributeDefinitions>attributeDefinitions</a>;
+  <a href=#AttributeDefinition>AttributeDefinition</a>? <span title=dom-ElementTypeDefinition-getAttributeDefinitionNode>getAttributeDefinitionNode</span>(<span>DOMString</span> name);
+  <a href=#AttributeDefinition>AttributeDefinition</a>? <a href=#dom-elementtypedefinition-setattributedefinitionnode title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
+  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#dom-elementtypedefinition-removeattributedefinitionnode title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
+};</code></pre>
+
+<p>Each <a href=#concept-element-type title=concept-element-type>element type</a> has an
 associated unordered set of nodes <dfn id=concept-elementtypedefinition-attributedefinitions title=concept-elementTypeDefinition-attributeDefinitions>attribute
-definitions</dfn>.  Unless otherwise specified, it <em class=rfc2119>MUST</em> be empty when the <a href=#concept-element-type title=concept-element-type>element type</a> is created.
-
-</p><p>The set <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
+definitions</dfn>.  Unless otherwise specified, it <em class=rfc2119>MUST</em> be empty when the <a href=#concept-element-type title=concept-element-type>element type</a> is created.  The set
+<a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
 definitions</a> can only contains <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definition</a>.
 
 </p><p>The <dfn id=dom-elementtypedefinition-attributedefinitions title=dom-ElementTypeDefinition-attributeDefinitions><code id=attributeDefinitions>attributeDefinitions</code></dfn> attribute of
@@ -993,29 +1006,17 @@ the <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> interf
 definitions</a> set of the <a href=#context-object>context object</a>, sorted by
 their <a href=#dom-node-nodename><code title=dom-Node-nodeName>nodeName</code></a>'s code point.
 
-</p><p>The nodes of type 
-<a href=#ELEMENT_TYPE_DEFINITION_NODE><code>ELEMENT_TYPE_DEFINITION_NODE</code></a>
-represents an element type definition.  Such a node 
-<em class=rfc2119>MUST</em> implement the
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> 
-interface, which extends the <a href=#Node><code>Node</code></a> 
-interface.</p>
+</p><div class=ed>
 
-<p>An element type definition represents a definition of the element type.
-It is corresponding to the element type declaration in <abbr>DTD</abbr>.
-However, an 
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node 
-does not represent the element type definition in <abbr>DTD</abbr> itself.  
-Even if there are more than one element type declarations for an element type 
-in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will contain only an
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-node for that element type.  In addition, if there are attribute definition
-declarations for an element type, even when there is no element type
-declaration for that element type, the <abbr>DOM</abbr> will contain an
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
+<p>Even if there are more than one element type declarations for an
+element type in <abbr>DTD</abbr>, the result <abbr>DOM</abbr> will
+contain only an <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
+node for that element type.  In addition, if there are attribute
+definition declarations for an element type, even when there is no
+element type declaration for that element type, the <abbr>DOM</abbr>
+will contain an <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
 node for that element type.</p>
 
-<div class=ed>
   <p>If the
   <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node
   is created during the process to create a <abbr>DOM</abbr> from an
@@ -1034,24 +1035,6 @@ node for that element type.</p>
   than the first one <em class=rfc2119>MUST</em> be ignored for the purpose
   of constructing the <a href=#namednodemap><code>NamedNodeMap</code></a> object.</p>
 </div>
-
-<p>An <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-node cannot be a child of any node.  An
-<a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node
-cannot have any child node.</p>
-
-<p>The <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> 
-interface <em class=rfc2119>MUST</em> be implemented as the following
-<a href=#idl-fragment><abbr>IDL</abbr> fragment</a>:</p>
-<pre class=idl><code>interface <dfn id=ElementTypeDefinition><code>ElementTypeDefinition</code></dfn> : <a href=#Node>Node</a> {
-  readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
-
-  readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-elementtypedefinition-attributedefinitions title=dom-ElementTypeDefinition-attributeDefinitions>attributeDefinitions</a>;
-  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#getAttributeDefinitionNode>getAttributeDefinitionNode</a>
-    (in DOMString <a href=#getAttributeDefinitionNode-name><var>name</var></a>);
-  <a href=#AttributeDefinition>AttributeDefinition</a>? <a href=#dom-elementtypedefinition-setattributedefinitionnode title=dom-ElementTypeDefinition-setAttributeDefinitionNode>setAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
-  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#dom-elementtypedefinition-removeattributedefinitionnode title=dom-ElementTypeDefinition-removeAttributeDefinitionNode>removeAttributeDefinitionNode</a>(<a href=#AttributeDefinition>AttributeDefinition</a> node);
-};</code></pre>
 
 <dl>
 <dt><dfn class=dom-method id=getAttributeDefinitionNode><code>getAttributeDefinitionNode</code></dfn>,
@@ -1090,7 +1073,8 @@ definitions</a>.
 and methods for representing and accessing to the content model of the 
 element type.</p>
 </div>
-</div>
+
+</div><!-- section -->
 
 <div class=section id=section-attributedefinition>
 <h2 id=attribute-definitions><span class=secno>7 </span>Attribute definitions</h2>

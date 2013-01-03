@@ -31,10 +31,22 @@ related or neighboring rights to this work.
 
 <!--begin-toc-->
 <ol class=toc>
+ <li>
+  <ol>
+   <li><a href=#terminology><span class=secno>0.1 </span>Terminology</a></li></ol></li>
  <li><a href=#namespace-mappings><span class=secno>1 </span>Namespace mappings</a></li>
- <li><a href=#serialization-of-the-start-tag-of-an-xml-element><span class=secno>2 </span>Serialization of the start tag of an XML element</a></li></ol>
+ <li><a href=#serialization-of-the-start-tag-of-an-xml-element><span class=secno>2 </span>Serialization of the start tag of an XML element</a></li>
+ <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </div>
+
+<div class=section>
+<h3 id=terminology><span class=secno>0.1 </span>Terminology</h3>
+
+<p>The terms <dfn id=concept-element title=concept-element>element</dfn> (which has <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, and <dfn id=concept-element-attribute title=concept-element-attribute>attribute list</dfn>), <dfn id=concept-attribute title=concept-attribute>attribute</dfn> (which has <dfn id=concept-attribute-namespace title=concept-attribute-namespace>namespace</dfn>, <dfn id=concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-attribute-local-name title=concept-attribute-local-name>local name</dfn>, and <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>), <dfn id=xml-namespace>XML namespace</dfn>,
+and <dfn id=xmlns-namespace>XMLNS namespace</dfn> are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
+
+</p></div>
 
 <div class=section>
 <h2 id=namespace-mappings><span class=secno>1 </span>Namespace mappings</h2>
@@ -53,52 +65,64 @@ default, its value is <i>missing</i>.
 
 </dt><dd>An ordered list of key/value pairs, where keys are namespace
 prefixes and values are namespace URLs or <i>none</i>.  By default,
-the set contains two pairs: (<code>xml</code>, <a href=#the-xml-namespace>the XML
-namespace</a>) and (<code>xmlns</code>, <a href=#the-xmlns-namespace>the XMLNS
+the set contains two pairs: (<code>xml</code>, the <a href=#xml-namespace>XML
+namespace</a>) and (<code>xmlns</code>, the <a href=#xmlns-namespace>XMLNS
 namespace</a>).
 
 </dd></dl>
 
-<p><dfn id=the-xml-namespace>The XML namespace</dfn> is
-<code>http://www.w3.org/XML/1998/namespace</code>.
+<p>A <dfn id=concept-default-namespace-declaration title=concept-default-namespace-declaration>default
+namespace declaration</dfn> with namespace URL <var title="">url</var> is
+an <a href=#concept-attribute title=concept-attribute>attribute</a> whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the <a href=#xmlns-namespace>XMLNS
+namespace</a>, <a href=#concept-attribute-local-name title=concept-attribute-local-name>local
+name</a> is <code>xmlns</code>, and <a href=#concept-attribute-value title=concept-attribute-value>value</a> is <var title="">url</var>.
 
-</p><p><dfn id=the-xmlns-namespace>The XMLNS namespace</dfn> is
-<code>http://www.w3.org/2000/xmlns/</code>.
+</p><p>A <dfn id=concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+declaration</dfn> with prefix <var title="">prefix</var> and namespace
+URL <var title="">url</var> is an <a href=#concept-attribute title=concept-attribute>attribute</a> whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the <a href=#xmlns-namespace>XMLNS
+namespace</a>, <a href=#concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</a> is
+<code>xmlns</code>, <a href=#concept-attribute-local-name title=concept-attribute-local-name>local
+name</a> is <var title="">prefix</var>, and <a href=#concept-attribute-value title=concept-attribute-value>value</a> is <var title="">url</var>.
 
 </p></div>
 
 <div class=section>
 <h2 id=serialization-of-the-start-tag-of-an-xml-element><span class=secno>2 </span>Serialization of the start tag of an XML element</h2>
 
-<p>To <dfn id=serialize>serialize</dfn> the start tag of an <var title="">element</var>, optionally with the <a href=#concept-nsmap title=concept-nsmap>namespace mapping</a> <var title="">nsmap</var>:
+<p>To <dfn id=serialize>serialize</dfn> the start tag of an <a href=#concept-element title=concept-element>element</a> <var title="">element</var>,
+optionally with the <a href=#concept-nsmap title=concept-nsmap>namespace mapping</a>
+<var title="">nsmap</var>:
 
 </p><ol>
 
 <li>If <var title="">nsmap</var> is not specified, let <var title="">nsmap</var> be a new <a href=#concept-nsmap title=concept-nsmap>namespace
 mapping</a>.
 
-</li><li>Let <var title="">attributes</var> be the list containing the <span title=concept-element-attributes>attributes</span> of <var title="">element</var> in same order.
+</li><li>Let <var title="">attributes</var> be the list containing the <a href=#concept-attribute title=concept-attribute>attributes</a> in the <a href=#concept-element-attribute title=concept-element-attribute>attribute list</a> of <var title="">element</var> in same order.
 
-</li><li>For each attribute in <var title="">attributes</var> whose <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the XMLNS
-namespace</a>, in order:
+</li><li>For each <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var> in <var title="">attributes</var>, in order:
 
   <ol>
 
-  <li>If the <span title=concept-attr-local-name>local name</span> of
-  the attribute is <code>xml</code>, or if the <span title=concept-attr-value>value</span> of the attribute is <a href=#the-xml-namespace>the
-  XML namespace</a> or <a href=#the-xmlns-namespace>the XMLNS namespace</a>, do
-  nothing.
+  <li>If the <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a>
+  of <var title="">attr</var> is not the <a href=#xmlns-namespace>XMLNS namespace</a>,
+  skip the rest of these substeps and continue with any next <a href=#concept-attribute title=concept-attribute>attribute</a>.
 
-  </li><li>Otherwise, if the <span title=concept-attr-local-name>local
-  name</span> of the attribute is <code>xmlns</code>,
+  </li><li>Let <var title="">local name</var> be the <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> of <var title="">attr</var>.
+
+  </li><li>Let <var title="">value</var> be the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of <var title="">attr</var>.
+
+  </li><li>If <var title="">local name</var> is <code>xml</code>, or if <var title="">value</var> is the <a href=#xml-namespace>XML namespace</a> or the
+  <a href=#xmlns-namespace>XMLNS namespace</a>, do nothing.
+
+  </li><li>Otherwise, if <var title="">local name</var> is <code>xmlns</code>:
 
     <ol>
 
-    <li>If the <span title=concept-attr-value>value</span> of the
-    attribute is the empty string, set the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> be <i>null</i>.
+    <li>If <var title="">value</var> is the empty string, set the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> to <i>null</i>.
 
     </li><li>Otherwise, set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
-    namespace</a> of <var title="">nsmap</var> be the <span title=concept-attr-value>value</span> of the attribute.
+    namespace</a> of <var title="">nsmap</var> to <var title="">value</var>.
 
     </li></ol>
 
@@ -106,25 +130,25 @@ namespace</a>, in order:
 
     <ol>
 
-    <li>Delete any key/value pairs whose key is equal to the <span title=concept-attr-local-name>local name</span> of the attribute
-    from the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to
-    URL</a> list of <var title="">nsmap</var>.
+    <li>Delete the key/value pair whose key is equal to <var title="">local name</var>, if any, from the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
 
-    </li><li>If the <span title=concept-attr-value>value</span> of the
-    attribute is the empty string, append key/value pair (<span title=concept-attr-local-name>local name</span> of the attribute,
+    </li><li>If <var title="">value</var> is the empty string, append
+    key/value pair (<var title="">local name</var>,
     <i>none</i>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix
     to URL</a> list of <var title="">nsmap</var>.
 
-    </li><li>Otherwise, append key/value pair (<span title=concept-attr-local-name>local name</span> of the attribute,
-    <span title=concept-attr-value>value</span> of the attribute) to
-    the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a>
-    list of <var title="">nsmap</var>.
+    </li><li>Otherwise, append key/value pair (<var title="">local name</var>,
+    <var title="">value</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
 
     </li></ol>
 
   </li></ol>
 
-</li><li>Let <var title="">namespace URL</var> be the <span title=concept-element-namespace>namespace</span> of <var title="">element</var>.
+</li><li>Let <var title="">namespace URL</var> be the <a href=#concept-element-namespace title=concept-element-namespace>namespace</a> of <var title="">element</var>.
+
+</li><li>Let <var title="">tag name</var> be the <a href=#concept-element-local-name title=concept-element-local-name>local name</a> of <var title="">element</var>.
 
 </li><li>If <var title="">namespace URL</var> is null:
 
@@ -138,27 +162,24 @@ namespace</a>, in order:
     <li>Set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
     namespace</a> of <var title="">nsmap</var> to <i>null</i>.
 
-    </li><li>If <var title="">attributes</var> contains an attribute whose
-    <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the
-    XMLNS namespace</a> and <span title=concept-attr-local-name>local name</span> is
+    </li><li>If <var title="">attributes</var> contains an <a href=#concept-attribute title=concept-attribute>attribute</a> whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the
+    <a href=#xmlns-namespace>XMLNS namespace</a> and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> is
     <code>xmlns</code>,
 
       <ol>
 
-      <li>If the <span title=concept-attr-value>value</span> of the
-      attribute is not the empty string, clone the attribute, set the
-      <span title=concept-attr-value>value</span> of the clone to the
-      empty string, and replace the attribute by the clone in <var title="">attributes</var>, preserving the order.
+      <li>If the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of
+      <var title="">attr</var> is not the empty string, replace <var title="">attr</var> in <var title="">attributes</var> by a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
+      declaration</a> with namespace URL <i>the empty string</i>,
+      preserving the order.
 
       </li></ol>
 
-    </li><li>Otherwise, prepend a new attribute whose <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the XMLNS
-    namespace</a>, <span title=concept-attr-local-name>local
-    name</span> is <code>xmlns</code>, and <span title=concept-attr-value>value</span> is the empty string to <var title="">attributes</var>.
+    </li><li>Otherwise, prepend a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
+    declaration</a> with namespace URL <i>the empty string</i> to
+    <var title="">attributes</var>.
 
     </li></ol>
-
-  </li><li>Let <var title="">tag name</var> be the <span title=concept-element-local-name>local name</span> of <var title="">element</var>.
 
   </li></ol>
 
@@ -166,13 +187,14 @@ namespace</a>, in order:
 
   <ol>
 
-  <li>Let <var title="">prefix</var> be the <span title=concept-element-prefix>prefix</span> of <var title="">element</var>.
-
-  </li><li>If <var title="">namespace URL</var> is <a href=#the-xml-namespace>the XML
+  <li>If <var title="">namespace URL</var> is the <a href=#xml-namespace>XML
   namespace</a>, let <var title="">prefix</var> be <code>xml</code>.
 
-  </li><li>If <var title="">namespace URL</var> is <a href=#the-xmlns-namespace>the XMLNS
+  </li><li>Otherwise, if <var title="">namespace URL</var> is the <a href=#xmlns-namespace>XMLNS
   namespace</a>, let <var title="">prefix</var> be <code>xmlns</code>.
+
+  </li><li>Otherwise, let <var title="">prefix</var> be the <a href=#concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</a> of
+  <var title="">element</var>.
 
   </li><li>If <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is not a namespace URL:
 
@@ -182,35 +204,20 @@ namespace</a>, in order:
     namespace</a> of <var title="">nsmap</var> to <var title="">namespace
     URL</var>.
 
-    </li><li>Prepend a new attribute whose <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the XMLNS
-    namespace</a>, <span title=concept-attr-local-name>local
-    name</span> is <code>xmlns</code>, and <span title=concept-attr-value>value</span> is <var title="">namespace
+    </li><li>Prepend a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
+    declaration</a> with namespace URL <var title="">namespace
     URL</var> to <var title="">attributes</var>.
 
-    </li><li>Let <var title="">tag name</var> be the <span title=concept-element-local-name>local name</span> of <var title="">element</var>.
-
     </li></ol>
 
-  </li><li>Otherwise, if <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>:
-
-    <ol>
-
-    <li>Let <var title="">tag name</var> be the <span title=concept-element-local-name>local name</span> of <var title="">element</var>.
-
-    </li></ol>
+  </li><li>Otherwise, if <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do
+  nothing.
 
   </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
   the key/value pair whose key is <var title="">prefix</var> and value is
-  <var title="">namespace URL</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>:
-
-    <ol>
-
-    <li>Let <var title="">tag name</var> be <var title="">prefix</var>,
-    followed by a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>), followed
-    by the <span title=concept-element-local-name>local name</span> of
-    <var title="">element</var>.
-
-    </li></ol>
+  <var title="">namespace URL</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>, prepend <var title="">prefix</var> followed by a
+  <code>U+003A</code> <code class=charname>COLON</code> character
+  (<code>:</code>) to <var title="">tag name</var>.
 
   </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
   no key/value pair whose key is <var title="">prefix</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>:
@@ -220,16 +227,13 @@ namespace</a>, in order:
     <li>Append key/value pair (<var title="">prefix</var>, <var title="">namespace URL</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
     <var title="">nsmap</var>.
 
-    </li><li>Prepend a new attribute whose <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the XMLNS
-    namespace</a>, <span title=concept-attr-prefix>prefix</span> is
-    <code>xmlns</code>, <span title=concept-attr-local-name>local
-    name</span> is <var title="">prefix</var>, and <span title=concept-attr-value>value</span> is <var title="">namespace
-    URL</var> to <var title="">attributes</var>.
-    
-    </li><li>Let <var title="">tag name</var> be <var title="">prefix</var>,
-    followed by a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>), followed
-    by the <span title=concept-element-local-name>local name</span> of
-    <var title="">element</var>.
+    </li><li>Prepend a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    declaration</a> with prefix <var title="">prefix</var> and
+    namespace URL <var title="">namespace URL</var> to <var title="">attributes</var>.
+
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">tag name</var>.
 
     </li></ol>
 
@@ -243,21 +247,14 @@ namespace</a>, in order:
     <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list
     of <var title="">nsmap</var>.
 
-    </li><li>Let <var title="">tag name</var> be <var title="">prefix</var>,
-    followed by a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>), followed
-    by the <span title=concept-element-local-name>local name</span> of
-    <var title="">element</var>.
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">tag name</var>.
 
     </li></ol>
 
   </li><li>Otherwise, if the <a href=#concept-nsmap-default title=concept-nsmap-default>default
-  namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>:
-
-    <ol>
-
-    <li>Let <var title="">tag name</var> be the <span title=concept-element-local-name>local name</span> of <var title="">element</var>.
-
-    </li></ol>
+  namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do nothing.
 
   </li><li>Otherwise:
 
@@ -268,16 +265,13 @@ namespace</a>, in order:
     <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list
     of <var title="">nsmap</var>.
 
-    </li><li>Prepend a new attribute whose <span title=concept-attr-namespace>namespace</span> is <a href=#the-xmlns-namespace>the XMLNS
-    namespace</a>, <span title=concept-attr-prefix>prefix is
-    <code>xmlns</code>, <span title=concept-attr-local-name>local
-    name</span> is <var title="">prefix</var>, and <span title=concept-attr-value>value</span> is <var title="">namespace
-    URL</var> to <var title="">attributes</var>.
+    </li><li>Prepend a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    declaration</a> with prefix <var title="">prefix</var> and
+    namespace URL <var title="">namespace URL</var> to <var title="">attributes</var>.
 
-    </span></li><li>Let <var title="">tag name</var> be <var title="">prefix</var>,
-    followed by a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>), followed
-    by the <span title=concept-element-local-name>local name</span> of
-    <var title="">element</var>.
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">tag name</var>.
 
     </li></ol>
 
@@ -287,4 +281,16 @@ namespace</a>, in order:
 
 </li></ol>
 
+</div>
+
+<div class="section reference">
+<h2 class=no-num id=references>References</h2>
+
+<dl>
+
+<dt id=ref-DOM>DOM
+</dt><dd><cite><a href=http://dom.spec.whatwg.org/>DOM
+Standard</a></cite>, WHATWG.
+
+</dd></dl>
 </div></body></html>

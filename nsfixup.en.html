@@ -254,7 +254,7 @@ and the <var title="">is element</var> flag, are as follows:
   namespace</a> and <var title="">qname</var> is <code>xmlns</code>,
   do nothing.
 
-  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is not a namespace URL:
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is <i>missing</i>:
 
     <ol>
 
@@ -315,6 +315,24 @@ and the <var title="">is element</var> flag, are as follows:
   the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of
   <var title="">nsmap</var> is equal to <var title="">namespace URL</var>,
   do nothing.
+
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and <var title="">attribute</var> does not
+  contain an <a href=#concept-attribute title=concept-attribute>attribute</a> whose
+  <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the
+  <a href=#xmlns-namespace>XMLNS namespace</a> and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> is
+  <code>xmlns</code>:
+
+    <ol>
+
+    <li>Set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+    namespace</a> of <var title="">nsmap</var> to <var title="">namespace
+    URL</var>.
+
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
+    declaration</a> with namespace URL <var title="">namespace
+    URL</var>.
+
+    </li></ol>
 
   </li><li>Otherwise:
 

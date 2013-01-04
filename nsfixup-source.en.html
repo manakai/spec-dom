@@ -310,7 +310,7 @@ and the <var title>is element</var> flag, are as follows:
   <li>Otherwise, if the <var title>is element</var> flag is set, <var
   title>prefix</var> is null, and the <span
   title=concept-nsmap-default>default namespace</span> of <var
-  title>nsmap</var> is not a namespace URL:
+  title>nsmap</var> is <i>missing</i>:
 
     <ol>
 
@@ -384,6 +384,27 @@ and the <var title>is element</var> flag, are as follows:
   the <span title=concept-nsmap-default>default namespace</span> of
   <var title>nsmap</var> is equal to <var title>namespace URL</var>,
   do nothing.
+
+  <li>Otherwise, if the <var title>is element</var> flag is set, <var
+  title>prefix</var> is null, and <var title>attribute</var> does not
+  contain an <span title=concept-attribute>attribute</span> whose
+  <span title=concept-attribute-namespace>namespace</span> is the
+  <span>XMLNS namespace</span> and <span
+  title=concept-attribute-local-name>local name</span> is
+  <code>xmlns</code>:
+
+    <ol>
+
+    <li>Set the <span title=concept-nsmap-default>default
+    namespace</span> of <var title>nsmap</var> to <var title>namespace
+    URL</var>.
+
+    <li>Let <var title>new attr</var> be a new <span
+    title=concept-default-namespace-declaration>default namespace
+    declaration</span> with namespace URL <var title>namespace
+    URL</var>.
+
+    </ol>
 
   <li>Otherwise:
 

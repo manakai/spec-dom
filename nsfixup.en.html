@@ -35,7 +35,7 @@ related or neighboring rights to this work.
   <ol>
    <li><a href=#terminology><span class=secno>0.1 </span>Terminology</a></li></ol></li>
  <li><a href=#namespace-mappings><span class=secno>1 </span>Namespace mappings</a></li>
- <li><a href=#serialization-of-the-start-tag-of-an-xml-element><span class=secno>2 </span>Serialization of the start tag of an XML element</a></li>
+ <li><a href=#namespace-fixup-of-an-xml-element-for-serialization><span class=secno>2 </span>Namespace fixup of an XML element for serialization</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </div>
@@ -87,16 +87,18 @@ name</a> is <var title="">prefix</var>, and <a href=#concept-attribute-value tit
 </p></div>
 
 <div class=section>
-<h2 id=serialization-of-the-start-tag-of-an-xml-element><span class=secno>2 </span>Serialization of the start tag of an XML element</h2>
+<h2 id=namespace-fixup-of-an-xml-element-for-serialization><span class=secno>2 </span>Namespace fixup of an XML element for serialization</h2>
 
-<p>To <dfn id=serialize>serialize</dfn> the start tag of an <a href=#concept-element title=concept-element>element</a> <var title="">element</var>,
-optionally with the <a href=#concept-nsmap title=concept-nsmap>namespace mapping</a>
-<var title="">nsmap</var>:
+<p>The <dfn id=steps-for-namespace-fixup-of-an-xml-element-for-serialization>steps for namespace fixup of an XML element for
+serialization</dfn>, with an <a href=#concept-element title=concept-element>element</a> <var title="">element</var> and
+optional <a href=#concept-nsmap title=concept-nsmap>namespace mapping</a> <var title="">nsmap</var>, are as follows:
 
 </p><ol>
 
 <li>If <var title="">nsmap</var> is not specified, let <var title="">nsmap</var> be a new <a href=#concept-nsmap title=concept-nsmap>namespace
 mapping</a>.
+
+</li><li>Otherwise, let <var title="">nsmap</var> be a clone of <var title="">nsmap</var>.
 
 </li><li>Let <var title="">attributes</var> be the list containing the <a href=#concept-attribute title=concept-attribute>attributes</a> in the <a href=#concept-element-attribute title=concept-element-attribute>attribute list</a> of <var title="">element</var> in same order.
 
@@ -153,17 +155,38 @@ values returned by the <a href=#steps-to-obtain-a-qname>steps to obtain a QName<
 
 </li><li>If <var title="">new attr</var> is not null, prepend it to <var title="">attributes</var>.
 
+</li><li>Let <var title="">attribute specifications</var> be the empty list.
+
 </li><li>For each <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var> in <var title="">attributes</var>, in order:
 
   <ol>
 
-  <li class=ed>XXX
+  <li>Let <var title="">attr name</var> and <var title="">new attr</var> be
+  the values returned by the <a href=#steps-to-obtain-a-qname>steps to obtain a QName</a> with
+  the <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a>, <a href=#concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</a>,
+  and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> of
+  <var title="">attr</var>, <var title="">attributes</var>, and <var title="">nsmap</var> (without the <var title="">is element</var> flag).
+
+  </li><li>If <var title="">new attr</var> is not null, insert it into <var title="">attributes</var> just after <var title="">attr</var>.
+
+  </li><li>Append attribute name/value pair (<var title="">attr name</var>,
+  the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of <var title="">attr</var>) to <var title="">attribute specifications</var>.
 
   </li></ol>
 
+  </li><li>Return <var title="">tag name</var>, <var title="">attribute
+  specifications</var>, and <var title="">nsmap</var>.
+
 </li></ol>
 
-<p>The <dfn id=steps-to-obtain-a-qname>steps to obtain a QName</dfn>, with parameters <var title="">namespace URL</var>, <var title="">prefix</var>, <var title="">local
+<p>These steps return three values.  The first value, <var title="">tag
+name</var>, is used as the tag name in the start and end tag of the
+serialization of <var title="">element</var>.  The second value, <var title="">attribute specifications</var>, contains zero or more pairs of
+attribute names and values, which are used in the start tag of the
+serialization of <var title="">element</var>.  The third value, <var title="">nsmap</var>, is used as the input to the steps for serialization
+of the child elements of <var title="">element</var>.
+
+</p><p>The <dfn id=steps-to-obtain-a-qname>steps to obtain a QName</dfn>, with parameters <var title="">namespace URL</var>, <var title="">prefix</var>, <var title="">local
 name</var>, <var title="">attributes</var>, and <var title="">nsmap</var>,
 where <var title="">attributes</var> and <var title="">nsmap</var> are
 shared with the callee such that any modification to them is also

@@ -102,18 +102,22 @@ title=concept-attribute-value>value</span> is <var title>url</var>.
 </div>
 
 <div class=section>
-<h2>Serialization of the start tag of an XML element</h2>
+<h2>Namespace fixup of an XML element for serialization</h2>
 
-<p>To <dfn>serialize</dfn> the start tag of an <span
-title=concept-element>element</span> <var title>element</var>,
-optionally with the <span title=concept-nsmap>namespace mapping</span>
-<var title>nsmap</var>:
+<p>The <dfn>steps for namespace fixup of an XML element for
+serialization</dfn>, with an <span
+title=concept-element>element</span> <var title>element</var> and
+optional <span title=concept-nsmap>namespace mapping</span> <var
+title>nsmap</var>, are as follows:
 
 <ol>
 
 <li>If <var title>nsmap</var> is not specified, let <var
 title>nsmap</var> be a new <span title=concept-nsmap>namespace
 mapping</span>.
+
+<li>Otherwise, let <var title>nsmap</var> be a clone of <var
+title>nsmap</var>.
 
 <li>Let <var title>attributes</var> be the list containing the <span
 title=concept-attribute>attributes</span> in the <span
@@ -189,16 +193,43 @@ title>nsmap</var> and with the <var title>is element</var> flag.
 <li>If <var title>new attr</var> is not null, prepend it to <var
 title>attributes</var>.
 
+<li>Let <var title>attribute specifications</var> be the empty list.
+
 <li>For each <span title=concept-attribute>attribute</span> <var
 title>attr</var> in <var title>attributes</var>, in order:
 
   <ol>
 
-  <li class=ed>XXX
+  <li>Let <var title>attr name</var> and <var title>new attr</var> be
+  the values returned by the <span>steps to obtain a QName</span> with
+  the <span title=concept-attribute-namespace>namespace</span>, <span
+  title=concept-attribute-namespace-prefix>namespace prefix</span>,
+  and <span title=concept-attribute-local-name>local name</span> of
+  <var title>attr</var>, <var title>attributes</var>, and <var
+  title>nsmap</var> (without the <var title>is element</var> flag).
+
+  <li>If <var title>new attr</var> is not null, insert it into <var
+  title>attributes</var> just after <var title>attr</var>.
+
+  <li>Append attribute name/value pair (<var title>attr name</var>,
+  the <span title=concept-attribute-value>value</span> of <var
+  title>attr</var>) to <var title>attribute specifications</var>.
 
   </ol>
 
+  <li>Return <var title>tag name</var>, <var title>attribute
+  specifications</var>, and <var title>nsmap</var>.
+
 </ol>
+
+<p>These steps return three values.  The first value, <var title>tag
+name</var>, is used as the tag name in the start and end tag of the
+serialization of <var title>element</var>.  The second value, <var
+title>attribute specifications</var>, contains zero or more pairs of
+attribute names and values, which are used in the start tag of the
+serialization of <var title>element</var>.  The third value, <var
+title>nsmap</var>, is used as the input to the steps for serialization
+of the child elements of <var title>element</var>.
 
 <p>The <dfn>steps to obtain a QName</dfn>, with parameters <var
 title>namespace URL</var>, <var title>prefix</var>, <var title>local

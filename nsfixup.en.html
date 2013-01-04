@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">Namespace fixup</h1>
-<h2 class="no-toc no-num" id=manakai-project-note-date>Manakai Project Note 3 January 2013</h2>
+<h2 class="no-toc no-num" id=manakai-project-note-date>Manakai Project Note 4 January 2013</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -146,9 +146,35 @@ mapping</a>.
 
   </li></ol>
 
-</li><li>Let <var title="">namespace URL</var> be the <a href=#concept-element-namespace title=concept-element-namespace>namespace</a> of <var title="">element</var>.
+</li><li>Let <var title="">tag name</var> and <var title="">new attr</var> be the
+values returned by the <a href=#steps-to-obtain-a-qname>steps to obtain a QName</a> with the
+<a href=#concept-element-namespace title=concept-element-namespace>namespace</a>, <a href=#concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</a>, and
+<a href=#concept-element-local-name title=concept-element-local-name>local name</a> of <var title="">element</var>, <var title="">attributes</var>, and <var title="">nsmap</var> and with the <var title="">is element</var> flag.
 
-</li><li>Let <var title="">tag name</var> be the <a href=#concept-element-local-name title=concept-element-local-name>local name</a> of <var title="">element</var>.
+</li><li>If <var title="">new attr</var> is not null, prepend it to <var title="">attributes</var>.
+
+</li><li>For each <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var> in <var title="">attributes</var>, in order:
+
+  <ol>
+
+  <li class=ed>XXX
+
+  </li></ol>
+
+</li></ol>
+
+<p>The <dfn id=steps-to-obtain-a-qname>steps to obtain a QName</dfn>, with parameters <var title="">namespace URL</var>, <var title="">prefix</var>, <var title="">local
+name</var>, <var title="">attributes</var>, and <var title="">nsmap</var>,
+where <var title="">attributes</var> and <var title="">nsmap</var> are
+shared with the callee such that any modification to them is also
+reflected to those variables in the steps which invoked these steps,
+and the <var title="">is element</var> flag, are as follows:
+
+</p><ol>
+
+<li>Let <var title="">qname</var> be <var title="">local name</var>.
+
+</li><li>Let <var title="">new attr</var> be null.
 
 </li><li>If <var title="">namespace URL</var> is null:
 
@@ -175,9 +201,8 @@ mapping</a>.
 
       </li></ol>
 
-    </li><li>Otherwise, prepend a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
-    declaration</a> with namespace URL <i>the empty string</i> to
-    <var title="">attributes</var>.
+    </li><li>Otherwise, let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
+    declaration</a> with namespace URL <i>the empty string</i>.
 
     </li></ol>
 
@@ -193,9 +218,6 @@ mapping</a>.
   </li><li>Otherwise, if <var title="">namespace URL</var> is the <a href=#xmlns-namespace>XMLNS
   namespace</a>, let <var title="">prefix</var> be <code>xmlns</code>.
 
-  </li><li>Otherwise, let <var title="">prefix</var> be the <a href=#concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</a> of
-  <var title="">element</var>.
-
   </li><li>If <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is not a namespace URL:
 
     <ol>
@@ -204,9 +226,9 @@ mapping</a>.
     namespace</a> of <var title="">nsmap</var> to <var title="">namespace
     URL</var>.
 
-    </li><li>Prepend a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
     declaration</a> with namespace URL <var title="">namespace
-    URL</var> to <var title="">attributes</var>.
+    URL</var>.
 
     </li></ol>
 
@@ -217,7 +239,7 @@ mapping</a>.
   the key/value pair whose key is <var title="">prefix</var> and value is
   <var title="">namespace URL</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>, prepend <var title="">prefix</var> followed by a
   <code>U+003A</code> <code class=charname>COLON</code> character
-  (<code>:</code>) to <var title="">tag name</var>.
+  (<code>:</code>) to <var title="">qname</var>.
 
   </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
   no key/value pair whose key is <var title="">prefix</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>:
@@ -227,13 +249,13 @@ mapping</a>.
     <li>Append key/value pair (<var title="">prefix</var>, <var title="">namespace URL</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
     <var title="">nsmap</var>.
 
-    </li><li>Prepend a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
     declaration</a> with prefix <var title="">prefix</var> and
-    namespace URL <var title="">namespace URL</var> to <var title="">attributes</var>.
+    namespace URL <var title="">namespace URL</var>.
 
     </li><li>Prepend <var title="">prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title="">tag name</var>.
+    (<code>:</code>) to <var title="">qname</var>.
 
     </li></ol>
 
@@ -249,7 +271,7 @@ mapping</a>.
 
     </li><li>Prepend <var title="">prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title="">tag name</var>.
+    (<code>:</code>) to <var title="">qname</var>.
 
     </li></ol>
 
@@ -265,19 +287,19 @@ mapping</a>.
     <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list
     of <var title="">nsmap</var>.
 
-    </li><li>Prepend a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
     declaration</a> with prefix <var title="">prefix</var> and
-    namespace URL <var title="">namespace URL</var> to <var title="">attributes</var>.
+    namespace URL <var title="">namespace URL</var>.
 
     </li><li>Prepend <var title="">prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title="">tag name</var>.
+    (<code>:</code>) to <var title="">qname</var>.
 
     </li></ol>
 
   </li></ol>
 
-  </li><li class=ed>XXX
+  </li><li>Return <var title="">qname</var> and <var title="">new attr</var>.
 
 </li></ol>
 

@@ -178,13 +178,41 @@ title>attr</var> in <var title>attributes</var>, in order:
 
   </ol>
 
-<li>Let <var title>namespace URL</var> be the <span
-title=concept-element-namespace>namespace</span> of <var
-title>element</var>.
+<li>Let <var title>tag name</var> and <var title>new attr</var> be the
+values returned by the <span>steps to obtain a QName</span> with the
+<span title=concept-element-namespace>namespace</span>, <span
+title=concept-element-namespace-prefix>namespace prefix</span>, and
+<span title=concept-element-local-name>local name</span> of <var
+title>element</var>, <var title>attributes</var>, and <var
+title>nsmap</var> and with the <var title>is element</var> flag.
 
-<li>Let <var title>tag name</var> be the <span
-title=concept-element-local-name>local name</span> of <var
-title>element</var>.
+<li>If <var title>new attr</var> is not null, prepend it to <var
+title>attributes</var>.
+
+<li>For each <span title=concept-attribute>attribute</span> <var
+title>attr</var> in <var title>attributes</var>, in order:
+
+  <ol>
+
+  <li class=ed>XXX
+
+  </ol>
+
+</ol>
+
+<p>The <dfn>steps to obtain a QName</dfn>, with parameters <var
+title>namespace URL</var>, <var title>prefix</var>, <var title>local
+name</var>, <var title>attributes</var>, and <var title>nsmap</var>,
+where <var title>attributes</var> and <var title>nsmap</var> are
+shared with the callee such that any modification to them is also
+reflected to those variables in the steps which invoked these steps,
+and the <var title>is element</var> flag, are as follows:
+
+<ol>
+
+<li>Let <var title>qname</var> be <var title>local name</var>.
+
+<li>Let <var title>new attr</var> be null.
 
 <li>If <var title>namespace URL</var> is null:
 
@@ -216,10 +244,9 @@ title>element</var>.
 
       </ol>
 
-    <li>Otherwise, prepend a new <span
+    <li>Otherwise, let <var title>new attr</var> be a new <span
     title=concept-default-namespace-declaration>defualt namespace
-    declaration</span> with namespace URL <i>the empty string</i> to
-    <var title>attributes</var>.
+    declaration</span> with namespace URL <i>the empty string</i>.
 
     </ol>
 
@@ -235,10 +262,6 @@ title>element</var>.
   <li>Otherwise, if <var title>namespace URL</var> is the <span>XMLNS
   namespace</span>, let <var title>prefix</var> be <code>xmlns</code>.
 
-  <li>Otherwise, let <var title>prefix</var> be the <span
-  title=concept-element-namespace-prefix>namespace prefix</span> of
-  <var title>element</var>.
-
   <li>If <var title>prefix</var> is null and the <span
   title=concept-nsmap-default>default namespace</span> of <var
   title>nsmap</var> is not a namespace URL:
@@ -249,10 +272,10 @@ title>element</var>.
     namespace</span> of <var title>nsmap</var> to <var title>namespace
     URL</var>.
 
-    <li>Prepend a new <span
+    <li>Let <var title>new attr</var> be a new <span
     title=concept-default-namespace-declaration>default namespace
     declaration</span> with namespace URL <var title>namespace
-    URL</var> to <var title>attributes</var>.
+    URL</var>.
 
     </ol>
 
@@ -267,7 +290,7 @@ title>element</var>.
   title=concept-nsmap-prefix-to-url>prefix to URL</span> list of <var
   title>nsmap</var>, prepend <var title>prefix</var> followed by a
   <code>U+003A</code> <code class=charname>COLON</code> character
-  (<code>:</code>) to <var title>tag name</var>.
+  (<code>:</code>) to <var title>qname</var>.
 
   <li>Otherwise, if <var title>prefix</var> is not null and there is
   no key/value pair whose key is <var title>prefix</var> in the <span
@@ -281,15 +304,14 @@ title>element</var>.
     title=concept-nsmap-prefix-to-url>prefix to URL</span> list of
     <var title>nsmap</var>.
 
-    <li>Prepend a new <span
+    <li>Let <var title>new attr</var> be a new <span
     title=concept-namespace-prefix-declaration>namespace prefix
     declaration</span> with prefix <var title>prefix</var> and
-    namespace URL <var title>namespace URL</var> to <var
-    title>attributes</var>.
+    namespace URL <var title>namespace URL</var>.
 
     <li>Prepend <var title>prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title>tag name</var>.
+    (<code>:</code>) to <var title>qname</var>.
 
     </ol>
 
@@ -307,7 +329,7 @@ title>element</var>.
 
     <li>Prepend <var title>prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title>tag name</var>.
+    (<code>:</code>) to <var title>qname</var>.
 
     </ol>
 
@@ -326,21 +348,20 @@ title>element</var>.
     <span title=concept-nsmap-prefix-to-url>prefix to URL</span> list
     of <var title>nsmap</var>.
 
-    <li>Prepend a new <span
+    <li>Let <var title>new attr</var> be a new <span
     title=concept-namespace-prefix-declaration>namespace prefix
     declaration</span> with prefix <var title>prefix</var> and
-    namespace URL <var title>namespace URL</var> to <var
-    title>attributes</var>.
+    namespace URL <var title>namespace URL</var>.
 
     <li>Prepend <var title>prefix</var> followed by a
     <code>U+003A</code> <code class=charname>COLON</code> character
-    (<code>:</code>) to <var title>tag name</var>.
+    (<code>:</code>) to <var title>qname</var>.
 
     </ol>
 
   </ol>
 
-  <li class=ed>XXX
+  <li>Return <var title>qname</var> and <var title>new attr</var>.
 
 </ol>
 

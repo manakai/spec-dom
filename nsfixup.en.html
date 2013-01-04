@@ -31,17 +31,15 @@ related or neighboring rights to this work.
 
 <!--begin-toc-->
 <ol class=toc>
- <li>
-  <ol>
-   <li><a href=#terminology><span class=secno>0.1 </span>Terminology</a></li></ol></li>
- <li><a href=#namespace-mappings><span class=secno>1 </span>Namespace mappings</a></li>
- <li><a href=#namespace-fixup-of-an-xml-element-for-serialization><span class=secno>2 </span>Namespace fixup of an XML element for serialization</a></li>
+ <li><a href=#terminology><span class=secno>1 </span>Terminology</a></li>
+ <li><a href=#namespace-mappings><span class=secno>2 </span>Namespace mappings</a></li>
+ <li><a href=#namespace-fixup-of-an-xml-element-for-serialization><span class=secno>3 </span>Namespace fixup of an XML element for serialization</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </div>
 
 <div class=section>
-<h3 id=terminology><span class=secno>0.1 </span>Terminology</h3>
+<h2 id=terminology><span class=secno>1 </span>Terminology</h2>
 
 <p>The terms <dfn id=concept-element title=concept-element>element</dfn> (which has <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, and <dfn id=concept-element-attribute title=concept-element-attribute>attribute list</dfn>), <dfn id=concept-attribute title=concept-attribute>attribute</dfn> (which has <dfn id=concept-attribute-namespace title=concept-attribute-namespace>namespace</dfn>, <dfn id=concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-attribute-local-name title=concept-attribute-local-name>local name</dfn>, and <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>), <dfn id=xml-namespace>XML namespace</dfn>,
 and <dfn id=xmlns-namespace>XMLNS namespace</dfn> are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
@@ -49,7 +47,7 @@ and <dfn id=xmlns-namespace>XMLNS namespace</dfn> are defined by the DOM Standar
 </p></div>
 
 <div class=section>
-<h2 id=namespace-mappings><span class=secno>1 </span>Namespace mappings</h2>
+<h2 id=namespace-mappings><span class=secno>2 </span>Namespace mappings</h2>
 
 <p>The <dfn id=concept-nsmap title=concept-nsmap>namespace mapping</dfn> is a data
 structure with the following fields:
@@ -87,7 +85,7 @@ name</a> is <var title="">prefix</var>, and <a href=#concept-attribute-value tit
 </p></div>
 
 <div class=section>
-<h2 id=namespace-fixup-of-an-xml-element-for-serialization><span class=secno>2 </span>Namespace fixup of an XML element for serialization</h2>
+<h2 id=namespace-fixup-of-an-xml-element-for-serialization><span class=secno>3 </span>Namespace fixup of an XML element for serialization</h2>
 
 <p>The <dfn id=steps-for-namespace-fixup-of-an-xml-element-for-serialization>steps for namespace fixup of an XML element for
 serialization</dfn>, with an <a href=#concept-element title=concept-element>element</a> <var title="">element</var> and
@@ -203,7 +201,9 @@ and the <var title="">is element</var> flag, are as follows:
 
   <ol>
 
-  <li>If the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+  <li>If the <var title="">is element</var> flag is not set, do nothing.
+
+  </li><li>Otherwise, if the <a href=#concept-nsmap-default title=concept-nsmap-default>default
   namespace</a> of <var title="">nsmap</var> is not <i>null</i>,
 
     <ol>
@@ -241,7 +241,7 @@ and the <var title="">is element</var> flag, are as follows:
   </li><li>Otherwise, if <var title="">namespace URL</var> is the <a href=#xmlns-namespace>XMLNS
   namespace</a>, let <var title="">prefix</var> be <code>xmlns</code>.
 
-  </li><li>If <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is not a namespace URL:
+  </li><li>If the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is not a namespace URL:
 
     <ol>
 
@@ -255,7 +255,7 @@ and the <var title="">is element</var> flag, are as follows:
 
     </li></ol>
 
-  </li><li>Otherwise, if <var title="">prefix</var> is null and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do
   nothing.
 
   </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
@@ -298,8 +298,10 @@ and the <var title="">is element</var> flag, are as follows:
 
     </li></ol>
 
-  </li><li>Otherwise, if the <a href=#concept-nsmap-default title=concept-nsmap-default>default
-  namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do nothing.
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set and
+  the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of
+  <var title="">nsmap</var> is equal to <var title="">namespace URL</var>,
+  do nothing.
 
   </li><li>Otherwise:
 

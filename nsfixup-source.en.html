@@ -80,6 +80,14 @@ namespace</span>).
 
 </dl>
 
+<div class="note memo">
+
+<p>There will be at most one pair with same key in the <span
+title=concept-nsmap-prefix-to-url>prefix to URL</span> list.  However,
+there might be more than one pairs with same value in the list.
+
+</div>
+
 <p>A <dfn title=concept-default-namespace-declaration>default
 namespace declaration</dfn> with namespace URL <var title>url</var> is
 an <span title=concept-attribute>attribute</span> whose <span
@@ -252,7 +260,7 @@ and the <var title>is element</var> flag, are as follows:
   <li>If the <var title>is element</var> flag is not set, do nothing.
 
   <li>Otherwise, if the <span title=concept-nsmap-default>default
-  namespace</span> of <var title>nsmap</var> is not <i>null</i>,
+  namespace</span> of <var title>nsmap</var> is not <i>null</i>:
 
     <ol>
 
@@ -260,11 +268,11 @@ and the <var title>is element</var> flag, are as follows:
     namespace</span> of <var title>nsmap</var> to <i>null</i>.
 
     <li>If <var title>attributes</var> contains an <span
-    title=concept-attribute>attribute</span> whose <span
-    title=concept-attribute-namespace>namespace</span> is the
-    <span>XMLNS namespace</span> and <span
+    title=concept-attribute>attribute</span> <var title>attr</var>
+    whose <span title=concept-attribute-namespace>namespace</span> is
+    the <span>XMLNS namespace</span> and <span
     title=concept-attribute-local-name>local name</span> is
-    <code>xmlns</code>,
+    <code>xmlns</code>:
 
       <ol>
 
@@ -295,7 +303,11 @@ and the <var title>is element</var> flag, are as follows:
   <li>Otherwise, if <var title>namespace URL</var> is the <span>XMLNS
   namespace</span>, let <var title>prefix</var> be <code>xmlns</code>.
 
-  <li>If the <var title>is element</var> flag is set, <var
+  <li>If <var title>namespace URL</var> is the <span>XMLNS
+  namespace</span> and <var title>qname</var> is <code>xmlns</code>,
+  do nothing.
+
+  <li>Otherwise, if the <var title>is element</var> flag is set, <var
   title>prefix</var> is null, and the <span
   title=concept-nsmap-default>default namespace</span> of <var
   title>nsmap</var> is not a namespace URL:
@@ -384,6 +396,11 @@ and the <var title>is element</var> flag, are as follows:
     <span title=concept-nsmap-prefix-to-url>prefix to URL</span> list
     of <var title>nsmap</var>.
 
+    <li>Append key/value pair (<var title>prefix</var>, <var
+    title>namespace URL</var>) to the <span
+    title=concept-nsmap-prefix-to-url>prefix to URL</span> list of
+    <var title>nsmap</var>.
+
     <li>Let <var title>new attr</var> be a new <span
     title=concept-namespace-prefix-declaration>namespace prefix
     declaration</span> with prefix <var title>prefix</var> and
@@ -406,6 +423,20 @@ and the <var title>is element</var> flag, are as follows:
 <p>These steps are based on, but not equivalent to, <a
 href="http://suika.fam.cx/~wakaba/wiki/sw/n/XML%E3%81%AE%E7%9B%B4%E5%88%97%E5%8C%96#anchor-8">Gecko's
 implementation at the time of writing</a>.
+
+</div>
+
+<div class="note memo">
+
+<p>These steps do not prevent an unserializable set of <var title>tag
+name</var> and <var title>attributes</var> from being returned when,
+for example, there is an <code>xmlns</code> <span
+title=concept-attribute>attribute</span> in null namespace, there is
+an <code>xml</code> <span title=concept-attribute>attribute</span> in
+the <span>XMLNS namespace</span> whose <span
+title=concept-attribute-value>value</span> is not equal to the
+<span>XML namespace</span>, or the given <var title>nsmap</var>
+contains a key which is not a valid XML <code>NCName</code>.
 
 </div>
 

@@ -22,7 +22,7 @@
   <code class=mail>&lt;<a href=mailto:wakaba@suikawiki.org rel=author>wakaba@suikawiki.org</a>&gt;</code></dd>
 </dl>
 
-<p class=copyright lang=en>© <time>2007</time>-<time>2013make</time> <a href=http://suika.suikawiki.org/~wakaba/who? rel=author>Wakaba</a>.
+<p class=copyright lang=en>© <time>2007</time>-<time>2013</time> <a href=http://suika.suikawiki.org/~wakaba/who? rel=author>Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a href=http://www.gnu.org/copyleft/fdl.html rel=license>GNU Free Documentation License</a>,
 Version 1.2
@@ -81,10 +81,11 @@ normative version.</p>
  <li><a href=#attribute-definitions><span class=secno>7 </span>Attribute definitions</a></li>
  <li><a href=#general-entities><span class=secno>8 </span>General entities</a></li>
  <li><a href=#notations><span class=secno>9 </span>Notations</a></li>
- <li><a href=#obsolete-features><span class=secno>10 </span>Obsolete features</a>
+ <li><a href=#base-urls><span class=secno>10 </span>Base URLs</a></li>
+ <li><a href=#obsolete-features><span class=secno>11 </span>Obsolete features</a>
   <ol>
-   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>10.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
-   <li><a href=#obsolete-attribute><span class=secno>10.2 </span>Obsolete attribute</a></li></ol></li>
+   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>11.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
+   <li><a href=#obsolete-attribute><span class=secno>11.2 </span>Obsolete attribute</a></li></ol></li>
  <li><a class=no-num href=#references-0>References</a>
   <ol>
    <li><a class=no-num href=#normative-references-0>Normative References</a></li>
@@ -180,26 +181,29 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 <cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.
 
 </p><p>The terms, interfaces, attributes, and exceptions <dfn id=context-object>context
-object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node><code>Node</code></dfn>,
+object</dfn>, <dfn id=xml-namespace>XML namespace</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node><code>Node</code></dfn>,
 <dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
-(<dfn id=document-0><code>Document</code></dfn>), <dfn id=concept-doctype title=concept-doctype>doctype</dfn>
-(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
+(<dfn id=document-0><code>Document</code></dfn>), <dfn id=in-a-document>in a document</dfn>, <dfn id=concept-doctype title=concept-doctype>doctype</dfn>
+(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
 <dfn id=domexception><code>DOMException</code></dfn>,
 <dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>, and
 <dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
 <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
-</p><p>The terms
-<em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>
-and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute
-is defined in the HTML5 specification
-<cite class="bibref normative">[<a href=#ref-HTML5>HTML5</a>]</cite>.</p>
+</p><p>The terms <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
+<dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a URL</dfn>, <dfn id=willful-violation>willful
+violation</dfn>, and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute is defined in the HTML5
+specification <cite class="bibref normative">[<a href=#ref-HTML5>HTML5</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
 <dfn id=entity><code>Entity</code></dfn>, and <dfn id=notation><code>Notation</code></dfn>
 are defined in the DOM3 Core specification <cite class="bibref
 normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.
+
+</p><p>The term <dfn id=concept-attribute-owner-element title=concept-attribute-owner-element>owner
+element</dfn> is defined in the <cite>Manakai DOM Extensions</cite>
+specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite>.
 
 </p><div class=ed>
 <p>Following paragraph need to be updated:
@@ -440,16 +444,6 @@ be considered as preceding any <a href=#concept-tree-child title=concept-tree-ch
 
 </li></ul>
 
-<dl class=ed>
-<dt><code id=baseURI>baseURI</code></dt>
-  <dd>
-    <p>On getting, the attribute <em class=rfc2119>MUST</em> return the
-    value of the <a href=#baseURI><code>baseURI</code></a> attribute
-    of the node in the <code>ownerDocument</code> attribute of the node.
-    Note that the value might be <a href=#null><code>null</code></a>.</p>
-  </dd>
-</dl>
-
 <hr>
 
 <p>A node of type <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>,
@@ -619,13 +613,6 @@ method</dt>
     an <a href=#Entity><code>Entity</code></a> node with the following
     attributes:</p>
     <dl>
-    <dt><code>manakaiDeclarationBaseURI</code>,
-    <code>manakaiEntityBaseURI</code>, and <code>manakaiEntityURI</code>
-    <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite></dt>
-      <dd><p class=section-info>This entry is applied only to implementations
-      that support these attributes.</p>
-
-      <p>No explicit value is set.</p></dd>
     <dt><a href=#isExternallyDeclared><code>isExternallyDeclared</code></a></dt>
       <dd><p><code>false</code>.</p></dd>
     <dt><code>nodeName</code></dt>
@@ -656,12 +643,6 @@ method</dt>
     <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
     a <a href=#notation><code>Notation</code></a> node with the following attributes:</p>
     <dl>
-    <dt><code>manakaiDeclarationBaseURI</code>
-    <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite></dt>
-      <dd><p class=section-info>This entry is applied only to implementations
-      that support these attributes.</p>
-
-      <p>No explicit value is set.</p></dd>
     <dt><code>nodeName</code></dt>
       <dd><a href=#createNotation-name><var>name</var></a>.</dd>
     <dt><code>ownerDocument</code></dt>
@@ -755,9 +736,11 @@ in the <code>NodeList</code> object in the <code>childNodes</code> attribute
 of the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
 </div>
 
-<pre class=idl id=section-documenttypedefinition><code>partial interface DocumentType {
-  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
-  [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
+<pre class=idl id=section-documenttypedefinition><code>partial interface <a href=#documenttype>DocumentType</a> {
+  [TreatNullAs=EmptyString] attribute <span>DOMString</span> <a href=#dom-publicid title=dom-publicId>publicId</a>;
+  [TreatNullAs=EmptyString] attribute <span>DOMString</span> <a href=#dom-systemid title=dom-systemId>systemId</a>;
+  attribute <span>DOMString</span>? <a href=#dom-documenttype-declarationbaseuri title=dom-DocumentType-declarationBaseURI>declarationBaseURI</a>;
+  attribute <span>DOMString</span>? <a href=#dom-documenttype-manakaideclarationbaseuri title=dom-DocumentType-manakaiDeclarationBaseURI>manakaiDeclarationBaseURI</a>;
 
   readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-documenttype-elementtypes title=dom-DocumentType-elementTypes>elementTypes</a>;
   readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-documenttype-generalentities title=dom-DocumentType-generalEntities>generalEntities</a>;
@@ -1396,9 +1379,12 @@ specified, their values are the empty string when the <a href=#concept-entity ti
 
   [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
   [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
+  attribute <span>DOMString</span>? <a href=#dom-declarationbaseuri title=dom-declarationBaseURI>declarationBaseURI</a>;
+  attribute <span>DOMString</span>? <a href=#dom-manakaideclarationbaseuri title=dom-manakaiDeclarationBaseURI>manakaiDeclarationBaseURI</a>;
   attribute <span>DOMString</span>? <span title=dom-Entity-notationName>notationName</span>;
   readonly attribute <span>DOMString</span> <a href=#dom-entity-hasreplacementtree title=dom-Entity-hasReplacementTree>hasReplacementTree</a>;
-
+  attribute <span>DOMString</span>? <a href=#dom-entity-manakaientityuri title=dom-Entity-manakaiEntityURI>manakaiEntityURI</a>;
+  attribute <span>DOMString</span>? <a href=#dom-manakaientitybaseuri title=dom-manakaiEntityBaseURI>manakaiEntityBaseURI</a>;
   attribute boolean <a href=#isExternallyDeclared>isExternallyDeclared</a>;
 };</code></pre>
 
@@ -1453,7 +1439,57 @@ of type <code>boolean</code></dt>
   attribute <em class=rfc2119>MUST</em> be set to the value of whether the
   entity is declared by an external markup declaration or not.</p></dd>
 </dl>
-</div>
+
+<hr>
+
+<p>A <a href=#concept-entity title=concept-entity>entity</a> has associated <dfn id=concept-entity-url title=concept-entity-url>entity URL</dfn> and <dfn id=concept-entity-base-url title=concept-entity-base-url>entity base URL</dfn>.  Unless otherwise
+specified, their values are <a href=#null>null</a>.
+
+</p><p>On getting, the <dfn id=dom-entity-manakaientityuri title=dom-Entity-manakaiEntityURI><code>manakaiEntityURI</code></dfn>
+attribute of the <a href=#entity><code>Entity</code></a> interface <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+<li>If the <a href=#concept-entity-url title=concept-entity-url>entity URL</a> of the
+<a href=#context-object>context object</a> is not <a href=#null>null</a>, return it and
+abort these steps.
+
+</li><li>Otherwise, if the <a href=#concept-entity-systemid title=concept-entity-systemid>system
+ID</a> of the <a href=#context-object>context object</a> is not the empty string,
+<a href=#resolve-a-url title="resolve a URL">resolve</a> it relative to the <a href=#concept-effective-declaration-base-url title=concept-effective-declaration-base-url>effective declaration
+base URL</a> of the <a href=#context-object>context object</a>.  If it succeeded,
+return the result and abort these steps.
+
+</li><li>Return <a href=#null>null</a>.
+
+</li></ol>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> run these
+steps:
+
+</p><ol>
+
+<li>If the new value is <a href=#null>null</a>, set the <a href=#concept-entity-url title=concept-entity-url>entity URL</a> of the <a href=#context-object>context
+object</a> to <a href=#null>null</a> and abort these steps.
+
+</li><li><a href=#resolve-a-url title="resolve a URL">Resolve</a> the new value relative
+to the <a href=#concept-effective-declaration-base-url title=concept-effective-declaration-base-url>effective
+declaration base URL</a> of the <a href=#context-object>context object</a>.  Set
+the <a href=#concept-entity-url title=concept-entity-url>entity URL</a> of the
+<a href=#context-object>context object</a> to the result if succeeded, or
+<a href=#null>null</a> otherwise.
+
+</li></ol>
+
+<div class="note memo">
+
+<p>It is expected that an <span>XML Parser</span> supporting this
+specification set the <a href=#concept-entity-url title=concept-entity-url>entity URL</a>
+when an external entity is read.
+
+</p></div>
+
+</div><!-- section -->
 
 <div class=section id=section-notation>
 <h2 id=notations><span class=secno>9 </span>Notations</h2>
@@ -1468,15 +1504,185 @@ specified, their values are the empty string when the <a href=#concept-notation 
   readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
   [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-publicid title=dom-publicId>publicId</a>;
   [TreatNullAs=EmptyString] attribute DOMString <a href=#dom-systemid title=dom-systemId>systemId</a>;
+  attribute <span>DOMString</span>? <a href=#dom-declarationbaseuri title=dom-declarationBaseURI>declarationBaseURI</a>;
+  attribute <span>DOMString</span>? <a href=#dom-manakaideclarationbaseuri title=dom-manakaiDeclarationBaseURI>manakaiDeclarationBaseURI</a>;
 };</code></pre>
 
 </div><!-- section -->
 
 <div class=section>
-<h2 id=obsolete-features><span class=secno>10 </span>Obsolete features</h2>
+<h2 id=base-urls><span class=secno>10 </span>Base URLs</h2>
+
+<p>To determine the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a>
+of a <span title=concept-node>node</span> <var title="">node</var>, these
+steps <em class=rfc2119>MUST</em> be followed:
+
+</p><ol>
+
+<li>If <var title="">node</var> is a <a href=#document-0><code>Document</code></a>, return
+<a href=#document-base-url>document base URL</a> of <var title="">node</var> and abort
+these steps.
+
+</li><li>If <var title="">node</var> is the <code>base</code> attribute in the
+<a href=#xml-namespace>XML namespace</a>:
+
+  <dl class=switch>
+
+  <dt>If the <a href=#concept-attribute-owner-element title=concept-attribute-owner-element>owner
+  element</a> of <var title="">node</var> is <a href=#null>null</a> </dt><dt>If
+  the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of the <a href=#concept-attribute-owner-element title=concept-attribute-owner-element>owner element</a> of <var title="">node</var> is <a href=#null>null</a>
+
+  </dt><dd>Return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of
+  the <a href=#concept-node-document title=concept-node-document>node document</a> of <var title="">node</var> and abort these steps.
+
+  </dd><dt>Otherwise
+
+  </dt><dd>Return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of
+  the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of the <a href=#concept-attribute-owner-element title=concept-attribute-owner-element>owner element</a> of <var title="">node</var> and abort these steps.
+  
+  </dd></dl>
+
+</li><li>Otherwise, if <var title="">node</var> is an <span title=concept-attribute>attribute</span>:
+
+  <dl class=switch>
+
+  <dt>If the <a href=#concept-attribute-owner-element title=concept-attribute-owner-element>owner
+  element</a> of <var title="">node</var> is <a href=#null>null</a>
+
+  </dt><dd>Return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of
+  the <a href=#concept-node-document title=concept-node-document>node document</a> of <var title="">node</var> and abort these steps.
+
+  </dd><dt>Otherwise
+
+  </dt><dd>Return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of
+  the <a href=#concept-attribute-owner-element title=concept-attribute-owner-element>owner element</a>
+  of <var title="">node</var> and abort these steps.
+  
+  </dd></dl>
+
+</li><li>If <var title="">node</var> is an <span title=concept-element>element</span> and it has the <code>base</code>
+attribute in the <span title="">XML namespace</span>, <a href=#resolve-a-url title="resolve a URL">resolve</a> the <span title=concept-attribute-value>value</span> of the <span title=concept-attribute>attribute</span> relative to the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <span title=concept-attribute>attribute</span>.  If it succeeded, return the
+result and abort these steps.
+
+</li><li>If the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of <var title="">node</var> is not <a href=#null>null</a>, return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> and abort these steps.
+
+</li><li><!-- If <var title>node</var> is not <span>in a document</span>,
+r-->Return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of
+the <a href=#concept-node-document title=concept-node-document>node document</a> of <var title="">node</var> and abort these steps.
+
+</li></ol>
+
+<div class="note memo">
+
+<p>These steps ignore external entity boundary, which is a
+<a href=#willful-violation>willful violation</a> to the <cite>XML Base</cite>
+specification <cite class="bibref informative">[<a href=#ref-XMLBASE>XMLBASE</a>]</cite>.
+
+</p></div>
+
+<hr>
+
+<p>On getting, the <dfn id=dom-documenttype-declarationbaseuri title=dom-DocumentType-declarationBaseURI><code>declarationBaseURI</code></dfn>
+and <dfn id=dom-documenttype-manakaideclarationbaseuri title=dom-DocumentType-manakaiDeclarationBaseURI><code>manakaiDeclarationBaseURI</code></dfn>
+attributes of the <a href=#documenttype><code>DocumentType</code></a> interface <em class=rfc2119>MUST</em> return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <a href=#context-object>context
+object</a>.  On setting, they <em class=rfc2119>MUST</em> do
+nothing.
+
+</p><p>Each <a href=#concept-entity title=concept-entity>entity</a> or <a href=#concept-notation title=concept-notation>notation</a> has an associated <dfn id=concept-declaration-base-url title=concept-declaration-base-url>declaration base URL</dfn>.  Its
+default value is <a href=#null>null</a>.
+
+</p><p>On getting, the <dfn id=dom-declarationbaseuri title=dom-declarationBaseURI><code>declarationBaseURI</code></dfn> and
+<dfn id=dom-manakaideclarationbaseuri title=dom-manakaiDeclarationBaseURI><code>manakaiDeclarationBaseURI</code></dfn>
+attributes of the <a href=#entity><code>Entity</code></a> or <a href=#notation><code>Notation</code></a>
+interface <em class=rfc2119>MUST</em> return <dfn id=concept-effective-declaration-base-url title=concept-effective-declaration-base-url>effective declaration
+base URL</dfn>, i.e. the <a href=#concept-declaration-base-url title=concept-declaration-base-url>declaration base URL</a> of the
+<a href=#context-object>context object</a> if it is not <a href=#null>null</a>, or the
+<a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <a href=#context-object>context
+object</a> otherwise.
+
+</p><p>On setting, they <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+<li>If the new value is <a href=#null>null</a>, set the <a href=#concept-declaration-base-url title=concept-declaration-base-url>declaration base URL</a> of the
+<a href=#context-object>context object</a> to <a href=#null>null</a> and abort these
+steps.
+
+</li><li>Otherwise, <a href=#resolve-a-url title="resolve a URL">resolve</a> the new
+value relative to the <a href=#concept-node-base-url title=concept-node-base-url>base
+URL</a> of the <a href=#context-object>context object</a>.  Set the <a href=#concept-declaration-base-url title=concept-declaration-base-url>declaration base URL</a> of the
+<a href=#context-object>context object</a> to the result, if it succeeded, or
+<a href=#null>null</a>, otherwise.
+
+</li></ol>
+
+<hr>
+
+<pre class=idl><code>partial interface <a href=#document-0>Document</a> {
+  attribute <span>DOMString</span>? <a href=#dom-manakaientitybaseuri title=dom-manakaiEntityBaseURI>manakaiEntityBaseURI</a>;
+};</code></pre>
+
+<p>The <span title=concept-document>document</span>, like <a href=#concept-entity title=concept-entity>entities</a>, has the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a>, initially
+<a href=#null>null</a>.
+
+</p><p>On getting, the <dfn id=dom-manakaientitybaseuri title=dom-manakaiEntityBaseURI><code>manakaiEntityBaseURI</code></dfn>
+attribute of the <a href=#document-0><code>Document</code></a> or <a href=#entity><code>Entity</code></a>
+interface <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+<li>If the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a>
+of the <a href=#context-object>context object</a> is not <a href=#null>null</a>, return it
+and abort these steps.
+
+</li><li>Otherwise, if the <a href=#context-object>context object</a> is
+<a href=#entity><code>Entity</code></a>, return the <a href=#dom-entity-manakaientityuri><code title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code></a> attribute
+value of the <a href=#context-object>context object</a>.
+
+</li><li>Otherwise, return <a href="#the-document's-address">the document's address</a> of the
+<a href=#context-object>context object</a>.
+
+</li></ol>
+
+<p>On setting, the attribute <em class=rfc2119>MUST</em> run these
+steps:
+
+</p><ol>
+
+<li>If the new value is <a href=#null>null</a>, set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a> of the
+<a href=#context-object>context object</a> to <a href=#null>null</a> and abort these
+steps.
+
+</li><li><a href=#resolve-a-url title="resolve a URL">Resolve</a> the new value relative
+to the <a href=#dom-entity-manakaientityuri><code title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code></a>
+attribute value, if the <a href=#context-object>context object</a> is an
+<a href=#entity><code>Entity</code></a>, or <a href="#the-document's-address">the document's address</a> otherwise,
+of the <a href=#context-object>context object</a>.  Set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a> of the
+<a href=#context-object>context object</a> to the result if succeeded, or
+<a href=#null>null</a> otherwise.
+
+</li></ol>
+
+<div class="note memo">
+
+<p>It is expected that an <span>XML Parser</span> supporting this
+specification set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base
+URL</a> when a document or external entity is read.  If the entity
+is retrieved using HTTP, the <code>Content-Base:</code> and
+<code>Content-Location:</code> header fields might affect the value.
+Note also that they does not affect the value of the <a href=#document-base-url>document
+base URL</a> of the <span title=concept-document>document</span>.
+
+</p></div>
+
+
+</div><!-- section -->
+
+<div class=section>
+<h2 id=obsolete-features><span class=secno>11 </span>Obsolete features</h2>
 
 <div class=section id=features>
-<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>10.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
+<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>11.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
 
 <p>Ealier versions of this specification defined the DOM feature <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
 <dfn id=feature-XDoctype><code>http://suika.suikawiki.org/www/2006/feature/XDoctype</code></dfn>
@@ -1484,7 +1690,7 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 </p></div><!-- section -->
 
 <div class=section>
-<h3 id=obsolete-attribute><span class=secno>10.2 </span>Obsolete attribute</h3>
+<h3 id=obsolete-attribute><span class=secno>11.2 </span>Obsolete attribute</h3>
 
 <p>The <code id=internalSubset>internalSubset</code> attribute of the
 <a href=#DocumentTypeDefinition><code>DocumentTypeDefinition</code></a>
@@ -1501,7 +1707,19 @@ interface has been removed.
 
 </p></div>
 
-</div><!-- section -->
+<pre class=idl><code>partial interface <span>Element</span> {
+  readonly attribute DOMString? <a href=#dom-manakaibaseuri title=dom-manakaiBaseURI>manakaiBaseURI</a>;
+};
+
+partial interface <span>ProcessingInstruction</span> {
+  readonly attribute DOMString? <a href=#dom-manakaibaseuri title=dom-manakaiBaseURI>manakaiBaseURI</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-manakaibaseuri title=dom-manakaiBaseURI><code>manakaiBaseURI</code></dfn>
+attribute of the <code>Element</code> and
+<code>ProcessingInstruction</code> interfaces <em class=rfc2119>MUST</em> return <a href=#null>null</a>.
+
+</p></div><!-- section -->
 
 </div><!-- section -->
 
@@ -1601,7 +1819,13 @@ Standard</a></cite>, WHATWG.
   Version 1.0</a></cite>, <abbr>W3C</abbr> Note, <time datetime=2002-07-25>25
   July 2002</time>.  The latest version of the specification is available at
   <code class=uri>&lt;<a href=http://www.w3.org/TR/DOM-Level-3-AS>http://www.w3.org/TR/DOM-Level-3-AS</a>&gt;</code>.</dd>
-<dt id=ref-XSAPI>XSAPI</dt>
+
+<dt id=ref-XMLBASE>XMLBASE
+
+</dt><dd><cite><a href=http://www.w3.org/TR/xmlbase/>XML Base</a></cite>,
+W3C.
+
+</dd><dt id=ref-XSAPI>XSAPI</dt>
   <dd><cite><a href=http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/><abbr>XML</abbr>
   Schema <abbr>API</abbr></a></cite>, <abbr>W3C</abbr> Member Submission,
   <time datetime=2004-03-09>9 March 2004</time>.  The latest version of the

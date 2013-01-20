@@ -1862,10 +1862,11 @@ and abort these steps.
 <li>Otherwise, if the <span>context object</span> is
 <code>Entity</code>, return the <code
 title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code> attribute
-value of the <span>context object</span>.
+value of the <span>context object</span> if it is not
+<span>null</span>.
 
-<li>Otherwise, return <span>the document's address</span> of the
-<span>context object</span>.
+<li>Otherwise, return the <span title=concept-node-base-url>base
+URL</span> of the <span>context object</span>.
 
 </ol>
 
@@ -1882,8 +1883,9 @@ steps.
 <li><span title="resolve a URL">Resolve</span> the new value relative
 to the <code title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code>
 attribute value, if the <span>context object</span> is an
-<code>Entity</code>, or <span>the document's address</span> otherwise,
-of the <span>context object</span>.  Set the <span
+<code>Entity</code> and it it not <span>null</span>, or the <span
+title=concept-node-base-url>base URL</span> otherwise, of the
+<span>context object</span>.  Set the <span
 title=concept-entity-base-url>entity base URL</span> of the
 <span>context object</span> to the result if succeeded, or
 <span>null</span> otherwise.

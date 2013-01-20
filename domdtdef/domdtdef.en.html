@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 19 January 2013</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 20 January 2013</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -1637,10 +1637,11 @@ and abort these steps.
 
 </li><li>Otherwise, if the <a href=#context-object>context object</a> is
 <a href=#entity><code>Entity</code></a>, return the <a href=#dom-entity-manakaientityuri><code title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code></a> attribute
-value of the <a href=#context-object>context object</a>.
+value of the <a href=#context-object>context object</a> if it is not
+<a href=#null>null</a>.
 
-</li><li>Otherwise, return <a href="#the-document's-address">the document's address</a> of the
-<a href=#context-object>context object</a>.
+</li><li>Otherwise, return the <a href=#concept-node-base-url title=concept-node-base-url>base
+URL</a> of the <a href=#context-object>context object</a>.
 
 </li></ol>
 
@@ -1656,8 +1657,8 @@ steps.
 </li><li><a href=#resolve-a-url title="resolve a URL">Resolve</a> the new value relative
 to the <a href=#dom-entity-manakaientityuri><code title=dom-Entity-manakaiEntityURI>manakaiEntityURI</code></a>
 attribute value, if the <a href=#context-object>context object</a> is an
-<a href=#entity><code>Entity</code></a>, or <a href="#the-document's-address">the document's address</a> otherwise,
-of the <a href=#context-object>context object</a>.  Set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a> of the
+<a href=#entity><code>Entity</code></a> and it it not <a href=#null>null</a>, or the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> otherwise, of the
+<a href=#context-object>context object</a>.  Set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base URL</a> of the
 <a href=#context-object>context object</a> to the result if succeeded, or
 <a href=#null>null</a> otherwise.
 

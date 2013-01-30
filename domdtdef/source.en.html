@@ -94,6 +94,13 @@ existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr>
 applications are able to access to the definitions of the document
 type.</p>
 
+<p>The primary goal of the features defined by this specification is
+to make it possible to built an XML DTD validator on the top of the
+extended DOM API (combined with an XML parser implementation aware of
+that API).  It supports both XML 1.0 <cite class="bibref
+normative">[<a href="#ref-XML10">XML10</a>]</cite> and XML 1.1 <cite
+class="bibref normative">[<a href="#ref-XML11">XML11</a>]</cite>.
+
 <p>Interfaces defined in this document are partially modeled and inspired by
 early drafts of <abbr>DOM</abbr> Level 1
 <cite class="bibref informative">[<a href="#ref-DOM1WD">DOM1WD</a>]</cite>,
@@ -244,28 +251,58 @@ in the <i>patch</i>, then the former instance of
 <div class=section id=section-node>
 <h2 id=Node>Nodes</h2>
 
-<p>This specification introduces two kinds of nodes: <span
+<p>This specification introduces two kinds of <span
+class=concept-node>nodes</span>: <span
 title=concept-element-type>element types</span> and <span
 title=concept-attribute-definition>attribute definitions</span>.
 Also, this specification reuses two kinds of nodes defined by DOM3
 Core specification <cite class="bibref normative">[<a
-href="#ref-DOM3CORE">DOM3CORE</a>]</cite> but obsoleted by current DOM
-Standard <cite class="bibref normative">[<a
-href="#ref-DOM">DOM</a>]</cite>: <span
+href="#ref-DOM3CORE">DOM3CORE</a>]</cite> (but obsoleted by current
+DOM Standard <cite class="bibref normative">[<a
+href="#ref-DOM">DOM</a>]</cite>): <span
 title=concept-entity>entities</span> and <span
-title=concept-notation>notations</span>.  This specification defines
-how DOM Core methods and attribute have to behave, if it is not
-convered by those DOM specifications.  For node types not specified by
-this specification, the requirements in the DOM Standard have to be
-followed (except for <span title=concept-doctype>doctypes</span> -
-this specification sometimes modifies the original definition of the
-DOM Standard for the integration with new node types).  For node types
-introduced by this specification, unless otherwise specified by this
-specification, the requirements in the DOM Standard <em
-class=rfc2119>MUST</em> be followed.  For node types specified by DOM3
-Core specification but obsoleted by the DOM Standard, unless otherwise
-specified by this specification, the requirements in the DOM3 Core
-specification <em class=rfc2119>MUST</em> be followed.
+title=concept-notation>notations</span>.  Requirements on <span
+class=concept-node>nodes</span> are applied by the following rules:
+
+<dl class=switch>
+
+<dt>Node types introduced by this specification
+(<code>ElementTypeDefinition</code> and
+<code>AttributeDefinition</code>)
+
+<dd>If this specification explicitly states requirements for them,
+they have to be followed.  Otherwise, requirements mentioned in the
+DOM Standard have to be followed.
+
+<dt><code>DocumentType</code>
+
+<dd>If this specification explicitly states requirements for it, they
+have to be followed.  Otherwise, requirements mentioned in the DOM
+Standard have to be followed.
+
+<div class="note memo">
+
+<p>This specification defines how nodes attached to the
+<code>DocumentType</code> (e.g. <code>ElementTypeDefinition</code> and
+<code>Entity</code>) affect to attributes and methods of the <span
+title=concept-node>nodes</span>.  When the <code>DocumentType</code>
+has no such attached node, they are expected to behave as specified by
+the DOM Standard.
+
+</div>
+
+<dt>Node types defined in DOM3 Core specification but obsoleted by DOM
+Standard (<code>Entity</code> and <code>Notation</code>)
+
+<dd>If this specification explicitly states requirements for them,
+they have to be followed.  Otherwise, requirements mentioned in the
+DOM3 Core specification have to be followed.
+
+<dt>Other node types
+
+<dd>Requirements in the DOM Standard have to be followed.
+
+</dl>
 
 <p>Nodes of types <code>ElementTypeDefinition</code>,
 <code>AttributeDefinition</code>, <code>Entity</code>, and
@@ -280,6 +317,8 @@ kind of node as <span title=concept-tree-child>child</span>.
   title=concept-tree-child>children</span>.
 
 </div>
+
+<hr>
 
 <pre class=idl><code>partial interface <span>Node</span> {
   const unsigned short <span title=dom-Node-ELEMENT_TYPE_DEFINITION_NODE>ELEMENT_TYPE_DEFINITION_NODE</span> = 81001;
@@ -309,11 +348,12 @@ title=concept-element-type-name>element type name</span> or <span
 title=concept-attribute-definition-name>attribute definition
 name</span>) of the node.
 
-<p>The attributes <code title=dom-Node-attributes>attributes</code>,
-<code title=dom-Node-localName>localName</code>, <code
+<p>If the <span title=concept-node>node</span> has attributes <code
+title=dom-Node-attributes>attributes</code>, <code
+title=dom-Node-localName>localName</code>, <code
 title=dom-Node-namespaceURI>namespaceURI</code>, and <code
-title=dom-Node-prefix>prefix</code> <em class=rfc2119>MUST</em> return
-<code>null</code>.<!-- NodeExodus / AttrExodus -->
+title=dom-Node-prefix>prefix</code>, they <em class=rfc2119>MUST</em>
+return <code>null</code>.<!-- NodeExodus / AttrExodus -->
 
 <p>The <code title=dom-Node-nodeValue>nodeValue</code> attribute and
 the <code title=dom-Node-textContent>textContent</code> attribute <em

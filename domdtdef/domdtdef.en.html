@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 30 January 2013</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 1 February 2013</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -190,9 +190,10 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 object</dfn>, <dfn id=xml-namespace>XML namespace</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node><code>Node</code></dfn>,
 <dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
 (<dfn id=document-0><code>Document</code></dfn>), <dfn id=in-a-document>in a document</dfn>, <dfn id=concept-doctype title=concept-doctype>doctype</dfn>
-(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
+(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=concept-doctype-name title=concept-doctype-name>doctype name</dfn>, <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
 <dfn id=domexception><code>DOMException</code></dfn>,
-<dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>, and
+<dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>,
+<dfn id=invalidcharactererror><code>InvalidCharacterError</code></dfn>, and
 <dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
 <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
@@ -210,6 +211,10 @@ normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.
 </p><p>The term <dfn id=concept-attribute-owner-element title=concept-attribute-owner-element>owner
 element</dfn> is defined in the <cite>Manakai DOM Extensions</cite>
 specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite>.
+
+</p><p>The term <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>
+is defined in the XML 1.0 specification <cite class="bibref
+normative">[<a href=#ref-XML10>XML10</a>]</cite>.
 
 </p><div class=ed>
 <p>Following paragraph need to be updated:
@@ -533,164 +538,104 @@ normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> <em class=rfc2119>MUST</e
 <div class=section id=section-document>
 <h2 id=Document><span class=secno>4 </span>Documents</h2>
 
-<pre class=idl id=section-documentxdoctype><code>partial interface Document {
-  DocumentType <a href=#createDocumentTypeDefinition>createDocumentTypeDefinition</a>
-    (in DOMString <a href=#createDocumentTypeDefinition-name><var>name</var></a>)
-    raises (DOMException);
-  <a href=#ElementTypeDefinition>ElementTypeDefinition</a> <a href=#createElementTypeDefinition>createElementTypeDefinition</a>
-    (in DOMString <a href=#createElementTypeDefinition-name><var>name</var></a>)
-    raises (DOMException);
-  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#createAttributeDefinition>createAttributeDefinition</a>
-    (in DOMString <a href=#createAttributeDefinition-name><var>name</var></a>)
-    raises (DOMException);
-  <a href=#Entity>Entity</a> <a href=#createGeneralEntity>createGeneralEntityDefinition</a>
-    (in DOMString <a href=#createGeneralEntity-name><var>name</var></a>)
-    raises (DOMException);
-  <a href=#Notation>Notation</a> <a href=#createNotation>createNotation</a>
-    (in DOMString <a href=#createNotation-name><var>name</var></a>)
-    raises (DOMException);
-}</code></pre>
+<p>Several factory methods are added to the <a href=#document-0><code>Document</code></a>
+interface.
+
+</p><pre class=idl id=section-documentxdoctype><code>partial interface <a href=#document-0>Document</a> {
+  <a href=#documenttype>DocumentType</a> <a href=#dom-document-createdocumenttypedefinition title=dom-Document-createDocumentTypeDefinition>createDocumentTypeDefinition</a>(<span>DOMString</span> name);
+  <a href=#ElementTypeDefinition>ElementTypeDefinition</a> <a href=#dom-document-createelementtypedefinition title=dom-Document-createElementTypeDefinition>createElementTypeDefinition</a>(<span>DOMString</span> name);
+  <a href=#AttributeDefinition>AttributeDefinition</a> <a href=#dom-document-createattributedefinition title=dom-Document-createAttributeDefinition>createAttributeDefinition</a>(<span>DOMString</span> name);
+  <a href=#entity>Entity</a> <a href=#dom-document-creategeneralentity title=dom-Document-createGeneralEntity>createGeneralEntity</a>(<span>DOMString</span> name);
+  <a href=#notation>Notation</a> <a href=#dom-document-createnotation title=dom-Document-createNotation>createNotation</a>(<span>DOMString</span> name);
+};</code></pre>
 
 <div class="note memo">
   <p>Earlier versions of this specification called this WebIDL
   fragment as the <dfn id=DocumentXDoctype><code>DocumentXDoctype</code></dfn> interface.
 </p></div>
 
-<dl>
-<dt><dfn class=dom-method id=createDocumentTypeDefinition><code>createDocumentTypeDefinition</code></dfn>,
-method</dt>
-  <dd>
-    <p>This method creates a <a href=#documenttype><code>DocumentType</code></a> node with the specified
-    name, belonging to the document.</p>
-    <p>The
-    <dfn class=dom-param id=createDocumentTypeDefinition-name><var>name</var></dfn>
-    parameter is the name of the document type.</p>
+<p>The <dfn id=dom-document-createdocumenttypedefinition title=dom-Document-createDocumentTypeDefinition><code id=createDocumentTypeDefinition>createDocumentTypeDefinition(<var>name</var>)</code></dfn>
+method <em class=rfc2119>MUST</em> run these steps:
 
-    <p>When invoked, the method <em class=rfc2119>MUST</em> create and
-    return a <a href=#DocumentType><code>DocumentType</code></a> node with
-    the following attributes:</p>
-    <dl>
-    <dt><code>parentNode</code></dt>
-      <dd><a href=#null><code>null</code></a>.</dd>
-    <dt><code>childNodes</code></dt>
-      <dd>An empty <code>NodeList</code> object.</dd>
-    <dt><a href=#publicId><code>publicId</code></a> and
-    <a href=#systemId><code>systemId</code></a></dt>
-      <dd>Empty strings.</dd>
-    <dt><code>nodeName</code></dt>
-      <dd><a href=#createDocumentTypeDefinition-name><var>name</var></a>.</dd>
-    <dt><code>ownerDocument</code></dt>
-      <dd>The <a href=#Document><code>Document</code></a> node over which the
-      method is invoked.</dd>
-    </dl>
-  </dd>
-<dt><dfn class=dom-method id=createElementTypeDefinition><code>createElementTypeDefinition</code></dfn>,
-method</dt>
-  <dd>
-    <p>This method creates a <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node with the
-    specified name, belonging to the document.</p>
-    <p>The <dfn class=dom-param id=createElementTypeDefinition-name><var>name</var></dfn>
-    parameter is the name of the element type defined by the element
-    type definition.</p>
+</p><ol>
 
-    <p>When invoked, the method <em class=rfc2119>MUST</em> create and 
-    return an
-    <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a>
-    node with the following attributes:</p>
-    <dl>
-    <dt><a href=#nodeName><code>nodeName</code></a></dt>
-      <dd><a href=#createElementTypeDefinition-name><var>name</var></a>.</dd>
-    <dt><code>ownerDocument</code></dt>
-      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    </dl>
-  </dd>
-<dt><dfn class=dom-method id=createAttributeDefinition><code>createAttributeDefinition</code></dfn>,
-method</dt>
-  <dd>
-    <p>This method creates a <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node with the
-    specified name, belonging to the document.</p>
-    <p>The <dfn class=dom-param id=createAttributeDefinition-name><var>name</var></dfn>
-    parameter is the name of the attribute defined by the attribute
-    definition.</p>
+  <li>If <var title="">name</var> does not match the <a href=#getAttributeDefinitionNode-name><code>Name</code></a>
+  production, <a href=#throw>throw</a> an
+  "<a href=#invalidcharactererror><code>InvalidCharacterError</code></a>" exception and terminate these
+  steps.
 
-    <p>When invoked, the method <em class=rfc2119>MUST</em> create and 
-    return an
-    <a href=#AttributeDefinition><code>AttributeDefinition</code></a>
-    node with the following attributes:</p>
-    <dl>
-    <dt><a href=#nodeName><code>nodeName</code></a></dt>
-      <dd><a href=#createAttributeDefinition-name><var>name</var></a>.</dd>
-    <dt><code>ownerDocument</code></dt>
-      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    </dl>
+  </li><li>Return a new <a href=#concept-doctype title=concept-doctype>doctype</a>, with
+  <var title="">name</var> as its <a href=#concept-doctype-name title=concept-doctype-name>name</a> and with its <a href=#concept-node-document title=concept-node-document>node document</a> set to the
+  <a href=#context-object>context object</a>.
 
-    <div class=ed>
-<p>If xml:id is supported and the DOM is created by an xml:id aware
-XML parser:
+</li></ol>
 
-</p><p>However, if the &lt;cfg::cfg|xml-id&gt; configuration
-parameter is set to <code>true</code> and the <a href=#getAttributeDefinitionNode-name><var>name</var></a>
-is <code>xml:id</code>, then the [CODE(DOMa)@en[[[declaredType]]]]
-attribute is set to <a href=#ID_ATTR><code>ID_ATTR</code></a>.
-[CODE(DOMa)@en[[[defaultType]]]]?</p>
-    </div>
-  </dd>
-<dt><dfn class=dom-method id=createGeneralEntity><code>createGeneralEntity</code></dfn>,
-method</dt>
-  <dd>
-    <p>This method creates a <a href=#Entity><code>Entity</code></a> node
-    with the specified name, which represents a general entity, belonging to
-    the document.</p>
-    <p>The <dfn class=dom-param id=createGeneralEntity-name><var>name</var></dfn>
-    parameter is the name of the general entity.</p>
+<p>The <dfn id=dom-document-createelementtypedefinition title=dom-Document-createElementTypeDefinition><code id=createDocumentTypeDefinition>createElementTypeDefinition(<var>name</var>)</code></dfn>
+method <em class=rfc2119>MUST</em> run these steps:
 
-    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
-    an <a href=#Entity><code>Entity</code></a> node with the following
-    attributes:</p>
-    <dl>
-    <dt><a href=#isExternallyDeclared><code>isExternallyDeclared</code></a></dt>
-      <dd><p><code>false</code>.</p></dd>
-    <dt><code>nodeName</code></dt>
-      <dd><a href=#createGeneralEntity-name><var>name</var></a>.</dd>
-      <dd>
-        <div class="note memo">
-          <p>It is not an error for
-          <a href=#createGeneralEntity-name><var>name</var></a> matching
-          to the name of one of predefined general parsed entities in
-          <abbr>XML</abbr> or <abbr>HTML</abbr>.  For example, 
-          <a href=#createGeneralEntity-name><var>name</var></a> might be
-          <code>amp</code>, resulting in an
-          <a href=#Entity><code>Entity</code></a> node
-          with its <code>nodeName</code> attribute set to <code>amp</code>.</p>
-        </div>
-      </dd>
-    <dt><code>ownerDocument</code></dt>
-      <dd>The <a href=#document-0><code>Document</code></a> node over which the method is invoked.</dd>
-    </dl>
-</dd><dt><dfn class=dom-method id=createNotation><code>createNotation</code></dfn>,
-method</dt>
-  <dd>
-    <p>This method creates a <a href=#notation><code>Notation</code></a> node with the
-    specified name, belonging to the document.</p>
-    <p>The <dfn class=dom-param id=createNotation-name><var>name</var></dfn>
-    parameter is the name of the notation.</p>
+</p><ol>
 
-    <p>When invoked, the method <em class=rfc2119>MUST</em> create and return
-    a <a href=#notation><code>Notation</code></a> node with the following attributes:</p>
-    <dl>
-    <dt><code>nodeName</code></dt>
-      <dd><a href=#createNotation-name><var>name</var></a>.</dd>
-    <dt><code>ownerDocument</code></dt>
-      <dd><p>The <a href=#Document><code>Document</code></a> node over which
-      the method is invoked.</p></dd>
-    </dl>
-</dd></dl>
+  <li>If <var title="">name</var> does not match the <a href=#getAttributeDefinitionNode-name><code>Name</code></a>
+  production, <a href=#throw>throw</a> an
+  "<a href=#invalidcharactererror><code>InvalidCharacterError</code></a>" exception and terminate these
+  steps.
 
-<p>These methods <em class=rfc2119>MUST</em> raise an
-<code>INVALID_CHARACTER_ERR</code> if <a href=#getAttributeDefinitionNode-name><var>name</var></a> is <em>not</em>
-a legal <a href=#getAttributeDefinitionNode-name><code>Name</code></a> <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.
+  </li><li>Return a new <a href=#concept-element-type title=concept-element-type>element
+  type</a>, with <var title="">name</var> as its <a href=#concept-element-type-name title=concept-element-type-name>name</a> and with its <a href=#concept-node-document title=concept-node-document>node document</a> set to the
+  <a href=#context-object>context object</a>.
 
-</p><div class="note memo">
+</li></ol>
+
+<p>The <dfn id=dom-document-createattributedefinition title=dom-Document-createAttributeDefinition><code id=createDocumentTypeDefinition>createAttributeDefinition(<var>name</var>)</code></dfn>
+method <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+  <li>If <var title="">name</var> does not match the <a href=#getAttributeDefinitionNode-name><code>Name</code></a>
+  production, <a href=#throw>throw</a> an
+  "<a href=#invalidcharactererror><code>InvalidCharacterError</code></a>" exception and terminate these
+  steps.
+
+  </li><li>Return a new <a href=#concept-attribute-definition title=concept-attribute-definition>attribute
+  definition</a>, with <var title="">name</var> as its <a href=#concept-attribute-definition-name title=concept-attribute-definition-name>name</a> and with its
+  <a href=#concept-node-document title=concept-node-document>node document</a> set to the
+  <a href=#context-object>context object</a>.
+
+</li></ol>
+
+<p>The <dfn id=dom-document-creategeneralentity title=dom-Document-createGeneralEntity><code id=createDocumentTypeDefinition>createGeneralEntity(<var>name</var>)</code></dfn>
+method <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+  <li>If <var title="">name</var> does not match the <a href=#getAttributeDefinitionNode-name><code>Name</code></a>
+  production, <a href=#throw>throw</a> an
+  "<a href=#invalidcharactererror><code>InvalidCharacterError</code></a>" exception and terminate these
+  steps.
+
+  </li><li>Return a new <a href=#concept-general-entity title=concept-general-entity>general
+  entity</a>, with <var title="">name</var> as its <span title=concept-entity-name>name</span> and with its <a href=#concept-node-document title=concept-node-document>node document</a> set to the
+  <a href=#context-object>context object</a>.
+
+</li></ol>
+
+<p>The <dfn id=dom-document-createnotation title=dom-Document-createNotation><code id=createDocumentTypeDefinition>createNotation(<var>name</var>)</code></dfn>
+method <em class=rfc2119>MUST</em> run these steps:
+
+</p><ol>
+
+  <li>If <var title="">name</var> does not match the <a href=#getAttributeDefinitionNode-name><code>Name</code></a>
+  production, <a href=#throw>throw</a> an
+  "<a href=#invalidcharactererror><code>InvalidCharacterError</code></a>" exception and terminate these
+  steps.
+
+  </li><li>Return a new <a href=#concept-notation title=concept-notation>notation</a>, with
+  <var title="">name</var> as its <span title=concept-notation-name>name</span> and with its <a href=#concept-node-document title=concept-node-document>node document</a> set to the
+  <a href=#context-object>context object</a>.
+
+</li></ol>
+
+<div class="note memo">
 <p><a href=#getAttributeDefinitionNode-name><var>name</var></a> does not have to be a namespace qualified name.</p>
 </div>
 

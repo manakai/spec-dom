@@ -136,10 +136,10 @@ title=dom-DOMImplementation-createDocument><code>createDocument</code></dfn>
 are defined by the DOM Standard <cite class="bibref normative">[<a
 href="#ref-DOM">DOM</a>]</cite>.
 
-<p>The terms <dfn>resolve a URL</dfn> and <dfn>valid normalized
-forced-UTC global date and time string</dfn> are defined by the HTML
-Standard <cite class="bibref normative">[<a
-href="#ref-HTML">HTML</a>]</cite>.
+<p>The terms <dfn>resolve a URL</dfn>, <dfn>parse a global date and
+time string</dfn>, and <dfn>valid normalized forced-UTC global date
+and time string</dfn> are defined by the HTML Standard <cite
+class="bibref normative">[<a href="#ref-HTML">HTML</a>]</cite>.
 
 <p>The <dfn>Atom namespace</dfn> is
 <code>http://www.w3.org/2005/Atom</code>.
@@ -506,7 +506,8 @@ the <span>HTML namespace</span>.
 <section>
 <h3>The <code>AtomPersonConstruct</code> interface</h3>
 
-<pre class=idl><code>interface <dfn>AtomPersonConstruct</dfn> : <span>AtomElement</span> {
+<pre class=idl><code>[NoInterfaceObject]
+interface <dfn>AtomPersonConstruct</dfn> : <span>AtomElement</span> {
   attribute <span>DOMString</span> <span title=dom-AtomPersonConstruct-name>name</span>;
   readonly attribute <span>AtomNameElement</span>? <span title=dom-AtomPersonConstruct-nameElement>nameElement</span>;
   attribute <span>DOMString</span> <span title=dom-AtomPersonConstruct-uri>uri</span>;
@@ -534,6 +535,33 @@ title=dom-AtomPersonConstruct-email><code>email</code></dfn> attribute
 child element">reflect the string value of the <code>name</code> child
 element</span>.
 
+</section>
+
+<section>
+<h3>The <code>AtomDateConstruct</code> interface</h3>
+
+<pre class=idl><code>[NoInterfaceObject]
+interface <dfn>AtomDateConstruct</dfn> : <span>AtomElement</span> {
+  attribute <span>DOMTimeStamp</span> <span title=dom-AtomDateConstruct-value>value</span>;
+};</code></pre>
+
+<p>On getting, the <dfn
+title=dom-AtomDateConstruct-value><code>value</code></dfn> attribute
+of the <code>AtomDateConstruct</code> interface <em
+class=rfc2119>MUST</em> <span title="parse a global date and time
+string">parse</span> the <code
+title=dom-Node-textContent>textContent</code> of the <span>context
+object</span> and return the result (or zero if failed).  <span
+class=ed>Implementations are required to implement more tolerant
+datetime parsing algorithm for compatibility with Atom documents in
+the wild...</span>
+
+<p>On setting, the <code
+title=dom-AtomDateConstruct-value>value</code> attribute of the
+<code>AtomDateConstruct</code> interface <em class=rfc2119>MUST</em>
+act as if the <code title=dom-Node-textContent>textContent</code>
+attribute is set to the <span>valid normalized forced-UTC global date
+and time string</span> representation of the given value.
 </section>
 
 </section>
@@ -736,116 +764,6 @@ element</span>.
         }
       }__;
 ##AtomImplementation
-
-IFClsConstructDef:
-  @IFQName: AtomDateConstruct
-  @ClsQName: ManakaiAtomDateConstruct
-  @AGQName: DateAG
-  @AGName: date
-  @CMQName: DateCM
-  @CMName: date
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm:
-    (dxm|PCDATA)*
-  @enImplNote:
-    @@ddid: cm
-    @@@:
-      {TODO::
-        xsd|dateTime
-      }
-
-  @enDesc:
-    The <IF::AtomDateConstruct> interface provides convenience
-    methods and attributes for <IF::Element> nodes
-    classfied to the Date constructs.  Other <IF::Element>
-    objects <kwd:MAY> also implement the <IF::AtomDateConstruct>
-    interface.
-
-    A Date construct is an element whose content is a date that
-    conforms to the uppercase version of the RFC 3339 format.
-
-  @Attr:
-    @@Name: value
-    @@enDesc:
-      The date value of the node.
-
-      {ISSUE::
-
-        - Out of range of platform DOMTimeStamp type
-
-        - Errorous xsd:dateTime
-
-        - Leap seconds
-
-        - Timezone
-
-        - Precision
-
-      }
-    @@Type: DOMTimeStamp
-    @@Get:
-      @@@enDesc:
-        {TODO:: Define
-        }
-      @@@PerlDef:
-        my $value = $self-><AG::Node.textContent>;
-        if ($value =~ /\A(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)(\.\d+)?
-                         (?:Z|([+-]\d+):(\d+))\z/x) {
-          require Time::Local;
-          $r = Time::Local::timegm_nocheck
-                 ($6, defined $8 ? $8 > 0 ? $5 - $9 : $5 + $9 : $5,
-                  defined $8 ? $4 - $8 : $4, $3, $2-1, $1-1900);
-          $r += "0$7" if defined $7;
-        } else {
-          $r = 0;
-        }
-    @@Set:
-      @@@enDesc:
-        {TODO:: Define
-        }
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __DEEP{
-          my @value = gmtime (int ($given / 1));
-          my $value = sprintf '%04d-%02d-%02dT%02d:%02d:%02d',
-                              $value[5] + 1900, $value[4] + 1,
-                              $value[3], $value[2], $value[1], $value[0];
-          my $f = $given % 1;
-          $value .= substr (''.$f, 1) if $f;
-          $value .= 'Z';
-          $self-><AS::Node.textContent> ($value);
-        }__;
-
-  @enImplNote:
-    @@ddid: todo
-    @@@:
-      {TODO::
-         Access to components, especially timezone and -00:00.
-      }
-##AtomDateConstruct
-
-ECDef:
-  @QName: feed-prop
-  @mv:elementTypeClassName: feed-prop
-  @mv:refers: atom|author
-  @mv:refers: atom|category
-  @mv:refers: atom|contributor
-  @mv:refers: atom|generator
-  @mv:refers: atom|icon
-  @mv:refers: atom|id
-  @mv:refers: atom|link
-  @mv:refers: atom|logo
-  @mv:refers: atom|rights
-  @mv:refers: atom|subtitle
-  @mv:refers: atom|title
-  @mv:refers: atom|updated
-  @mv:refers: extensionElements
 
 IFClsETDef:
   @IFQName: AtomFeedElement

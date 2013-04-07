@@ -1,7 +1,6 @@
 <!DOCTYPE html><html class="formal-specification anolis" lang=en><head>
 <title>Atom DOM</title>
 <link href=http://suika.fam.cx/www/style/html/spec rel=stylesheet>
-<link href=http://suika.fam.cx/www/style/def/dom rel=stylesheet>
 <link href=#license rel=license>
 </head>
 <body class=has-abstract>
@@ -25,7 +24,9 @@
 
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
-related or neighboring rights to this work.
+related or neighboring rights to this work.  In addition, as of
+7 April 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
 
@@ -147,8 +148,10 @@ be interpreted as described in the WebIDL specification <cite class="bibref norm
 <h3 id=dom-operations><span class=secno>2.3 </span>DOM operations</h3>
 
 <p>To <dfn id=set-the-xml:lang-attribute>set the <code>xml:lang</code> attribute</dfn> of an <a href=#concept-element title=concept-element>element</a> <var title="">element</var> to value
-<var>value</var>, invoke the <a href=#concept-element-attributes-set title=concept-element-attributes-set>set an attribute</a> steps
-using <var title="">element</var>, <var title="">value</var>, <var title="">local name</var> <code>lang</code>, <var title="">prefix</var>
+<var>value</var>, the <a href=#concept-element-attributes-set title=concept-element-attributes-set>set
+an attribute</a> steps <em class=rfc2119>MUST</em> be invoked using
+<var title="">element</var>, <var title="">value</var>, <var title="">local
+name</var> <code>lang</code>, <var title="">prefix</var>
 <code>xml</code>, and <var title="">namespace</var> the <a href=#xml-namespace>XML
 namespace</a>.
 
@@ -156,7 +159,7 @@ namespace</a>.
 element</dfn> <var title="">local name</var> with <var title="">text
 content</var> to <var title="">parent</var>, following steps <em class=rfc2119>MUST</em> be followed:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">element</var> be an <a href=#concept-element title=concept-element>element</a> whose <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <var title="">local
 name</var> and <a href=#concept-element-namespace title=concept-element-namespace>namespace</a>
@@ -174,7 +177,7 @@ content</var>.
 with <var title="">local name</var> and optionally <var title="">namespace</var>, these steps <em class=rfc2119>MUST</em> be
 followed:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">namespace</var> be the <a href=#atom-namespace>Atom namespace</a>
 if it is not explicitly given.
@@ -188,7 +191,7 @@ steps.
 </li><li>Otherwise, if the <a href=#manakai-create-child-element><code>manakai-create-child-element</code></a>
 <span>configuration parameter</span> of the <a href=#concept-node-document title=concept-node-document>node document</a> of <var title="">element</var> is set to true:
 
-  <ol>
+  <ol class=algorithm>
 
   <li>Let <var title="">child</var> be an <a href=#concept-element title=concept-element>element</a> whose <span title=concept-local-name>local name</span> is <var title="">local
   name</var> and <span title=concept-namespace>namespace</span> is
@@ -208,7 +211,7 @@ steps.
 element">reflects the string value of the child element <var title="">local name</var></dfn>, optionally with <var title="">namespace</var>, these steps <em class=rfc2119>MUST</em> be
 followed on getting:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">namespace</var> be the <a href=#atom-namespace>Atom namespace</a>
 if it is not explicitly given.
@@ -227,7 +230,7 @@ element">reflects the URL value of the child element <var title="">local
 name</var></dfn>, optionally with <var title="">namespace</var>, these
 steps <em class=rfc2119>MUST</em> be followed on getting:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">namespace</var> be the <a href=#atom-namespace>Atom namespace</a>
 if it is not explicitly given.
@@ -235,7 +238,7 @@ if it is not explicitly given.
 </li><li>If <var title="">element</var> has a <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>element</a> whose <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <var title="">local
 name</var> and <a href=#concept-element-namespace><var title=concept-element-namespace>namespace</var></a>:
 
-  <ol>
+  <ol class=algorithm>
 
   <li>Let <var title="">child</var> be the first such <a href=#concept-element title=concept-element>element</a> in <a href=#concept-tree-order title=concept-tree-order>tree order</a>.
 
@@ -255,7 +258,7 @@ of a child element">string</a> or <a href=#reflect-the-url-value-of-a-child-elem
 value of a child element">URL</a> value of the child element,
 following steps <em class=rfc2119>MUST</em> be followed on setting:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">namespace</var> be the <a href=#atom-namespace>Atom namespace</a>
 if it is not explicitly given.
@@ -295,7 +298,7 @@ name</var> and <span title=concept-namespace>namespace</span> is <var title="">n
 <p>The <dfn id=dom-domimplementation-createatomfeeddocument title=dom-DOMImplementation-createAtomFeedDocument><code>createAtomFeedDocument(<var title="">id</var>, <var title="">title</var>, <var title="">lang</var>)</code></dfn> method <em class=rfc2119>MUST</em> run
 the following steps:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">document</var> be a <a href=#concept-document title=concept-document>document</a> that would be returned by the
 invocation of the <a href=#dom-domimplementation-createdocument><code title=dom-DOMImplementation-createDocument>createDocument</code></a>
@@ -332,7 +335,7 @@ time string</a> of the current time to <var title="">feed</var>.
 <p>The <dfn id=dom-domimplementation-createatomentrydocument title=dom-DOMImplementation-createAtomEntryDocument><code>createAtomEntryDocument(<var title="">id</var>, <var title="">title</var>, <var title="">lang</var>)</code></dfn> method <em class=rfc2119>MUST</em> run
 the following steps:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>Let <var title="">document</var> be a <a href=#concept-document title=concept-document>document</a> that would be returned by the
 invocation of the <a href=#dom-domimplementation-createdocument><code title=dom-DOMImplementation-createDocument>createDocument</code></a>
@@ -409,9 +412,9 @@ of the <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> <em class=r
 name.  The default value for the attribute is <a href=#text><code>text</code></a>.
 
 </p><p>The <dfn id=concept-atomtextconstructor-container title=concept-AtomTextConstructor-container><code>container</code></dfn>
-<em class=rfc2119>MUST</em> folow these steps:
+attribute <em class=rfc2119>MUST</em> run the following steps:
 
-</p><ol>
+</p><ol class=algorithm>
 
 <li>If the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the
 <code>type</code> <a href=#concept-attribute title=concept-attribute>content

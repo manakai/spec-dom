@@ -2,8 +2,7 @@
 <html lang="en" class="formal-specification anolis">
 <head>
 <title>Atom DOM</title>
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/def/dom">
+<link rel="stylesheet" href="http://suika.suikawiki.org/www/style/html/spec">
 <link rel="license" href="#license">
 </head>
 <body class="has-abstract">
@@ -33,7 +32,10 @@ href=http://creativecommons.org/publicdomain/zero/1.0/
 rel=license><img alt=CC0
 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
-related or neighboring rights to this work.
+related or neighboring rights to this work.  In addition, as of
+[DATE], the editor has made this specification available under the <a
+href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open
+Web Foundation Agreement Version 1.0</a>.
 
 </header>
 
@@ -165,10 +167,10 @@ class="bibref normative">[<a href="#ref-WEBIDL">WEBIDL</a>]</cite>.
 
 <p>To <dfn>set the <code>xml:lang</code> attribute</dfn> of an <span
 title=concept-element>element</span> <var title>element</var> to value
-<var>value</var>, invoke the <span
-title=concept-element-attributes-set>set an attribute</span> steps
-using <var title>element</var>, <var title>value</var>, <var
-title>local name</var> <code>lang</code>, <var title>prefix</var>
+<var>value</var>, the <span title=concept-element-attributes-set>set
+an attribute</span> steps <em class=rfc2119>MUST</em> be invoked using
+<var title>element</var>, <var title>value</var>, <var title>local
+name</var> <code>lang</code>, <var title>prefix</var>
 <code>xml</code>, and <var title>namespace</var> the <span>XML
 namespace</span>.
 
@@ -177,7 +179,7 @@ element</dfn> <var title>local name</var> with <var title>text
 content</var> to <var title>parent</var>, following steps <em
 class=rfc2119>MUST</em> be followed:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>element</var> be an <span
 title=concept-element>element</span> whose <span
@@ -200,7 +202,7 @@ with <var title>local name</var> and optionally <var
 title>namespace</var>, these steps <em class=rfc2119>MUST</em> be
 followed:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>namespace</var> be the <span>Atom namespace</span>
 if it is not explicitly given.
@@ -219,7 +221,7 @@ steps.
 title=concept-node-document>node document</span> of <var
 title>element</var> is set to true:
 
-  <ol>
+  <ol class=algorithm>
 
   <li>Let <var title>child</var> be an <span
   title=concept-element>element</span> whose <span
@@ -244,7 +246,7 @@ title>local name</var></dfn>, optionally with <var
 title>namespace</var>, these steps <em class=rfc2119>MUST</em> be
 followed on getting:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>namespace</var> be the <span>Atom namespace</span>
 if it is not explicitly given.
@@ -268,7 +270,7 @@ element">reflects the URL value of the child element <var title>local
 name</var></dfn>, optionally with <var title>namespace</var>, these
 steps <em class=rfc2119>MUST</em> be followed on getting:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>namespace</var> be the <span>Atom namespace</span>
 if it is not explicitly given.
@@ -279,7 +281,7 @@ title=concept-element>element</span> whose <span
 title=concept-element-local-name>local name</span> is <var title>local
 name</var> and <var title=concept-element-namespace>namespace</var>:
 
-  <ol>
+  <ol class=algorithm>
 
   <li>Let <var title>child</var> be the first such <span
   title=concept-element>element</span> in <span
@@ -302,7 +304,7 @@ of a child element">string</span> or <span title="reflect the URL
 value of a child element">URL</span> value of the child element,
 following steps <em class=rfc2119>MUST</em> be followed on setting:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>namespace</var> be the <span>Atom namespace</span>
 if it is not explicitly given.
@@ -354,7 +356,7 @@ title>id</var>, <var title>title</var>, <var
 title>lang</var>)</code></dfn> method <em class=rfc2119>MUST</em> run
 the following steps:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>document</var> be a <span
 title=concept-document>document</span> that would be returned by the
@@ -399,7 +401,7 @@ title>id</var>, <var title>title</var>, <var
 title>lang</var>)</code></dfn> method <em class=rfc2119>MUST</em> run
 the following steps:
 
-<ol>
+<ol class=algorithm>
 
 <li>Let <var title>document</var> be a <span
 title=concept-document>document</span> that would be returned by the
@@ -487,9 +489,9 @@ name.  The default value for the attribute is <code>text</code>.
 
 <p>The <dfn
 title=concept-AtomTextConstructor-container><code>container</code></dfn>
-<em class=rfc2119>MUST</em> folow these steps:
+attribute <em class=rfc2119>MUST</em> run the following steps:
 
-<ol>
+<ol class=algorithm>
 
 <li>If the <span title=concept-attribute-value>value</span> of the
 <code>type</code> <span title=concept-attribute>content

@@ -1,6 +1,6 @@
 <!DOCTYPE html><html class="formal-specification anolis" lang=en><head>
 <title>Atom DOM</title>
-<link href=http://suika.fam.cx/www/style/html/spec rel=stylesheet>
+<link href=http://suika.suikawiki.org/www/style/html/spec rel=stylesheet>
 <link href=#license rel=license>
 </head>
 <body class=has-abstract>
@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Atom DOM</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 7 April 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 8 April 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-7 April 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+8 April 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -57,7 +57,9 @@ version of the document is the only normative version.</p>
 
 <!--begin-toc-->
 <ol class=toc>
- <li><a href=#introduction><span class=secno>1 </span>Introduction</a></li>
+ <li><a href=#introduction><span class=secno>1 </span>Introduction</a>
+  <ol>
+   <li><a href=#history><span class=secno>1.1 </span>History</a></li></ol></li>
  <li><a href=#definitions><span class=secno>2 </span>Definitions</a>
   <ol>
    <li><a href=#conformance><span class=secno>2.1 </span>Conformance</a></li>
@@ -69,8 +71,9 @@ version of the document is the only normative version.</p>
    <li><a href=#the-atomelement-interface><span class=secno>4.1 </span>The <code>AtomElement</code> interface</a></li>
    <li><a href=#the-atomtextconstruct-interface><span class=secno>4.2 </span>The <code>AtomTextConstruct</code> interface</a></li>
    <li><a href=#the-atompersonconstruct-interface><span class=secno>4.3 </span>The <code>AtomPersonConstruct</code> interface</a></li>
-   <li><a href=#the-atomdateconstruct-interface><span class=secno>4.4 </span>The <code>AtomDateConstruct</code> interface</a></li></ol></li>
- <li><a href=#obsolete-features><span class=secno>5 </span>Obsolete features</a></li>
+   <li><a href=#the-atomdateconstruct-interface><span class=secno>4.4 </span>The <code>AtomDateConstruct</code> interface</a></li>
+   <li><a href=#the-atomfeedelement-interface><span class=secno>4.5 </span>The <code>AtomFeedElement</code> interface</a></li></ol></li>
+ <li><a href=#changes-from-earlier-versions><span class=secno>5 </span>Changes from earlier versions</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -84,7 +87,14 @@ language-neutral DOM APIs <cite class="bibref normative">[<a href=#ref-DOM>DOM</
 that provide convenience methods and attributes to process Atom
 documents <cite class="bibref normative">[<a href=#ref-ATOM>ATOM</a>]</cite>.
 
+</p><section>
+<h3 id=history><span class=secno>1.1 </span>History</h3>
+
+<p class=ed>XXX
+
 </p></section>
+
+</section>
 
 <section>
 <h2 id=definitions><span class=secno>2 </span>Definitions</h2>
@@ -117,12 +127,14 @@ out of memory, or to work around platform-specific limitations.
 <section>
 <h3 id=terms><span class=secno>2.2 </span>Terms</h3>
 
-<p>The terms <dfn id=context-object>context object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-order title=concept-tree-order>tree order</dfn>, <dfn id=concept-node-append title=concept-node-append>append</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=textcontent><code title=dom-Node-textContent>textContent</code></dfn>,
+<p>The terms <dfn id=context-object>context object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-order title=concept-tree-order>tree order</dfn>, <dfn id=concept-node-append title=concept-node-append>append</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=dom-node-textcontent title=dom-Node-textContent><code>textContent</code></dfn>,
 <dfn id=document><code>Document</code></dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>,
 <dfn id=element><code>Element</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-interface title=concept-element-interface>element interface</dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, <dfn id=content-attribute>content attribute</dfn>,
 <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>, <dfn id=concept-element-attributes-set title=concept-element-attributes-set>set an attribute</dfn>,
-<dfn id=reflect>reflect</dfn>, <dfn id=text><code>Text</code></dfn>, <dfn id=concept-cd-data title=concept-cd-data>data</dfn>, <dfn id=xml-namespace>XML namespace</dfn>, <dfn id=html-namespace>HTML
-namespace</dfn>, <dfn id=domimplementation><code>DOMImplementation</code></dfn>, and <dfn id=dom-domimplementation-createdocument title=dom-DOMImplementation-createDocument><code>createDocument</code></dfn>
+<dfn id=reflect>reflect</dfn>, <dfn id=text><code>Text</code></dfn>, <dfn id=concept-cd-data title=concept-cd-data>data</dfn>,
+<dfn id=htmlcollection><code>HTMLCollection</code></dfn>, <dfn id=concept-collection-live title=concept-collection-live>live</dfn>, <dfn id=concept-collection-static title=concept-collection-static>static</dfn>, <dfn id=xml-namespace>XML
+namespace</dfn>, <dfn id=html-namespace>HTML namespace</dfn>,
+<dfn id=domimplementation><code>DOMImplementation</code></dfn>, and <dfn id=dom-domimplementation-createdocument title=dom-DOMImplementation-createDocument><code>createDocument</code></dfn>
 are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
 </p><p>The terms <dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a global date and
@@ -157,7 +169,7 @@ namespace</a>.
 
 </p><p>To <dfn id=concept-append-atom-element title=concept-append-atom-element>append an Atom
 element</dfn> <var title="">local name</var> with <var title="">text
-content</var> to <var title="">parent</var>, following steps <em class=rfc2119>MUST</em> be followed:
+content</var> to <var title="">parent</var>, the following steps <em class=rfc2119>MUST</em> be run:
 
 </p><ol class=algorithm>
 
@@ -174,8 +186,8 @@ content</var>.
 </li></ol>
 
 <p>To <dfn id=obtain-the-child-element>obtain the child element</dfn> of <var title="">element</var>
-with <var title="">local name</var> and optionally <var title="">namespace</var>, these steps <em class=rfc2119>MUST</em> be
-followed:
+with <var title="">local name</var> and optionally <var title="">namespace</var>, the following steps <em class=rfc2119>MUST</em>
+be run:
 
 </p><ol class=algorithm>
 
@@ -207,9 +219,25 @@ steps.
 
 </li></ol>
 
+<p>The <dfn id=child-element-list>child element list</dfn> of type <var title="">local
+name</var> for <a href=#concept-element title=concept-element>element</a> <var title="">element</var> is an <a href=#htmlcollection><code>HTMLCollection</code></a> rooted at the
+<var title="">element</var>, whose filter matches only <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>elements</a> of <var title="">element</var> with
+<a href=#concept-element-local-name title=concept-element-local-name>local name</a> <var title="">local name</var> and <a href=#concept-element-namespace title=concept-element-namespace>namespace</a> the <a href=#atom-namespace>Atom
+namespace</a>.
+
+  </p><div class="note memo">
+
+    <p>As specified in the DOM Standard, <a href=#htmlcollection><code>HTMLCollection</code></a>
+    objects are <a href=#concept-collection-live title=concept-collection-live>live</a> by
+    default.  Attributes returning <a href=#htmlcollection><code>HTMLCollection</code></a> always
+    return the same object.
+
+  </p></div>
+
+<hr>
+
 <p>If an attribute <dfn id=reflect-the-string-value-of-a-child-element title="reflect the string value of a child
-element">reflects the string value of the child element <var title="">local name</var></dfn>, optionally with <var title="">namespace</var>, these steps <em class=rfc2119>MUST</em> be
-followed on getting:
+element">reflects the string value of the child element <var title="">local name</var></dfn>, optionally with <var title="">namespace</var>, on getting, the attribute <em class=rfc2119>MUST</em> run the following steps:
 
 </p><ol class=algorithm>
 
@@ -218,7 +246,7 @@ if it is not explicitly given.
 
 </li><li>If <var title="">element</var> has a <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>element</a> whose <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <var title="">local
 name</var> and <a href=#concept-element-namespace><var title=concept-element-namespace>namespace</var></a>,
-return the <code title=dom-Node-textContent>textContent</code>
+return the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a>
 attribute value of the first such <a href=#concept-element title=concept-element>element</a> in <a href=#concept-tree-order title=concept-tree-order>tree order</a>.
 
 </li><li>Otherwise, return the empty string.
@@ -227,8 +255,9 @@ attribute value of the first such <a href=#concept-element title=concept-element
 
 <p>If an attribute <dfn id=reflect-the-url-value-of-a-child-element title="reflect the URL value of a child
 element">reflects the URL value of the child element <var title="">local
-name</var></dfn>, optionally with <var title="">namespace</var>, these
-steps <em class=rfc2119>MUST</em> be followed on getting:
+name</var></dfn>, optionally with <var title="">namespace</var>, on
+getting, the attribute <em class=rfc2119>MUST</em> run the following
+steps:
 
 </p><ol class=algorithm>
 
@@ -242,7 +271,7 @@ name</var> and <a href=#concept-element-namespace><var title=concept-element-nam
 
   <li>Let <var title="">child</var> be the first such <a href=#concept-element title=concept-element>element</a> in <a href=#concept-tree-order title=concept-tree-order>tree order</a>.
 
-  </li><li><a href=#resolve-a-url title="resolve a URL">Resolve</a> the <code title=dom-Node-textContent>textContent</code> attribute value of
+  </li><li><a href=#resolve-a-url title="resolve a URL">Resolve</a> the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> attribute value of
   <var title="">child</var>, relative to <var title="">child</var>.  If it
   results in an error, return the empty string.  Otherwise, return the
   result.
@@ -255,8 +284,9 @@ name</var> and <a href=#concept-element-namespace><var title=concept-element-nam
 
 <p>If an attribute reflects the <a href=#reflect-the-string-value-of-a-child-element title="reflect the string value
 of a child element">string</a> or <a href=#reflect-the-url-value-of-a-child-element title="reflect the URL
-value of a child element">URL</a> value of the child element,
-following steps <em class=rfc2119>MUST</em> be followed on setting:
+value of a child element">URL</a> value of the child element, on
+setting, the attribute <em class=rfc2119>MUST</em> run the following
+steps:
 
 </p><ol class=algorithm>
 
@@ -265,7 +295,7 @@ if it is not explicitly given.
 
 </li><li>If <var title="">element</var> has a <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>element</a> whose <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <var title="">local
 name</var> and <a href=#concept-element-namespace><var title=concept-element-namespace>namespace</var></a>,
-act as if the <code title=dom-Node-textContent>textContent</code>
+act as if the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a>
 attribute of the first such <a href=#concept-element title=concept-element>element</a>
 in <a href=#concept-tree-order title=concept-tree-order>tree order</a> is set to the
 given value and abort these steps.
@@ -470,395 +500,58 @@ interface <dfn id=atomdateconstruct>AtomDateConstruct</dfn> : <a href=#atomeleme
 
 <p>On getting, the <dfn id=dom-atomdateconstruct-value title=dom-AtomDateConstruct-value><code>value</code></dfn> attribute
 of the <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time
-string">parse</a> the <code title=dom-Node-textContent>textContent</code> of the <a href=#context-object>context
+string">parse</a> the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> of the <a href=#context-object>context
 object</a> and return the result (or zero if failed).  <span class=ed>Implementations are required to implement more tolerant
 datetime parsing algorithm for compatibility with Atom documents in
 the wild...</span>
 
 </p><p>On setting, the <a href=#dom-atomdateconstruct-value><code title=dom-AtomDateConstruct-value>value</code></a> attribute of the
 <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface <em class=rfc2119>MUST</em>
-act as if the <code title=dom-Node-textContent>textContent</code>
+act as if the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a>
 attribute is set to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
 and time string</a> representation of the given value.
 </p></section>
 
+<section>
+<h3 id=the-atomfeedelement-interface><span class=secno>4.5 </span>The <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>feed</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomfeedelement><code>AtomFeedElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomfeedelement>AtomFeedElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-authorelements title=dom-AtomFeedElement-authorElements>authorElements</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-categoryelements title=dom-AtomFeedElement-categoryElements>categoryElements</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-contributorelements title=dom-AtomFeedElement-contributorElements>contributorElements</a>;
+  readonly attribute <span>AtomGeneratorElement</span>? <a href=#dom-atomfeedelement-generatorelement title=dom-AtomFeedElement-generatorElement>generatorElement</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomfeedelement-authorelements title=dom-AtomFeedElement-authorElements><code>authorElements</code></dfn>
+attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>author</code> <a href=#child-element-list>child
+element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomfeedelement-categoryelements title=dom-AtomFeedElement-categoryElements><code>categoryElements</code></dfn>
+attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>category</code> <a href=#child-element-list>child
+element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomfeedelement-contributorelements title=dom-AtomFeedElement-contributorElements><code>contributorElements</code></dfn>
+attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>contributor</code>
+<a href=#child-element-list>child element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomfeedelement-generatorelement title=dom-AtomFeedElement-generatorElement><code>generatorElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>generator</code> child element</a>.
+
+</p><p class=ed>
+      atom:entry children MUST be placed after any other elements.
+      Attributes creating children should insert them before any
+      entries?
+
+</p></section>
+
 </section>
 
-<xmp>
-
-  @CODE:
-    @@QName: returnChildElementList
-    @@enDesc:
-      {P:: The algorithm to <DFN::return <VAR::element-type> child
-           element list> of the element node <VAR::E> is defined as:
-
-         = Creates an empty <IF::StaticNodeList> object <VAR::L>
-           that is <EM::not> read-only.
-
-         = For each child element node of <VAR::E>,
-           add that element node to <VAR::L> in document order
-           if its element type is <VAR::element-type>.
-
-         = Returns <VAR::E>.
-
-      }
-    @@PerlDef:
-      __DEEP{
-        no warnings 'uninitialized';
-        __CODE{tc|createStaticNodeList:: $r => $r}__;
-        for my $__el (@{$node-><AG::Node.childNodes>}) {
-          if ($__el-><AG::Node.nodeType> == <C::Node.ELEMENT_NODE> and
-              $__el-><AG::Node.localName> eq $localName and
-              $__el-><AG::Node.namespaceURI> eq $namespaceURI) {
-            push @{$r}, $__el;
-          }
-        }
-      }__;
-
-
-  @CODE:
-    @@QName: getReflectAttrURIValue
-    @@enDesc:
-      {P:: If a DOM attribute is defined to <DFN::reflect the URI value
-           of the <VAR::attr-name> attribute> of the node <VAR::E>,
-           the getter of the attribute <kwd:MUST> return the value
-           defined by the algorithm:
-
-         = Get the string <VAR::S> that would be returned
-           if the DOM attribute <I::reflects the string value
-           of the <VAR::attr-name> attribute> of the <VAR::E>.
-
-         = If the <VAR::S> is <DOM::null>, it <kwd:MUST> return
-           <DOM::null>.
-
-         = Otherwise, if the <A::Node.baseURI> of the node
-           from which the <VAR::S> comes is <DOM::null>,
-           it <kwd:MUST> return the <VAR::S>.
-
-         = Otherwise, a string that would be returned by the
-           <M::urigen|URIReference.getAbsoluteReference>
-           method on a <IF::urigen|URIReference> object whose
-           <A::urigen|URIReference.uriReference> value
-           equals to <A::Node.textContent> with the <CODE::base> parameter
-           set to the <A::Node.baseURI> of the node
-           from which the <VAR::S> comes and the <CODE::nonStrict>
-           parameter set to <DOM::false>.
-
-      }
-    @@PerlDef:
-      __DEEP{
-        my $__attr = $node-><M::Element.getAttributeNodeNS> 
-                              ($namespaceURI, $localName);
-        if (defined $__attr) {
-          my $__attr_base = $__attr-><AG::Node.baseURI>;
-          if (defined $__attr_base) {
-            $r = $node-><AG::Node.ownerDocument>
-                      -><AG::Document.implementation>
-                      -><M::urigen|URIImplementation.createURIReference>
-                          ($__attr-><AG::Node.nodeValue>)
-                      -><M::urigen|URIReference.getAbsoluteReference>
-                          ($__attr_base)
-                      -><AG::urigen|URIReference.uriReference>;
-          } else {
-            $r = $__attr-><AG::Node.nodeValue>;
-          }
-        } else {
-          $r = null;
-        }
-      }__;
-
-  @CODE:
-    @@QName: setReflectAttrURIValue
-    @@enDesc:
-      If a DOM attribute is defined to <DFN::reflect the URI value
-      of the <VAR::attr-name> attribute> of the node <VAR::E>,
-      the setter of the DOM attribute <kwd:MUST> modify the node as
-      if the DOM attribute <I::reflects the string value of
-      the <VAR::attr-name> attribute> of the <VAR::E>.
-
-        {NOTE::
-          It might throw an exception.
-        }
-    @@PerlDef:
-      __CODE{setReflectAttrStringValue}__;
-
-  @enImplNote:
-    @@ddid: datereflect
-    @@@:
-      {ISSUE::
-        <QUOTE::reflecting Date child element> attribute should
-        be provided for published and created?
-      }
-
-  @CODE:
-    @@QName: getReflectAttrNonNegativeIntegerValue
-    @@enDesc:
-      {P:: If a DOM attribute is defined to <DFN::reflect the 
-           non-negative integer value of the <VAR::attr-name> attribute>
-           of the node <VAR::E>, the getter of the attribute <kwd:MUST>
-           return the value defined by the algorithm:
-
-        {OLI:: If the <VAR::E> contains an attribute node <VAR::A> whose name
-               is <VAR::attr-name>:
-
-          = If the <A::Node.nodeValue> of the <VAR::A> is
-            one or more sequence of digits (<CHAR::DIGIT ZERO>, 
-            <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>) optionally
-            preceding by a <CHAR::PLUS SIGN>, then
-            the attribute getter <kwd:MUST> return a value
-            by interpreting the <A::Node.nodeValue> of the <VAR::A>
-            as a decimal number.
-
-        }
-
-        = If a default value is explicitly defined
-          where this algorithm is referenced, it <kwd:MUST>
-          return the default value.
-
-        = Otherwise, it <kwd:MUST> return a binding-specific
-          default value, if it is defined by the specification
-          of the binding, or <DOM::-1>.
-
-      }
-
-        {NOTE::
-          In Atom Threading Extension <SRC::RFC 4685>,
-          the <CHAR::PLUS SIGN> and leading <CHAR::DIGIT ZERO>s
-          are prohibitted.
-        }
-    @@PerlDef:
-      __DEEP{
-        E: {
-          $r = $node-><M::Element.getAttributeNS> ($namespaceURI, $localName);
-          if (defined $r) {
-            if ($r =~ /\A\+?([0-9]+)\z/) {
-              $r = 0+$1;
-              last E;
-            }
-          }
-
-          $r = $defaultValue;
-          $r = -1 unless defined $r;
-        } # E
-      }__;
-
-  @CODE:
-    @@QName: setReflectAttrNonNegativeIntegerValue
-    @@enDesc:
-      {P:: If a DOM attribute is defined to <DFN::reflect the
-           non-negative integer value
-           of the <VAR::attr-name> attribute> of the node <VAR::E>,
-           the setter of the attribute <kwd:MUST> modify the node as
-           defined by the algorithm:
-
-        = If the given value is <DOM::-1> or one of binding-specific
-          default values, if any, as defined by the specification
-          of the binding, it <kwd:MUST>
-          remove the <VAR::attr-name> attribute node, if any,
-          from the list of attribute nodes of <VAR::E>.
-
-        = Otherwise, it <kwd:MUST> set the <VAR::attr-name>
-          attribute node value to a string representation
-          of the given value as if 
-          the <M::Element.setAttributeNS> method were invoked.
-          The string representation <kwd:MUST> be a decimal
-          number consist of one or more sequence of digits
-          (<CHAR::DIGIT ZERO>, <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>)
-          <EM::without> any leading <CHAR::DIGIT ZERO>.
-          The <CHAR::PLUS SIGN> <kwd:MUST> be omitted.
-
-      }
-
-        {NOTE::
-          It might throw an exception.
-        }
-    @@PerlDef:
-      __DEEP{
-        if (defined $given and $given >= 0) {
-          $node-><M::Element.setAttributeNS>
-                   ($namespaceURI, $localName, 0+$given);
-        } else {
-          $node-><M::Element.removeAttributeNS> ($namespaceURI, $localName);
-        }
-      }__;
-##AtomImplementation
-
-IFClsETDef:
-  @IFQName: AtomFeedElement
-  @ETQName: atom|feed
-  @ETRQName: atom|feed
-  @ClsQName: ManakaiAtomFeedElement
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm:
-    (feed-prop+, atom|entry*)
-
-  @enDesc:
-    The <XE::atom|feed> element is the document element 
-    of an Atom Feed Document.
-
-    {ISSUE::
-      <XE::atom|entry> children <kwd:MUST> be placed after
-      any other elements.  Attributes creating children
-      should insert them before any entries?
-    }
-
-  @Attr:
-    @@Name: authorElements
-    @@enDesc:
-      A static list of <XE::atom|author> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|author> child element list>
-        of the node.
-      @@@PerlDef:
-        __CODE{returnChildElementList::
-          $node => $self,
-          $namespaceURI => {<Q::atom|>},
-          $localName => 'author',
-          $r => $r,
-        }__;
-
-    @@Test:
-      @@@QName: AtomFeedElement.authorElements.empty.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'feed');
-
-        my $list = $el-><AG::AtomFeedElement.authorElements>;
-
-        $test->id ('interface');
-        $test->assert_isa ($list, <IFName::StaticNodeList>);
-
-        $test->id ('length');
-        $test->assert_num_equals
-                 (actual_value => 0+@{$list}, expected_value => 0);
-
-        $test->id ('readOnly');
-        $test->assert_false ($list-><AG::NodeList.manakaiReadOnly>);
-    @@Test:
-      @@@QName: AtomFeedElement.authorElements.two.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $e1 = $doc-><M::Document.createElementNS> (<Q::atom|>, 'feed');
-        my $a1 = $doc-><M::Document.createElementNS> (<Q::atom|>, 'author');
-        $e1-><M::Node.appendChild> ($a1);
-        my $a2 = $doc-><M::Document.createElementNS> (<Q::atom|>, 'author');
-        $e1-><M::Node.appendChild> ($a2);
-
-        my $list = $e1-><AG::AtomFeedElement.authorElements>;
-        my $a3 = $doc-><M::Document.createElementNS> (<Q::atom|>, 'author');
-        $e1-><M::Node.appendChild> ($a3);
-
-        $test->id ('length');
-        $test->assert_num_equals
-                 (actual_value => 0+@{$list}, expected_value => 2);
-
-        $test->id (0);
-        $test->assert_equals ($list->[0], $a1);
-
-        $test->id (1);
-        $test->assert_equals ($list->[1], $a2);
-
-  @Attr:
-    @@Name: categoryElements
-    @@enDesc:
-      A static list of <XE::atom|category> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|category> child element list>
-        of the node.
-      @@@PerlDef:
-        __CODE{returnChildElementList::
-          $node => $self,
-          $namespaceURI => {<Q::atom|>},
-          $localName => 'category',
-          $r => $r,
-        }__;
-
-  @Attr:
-    @@Name: contributorElements
-    @@enDesc:
-      A static list of <XE::atom|contributor> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|contributor> child element list>
-        of the node.
-      @@@PerlDef:
-        __CODE{returnChildElementList::
-          $node => $self,
-          $namespaceURI => {<Q::atom|>},
-          $localName => 'contributor',
-          $r => $r,
-        }__;
-
-  @Attr:
-    @@Name: generatorElement
-    @@enDesc:
-      The <XE::atom|generator> child element of the node.
-    @@Type: AtomGeneratorElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|generator> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{returnChildElement::
-          $node => $self,
-          $namespaceURI => {<Q::atom|>},
-          $localName => 'generator',
-          $r => $r,
-        }__;
-
-    @@Test:
-      @@@QName: AtomFeedElement.generatorElement.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'feed');
-
-        $test->id ('no');
-        $test->assert_null ($el-><AG::AtomFeedElement.generatorElement>);
-
-        $doc-><AG::Document.domConfig>
-            -><M::CFG.setParameter> (<Q::cfg|create-child-element> => true);
-        my $ge = $el-><AG::AtomFeedElement.generatorElement>;
-
-        $test->id ('create.interface');
-        $test->assert_isa ($ge, <IFName::Element>);
-
-        $test->id ('create.namespaceURI');
-        $test->assert_equals ($ge-><AG::Node.namespaceURI>, <Q::atom|>);
-
-        $test->id ('create.localName');
-        $test->assert_equals ($ge-><AG::Node.localName>, 'generator');
-
-        $test->id ('has');
-        my $ge2 = $el-><AG::AtomFeedElement.generatorElement>;
-        $test->assert_equals ($ge2, $ge);
-
-        $test->id ('multiple');
-        $el-><M::Node.appendChild>
-               ($doc-><M::Document.createElementNS> (<Q::atom|>, 'generator'));
-        my $ge3 = $el-><AG::AtomFeedElement.generatorElement>;
-        $test->assert_equals ($ge3, $ge);
-
+<xmp class=ed>
   @Attr:
     @@Name: icon
     @@enDesc:
@@ -1389,6 +1082,177 @@ IFClsETDef:
         $test->assert_null ($ent-><M::Element.getAttributeNS>
                                     (<Q::xml|>, 'lang'));
 ##AtomFeedElement
+</xmp>
+
+<xmp class=ed>
+
+
+  @CODE:
+    @@QName: getReflectAttrURIValue
+    @@enDesc:
+      {P:: If a DOM attribute is defined to <DFN::reflect the URI value
+           of the <VAR::attr-name> attribute> of the node <VAR::E>,
+           the getter of the attribute <kwd:MUST> return the value
+           defined by the algorithm:
+
+         = Get the string <VAR::S> that would be returned
+           if the DOM attribute <I::reflects the string value
+           of the <VAR::attr-name> attribute> of the <VAR::E>.
+
+         = If the <VAR::S> is <DOM::null>, it <kwd:MUST> return
+           <DOM::null>.
+
+         = Otherwise, if the <A::Node.baseURI> of the node
+           from which the <VAR::S> comes is <DOM::null>,
+           it <kwd:MUST> return the <VAR::S>.
+
+         = Otherwise, a string that would be returned by the
+           <M::urigen|URIReference.getAbsoluteReference>
+           method on a <IF::urigen|URIReference> object whose
+           <A::urigen|URIReference.uriReference> value
+           equals to <A::Node.textContent> with the <CODE::base> parameter
+           set to the <A::Node.baseURI> of the node
+           from which the <VAR::S> comes and the <CODE::nonStrict>
+           parameter set to <DOM::false>.
+
+      }
+    @@PerlDef:
+      __DEEP{
+        my $__attr = $node-><M::Element.getAttributeNodeNS> 
+                              ($namespaceURI, $localName);
+        if (defined $__attr) {
+          my $__attr_base = $__attr-><AG::Node.baseURI>;
+          if (defined $__attr_base) {
+            $r = $node-><AG::Node.ownerDocument>
+                      -><AG::Document.implementation>
+                      -><M::urigen|URIImplementation.createURIReference>
+                          ($__attr-><AG::Node.nodeValue>)
+                      -><M::urigen|URIReference.getAbsoluteReference>
+                          ($__attr_base)
+                      -><AG::urigen|URIReference.uriReference>;
+          } else {
+            $r = $__attr-><AG::Node.nodeValue>;
+          }
+        } else {
+          $r = null;
+        }
+      }__;
+
+  @CODE:
+    @@QName: setReflectAttrURIValue
+    @@enDesc:
+      If a DOM attribute is defined to <DFN::reflect the URI value
+      of the <VAR::attr-name> attribute> of the node <VAR::E>,
+      the setter of the DOM attribute <kwd:MUST> modify the node as
+      if the DOM attribute <I::reflects the string value of
+      the <VAR::attr-name> attribute> of the <VAR::E>.
+
+        {NOTE::
+          It might throw an exception.
+        }
+    @@PerlDef:
+      __CODE{setReflectAttrStringValue}__;
+
+  @enImplNote:
+    @@ddid: datereflect
+    @@@:
+      {ISSUE::
+        <QUOTE::reflecting Date child element> attribute should
+        be provided for published and created?
+      }
+
+  @CODE:
+    @@QName: getReflectAttrNonNegativeIntegerValue
+    @@enDesc:
+      {P:: If a DOM attribute is defined to <DFN::reflect the 
+           non-negative integer value of the <VAR::attr-name> attribute>
+           of the node <VAR::E>, the getter of the attribute <kwd:MUST>
+           return the value defined by the algorithm:
+
+        {OLI:: If the <VAR::E> contains an attribute node <VAR::A> whose name
+               is <VAR::attr-name>:
+
+          = If the <A::Node.nodeValue> of the <VAR::A> is
+            one or more sequence of digits (<CHAR::DIGIT ZERO>, 
+            <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>) optionally
+            preceding by a <CHAR::PLUS SIGN>, then
+            the attribute getter <kwd:MUST> return a value
+            by interpreting the <A::Node.nodeValue> of the <VAR::A>
+            as a decimal number.
+
+        }
+
+        = If a default value is explicitly defined
+          where this algorithm is referenced, it <kwd:MUST>
+          return the default value.
+
+        = Otherwise, it <kwd:MUST> return a binding-specific
+          default value, if it is defined by the specification
+          of the binding, or <DOM::-1>.
+
+      }
+
+        {NOTE::
+          In Atom Threading Extension <SRC::RFC 4685>,
+          the <CHAR::PLUS SIGN> and leading <CHAR::DIGIT ZERO>s
+          are prohibitted.
+        }
+    @@PerlDef:
+      __DEEP{
+        E: {
+          $r = $node-><M::Element.getAttributeNS> ($namespaceURI, $localName);
+          if (defined $r) {
+            if ($r =~ /\A\+?([0-9]+)\z/) {
+              $r = 0+$1;
+              last E;
+            }
+          }
+
+          $r = $defaultValue;
+          $r = -1 unless defined $r;
+        } # E
+      }__;
+
+  @CODE:
+    @@QName: setReflectAttrNonNegativeIntegerValue
+    @@enDesc:
+      {P:: If a DOM attribute is defined to <DFN::reflect the
+           non-negative integer value
+           of the <VAR::attr-name> attribute> of the node <VAR::E>,
+           the setter of the attribute <kwd:MUST> modify the node as
+           defined by the algorithm:
+
+        = If the given value is <DOM::-1> or one of binding-specific
+          default values, if any, as defined by the specification
+          of the binding, it <kwd:MUST>
+          remove the <VAR::attr-name> attribute node, if any,
+          from the list of attribute nodes of <VAR::E>.
+
+        = Otherwise, it <kwd:MUST> set the <VAR::attr-name>
+          attribute node value to a string representation
+          of the given value as if 
+          the <M::Element.setAttributeNS> method were invoked.
+          The string representation <kwd:MUST> be a decimal
+          number consist of one or more sequence of digits
+          (<CHAR::DIGIT ZERO>, <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>)
+          <EM::without> any leading <CHAR::DIGIT ZERO>.
+          The <CHAR::PLUS SIGN> <kwd:MUST> be omitted.
+
+      }
+
+        {NOTE::
+          It might throw an exception.
+        }
+    @@PerlDef:
+      __DEEP{
+        if (defined $given and $given >= 0) {
+          $node-><M::Element.setAttributeNS>
+                   ($namespaceURI, $localName, 0+$given);
+        } else {
+          $node-><M::Element.removeAttributeNS> ($namespaceURI, $localName);
+        }
+      }__;
+##AtomImplementation
 
 ECDef:
   @QName: entry-prop
@@ -3793,7 +3657,7 @@ enImplNote:
 </xmp>
 
 <section>
-<h2 id=obsolete-features><span class=secno>5 </span>Obsolete features</h2>
+<h2 id=changes-from-earlier-versions><span class=secno>5 </span>Changes from earlier versions</h2>
 
 <p>Earlier versions of this specification defined following feature
 strings:
@@ -3820,7 +3684,12 @@ interface, which is now defined as a partial interface for
 
 </p><p>Earlier versions of this specification specified different handling
 of <code>null</code> values for reflecting attributes.  They are
-removed for consistency with DOM and HTML specifications.
+removed for consistency with DOM and HTML.
+
+</p><p>Earlier versions of this specification specfied list of elements
+returned by various attributes as <a href=#concept-collection-static title=concept-collection-static>static</a>, which is now changed to
+<a href=#concept-collection-live title=concept-collection-live>live</a> for consistency with
+HTML DOM.
 
 </p></section>
 

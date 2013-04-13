@@ -16,12 +16,12 @@
 
 <dl class="versions-uri">
 <dt>Latest Version</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/atomdom"
-      >http://suika.fam.cx/www/markup/xml/atomdom</a>&gt;</code></dd>
-<dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html">http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html</a>&gt;</code></dd>
+  <dd><code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/atomdom"
+      >http://suika.suikawiki.org/www/markup/xml/atomdom</a>&gt;</code></dd>
+<dt id=version-history>Version History</dt>
+  <dd><code class=URI>&lt;<a href="http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html">http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html</a>&gt;</code></dd>
 <dt id=author>Author</dt>
-  <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
+  <dd><a href="http://suika.suikawiki.org/~wakaba/who?" rel="author"
       lang=ja>Wakaba</a>
   <code class="mail">&lt;<a href="mailto:wakaba@suikawiki.org" rel="author"
       >wakaba@suikawiki.org</a>&gt;</code></dd>
@@ -83,6 +83,38 @@ href="#ref-ATOM">ATOM</a>]</cite>.
 
 <p class=ed>XXX
 
+<p>The <span>Atom DOM</span> was <a
+href="http://suika.suikawiki.org/gate/cvs/messaging/manakai/lib/Message/Markup/Atom.dis">initially
+specified</a> as the inline documentation for the manakai's Atom DOM
+implementation.
+
+<p>Then <a
+href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/Atom%20DOM">additions
+to the specification</a> was edited in SuikaWiki.
+
+<p>These documents are replaced by <a href="#version-history">this
+specification</a>.
+
+</section>
+
+<section>
+<h3>Future plans</h3>
+
+<p>Future revision of this specification might include support for
+following technologies:
+
+  <ul>
+
+  <li>Atom 0.3
+
+  <li>hAtom
+
+  <li>AtomPub
+
+  <li>Deleted entry documents
+
+  </ul>
+
 </section>
 
 </section>
@@ -93,8 +125,7 @@ href="#ref-ATOM">ATOM</a>]</cite>.
 <section>
 <h3>Conformance</h3>
 
-<p>The keywords "<em class=rfc2119>MUST</em>", "<em class=rfc2119>MUST
-NOT</em>", "<em class=rfc2119>SHOULD</em>", and "<em
+<p>The keywords "<em class=rfc2119>MUST</em>" and "<em
 class=rfc2119>MAY</em>" in the normative parts of this document are to
 be interpreted as described in <a
 href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> <cite
@@ -130,8 +161,8 @@ title=concept-node-document>node document</dfn>, <dfn
 title=dom-Node-textContent><code>textContent</code></dfn>,
 <dfn><code>Document</code></dfn>, <dfn
 title=concept-document>document</dfn>, <dfn
-title=concept-document-content-type>content type</dfn>,
-<dfn><code>Element</code></dfn>, <dfn
+title=concept-document-content-type>content type</dfn>, <dfn>document
+element</dfn>, <dfn><code>Element</code></dfn>, <dfn
 title=concept-element>element</dfn>, <dfn
 title=concept-element-local-name>local name</dfn>, <dfn
 title=concept-element-namespace>namespace</dfn>, <dfn
@@ -262,6 +293,10 @@ title>element</var> is set to true:
 <li>Otherwise, return <code>null</code>.
 
 </ol>
+
+<p class=ed>XXX Attributes which <span>obtain the child element</span>
+should be defined as methods?  No other IDL attribute in the platform
+mutates underlying DOM...
 
 <p>The <dfn>child element list</dfn> of type <var title>local
 name</var> for <span title=concept-element>element</span> <var
@@ -491,6 +526,33 @@ title>entry</var> to <var title>document</var>.
 </section>
 
 <section>
+<h2>Atom documents</h2>
+
+<pre class=idl id=AtomDocument><code>partial interface <span>Document</span> {
+  readonly attribute <span>AtomFeedElement</span>? <span title=dom-Document-atomFeedElement>atomFeedElement</span>;
+};</code></pre>
+
+<p>The <dfn
+title=dom-Document-atomFeedElement><code>atomFeedElement</code></dfn>
+attribute of the <code>Document</code> interface <em
+class=rfc2119>MUST</em> run the following steps:
+
+  <ol class=algorithm>
+
+  <li>If the <span title=concept-document>document</span> has no
+  <span>document element</span>, return <code>null</code> and abort
+  these steps.
+
+  <li>If the <span>document element</span> is the <code>feed</code>
+  <span title=concept-element>element</span> in the <span>Atom
+  namespace</span>, return the <span
+  title=concept-element>element</span>.
+
+  </ol>
+
+</section>
+
+<section>
 <h2>Interfaces for Atom core elements</h2>
 
 <section>
@@ -559,7 +621,7 @@ interface <dfn>AtomLogoElement</dfn> : <span>AtomElement</span> {};</code></pre>
 <pre class=idl><code>[NoInterfaceObject]
 interface <dfn>AtomTextConstruct</dfn> : <span>AtomElement</span> {
   attribute <span>DOMString</span> <span title=dom-AtomTextConstruct-type>type</span>;
-  readonly attribute <span>Element</span>? <span title=dom-AtomTextConstructor-container>container</span>;
+  readonly attribute <span>Element</span>? <span title=dom-AtomTextConstruct-container>container</span>;
 };</code></pre>
 
 <p>The <dfn title=dom-AtomTextConstruct-type><code>type</code></dfn>
@@ -569,7 +631,7 @@ attribute</span> of the same name.  The default value for the
 attribute is <code>text</code>.
 
 <p>The <dfn
-title=dom-AtomTextConstructor-container><code>container</code></dfn>
+title=dom-AtomTextConstruct-container><code>container</code></dfn>
 attribute <em class=rfc2119>MUST</em> run the following steps:
 
 <ol class=algorithm>
@@ -606,6 +668,7 @@ for the <code>title</code> <span title=concept-element>element</span>
 in the <span>Atom namespace</span> is <code>AtomTitleElement</code>.
 
 <pre class=idl><code>interface <dfn>AtomRightsElement</dfn> : <span>AtomTextConstruct</span> {};
+interface <dfn>AtomSubtitleElement</dfn> : <span>AtomTextConstruct</span> {};
 interface <dfn>AtomSummaryElement</dfn> : <span>AtomTextConstruct</span> {};
 interface <dfn>AtomTitleElement</dfn> : <span>AtomTextConstruct</span> {};</code></pre>
 
@@ -1417,8 +1480,10 @@ href="#AtomImplementation"><dfn><code>AtomImplementation</code></dfn></a>
 interface is now defined as a partial interface for
 <code>DOMImplementation</code>.
 
-<p>The <dfn><code>AtomDocument</code></dfn> interface is deleted as it
-is empty and useless.
+<p>The <a
+href="#AtomDocument"><dfn><code>AtomDocument</code></dfn></a>
+interface is now defined as a partial interface for
+<code>Document</code>.
 
 <p>The <dfn><code>AtomEntryElementThread</code></dfn> and
 <dfn><code>AtomLinkElementThread</code></dfn> interfaces are merged

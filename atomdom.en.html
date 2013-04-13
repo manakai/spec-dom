@@ -14,11 +14,11 @@
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
-  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/www/markup/xml/atomdom>http://suika.fam.cx/www/markup/xml/atomdom</a>&gt;</code></dd>
-<dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href=http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html>http://suika.fam.cx/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html</a>&gt;</code></dd>
+  <dd><code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/atomdom>http://suika.suikawiki.org/www/markup/xml/atomdom</a>&gt;</code></dd>
+<dt id=version-history>Version History</dt>
+  <dd><code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html>http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html</a>&gt;</code></dd>
 <dt id=author>Author</dt>
-  <dd><a href=http://suika.fam.cx/~wakaba/who? lang=ja rel=author>Wakaba</a>
+  <dd><a href=http://suika.suikawiki.org/~wakaba/who? lang=ja rel=author>Wakaba</a>
   <code class=mail>&lt;<a href=mailto:wakaba@suikawiki.org rel=author>wakaba@suikawiki.org</a>&gt;</code></dd>
 </dl>
 
@@ -59,31 +59,33 @@ version of the document is the only normative version.</p>
 <ol class=toc>
  <li><a href=#introduction><span class=secno>1 </span>Introduction</a>
   <ol>
-   <li><a href=#history><span class=secno>1.1 </span>History</a></li></ol></li>
+   <li><a href=#history><span class=secno>1.1 </span>History</a></li>
+   <li><a href=#future-plans><span class=secno>1.2 </span>Future plans</a></li></ol></li>
  <li><a href=#definitions><span class=secno>2 </span>Definitions</a>
   <ol>
    <li><a href=#conformance><span class=secno>2.1 </span>Conformance</a></li>
    <li><a href=#terms><span class=secno>2.2 </span>Terms</a></li>
    <li><a href=#dom-operations><span class=secno>2.3 </span>DOM operations</a></li></ol></li>
  <li><a href=#document-constructors><span class=secno>3 </span>Document constructors</a></li>
- <li><a href=#interfaces-for-atom-core-elements><span class=secno>4 </span>Interfaces for Atom core elements</a>
+ <li><a href=#atom-documents><span class=secno>4 </span>Atom documents</a></li>
+ <li><a href=#interfaces-for-atom-core-elements><span class=secno>5 </span>Interfaces for Atom core elements</a>
   <ol>
-   <li><a href=#the-atomelement-interface><span class=secno>4.1 </span>The <code>AtomElement</code> interface</a></li>
-   <li><a href=#the-atomtextconstruct-interface><span class=secno>4.2 </span>The <code>AtomTextConstruct</code> interface</a></li>
-   <li><a href=#the-atompersonconstruct-interface><span class=secno>4.3 </span>The <code>AtomPersonConstruct</code> interface</a></li>
-   <li><a href=#the-atomdateconstruct-interface><span class=secno>4.4 </span>The <code>AtomDateConstruct</code> interface</a></li>
-   <li><a href=#the-atomfeedelement-interface><span class=secno>4.5 </span>The <code>AtomFeedElement</code> interface</a></li>
-   <li><a href=#the-atomentryelement-interface><span class=secno>4.6 </span>The <code>AtomEntryElement</code> interface</a></li>
-   <li><a href=#the-atomsourceelement-interface><span class=secno>4.7 </span>The <code>AtomSourceElement</code> interface</a></li>
-   <li><a href=#the-atomcontentelement-interface><span class=secno>4.8 </span>The <code>AtomContentElement</code> interface</a></li>
-   <li><a href=#the-atomcategoryelement-interface><span class=secno>4.9 </span>The <code>AtomCategoryElement</code> interface</a></li>
-   <li><a href=#the-atomgeneratorelement-interface><span class=secno>4.10 </span>The <code>AtomGeneratorElement</code> interface</a></li>
-   <li><a href=#the-atomlinkelement-interface><span class=secno>4.11 </span>The <code>AtomLinkElement</code> interface</a></li></ol></li>
- <li><a href=#interfaces-for-atom-threading-extensions><span class=secno>5 </span>Interfaces for Atom Threading extensions</a>
+   <li><a href=#the-atomelement-interface><span class=secno>5.1 </span>The <code>AtomElement</code> interface</a></li>
+   <li><a href=#the-atomtextconstruct-interface><span class=secno>5.2 </span>The <code>AtomTextConstruct</code> interface</a></li>
+   <li><a href=#the-atompersonconstruct-interface><span class=secno>5.3 </span>The <code>AtomPersonConstruct</code> interface</a></li>
+   <li><a href=#the-atomdateconstruct-interface><span class=secno>5.4 </span>The <code>AtomDateConstruct</code> interface</a></li>
+   <li><a href=#the-atomfeedelement-interface><span class=secno>5.5 </span>The <code>AtomFeedElement</code> interface</a></li>
+   <li><a href=#the-atomentryelement-interface><span class=secno>5.6 </span>The <code>AtomEntryElement</code> interface</a></li>
+   <li><a href=#the-atomsourceelement-interface><span class=secno>5.7 </span>The <code>AtomSourceElement</code> interface</a></li>
+   <li><a href=#the-atomcontentelement-interface><span class=secno>5.8 </span>The <code>AtomContentElement</code> interface</a></li>
+   <li><a href=#the-atomcategoryelement-interface><span class=secno>5.9 </span>The <code>AtomCategoryElement</code> interface</a></li>
+   <li><a href=#the-atomgeneratorelement-interface><span class=secno>5.10 </span>The <code>AtomGeneratorElement</code> interface</a></li>
+   <li><a href=#the-atomlinkelement-interface><span class=secno>5.11 </span>The <code>AtomLinkElement</code> interface</a></li></ol></li>
+ <li><a href=#interfaces-for-atom-threading-extensions><span class=secno>6 </span>Interfaces for Atom Threading extensions</a>
   <ol>
-   <li><a href=#the-atomthreadinreplytoelement-interface><span class=secno>5.1 </span>The <code>AtomThreadInReplyToElement</code> interface</a></li>
-   <li><a href=#the-atomthreadtotalelement-interface><span class=secno>5.2 </span>The <code>AtomThreadTotalElement</code> interface</a></li></ol></li>
- <li><a href=#changes-from-earlier-versions-of-atom-dom><span class=secno>6 </span>Changes from earlier versions of Atom DOM</a></li>
+   <li><a href=#the-atomthreadinreplytoelement-interface><span class=secno>6.1 </span>The <code>AtomThreadInReplyToElement</code> interface</a></li>
+   <li><a href=#the-atomthreadtotalelement-interface><span class=secno>6.2 </span>The <code>AtomThreadTotalElement</code> interface</a></li></ol></li>
+ <li><a href=#changes-from-earlier-versions-of-atom-dom><span class=secno>7 </span>Changes from earlier versions of Atom DOM</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -102,7 +104,37 @@ documents <cite class="bibref normative">[<a href=#ref-ATOM>ATOM</a>]</cite>.
 
 <p class=ed>XXX
 
+</p><p>The <a href=#atom-dom>Atom DOM</a> was <a href=http://suika.suikawiki.org/gate/cvs/messaging/manakai/lib/Message/Markup/Atom.dis>initially
+specified</a> as the inline documentation for the manakai's Atom DOM
+implementation.
+
+</p><p>Then <a href=http://suika.suikawiki.org/~wakaba/wiki/sw/n/Atom%20DOM>additions
+to the specification</a> was edited in SuikaWiki.
+
+</p><p>These documents are replaced by <a href=#version-history>this
+specification</a>.
+
 </p></section>
+
+<section>
+<h3 id=future-plans><span class=secno>1.2 </span>Future plans</h3>
+
+<p>Future revision of this specification might include support for
+following technologies:
+
+  </p><ul>
+
+  <li>Atom 0.3
+
+  </li><li>hAtom
+
+  </li><li>AtomPub
+
+  </li><li>Deleted entry documents
+
+  </li></ul>
+
+</section>
 
 </section>
 
@@ -112,8 +144,7 @@ documents <cite class="bibref normative">[<a href=#ref-ATOM>ATOM</a>]</cite>.
 <section>
 <h3 id=conformance><span class=secno>2.1 </span>Conformance</h3>
 
-<p>The keywords "<em class=rfc2119>MUST</em>", "<em class=rfc2119>MUST
-NOT</em>", "<em class=rfc2119>SHOULD</em>", and "<em class=rfc2119>MAY</em>" in the normative parts of this document are to
+<p>The keywords "<em class=rfc2119>MUST</em>" and "<em class=rfc2119>MAY</em>" in the normative parts of this document are to
 be interpreted as described in <a href=http://tools.ietf.org/html/rfc2119>RFC 2119</a> <cite class="bibref normative">[<a href=#ref-RFC2119>RFC2119</a>]</cite>.
 
 </p><p>Requirements phrased in the imperative as part of algorithms (such
@@ -138,8 +169,8 @@ out of memory, or to work around platform-specific limitations.
 <h3 id=terms><span class=secno>2.2 </span>Terms</h3>
 
 <p>The terms <dfn id=context-object>context object</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-order title=concept-tree-order>tree order</dfn>, <dfn id=concept-node-append title=concept-node-append>append</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=dom-node-textcontent title=dom-Node-textContent><code>textContent</code></dfn>,
-<dfn id=document><code>Document</code></dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>,
-<dfn id=element><code>Element</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-interface title=concept-element-interface>element interface</dfn>, <dfn id=dom-element-id title=dom-Element-id><code>id</code></dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, <dfn id=content-attribute>content attribute</dfn>,
+<dfn id=document><code>Document</code></dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>, <dfn id=document-element>document
+element</dfn>, <dfn id=element><code>Element</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-interface title=concept-element-interface>element interface</dfn>, <dfn id=dom-element-id title=dom-Element-id><code>id</code></dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, <dfn id=content-attribute>content attribute</dfn>,
 <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>, <dfn id=concept-element-attributes-set title=concept-element-attributes-set>set an attribute</dfn>,
 <dfn id=text><code>Text</code></dfn>, <dfn id=concept-cd-data title=concept-cd-data>data</dfn>,
 <dfn id=concept-collection title=concept-collection>collection</dfn>,
@@ -238,7 +269,11 @@ steps.
 
 </li></ol>
 
-<p>The <dfn id=child-element-list>child element list</dfn> of type <var title="">local
+<p class=ed>XXX Attributes which <a href=#obtain-the-child-element>obtain the child element</a>
+should be defined as methods?  No other IDL attribute in the platform
+mutates underlying DOM...
+
+</p><p>The <dfn id=child-element-list>child element list</dfn> of type <var title="">local
 name</var> for <a href=#concept-element title=concept-element>element</a> <var title="">element</var> with optional <var title="">namespace</var> is an
 <a href=#htmlcollection><code>HTMLCollection</code></a> rooted at the <var title="">element</var>,
 whose filter matches only <a href=#concept-tree-child title=concept-tree-child>child</a>
@@ -423,10 +458,34 @@ time string</a> of the current time to <var title="">entry</var>.
 </section>
 
 <section>
-<h2 id=interfaces-for-atom-core-elements><span class=secno>4 </span>Interfaces for Atom core elements</h2>
+<h2 id=atom-documents><span class=secno>4 </span>Atom documents</h2>
+
+<pre class=idl id=AtomDocument><code>partial interface <a href=#document>Document</a> {
+  readonly attribute <a href=#atomfeedelement>AtomFeedElement</a>? <a href=#dom-document-atomfeedelement title=dom-Document-atomFeedElement>atomFeedElement</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-document-atomfeedelement title=dom-Document-atomFeedElement><code>atomFeedElement</code></dfn>
+attribute of the <a href=#document><code>Document</code></a> interface <em class=rfc2119>MUST</em> run the following steps:
+
+  </p><ol class=algorithm>
+
+  <li>If the <a href=#concept-document title=concept-document>document</a> has no
+  <a href=#document-element>document element</a>, return <code>null</code> and abort
+  these steps.
+
+  </li><li>If the <a href=#document-element>document element</a> is the <code>feed</code>
+  <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+  namespace</a>, return the <a href=#concept-element title=concept-element>element</a>.
+
+  </li></ol>
+
+</section>
 
 <section>
-<h3 id=the-atomelement-interface><span class=secno>4.1 </span>The <a href=#atomelement><code>AtomElement</code></a> interface</h3>
+<h2 id=interfaces-for-atom-core-elements><span class=secno>5 </span>Interfaces for Atom core elements</h2>
+
+<section>
+<h3 id=the-atomelement-interface><span class=secno>5.1 </span>The <a href=#atomelement><code>AtomElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for <a href=#concept-element title=concept-element>elements</a> in the <a href=#atom-namespace>Atom
@@ -482,12 +541,12 @@ interface <dfn id=atomlogoelement>AtomLogoElement</dfn> : <a href=#atomelement>A
 </section>
 
 <section>
-<h3 id=the-atomtextconstruct-interface><span class=secno>4.2 </span>The <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> interface</h3>
+<h3 id=the-atomtextconstruct-interface><span class=secno>5.2 </span>The <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> interface</h3>
 
 <pre class=idl><code>[NoInterfaceObject]
 interface <dfn id=atomtextconstruct>AtomTextConstruct</dfn> : <a href=#atomelement>AtomElement</a> {
   attribute <span>DOMString</span> <a href=#dom-atomtextconstruct-type title=dom-AtomTextConstruct-type>type</a>;
-  readonly attribute <a href=#element>Element</a>? <a href=#dom-atomtextconstructor-container title=dom-AtomTextConstructor-container>container</a>;
+  readonly attribute <a href=#element>Element</a>? <a href=#dom-atomtextconstruct-container title=dom-AtomTextConstruct-container>container</a>;
 };</code></pre>
 
 <p>The <dfn id=dom-atomtextconstruct-type title=dom-AtomTextConstruct-type><code>type</code></dfn>
@@ -495,7 +554,7 @@ attribute of the <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> <
 attribute</a> of the same name.  The default value for the
 attribute is <a href=#text><code>text</code></a>.
 
-</p><p>The <dfn id=dom-atomtextconstructor-container title=dom-AtomTextConstructor-container><code>container</code></dfn>
+</p><p>The <dfn id=dom-atomtextconstruct-container title=dom-AtomTextConstruct-container><code>container</code></dfn>
 attribute <em class=rfc2119>MUST</em> run the following steps:
 
 </p><ol class=algorithm>
@@ -519,7 +578,7 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomrightselement>
 
 </p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>subtitle</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
-namespace</a> is <code>AtomSubtitleElement</code>.
+namespace</a> is <a href=#atomsubtitleelement><code>AtomSubtitleElement</code></a>.
 
 </p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>summary</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
@@ -530,13 +589,14 @@ for the <code>title</code> <a href=#concept-element title=concept-element>elemen
 in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomtitleelement><code>AtomTitleElement</code></a>.
 
 </p><pre class=idl><code>interface <dfn id=atomrightselement>AtomRightsElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};
+interface <dfn id=atomsubtitleelement>AtomSubtitleElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};
 interface <dfn id=atomsummaryelement>AtomSummaryElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};
 interface <dfn id=atomtitleelement>AtomTitleElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};</code></pre>
 
 </section>
 
 <section>
-<h3 id=the-atompersonconstruct-interface><span class=secno>4.3 </span>The <a href=#atompersonconstruct><code>AtomPersonConstruct</code></a> interface</h3>
+<h3 id=the-atompersonconstruct-interface><span class=secno>5.3 </span>The <a href=#atompersonconstruct><code>AtomPersonConstruct</code></a> interface</h3>
 
 <pre class=idl><code>[NoInterfaceObject]
 interface <dfn id=atompersonconstruct>AtomPersonConstruct</dfn> : <a href=#atomelement>AtomElement</a> {
@@ -581,7 +641,7 @@ interface <dfn id=atomcontributorelement>AtomContributorElement</dfn> : <a href=
 </section>
 
 <section>
-<h3 id=the-atomdateconstruct-interface><span class=secno>4.4 </span>The <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface</h3>
+<h3 id=the-atomdateconstruct-interface><span class=secno>5.4 </span>The <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface</h3>
 
 <pre class=idl><code>[NoInterfaceObject]
 interface <dfn id=atomdateconstruct>AtomDateConstruct</dfn> : <a href=#atomelement>AtomElement</a> {
@@ -617,7 +677,7 @@ interface <dfn id=atomupdatedelement>AtomUpdatedElement</dfn> : <a href=#atomdat
 </section>
 
 <section>
-<h3 id=the-atomfeedelement-interface><span class=secno>4.5 </span>The <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface</h3>
+<h3 id=the-atomfeedelement-interface><span class=secno>5.5 </span>The <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>feed</code> <a href=#concept-element title=concept-element>element</a>
@@ -633,7 +693,7 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomfeedelement><c
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-linkelements title=dom-AtomFeedElement-linkElements>linkElements</a>;
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-logo title=dom-AtomFeedElement-logo>logo</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-rightselements title=dom-AtomFeedElement-rightsElements>rightsElements</a>;
-  readonly attribute <span>AtomSubtitleElement</span>? <a href=#dom-atomfeedelement-subtitleelement title=dom-AtomFeedElement-subtitleElement>subtitleElement</a>;
+  readonly attribute <a href=#atomsubtitleelement>AtomSubtitleElement</a>? <a href=#dom-atomfeedelement-subtitleelement title=dom-AtomFeedElement-subtitleElement>subtitleElement</a>;
   readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomfeedelement-titleelement title=dom-AtomFeedElement-titleElement>titleElement</a>;
   readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomfeedelement-updatedelement title=dom-AtomFeedElement-updatedElement>updatedElement</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-entryelements title=dom-AtomFeedElement-entryElements>entryElements</a>;
@@ -740,7 +800,7 @@ time string</a> of the current time to <var title="">entry</var>.
 </section>
 
 <section>
-<h3 id=the-atomentryelement-interface><span class=secno>4.6 </span>The <a href=#atomentryelement><code>AtomEntryElement</code></a> interface</h3>
+<h3 id=the-atomentryelement-interface><span class=secno>5.6 </span>The <a href=#atomentryelement><code>AtomEntryElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>entry</code> <a href=#concept-element title=concept-element>element</a>
@@ -873,7 +933,7 @@ the <a href=#atom-threading-namespace>Atom Threading namespace</a>.
 </p></section>
 
 <section>
-<h3 id=the-atomsourceelement-interface><span class=secno>4.7 </span>The <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface</h3>
+<h3 id=the-atomsourceelement-interface><span class=secno>5.7 </span>The <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>source</code> <a href=#concept-element title=concept-element>element</a>
@@ -889,7 +949,7 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomsourceelement>
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomsourceelement-linkelements title=dom-AtomSourceElement-linkElements>linkElements</a>;
   attribute <span>DOMString</span> <a href=#dom-atomsourceelement-logo title=dom-AtomSourceElement-logo>logo</a>;
   readonly attribute <a href=#atomrightselement>AtomRightsElement</a>? <a href=#dom-atomsourceelement-rightselement title=dom-AtomSourceElement-rightsElement>rightsElement</a>;
-  readonly attribute <span>AtomSubtitleElement</span>? <a href=#dom-atomsourceelement-subtitleelement title=dom-AtomSourceElement-subtitleElement>subtitleElement</a>;
+  readonly attribute <a href=#atomsubtitleelement>AtomSubtitleElement</a>? <a href=#dom-atomsourceelement-subtitleelement title=dom-AtomSourceElement-subtitleElement>subtitleElement</a>;
   readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomsourceelement-titleelement title=dom-AtomSourceElement-titleElement>titleElement</a>;
   readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomsourceelement-updatedelement title=dom-AtomSourceElement-updatedElement>updatedElement</a>;
 };</code></pre>
@@ -948,7 +1008,7 @@ child element">the <code>updated</code> child element</a>.
 </p></section>
 
 <section>
-<h3 id=the-atomcontentelement-interface><span class=secno>4.8 </span>The <a href=#atomcontentelement><code>AtomContentElement</code></a> interface</h3>
+<h3 id=the-atomcontentelement-interface><span class=secno>5.8 </span>The <a href=#atomcontentelement><code>AtomContentElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>content</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
@@ -1000,7 +1060,7 @@ return <code>null</code>.
 </section>
 
 <section>
-<h3 id=the-atomcategoryelement-interface><span class=secno>4.9 </span>The <a href=#atomcategoryelement><code>AtomCategoryElement</code></a> interface</h3>
+<h3 id=the-atomcategoryelement-interface><span class=secno>5.9 </span>The <a href=#atomcategoryelement><code>AtomCategoryElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>category</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
@@ -1025,7 +1085,7 @@ reflection is defined as containing a <a href=#url>URL</a>.
 </p></section>
 
 <section>
-<h3 id=the-atomgeneratorelement-interface><span class=secno>4.10 </span>The <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a> interface</h3>
+<h3 id=the-atomgeneratorelement-interface><span class=secno>5.10 </span>The <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>generator</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
@@ -1048,7 +1108,7 @@ attribute</a> of the same name.
 </p></section>
 
 <section>
-<h3 id=the-atomlinkelement-interface><span class=secno>4.11 </span>The <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface</h3>
+<h3 id=the-atomlinkelement-interface><span class=secno>5.11 </span>The <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>link</code> <a href=#concept-element title=concept-element>element</a>
@@ -1141,10 +1201,10 @@ and time string</a> representation of the given value.
 </section>
 
 <section>
-<h2 id=interfaces-for-atom-threading-extensions><span class=secno>5 </span>Interfaces for Atom Threading extensions</h2>
+<h2 id=interfaces-for-atom-threading-extensions><span class=secno>6 </span>Interfaces for Atom Threading extensions</h2>
 
 <section>
-<h3 id=the-atomthreadinreplytoelement-interface><span class=secno>5.1 </span>The <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface</h3>
+<h3 id=the-atomthreadinreplytoelement-interface><span class=secno>6.1 </span>The <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>in-reply-to</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-threading-namespace>Atom Threading
@@ -1172,7 +1232,7 @@ attribute</a> of the same name.
 </p></section>
 
 <section>
-<h3 id=the-atomthreadtotalelement-interface><span class=secno>5.2 </span>The <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface</h3>
+<h3 id=the-atomthreadtotalelement-interface><span class=secno>6.2 </span>The <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>total</code> <a href=#concept-element title=concept-element>element</a>
@@ -1193,7 +1253,7 @@ attribute</a>.
 </section>
 
 <section>
-<h2 id=changes-from-earlier-versions-of-atom-dom><span class=secno>6 </span>Changes from earlier versions of Atom DOM</h2>
+<h2 id=changes-from-earlier-versions-of-atom-dom><span class=secno>7 </span>Changes from earlier versions of Atom DOM</h2>
 
 <p>Earlier versions of this specification defined following feature
 strings, which are now considered obsolete:
@@ -1215,8 +1275,9 @@ support of the Atom DOM.
 interface is now defined as a partial interface for
 <a href=#domimplementation><code>DOMImplementation</code></a>.
 
-</p><p>The <dfn id=atomdocument><code>AtomDocument</code></dfn> interface is deleted as it
-is empty and useless.
+</p><p>The <a href=#AtomDocument><dfn id=atomdocument><code>AtomDocument</code></dfn></a>
+interface is now defined as a partial interface for
+<a href=#document><code>Document</code></a>.
 
 </p><p>The <dfn id=atomentryelementthread><code>AtomEntryElementThread</code></dfn> and
 <dfn id=atomlinkelementthread><code>AtomLinkElementThread</code></dfn> interfaces are merged

@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Atom DOM</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 9 April 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 13 April 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-9 April 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+13 April 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -66,7 +66,7 @@ version of the document is the only normative version.</p>
    <li><a href=#terms><span class=secno>2.2 </span>Terms</a></li>
    <li><a href=#dom-operations><span class=secno>2.3 </span>DOM operations</a></li></ol></li>
  <li><a href=#document-constructors><span class=secno>3 </span>Document constructors</a></li>
- <li><a href=#dom-interfaces-for-atom-elements><span class=secno>4 </span>DOM interfaces for Atom elements</a>
+ <li><a href=#interfaces-for-atom-core-elements><span class=secno>4 </span>Interfaces for Atom core elements</a>
   <ol>
    <li><a href=#the-atomelement-interface><span class=secno>4.1 </span>The <code>AtomElement</code> interface</a></li>
    <li><a href=#the-atomtextconstruct-interface><span class=secno>4.2 </span>The <code>AtomTextConstruct</code> interface</a></li>
@@ -74,8 +74,16 @@ version of the document is the only normative version.</p>
    <li><a href=#the-atomdateconstruct-interface><span class=secno>4.4 </span>The <code>AtomDateConstruct</code> interface</a></li>
    <li><a href=#the-atomfeedelement-interface><span class=secno>4.5 </span>The <code>AtomFeedElement</code> interface</a></li>
    <li><a href=#the-atomentryelement-interface><span class=secno>4.6 </span>The <code>AtomEntryElement</code> interface</a></li>
-   <li><a href=#the-atomcontentelement-interface><span class=secno>4.7 </span>The <code>AtomContentElement</code> interface</a></li></ol></li>
- <li><a href=#changes-from-earlier-versions-of-atom-dom><span class=secno>5 </span>Changes from earlier versions of Atom DOM</a></li>
+   <li><a href=#the-atomsourceelement-interface><span class=secno>4.7 </span>The <code>AtomSourceElement</code> interface</a></li>
+   <li><a href=#the-atomcontentelement-interface><span class=secno>4.8 </span>The <code>AtomContentElement</code> interface</a></li>
+   <li><a href=#the-atomcategoryelement-interface><span class=secno>4.9 </span>The <code>AtomCategoryElement</code> interface</a></li>
+   <li><a href=#the-atomgeneratorelement-interface><span class=secno>4.10 </span>The <code>AtomGeneratorElement</code> interface</a></li>
+   <li><a href=#the-atomlinkelement-interface><span class=secno>4.11 </span>The <code>AtomLinkElement</code> interface</a></li></ol></li>
+ <li><a href=#interfaces-for-atom-threading-extensions><span class=secno>5 </span>Interfaces for Atom Threading extensions</a>
+  <ol>
+   <li><a href=#the-atomthreadinreplytoelement-interface><span class=secno>5.1 </span>The <code>AtomThreadInReplyToElement</code> interface</a></li>
+   <li><a href=#the-atomthreadtotalelement-interface><span class=secno>5.2 </span>The <code>AtomThreadTotalElement</code> interface</a></li></ol></li>
+ <li><a href=#changes-from-earlier-versions-of-atom-dom><span class=secno>6 </span>Changes from earlier versions of Atom DOM</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -133,7 +141,8 @@ out of memory, or to work around platform-specific limitations.
 <dfn id=document><code>Document</code></dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>,
 <dfn id=element><code>Element</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-interface title=concept-element-interface>element interface</dfn>, <dfn id=dom-element-id title=dom-Element-id><code>id</code></dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, <dfn id=content-attribute>content attribute</dfn>,
 <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>, <dfn id=concept-element-attributes-set title=concept-element-attributes-set>set an attribute</dfn>,
-<dfn id=reflect>reflect</dfn>, <dfn id=text><code>Text</code></dfn>, <dfn id=concept-cd-data title=concept-cd-data>data</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>,
+<dfn id=text><code>Text</code></dfn>, <dfn id=concept-cd-data title=concept-cd-data>data</dfn>,
+<dfn id=concept-collection title=concept-collection>collection</dfn>,
 <dfn id=htmlcollection><code>HTMLCollection</code></dfn>, <dfn id=concept-collection-live title=concept-collection-live>live</dfn>, <dfn id=concept-collection-static title=concept-collection-static>static</dfn>, <dfn id=xml-namespace>XML
 namespace</dfn>, <dfn id=html-namespace>HTML namespace</dfn>,
 <dfn id=domimplementation><code>DOMImplementation</code></dfn>, and <dfn id=dom-domimplementation-createdocument title=dom-DOMImplementation-createDocument><code>createDocument</code></dfn>
@@ -141,12 +150,18 @@ are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM
 
 </p><p>The term <dfn id=url>URL</dfn> is defined by the URL Standard <cite class="bibref normative">[<a href=#ref-URL>URL</a>]</cite>.
 
-</p><p>The terms <dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a global date and
-time string</dfn>, and <dfn id=valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
-and time string</dfn> are defined by the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
+</p><p>The terms <dfn id=idl-attribute>IDL attribute</dfn>, <dfn id=reflect>reflect</dfn>,
+<dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a global date and time
+string</dfn>, and <dfn id=valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date and
+time string</dfn> are defined by the HTML Standard <cite class="bibref
+normative">[<a href=#ref-HTML>HTML</a>]</cite>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn> is
-<code>http://www.w3.org/2005/Atom</code>.
+<code>http://www.w3.org/2005/Atom</code> <cite class="bibref
+normative">[<a href=#ref-ATOM>ATOM</a>]</cite>.
+
+</p><p>The <dfn id=atom-threading-namespace>Atom Threading namespace</dfn> is
+<code>http://purl.org/syndication/thread/1.0</code> <cite class="bibref normative">[<a href=#ref-ATOMTHREADING>ATOMTHREADING</a>]</cite>.
 
 </p><p>The <dfn id=svgelement><code>SVGElement</code></dfn> interface is defined in the
 SVG specification <cite class="bibref normative">[<a href=#ref-SVG>SVG</a>]</cite>.
@@ -224,9 +239,11 @@ steps.
 </li></ol>
 
 <p>The <dfn id=child-element-list>child element list</dfn> of type <var title="">local
-name</var> for <a href=#concept-element title=concept-element>element</a> <var title="">element</var> is an <a href=#htmlcollection><code>HTMLCollection</code></a> rooted at the
-<var title="">element</var>, whose filter matches only <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>elements</a> of <var title="">element</var> with
-<a href=#concept-element-local-name title=concept-element-local-name>local name</a> <var title="">local name</var> and <a href=#concept-element-namespace title=concept-element-namespace>namespace</a> the <a href=#atom-namespace>Atom
+name</var> for <a href=#concept-element title=concept-element>element</a> <var title="">element</var> with optional <var title="">namespace</var> is an
+<a href=#htmlcollection><code>HTMLCollection</code></a> rooted at the <var title="">element</var>,
+whose filter matches only <a href=#concept-tree-child title=concept-tree-child>child</a>
+<a href=#concept-element title=concept-element>elements</a> of <var title="">element</var> with <a href=#concept-element-local-name title=concept-element-local-name>local
+name</a> <var title="">local name</var> and <a href=#concept-element-namespace title=concept-element-namespace>namespace</a> <var title="">namespace</var>, if specified, or the <a href=#atom-namespace>Atom
 namespace</a>.
 
   </p><div class="note memo">
@@ -406,28 +423,27 @@ time string</a> of the current time to <var title="">entry</var>.
 </section>
 
 <section>
-<h2 id=dom-interfaces-for-atom-elements><span class=secno>4 </span>DOM interfaces for Atom elements</h2>
+<h2 id=interfaces-for-atom-core-elements><span class=secno>4 </span>Interfaces for Atom core elements</h2>
 
 <section>
 <h3 id=the-atomelement-interface><span class=secno>4.1 </span>The <a href=#atomelement><code>AtomElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for <a href=#concept-element title=concept-element>elements</a> in the <a href=#atom-namespace>Atom
-namespace</a> is <a href=#atomelement><code>AtomElement</code></a>, unless stated otherwise.
+namespace</a> or the <a href=#atom-threading-namespace>Atom Threading namespace</a> is
+<a href=#atomelement><code>AtomElement</code></a>, unless stated otherwise.
 
 </p><pre class=idl><code>interface <dfn id=atomelement>AtomElement</dfn> : <a href=#element>Element</a> {
-  attribute DOMString <a href=#concept-atomelement-xmlbase title=concept-AtomElement-xmlbase>xmlbase</a>;
-  attribute DOMString <a href=#concept-atomelement-xmllang title=concept-AtomElement-xmllang>xmllang</a>;
+  attribute DOMString <a href=#dom-atomelement-xmlbase title=dom-AtomElement-xmlbase>xmlbase</a>;
+  attribute DOMString <a href=#dom-atomelement-xmllang title=dom-AtomElement-xmllang>xmllang</a>;
 };</code></pre>
 
-<p>The <dfn id=concept-atomelement-xmlbase title=concept-AtomElement-xmlbase><code>xmlbase</code></dfn> attribute
-of the <a href=#atomelement><code>AtomElement</code></a> interface <em class=rfc2119>MUST</em>
-behave in the same way as the <a href=https://svgwg.org/svg2-draft/single-page.html#types-__svg__SVGElement__xmlbase><code>xmlbase</code></a>
+<p>The <dfn id=dom-atomelement-xmlbase title=dom-AtomElement-xmlbase><code>xmlbase</code></dfn>
+attribute of the <a href=#atomelement><code>AtomElement</code></a> interface <em class=rfc2119>MUST</em> behave in the same way as the <a href=https://svgwg.org/svg2-draft/single-page.html#types-__svg__SVGElement__xmlbase><code>xmlbase</code></a>
 attribute of the <a href=#svgelement><code>SVGElement</code></a> interface.
 
-</p><p>The <dfn id=concept-atomelement-xmllang title=concept-AtomElement-xmllang><code>xmllang</code></dfn> attribute
-of the <a href=#atomelement><code>AtomElement</code></a> interface <em class=rfc2119>MUST</em>
-behave in the same way as the <a href=https://svgwg.org/svg2-draft/single-page.html#types-__svg__SVGElement__xmllang><code>xmllang</code></a>
+</p><p>The <dfn id=dom-atomelement-xmllang title=dom-AtomElement-xmllang><code>xmllang</code></dfn>
+attribute of the <a href=#atomelement><code>AtomElement</code></a> interface <em class=rfc2119>MUST</em> behave in the same way as the <a href=https://svgwg.org/svg2-draft/single-page.html#types-__svg__SVGElement__xmllang><code>xmllang</code></a>
 attribute of the <a href=#svgelement><code>SVGElement</code></a> interface.
 
 </p><hr>
@@ -470,16 +486,16 @@ interface <dfn id=atomlogoelement>AtomLogoElement</dfn> : <a href=#atomelement>A
 
 <pre class=idl><code>[NoInterfaceObject]
 interface <dfn id=atomtextconstruct>AtomTextConstruct</dfn> : <a href=#atomelement>AtomElement</a> {
-  attribute <span>DOMString</span> <a href=#concept-atomtextconstruct-type title=concept-AtomTextConstruct-type>type</a>;
-  readonly attribute <a href=#element>Element</a>? <a href=#concept-atomtextconstructor-container title=concept-AtomTextConstructor-container>container</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomtextconstruct-type title=dom-AtomTextConstruct-type>type</a>;
+  readonly attribute <a href=#element>Element</a>? <a href=#dom-atomtextconstructor-container title=dom-AtomTextConstructor-container>container</a>;
 };</code></pre>
 
-<p>The <dfn id=concept-atomtextconstruct-type title=concept-AtomTextConstruct-type><code>type</code></dfn> attribute
-of the <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> <em class=rfc2119>MUST</em>
-<a href=#reflect>reflect</a> the <a href=#content-attribute>content attribute</a> of the same
-name.  The default value for the attribute is <a href=#text><code>text</code></a>.
+<p>The <dfn id=dom-atomtextconstruct-type title=dom-AtomTextConstruct-type><code>type</code></dfn>
+attribute of the <a href=#atomtextconstruct><code>AtomTextConstruct</code></a> <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.  The default value for the
+attribute is <a href=#text><code>text</code></a>.
 
-</p><p>The <dfn id=concept-atomtextconstructor-container title=concept-AtomTextConstructor-container><code>container</code></dfn>
+</p><p>The <dfn id=dom-atomtextconstructor-container title=dom-AtomTextConstructor-container><code>container</code></dfn>
 attribute <em class=rfc2119>MUST</em> run the following steps:
 
 </p><ol class=algorithm>
@@ -494,6 +510,29 @@ the <a href=#html-namespace>HTML namespace</a>.
 </li><li>Otherwise, return the <a href=#context-object>context object</a>.
 
 </li></ol>
+
+<hr>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>rights</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomrightselement><code>AtomRightsElement</code></a>.
+
+</p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>subtitle</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <code>AtomSubtitleElement</code>.
+
+</p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>summary</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atomsummaryelement><code>AtomSummaryElement</code></a>.
+
+</p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>title</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomtitleelement><code>AtomTitleElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomrightselement>AtomRightsElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};
+interface <dfn id=atomsummaryelement>AtomSummaryElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};
+interface <dfn id=atomtitleelement>AtomTitleElement</dfn> : <a href=#atomtextconstruct>AtomTextConstruct</a> {};</code></pre>
+
 </section>
 
 <section>
@@ -532,7 +571,12 @@ element</a>.
 for the <code>author</code> <a href=#concept-element title=concept-element>element</a>
 in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomauthorelement><code>AtomAuthorElement</code></a>.
 
-</p><pre class=idl><code>interface <dfn id=atomauthorelement>AtomAuthorElement</dfn> : <a href=#atomelement>AtomElement</a> {};</code></pre>
+</p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>contributor</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atomcontributorelement><code>AtomContributorElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomauthorelement>AtomAuthorElement</dfn> : <a href=#atompersonconstruct>AtomPersonConstruct</a> {};
+interface <dfn id=atomcontributorelement>AtomContributorElement</dfn> : <a href=#atompersonconstruct>AtomPersonConstruct</a> {};</code></pre>
 
 </section>
 
@@ -556,7 +600,21 @@ the wild...</span>
 act as if the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a>
 attribute is set to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
 and time string</a> representation of the given value.
-</p></section>
+
+</p><hr>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>published</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atompublishedelement><code>AtomPublishedElement</code></a>.
+
+</p><p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>updated</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atomupdatedelement><code>AtomUpdatedElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atompublishedelement>AtomPublishedElement</dfn> : <a href=#atomdateconstruct>AtomDateConstruct</a> {};
+interface <dfn id=atomupdatedelement>AtomUpdatedElement</dfn> : <a href=#atomdateconstruct>AtomDateConstruct</a> {};</code></pre>
+
+</section>
 
 <section>
 <h3 id=the-atomfeedelement-interface><span class=secno>4.5 </span>The <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface</h3>
@@ -569,15 +627,15 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomfeedelement><c
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-authorelements title=dom-AtomFeedElement-authorElements>authorElements</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-categoryelements title=dom-AtomFeedElement-categoryElements>categoryElements</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-contributorelements title=dom-AtomFeedElement-contributorElements>contributorElements</a>;
-  readonly attribute <span>AtomGeneratorElement</span>? <a href=#dom-atomfeedelement-generatorelement title=dom-AtomFeedElement-generatorElement>generatorElement</a>;
+  readonly attribute <a href=#atomgeneratorelement>AtomGeneratorElement</a>? <a href=#dom-atomfeedelement-generatorelement title=dom-AtomFeedElement-generatorElement>generatorElement</a>;
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-icon title=dom-AtomFeedElement-icon>icon</a>;
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-atomid title=dom-AtomFeedElement-atomId>atomId</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-linkelements title=dom-AtomFeedElement-linkElements>linkElements</a>;
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-logo title=dom-AtomFeedElement-logo>logo</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-rightselements title=dom-AtomFeedElement-rightsElements>rightsElements</a>;
   readonly attribute <span>AtomSubtitleElement</span>? <a href=#dom-atomfeedelement-subtitleelement title=dom-AtomFeedElement-subtitleElement>subtitleElement</a>;
-  readonly attribute <span>AtomTitleElement</span>? <a href=#dom-atomfeedelement-titleelement title=dom-AtomFeedElement-titleElement>titleElement</a>;
-  readonly attribute <span>AtomUpdatedElement</span>? <a href=#dom-atomfeedelement-updatedelement title=dom-AtomFeedElement-updatedElement>updatedElement</a>;
+  readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomfeedelement-titleelement title=dom-AtomFeedElement-titleElement>titleElement</a>;
+  readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomfeedelement-updatedelement title=dom-AtomFeedElement-updatedElement>updatedElement</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-entryelements title=dom-AtomFeedElement-entryElements>entryElements</a>;
   <a href=#atomentryelement>AtomEntryElement</a>? <a href=#dom-atomfeedelement-getentryelementbyid title=dom-AtomFeedElement-getEntryElementById>getEntryElementId</a>(<span>DOMString</span> id);
   <a href=#atomentryelement>AtomEntryElement</a> <a href=#dom-atomfeedelement-addnewentry title=dom-AtomFeedElement-addNewEntry>addNewEntry</a>(<span>DOMString</span> id, [TreatNullAs=EmptyString] <span>DOMString</span> title, [TreatNullAs=EmptyString] <span>DOMString</span> lang);
@@ -696,13 +754,14 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomentryelement><
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomentryelement-contributorelements title=dom-AtomEntryElement-contributorElements>contributorElements</a>;
   attribute <span>DOMString</span> <a href=#dom-atomentryelement-atomid title=dom-AtomEntryElement-atomId>atomId</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomentryelement-linkelements title=dom-AtomEntryElement-linkElements>linkElements</a>;
-  readonly attribute <span>AtomPublishedElement</span>? <a href=#dom-atomentryelement-publishedelement title=dom-AtomEntryElement-publishedElement>publishedElement</a>;
-  readonly attribute <span>AtomRightsElement</span>? <a href=#dom-atomentryelement-rightselement title=dom-AtomEntryElement-rightsElement>rightsElement</a>;
-  readonly attribute <span>AtomRightsElement</span>? <a href=#dom-atomentryelement-entryrightselement title=dom-AtomEntryElement-entryRightsElement>entryRightsElement</a>;
-  readonly attribute <span>AtomSourceElement</span>? <a href=#dom-atomentryelement-sourceelement title=dom-AtomEntryElement-sourceElement>sourceElement</a>;
-  readonly attribute <span>AtomSummaryElement</span>? <a href=#dom-atomentryelement-summaryelement title=dom-AtomEntryElement-summaryElement>summaryElement</a>;
-  readonly attribute <span>AtomTitleElement</span>? <a href=#dom-atomentryelement-titleelement title=dom-AtomEntryElement-titleElement>titleElement</a>;
-  readonly attribute <span>AtomUpdatedElement</span>? <a href=#dom-atomentryelement-updatedelement title=dom-AtomEntryElement-updatedElement>updatedElement</a>;
+  readonly attribute <a href=#atompublishedelement>AtomPublishedElement</a>? <a href=#dom-atomentryelement-publishedelement title=dom-AtomEntryElement-publishedElement>publishedElement</a>;
+  readonly attribute <a href=#atomrightselement>AtomRightsElement</a>? <a href=#dom-atomentryelement-rightselement title=dom-AtomEntryElement-rightsElement>rightsElement</a>;
+  readonly attribute <a href=#atomrightselement>AtomRightsElement</a>? <a href=#dom-atomentryelement-entryrightselement title=dom-AtomEntryElement-entryRightsElement>entryRightsElement</a>;
+  readonly attribute <a href=#atomsourceelement>AtomSourceElement</a>? <a href=#dom-atomentryelement-sourceelement title=dom-AtomEntryElement-sourceElement>sourceElement</a>;
+  readonly attribute <a href=#atomsummaryelement>AtomSummaryElement</a>? <a href=#dom-atomentryelement-summaryelement title=dom-AtomEntryElement-summaryElement>summaryElement</a>;
+  readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomentryelement-titleelement title=dom-AtomEntryElement-titleElement>titleElement</a>;
+  readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomentryelement-updatedelement title=dom-AtomEntryElement-updatedElement>updatedElement</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomentryelement-threadinreplytoelements title=dom-AtomEntryElement-threadInReplyToElements>threadInReplyToElements</a>;
 };</code></pre>
 
 <p>The <dfn id=dom-atomentryelement-authorelements title=dom-AtomEntryElement-authorElements><code>authorElements</code></dfn>
@@ -724,7 +783,7 @@ attribute of the <a href=#atomentryelement><code>AtomEntryElement</code></a> int
   </li><li>If the <a href=#context-object>context object</a> contains a
   <code>source</code> <a href=#concept-tree-child title=concept-tree-child>child</a>
   <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
-  namespace</a>, return the <code title=dom-AtomSourceElement-authorElements>authorElements</code>
+  namespace</a>, return the <a href=#dom-atomsourceelement-authorelements><code title=dom-AtomSourceElement-authorElements>authorElements</code></a>
   <a href=#concept-collection title=concept-collection>collection</a> of the first such
   <a href=#concept-element title=concept-element>element</a> and abort these steps
   unless that <a href=#concept-collection title=concept-collection>collection</a> is
@@ -806,34 +865,114 @@ child element">the <code>title</code> child element</a>.
 attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
 child element">the <code>updated</code> child element</a>.
 
+</p><p>The <dfn id=dom-atomentryelement-threadinreplytoelements title=dom-AtomEntryElement-threadInReplyToElements><code>threadInReplyToElements</code></dfn>
+attribute of the <a href=#atomentryelement><code>AtomEntryElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>in-reply-to</code>
+<a href=#child-element-list>child element list</a> for the <a href=#context-object>context object</a> in
+the <a href=#atom-threading-namespace>Atom Threading namespace</a>.
+
 </p></section>
 
 <section>
-<h3 id=the-atomcontentelement-interface><span class=secno>4.7 </span>The <a href=#atomcontentelement><code>AtomContentElement</code></a> interface</h3>
+<h3 id=the-atomsourceelement-interface><span class=secno>4.7 </span>The <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>source</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomsourceelement><code>AtomSourceElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomsourceelement>AtomSourceElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomsourceelement-authorelements title=dom-AtomSourceElement-authorElements>authorElements</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomsourceelement-categoryelements title=dom-AtomSourceElement-categoryElements>categoryElements</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomsourceelement-contributorelements title=dom-AtomSourceElement-contributorElements>contributorElements</a>;
+  readonly attribute <a href=#atomgeneratorelement>AtomGeneratorElement</a>? <a href=#dom-atomsourceelement-generatorelement title=dom-AtomSourceElement-generatorElement>generatorElement</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomsourceelement-icon title=dom-AtomSourceElement-icon>icon</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomsourceelement-atomid title=dom-AtomSourceElement-atomId>atomId</a>;
+  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomsourceelement-linkelements title=dom-AtomSourceElement-linkElements>linkElements</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomsourceelement-logo title=dom-AtomSourceElement-logo>logo</a>;
+  readonly attribute <a href=#atomrightselement>AtomRightsElement</a>? <a href=#dom-atomsourceelement-rightselement title=dom-AtomSourceElement-rightsElement>rightsElement</a>;
+  readonly attribute <span>AtomSubtitleElement</span>? <a href=#dom-atomsourceelement-subtitleelement title=dom-AtomSourceElement-subtitleElement>subtitleElement</a>;
+  readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomsourceelement-titleelement title=dom-AtomSourceElement-titleElement>titleElement</a>;
+  readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomsourceelement-updatedelement title=dom-AtomSourceElement-updatedElement>updatedElement</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomsourceelement-authorelements title=dom-AtomSourceElement-authorElements><code>authorElements</code></dfn>
+attribute of the <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>author</code> <a href=#child-element-list>child
+element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-categoryelements title=dom-AtomSourceElement-categoryElements><code>categoryElements</code></dfn>
+attribute of the <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>category</code> <a href=#child-element-list>child
+element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-contributorelements title=dom-AtomSourceElement-contributorElements><code>contributorElements</code></dfn>
+attribute of the <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>contributor</code>
+<a href=#child-element-list>child element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-generatorelement title=dom-AtomSourceElement-generatorElement><code>generatorElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>generator</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-icon title=dom-AtomSourceElement-icon><code>icon</code></dfn>
+attribute <em class=rfc2119>MUST</em> <a href=#reflect-the-url-value-of-a-child-element title="reflect the URL
+value of a child element">reflect the URL value of the
+<code>icon</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-atomid title=dom-AtomSourceElement-atomId><code>atomId</code></dfn> attribute
+<em class=rfc2119>MUST</em> <a href=#reflect-the-string-value-of-a-child-element title="reflect the string value of a
+child element">reflect the string value of the <code>id</code> child
+element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-linkelements title=dom-AtomSourceElement-linkElements><code>linkElements</code></dfn>
+attribute of the <a href=#atomsourceelement><code>AtomSourceElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>link</code> <a href=#child-element-list>child
+element list</a> for the <a href=#context-object>context object</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-logo title=dom-AtomSourceElement-logo><code>logo</code></dfn>
+attribute <em class=rfc2119>MUST</em> <a href=#reflect-the-url-value-of-a-child-element title="reflect the URL
+value of a child element">reflect the URL value of the
+<code>logo</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-rightselement title=dom-AtomSourceElement-rightsElement><code>rightsElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>rights</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-subtitleelement title=dom-AtomSourceElement-subtitleElement><code>subtitleElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>subtitle</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-titleelement title=dom-AtomSourceElement-titleElement><code>titleElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>title</code> child element</a>.
+
+</p><p>The <dfn id=dom-atomsourceelement-updatedelement title=dom-AtomSourceElement-updatedElement><code>updatedElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>updated</code> child element</a>.
+
+</p></section>
+
+<section>
+<h3 id=the-atomcontentelement-interface><span class=secno>4.8 </span>The <a href=#atomcontentelement><code>AtomContentElement</code></a> interface</h3>
 
 <p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
 for the <code>content</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
 namespace</a> is <a href=#atomcontentelement><code>AtomContentElement</code></a>.
 
 </p><pre class=idl><code>interface <dfn id=atomcontentelement>AtomContentElement</dfn> : <a href=#atomelement>AtomElement</a> {
-  attribute <span>DOMString</span> <a href=#concept-atomcontentelement-type title=concept-AtomContentElement-type>type</a>;
-  attribute <span>DOMString</span> <a href=#concept-atomcontentelement-src title=concept-AtomContentElement-src>src</a>;
-  readonly attribute <a href=#element>Element</a>? <a href=#concept-atomcontentelement-container title=concept-AtomContentElement-container>container</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomcontentelement-type title=dom-AtomContentElement-type>type</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomcontentelement-src title=dom-AtomContentElement-src>src</a>;
+  readonly attribute <a href=#element>Element</a>? <a href=#dom-atomcontentelement-container title=dom-AtomContentElement-container>container</a>;
 };</code></pre>
 
-<p>The <dfn id=concept-atomcontentelement-type title=concept-AtomContentElement-type><code>type</code></dfn>
+<p>The <dfn id=dom-atomcontentelement-type title=dom-AtomContentElement-type><code>type</code></dfn>
 attribute of the <a href=#atomcontentelement><code>AtomContentElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
 attribute</a> of the same name.  The default value for the
 attribute is <a href=#text><code>text</code></a> if the <a href=#context-object>context object</a> does
 not have the <code>src</code> <a href=#concept-attribute title=concept-attribute>content
 attribute</a>, or no default value otherwise.
 
-</p><p>The <dfn id=concept-atomcontentelement-src title=concept-AtomContentElement-src><code>src</code></dfn> attribute
-of the <a href=#atomcontentelement><code>AtomContentElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+</p><p>The <dfn id=dom-atomcontentelement-src title=dom-AtomContentElement-src><code>src</code></dfn>
+attribute of the <a href=#atomcontentelement><code>AtomContentElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
 attribute</a> of the same name, which for the purposees of
 reflection is defined as containing a <a href=#url>URL</a>.
 
-</p><p>The <dfn id=concept-atomcontentelement-container title=concept-AtomContentElement-container><code>container</code></dfn>
+</p><p>The <dfn id=dom-atomcontentelement-container title=dom-AtomContentElement-container><code>container</code></dfn>
 attribute of the <a href=#atomcontentelement><code>AtomContentElement</code></a> interface <em class=rfc2119>MUST</em> run the following steps:
 
 </p><ol class=algorithm>
@@ -860,1590 +999,204 @@ return <code>null</code>.
 
 </section>
 
-</section>
-
-<xmp class=ed>
-
-
-  @CODE:
-    @@QName: getReflectAttrNonNegativeIntegerValue
-    @@enDesc:
-      {P:: If a DOM attribute is defined to <DFN::reflect the 
-           non-negative integer value of the <VAR::attr-name> attribute>
-           of the node <VAR::E>, the getter of the attribute <kwd:MUST>
-           return the value defined by the algorithm:
-
-        {OLI:: If the <VAR::E> contains an attribute node <VAR::A> whose name
-               is <VAR::attr-name>:
-
-          = If the <A::Node.nodeValue> of the <VAR::A> is
-            one or more sequence of digits (<CHAR::DIGIT ZERO>, 
-            <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>) optionally
-            preceding by a <CHAR::PLUS SIGN>, then
-            the attribute getter <kwd:MUST> return a value
-            by interpreting the <A::Node.nodeValue> of the <VAR::A>
-            as a decimal number.
-
-        }
-
-        = If a default value is explicitly defined
-          where this algorithm is referenced, it <kwd:MUST>
-          return the default value.
-
-        = Otherwise, it <kwd:MUST> return a binding-specific
-          default value, if it is defined by the specification
-          of the binding, or <DOM::-1>.
-
-      }
-
-        {NOTE::
-          In Atom Threading Extension <SRC::RFC 4685>,
-          the <CHAR::PLUS SIGN> and leading <CHAR::DIGIT ZERO>s
-          are prohibitted.
-        }
-    @@PerlDef:
-      __DEEP{
-        E: {
-          $r = $node-><M::Element.getAttributeNS> ($namespaceURI, $localName);
-          if (defined $r) {
-            if ($r =~ /\A\+?([0-9]+)\z/) {
-              $r = 0+$1;
-              last E;
-            }
-          }
-
-          $r = $defaultValue;
-          $r = -1 unless defined $r;
-        } # E
-      }__;
-
-  @CODE:
-    @@QName: setReflectAttrNonNegativeIntegerValue
-    @@enDesc:
-      {P:: If a DOM attribute is defined to <DFN::reflect the
-           non-negative integer value
-           of the <VAR::attr-name> attribute> of the node <VAR::E>,
-           the setter of the attribute <kwd:MUST> modify the node as
-           defined by the algorithm:
-
-        = If the given value is <DOM::-1> or one of binding-specific
-          default values, if any, as defined by the specification
-          of the binding, it <kwd:MUST>
-          remove the <VAR::attr-name> attribute node, if any,
-          from the list of attribute nodes of <VAR::E>.
-
-        = Otherwise, it <kwd:MUST> set the <VAR::attr-name>
-          attribute node value to a string representation
-          of the given value as if 
-          the <M::Element.setAttributeNS> method were invoked.
-          The string representation <kwd:MUST> be a decimal
-          number consist of one or more sequence of digits
-          (<CHAR::DIGIT ZERO>, <CHAR::DIGIT ONE>, ..., <CHAR::DIGIT NINE>)
-          <EM::without> any leading <CHAR::DIGIT ZERO>.
-          The <CHAR::PLUS SIGN> <kwd:MUST> be omitted.
-
-      }
-
-        {NOTE::
-          It might throw an exception.
-        }
-    @@PerlDef:
-      __DEEP{
-        if (defined $given and $given >= 0) {
-          $node-><M::Element.setAttributeNS>
-                   ($namespaceURI, $localName, 0+$given);
-        } else {
-          $node-><M::Element.removeAttributeNS> ($namespaceURI, $localName);
-        }
-      }__;
-##AtomImplementation
-
-IFClsETDef:
-  @IFQName: AtomCategoryElement
-  @ETQName: atom|category
-  @ETRQName: atom|category
-  @ClsQName: ManakaiAtomCategoryElement
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm: undefinedContent
-
-  @enDesc:
-    The <XE::atom|category> element conveys information abut
-    a category associated with an entry or feed.
-
-  @Attr:
-    @@Name: term
-    @@enDesc:
-      The <XA::term> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::term> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'term',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'term',
-          $given => $given,
-        }__;
-
-  @Attr:
-    @@Name: scheme
-    @@enDesc:
-      The categorization scheme of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::scheme> attribute> of the node.
-    @@Type: DOMString
-    @@Type: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'scheme',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'scheme',
-          $given => $given,
-        }__;
-
-  @Attr:
-    @@Name: label
-    @@enDesc:
-      The <XA::label> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::label> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'label',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'label',
-          $given => $given,
-        }__;
-##AtomCategoryElement
-
-IFClsETDef:
-  @IFQName: AtomContributorElement
-  @ETQName: atom|contributor
-  @ETRQName: atom|contributor
-  @ClsQName: ManakaiAtomContributorElement
-
-  @IFISA: AtomPersonConstruct
-  @ClsISA: ManakaiAtomPersonConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: PersonAG
-  @mv:elementContentModel: PersonCM
-
-  @enDesc:
-    The <XE::atom|contributor> element is a Person construct that
-    indicates a person or other entity who contributed to the entry
-    or feed.
-##AtomContributorElement
-
-IFClsETDef:
-  @IFQName: AtomGeneratorElement
-  @ETQName: atom|generator
-  @ETRQName: atom|generator
-  @ClsQName: ManakaiAtomGeneratorElement
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm:
-    (dxm|PCDATA)*
-
-  @enDesc:
-    The <XE::atom|generator> element identifies the agent used
-    to generate a feed.
-
-  @Attr:
-    @@Name: uri
-    @@enDesc:
-      The URI attribute of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::uri> attribute> of the node.
-    @@Type: DOMString
-    @@Type: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'uri',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'uri',
-          $given => $given,
-        }__;
-
-  @Attr:
-    @@Name: version
-    @@enDesc:
-      The <XA::version> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::version> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'version',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'version',
-          $given => $given,
-        }__;
-##AtomGeneratorElement
-
-IFClsETDef:
-  @IFQName: AtomLinkElement
-  @ETQName: atom|link
-  @ETRQName: atom|link
-  @ClsQName: ManakaiAtomLinkElement
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm: undefinedContent
-
-  @enDesc:
-    The <XE::atom|link> element defines a reference from an entry
-    or feed to a Web resource.
-
-  @ATTR:
-    @@Name: href
-    @@enDesc:
-      The <XA::href> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::href> attribute> of the node.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'href',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'href',
-          $given => $given,
-        }__;
-
-  @ATTR:
-    @@Name: rel
-    @@enDesc:
-      The <XA::rel> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::rel> attribute> of the node, with
-      a few exceptions.  The default value <kwd:MUST> 
-      be <URI^DISCore|QName::rel|alternate>.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@enDesc:
-        If the algorithm returns a string that does not contain
-        any <CHAR::COLON> character, the string
-        <URI^DISCore|QName::rel|> <kwd:MUST> be prepended
-        for the return value of the getter.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'rel',
-          $r => $r,
-          $defaultValue => {<Q::rel|alternate>},
-        }__;
-        if (defined $r and index ($r, ':') == -1) {
-          $r = <Q::rel|> . $r;
-        }
-    @@Set:
-      @@@enDesc:
-        If the given value starts with <URI^DISCore|QName::rel|> (by
-        simple character-by-character comparison), such substring
-        <kwd:MUST> be removed for the purpose of the setter algorithm, 
-        if and only if the result string is not empty and does contain
-        none of <CHAR::COLON>, <CHAR::SOLIDUS>, <CHAR::QUESTION MARK>,
-        and <CHAR::NUMBER SIGN>.
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        if (defined $given) {
-          $given =~ s[\Ahttp://www.iana.org/assignments/relation/([^:/?#]+)\z]
-                     [$1];
-        }
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'rel',
-          $given => $given,
-        }__;
-
-    @@Test:
-      @@@QName: AtomLinkElement.rel.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'link');
-
-        $test->id ('default');
-        $test->assert_equals ($el-><AG::AtomLinkElement.rel>,
-                              <Q::rel|alternate>);
-
-        $test->id ('set');
-        $el-><AS::AtomLinkElement.rel> ('http://www.example.com/');
-        $test->assert_equals ($el-><AG::AtomLinkElement.rel>,
-                              'http://www.example.com/');
-
-        $test->id ('set.self');
-        $el-><AS::AtomLinkElement.rel> ('self');
-        $test->assert_equals ($el-><AG::AtomLinkElement.rel>,
-                              <Q::rel|self>);
-
-        $test->id ('set.qrelated');
-        $el-><AS::AtomLinkElement.rel> (<Q::rel|related>);
-        $test->assert_equals ($el-><AG::AtomLinkElement.rel>,
-                              <Q::rel|related>);
-
-        $test->id ('remove');
-        $el-><AS::AtomLinkElement.rel> (null);
-        $test->assert_equals ($el-><AG::AtomLinkElement.rel>,
-                              <Q::rel|alternate>);
-
-  @ATTR:
-    @@Name: type
-    @@enDesc:
-      The <XA::type> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::type> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@enDesc:
-        {P:: If the feature <Feature^^DISCore|QName::AtomThreadingFeature10>
-             is supported, the attribute getter <kwd:MUST> return
-             the string <CODE::application/atom+xml> when both of the
-             following conditions are met:
-
-           - The attribute getter would otherwise return <DOM::null>.
-
-           - The <A::AtomLinkElement.rel> attribute contains
-             a string value of <URI^^DISCore|QName::rel|replies>.
-
-        }
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'type',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-
-        unless (defined $r) {
-          __DEEP{
-            my $rel = $self-><AG::AtomLinkElement.rel>;
-            if (defined $rel and $rel eq <Q::rel|replies>) {
-              $r = q<application/atom+xml>;
-            }
-          }__;
-        }
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'type',
-          $given => $given,
-        }__;
-
-    @@Test:
-      @@@QName: AtomLinkElement.type.!rel.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'link');
-
-        $test->id ('implied');
-        my $type0 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_null ($type0);
-
-        $test->id ('explicit');
-        $el-><AS::AtomLinkElement.type> ('application/atom+xml');
-        my $type1 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type1, q<application/atom+xml>);
-
-        $test->id ('different');
-        $el-><AS::AtomLinkElement.type> ('application/xhtml+xml');
-        my $type2 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type2, q<application/xhtml+xml>);
-    @@Test:
-      @@@QName: AtomLinkElement.type.rel!=replies.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'link');
-
-        $el-><AS::AtomLinkElement.rel> (<Q::rel|alternate>);
-
-        $test->id ('implied');
-        my $type0 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_null ($type0);
-
-        $test->id ('explicit');
-        $el-><AS::AtomLinkElement.type> ('application/atom+xml');
-        my $type1 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type1, q<application/atom+xml>);
-
-        $test->id ('different');
-        $el-><AS::AtomLinkElement.type> ('application/xhtml+xml');
-        my $type2 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type2, q<application/xhtml+xml>);
-    @@Test:
-      @@@QName: AtomLinkElement.type.rel=replies.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $el = $doc-><M::Document.createElementNS> (<Q::atom|>, 'link');
-
-        $el-><AS::AtomLinkElement.rel> (<Q::rel|replies>);
-
-        $test->id ('implied');
-        my $type0 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type0, q<application/atom+xml>);
-
-        $test->id ('explicit');
-        $el-><AS::AtomLinkElement.type> ('application/atom+xml');
-        my $type1 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type1, q<application/atom+xml>);
-
-        $test->id ('different');
-        $el-><AS::AtomLinkElement.type> ('application/xhtml+xml');
-        my $type2 = $el-><AG::AtomLinkElement.type>;
-        $test->assert_equals ($type2, q<application/xhtml+xml>);
-
-  @ATTR:
-    @@Name: hreflang
-    @@enDesc:
-      The <XA::hreflang> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::hreflang> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'hreflang',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'hreflang',
-          $given => $given,
-        }__;
-
-  @ATTR:
-    @@Name: title
-    @@enDesc:
-      The <XA::title> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::title> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'title',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'title',
-          $given => $given,
-        }__;
-
-  @ATTR:
-    @@Name: length
-    @@enDesc:
-      The <XA::length> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::length> attribute> of the node.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'length',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'length',
-          $given => $given,
-        }__;
-##AtomLinkElement
-
-IFClsETDef:
-  @IFQName: AtomPublishedElement
-  @ETQName: atom|published
-  @ETRQName: atom|published
-  @ClsQName: ManakaiAtomPublishedElement
-
-  @IFISA: AtomDateConstruct
-  @ClsISA: ManakaiAtomDateConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: DateAG
-  @mv:elementContentModel: DateCM
-
-  @enDesc:
-    The <XE::atom|published> element is a Date construct
-    indicating an instant in time associated with an
-    event early in the life cycle of the entry.
-
-    Typically, <XE::atom|published> will be associated with
-    the initial creation or first availability of the resouce.
-##AtomPublishedElement
-
-IFClsETDef:
-  @IFQName: AtomRightsElement
-  @ETQName: atom|rights
-  @ETRQName: atom|rights
-  @ClsQName: ManakaiAtomRightsElement
-
-  @IFISA: AtomTextConstruct
-  @ClsISA: ManakaiAtomTextConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: TextAG
-  @mv:elementContentModel: TextCM
-
-  @enDesc:
-    The <XE::atom|rights> element is a Text construct
-    that conveys information about rights held in and
-    over an entry or feed.
-##AtomRightsElement
-
-ECDef:
-  @QName: source-prop
-  @mv:elementTypeClassName: source-prop
-  @mv:refers: atom|author
-  @mv:refers: atom|category
-  @mv:refers: atom|contributor
-  @mv:refers: atom|generator
-  @mv:refers: atom|icon
-  @mv:refers: atom|id
-  @mv:refers: atom|link
-  @mv:refers: atom|logo
-  @mv:refers: atom|rights
-  @mv:refers: atom|subtitle
-  @mv:refers: atom|title
-  @mv:refers: atom|updated
-  @mv:refers: extensionElements
-
-IFClsETDef:
-  @IFQName: AtomSourceElement
-  @ETQName: atom|source
-  @ETRQName: atom|source
-  @ClsQName: ManakaiAtomSourceElement
-
-  @IFISA: AtomElement
-  @ClsISA: ManakaiAtomElement
-
-  @f:implements: AtomFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm:
-    (source-prop*)
-
-  @Attr:
-    @@Name: authorElements
-    @@enDesc:
-      A static list of <XE::atom|author> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|author> child element list>
-        of the node.
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.authorElements.get
-
-  @Attr:
-    @@Name: categoryElements
-    @@enDesc:
-      A static list of <XE::atom|category> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|category> child element list>
-        of the node.
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.categoryElements.get
-
-  @Attr:
-    @@Name: contributorElements
-    @@enDesc:
-      A static list of <XE::atom|contributor> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|contributor> child element list>
-        of the node.
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.contributorElements.get
-
-  @Attr:
-    @@Name: generatorElement
-    @@enDesc:
-      The <XE::atom|generator> child element of the node.
-    @@Type: AtomGeneratorElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|generator> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.generatorElement.get
-
-  @Attr:
-    @@Name: icon
-    @@enDesc:
-      The <XE::atom|icon> value of the node.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XE::atom|icon> child element> of the node.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.icon.get
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the value.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.icon.set
-
-  @Attr:
-    @@Name: id
-    @@enDesc:
-      The <XE::atom|id> value of the node.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XE::atom|id> child element> of the node.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.id.get
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the value.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.id.set
-
-  @Attr:
-    @@Name: linkElements
-    @@enDesc:
-      A static list of <XE::atom|link> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|link> child element list>
-        of the node.
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.linkElements.get
-
-  @Attr:
-    @@Name: logo
-    @@enDesc:
-      The <XE::atom|logo> value of the node.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XE::atom|logo> child element> of the node.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.logo.get
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the value.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.logo.set
-
-  @Attr:
-    @@Name: rightsElement
-    @@enDesc:
-      The <XE::atom|rights> child element of the node.
-    @@Type: AtomRightsElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|rights> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.rightsElement.get
-
-  @Attr:
-    @@Name: subtitleElement
-    @@enDesc:
-      The <XE::atom|subtitle> child element of the node.
-    @@Type: AtomSubtitleElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|subtitle> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.subtitleElement.get
-
-  @Attr:
-    @@Name: titleElement
-    @@enDesc:
-      The <XE::atom|title> child element of the node.
-    @@Type: AtomTitleElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|title> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.titleElement.get
-
-  @Attr:
-    @@Name: updatedElement
-    @@enDesc:
-      The <XE::atom|updated> child element of the node.
-    @@Type: AtomUpdatedElement
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::atom|updated> child element>
-        of the node.
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@NodeReadOnlyError:
-      @@@disDef:
-        @@@@dlp:cloneCode: ManakaiAtomFeedElement.updatedElement.get
-##AtomSourceElement
-
-IFClsETDef:
-  @IFQName: AtomSubtitleElement
-  @ETQName: atom|subtitle
-  @ETRQName: atom|subtitle
-  @ClsQName: ManakaiAtomSubtitleElement
-
-  @IFISA: AtomTextConstruct
-  @ClsISA: ManakaiAtomTextConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: TextAG
-  @mv:elementContentModel: TextCM
-
-  @enDesc:
-    The <XE::atom|subtitle> element is a Text construct
-    that conveys a human-readable description or subtitle for a feed.
-##AtomSubtitleElement
-
-IFClsETDef:
-  @IFQName: AtomSummaryElement
-  @ETQName: atom|summary
-  @ETRQName: atom|summary
-  @ClsQName: ManakaiAtomSummaryElement
-
-  @IFISA: AtomTextConstruct
-  @ClsISA: ManakaiAtomTextConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: TextAG
-  @mv:elementContentModel: TextCM
-
-  @enDesc:
-    The <XE::atom|summary> element is a Text construct
-    that conveys a short summary, abstract, or excerpt of an entry.
-##AtomSummaryElement
-
-IFClsETDef:
-  @IFQName: AtomTitleElement
-  @ETQName: atom|title
-  @ETRQName: atom|title
-  @ClsQName: ManakaiAtomTitleElement
-
-  @IFISA: AtomTextConstruct
-  @ClsISA: ManakaiAtomTextConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: TextAG
-  @mv:elementContentModel: TextCM
-
-  @enDesc:
-    The <XE::atom|title> element is a Text construct
-    that conveys a human-readable title for an entry or feed.
-##AtomTitleElement
-
-IFClsETDef:
-  @IFQName: AtomUpdatedElement
-  @ETQName: atom|updated
-  @ETRQName: atom|updated
-  @ClsQName: ManakaiAtomUpdatedElement
-
-  @IFISA: AtomDateConstruct
-  @ClsISA: ManakaiAtomDateConstruct
-
-  @f:implements: AtomFeature10
-  @mv:refers: DateAG
-  @mv:elementContentModel: DateCM
-
-  @enDesc:
-    The <XE::atom|updated> element is a Date construct
-    indicating the most recent instant in time when an 
-    entry or feed was modified in a way the publisher considers
-    significant.
-##AtomPublishedElement
-
-ElementTypeBinding:
-  @Name: NodeReadOnlyError
-  @ElementType:
-    dx:raises
-  @ShadowContent:
-    @@@: MDOMX|NOMOD_THIS
-    @@Description:
-      @@@lang:en
-      @@@@:
-        If the node or a descendant of it, which
-        is to be modified, is read-only.
-
-## -- Configuration Parameters
-
-boolCParam:
-  @QName: cfg|create-child-element
-  @tc:nodeStemKey:
-    @@@: ccldel
-    @@ForCheck: =ManakaiDOM|all
-  @c:targetType: tc|Document
-  @IsSupportRequired:1
-  @TrueCase:
-    @@c:isSupported:1
-    @@enDesc:
-      If the parameter is set to <DOM::true>, some DOM attributes
-      that returns an element will create a child element
-      when there is no element that met the condition defined
-      for that DOM attribute.
-  @FalseCase:
-    @@c:isSupported:1
-    @@IsSupportRequired:1
-    @@IsDefault:1
-    @@enDesc:
-      If the parameter is set to <DOM::true>, some DOM attributes
-      that returns an element will <EM::not> create a child element
-      even when there is no element that met the condition defined
-      for that DOM attribute.
-  @TestC:
-    @@QName: cfg.create-child-element.set.test
-    @@PerlCDef:
-      my $doc;
-      __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-      my $cfg = $doc-><AG::Document.domConfig>;
-      my $cp = <Q::cfg|create-child-element>;
-
-      $test->id ('default');
-      $test->assert_false ($cfg-><M::CFG.getParameter> ($cp));
-
-      $test->id ('set.f.to.t');
-      $cfg-><M::CFG.setParameter> ($cp => true);
-      $test->assert_true ($cfg-><M::CFG.getParameter> ($cp));
-
-      $test->id ('set.t.to.f');
-      $cfg-><M::CFG.setParameter> ($cp => false);
-      $test->assert_false ($cfg-><M::CFG.getParameter> ($cp));
-
-      $cfg-><M::CFG.setParameter> ($cp => true);
-
-      $test->id ('reset');
-      $cfg-><M::CFG.setParameter> ($cp => null);
-      $test->assert_false ($cfg-><M::CFG.getParameter> ($cp));
-
-ResourceDef:
-  @QName: CFG
-  @AliasFor: c|DOMConfiguration
-
-ElementTypeBinding:
-  @Name: boolCParam
-  @ElementType:
-    dis:ResourceDef
-  @ShadowContent:
-    @@DISCore:resourceType:
-      @@@@: c|DOMConfigurationParameter
-    @@DISCore:resourceType:
-      @@@@: DISCore|Property
-    @@Type: idl|boolean
-
-ECDef:
-  @QName: simpleExtensionElements
-  @mv:elementTypeClassName: simple.extra
-  @DISCore:resourceType: mv|ElementTypeAdditionalClass
-
-ECDef:
-  @QName: structuredExtensionElements
-  @mv:elementTypeClassName: structured.extra
-  @DISCore:resourceType: mv|ElementTypeAdditionalClass
-
-EMDef:
-  @QName: extensionElements
-  @mv:elementTypeClassName: extra
-  @mv:refers: simpleExtensionElements
-  @mv:refers: structuredExtensionElements
-  @DISCore:resourceType: mv|ElementTypeAdditionalClass
-
-AGDef:
-  @QName: undefinedAttributes
-  @mv:attributeTypeGroupName: common.extra
-
-ResourceDef:
-  @QName: undefinedContent
-  @mv:elementContentModelName: undefined
-  @DISCore:resourceType: mv|ElementContentModel
-  @cm: dxm|ANY
-  @enImplNote:
-    (text | anyForeignElement)*
-
-## -- Atom Threading Extension [RFC 4685]
-
-IFClsDef:
-  @IFQName: AtomEntryElementThread
-  @ClsQName: ManakaiAtomEntryElementThread
-
-  @ClsISA: ManakaiAtomEntryElement
-
-  @f:implements: AtomThreadingFeature10
-
-  @enDesc:
-    If the feature <Feature^^DISCore|QName::AtomThreadingFeature10>
-    is supported, any <IF::Element> whose element type
-    is <XE::atom|entry> <kwd:MUST> implement the <IF::AtomEntryElementThread>
-    interface in addition to other appropriate interfaces.
-
-  @Test:
-    @@QName: AtomEntryElementThread.1.test
-    @@PerlDef:
-      my $doc;
-      __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-      my $el = $doc->create_element_ns (<Q::atom|>, 'entry');
-
-      $test->id ('interface');
-      $test->assert_isa ($el, <IFName::AtomEntryElementThread>);
-
-      $test->id ('feature');
-      $test->assert_true ($el->is_supported (<Q::fe|AtomThreading> => '1.0'));
-
-  @Attr:
-    @@Name: threadInReplyToElements
-    @@enDesc:
-      A static list of <XE::thr|in-reply-to> child elements of the node.
-    @@Type: StaticNodeList
-    @@Get:
-      @@@enDesc:
-        It <kwd:MUST> <I::return a <XE::thr|in-reply-to> child element list>
-        of the node.
-      @@@PerlDef:
-        __CODE{returnChildElementList::
-          $node => $self,
-          $namespaceURI => {<Q::thr|>},
-          $localName => 'in-reply-to',
-          $r => $r,
-        }__;
-##AtomEntryElementThread
-
-IFClsETDef:
-  @IFQName: AtomThreadInReplyToElement
-  @ETQName: thr|in-reply-to
-  @ETRQName: thr|in-reply-to
-  @ClsQName: ManakaiAtomThreadInReplyToElement
-
-  @IFISA: AtomDateConstruct
-  @ClsISA: ManakaiAtomDateConstruct
-
-  @f:implements: AtomThreadingFeature10
-  @mv:refers: atomCommonAttributes
-
-  @cm: undefinedContent
-
-  @enDesc:
-    The <XE::thr|in-reply-to> element is used to indicate
-    that an entry is a response to another resource.
-
-    If the entry is a response to multiple resources,
-    additional <XE::thr|in-reply-to> element <kwd:MAY>
-    be used.
-
-    RFC 4685 assigns no significance to the order in which
-    multiple <XE::thr|in-reply-to> element appear within
-    an entry.
-
-  @Test:
-    @@QName: AtomThreadInReplyToElement.1.test
-    @@PerlDef:
-      my $doc;
-      __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-      my $el = $doc->create_element_ns (<Q::thr|>, 'in-reply-to');
-
-      $test->id ('interface');
-      $test->assert_isa ($el, <IFName::AtomThreadInReplyToElement>);
-
-      $test->id ('feature');
-      $test->assert_true ($el->is_supported (<Q::fe|AtomThreading> => '1.0'));
-
-  @ATTR:
-    @@Name: ref
-    @@enDesc:
-      The <XA::ref> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::ref> attribute> of the node.
-
-      The <XA::ref> attribute specifies the persistent,
-      universally unique identifier of the resource being
-      responded to.  The value <kwd:MUST> conform to
-      the same construction and comparison rules as the
-      value of the <XE::atom|id> element.  Though the IRI
-      might use a dereferenceable scheme, processors <kwd:MUST-NOT>
-      assume that it can be dereferenced.
-
-      The <XE::thr|in-reply-to> element <kwd:MUST> contain
-      a <XA::ref> attribute identifying the resource that
-      is being respnoded to.
-
-      If the resource being responded to does not have a persistent,
-      universally unique identifier, the publisher <kwd:MUST> assign an
-      identifier that satisfies all the considerations in Section 4.2.6 of
-      RFC 4287 for use as the value of the <XA::ref> attribute.
-      In that case, if a representation of the resource can be retrieved
-      from an IRI that can be used as a valid atom:id value, then this IRI
-      <kwd:SHOULD> be used as the value of both the <XA::ref> and
-      <XA::href> attributes.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'ref',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'ref',
-          $given => $given,
-        }__;
-	
-  @ATTR:
-    @@Name: source
-    @@enDesc:
-      The <XA::source> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::source> attribute> of the node.
-
-      The <XA::source> attribute <kwd:MAY> be used to specify the IRI
-      of an Atom Feed or Entry Document containing an 
-      <XE::atom|entry> with an <XE::atom|id> value equal to the
-      value of the <XA::ref> attribute.  The IRI specified <kwd:MUST>
-      be dereferenceable.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'source',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'source',
-          $given => $given,
-        }__;
-	
-  @ATTR:
-    @@Name: href
-    @@enDesc:
-      The <XA::href> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the URI value
-      of the <XA::href> attribute> of the node.
-
-      The <XA::href> attribute specifies an IRI that may be used
-      to retrieve a representation of the resource being
-      responded to.  The IRI specified <kwd:MUST> be
-      dereferenceable.
-    @@Type: DOMString
-    @@actualType: DOMURI
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'href',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrURIValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'href',
-          $given => $given,
-        }__;
-  
-  @ATTR:
-    @@Name: type
-    @@enDesc:
-      The <XA::type> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the string value
-      of the <XA::type> attribute> of the node.
-
-      The <XA::type> attribute <kwd:MAY> be used to provide
-      a hint to the client about the media type of the
-      resource identified by the <XA::href> attribute.
-      The <XA::type> attribute is only meaningful if a
-      corresponding <XA::href> attribute is also provided.
-    @@Type: DOMString
-    @@Get:
-      @@@nullCase:
-        @@@@enDesc:
-          If the algorithm returns <DOM::null>.
-      @@@PerlDef:
-        __CODE{getReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'type',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@nullCase:
-        @@@@enDesc:
-          Removes the attribute.
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrStringValue::
-          $node => $self,
-          $namespaceURI => {null},
-          $localName => 'type',
-          $given => $given,
-        }__;
-##AtomThreadInReplyToElement
-
-IFClsDef:
-  @IFQName: AtomLinkElementThread
-  @ClsQName: ManakaiAtomLinkElementThread
-
-  @ClsISA: ManakaiAtomLinkElement
-
-  @f:implements: AtomThreadingFeature10
-
-  @enDesc:
-    An <XE::atom|link> element with a <XA::rel> attribute value of
-    <XML::replies> may be used to reference a resource where responses
-    to an entry may be found.  If the <XA::type> attribute of the 
-    <XE::atom|link> is omitted, its value is assumed to be 
-    <XML::application/atom+xml>.
-
-    A <XML::replies> link appearing as a child of the <XE::atom|feed>
-    or <XE::atom|source> element indicates that the referenced
-    resource likely contains responses to any of that 
-    feed's entries.  A <XML::replies> 
-    link appearing as a child of an <XE::atom|entry> element
-    indicates that the linked resource likely contains responses
-    specific to that entry.
-
-    If the feature <Feature^^DISCore|QName::AtomThreadingFeature10>
-    is supported, any <IF::Element> whose element type
-    is <XE::atom|link> <kwd:MUST> implement the <IF::AtomLinkElementThread>
-    interface in addition to other appropriate interfaces.
-
-  @Test:
-    @@QName: AtomLinkElementThread.1.test
-    @@PerlDef:
-      my $doc;
-      __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-      my $el = $doc->create_element_ns (<Q::atom|>, 'link');
-
-      $test->id ('interface');
-      $test->assert_isa ($el, <IFName::AtomLinkElementThread>);
-
-      $test->id ('feature');
-      $test->assert_true ($el->is_supported (<Q::fe|AtomThreading> => '1.0'));
-
-  @ATTR:
-    @@Name: threadCount
-    @@enDesc:
-      The <XA::thr|count> attribute of the element.
-
-      It <kwd:MUST> <I::reflect the non-negative integer value
-      of the <XA::thr|count> attribute> of the node.
-
-      An <XE::atom|link> element using the <XML::replies>
-      <XA::rel> attribute value <kwd:MAY> contain 
-      a <XA::thr|count> attribute whose value is a
-      non-negative integer that provides a hint to clients
-      as to the total number of replies contained by the
-      linked resource.  The value is advisory and
-      may not accurately reflect the actual number of replies.
-    @@Type: idl|long
-    @@Get:
-      @@@PerlDef:
-        __CODE{getReflectAttrNonNegativeIntegerValue::
-          $node => $self,
-          $namespaceURI => {<Q::thr|>},
-          $localName => 'count',
-          $r => $r,
-          $defaultValue => {null},
-        }__;
-    @@Set:
-      @@@NodeReadOnlyError:
-      @@@PerlDef:
-        __CODE{setReflectAttrNonNegativeIntegerValue::
-          $node => $self,
-          $namespaceURI => {<Q::thr|>},
-          $localName => 'count',
-          $given => $given,
-        }__;
-
-    @@Test:
-      @@@QName: AtomLinkElementThread.threadCount.1.test
-      @@@PerlDef:
-        my $doc;
-        __CODE{tc|createEmptyDocumentForTest:: $doc => $doc}__;
-
-        my $link = $doc->create_element_ns (<Q::atom|>, 'link');
-
-        $test->id ('default');
-        $test->assert_num_equals
-                 (expected_value => -1,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-
-        $test->id ('zero');
-        $link-><AS::AtomLinkElementThread.threadCount> (0);
-        $test->assert_num_equals
-                 (expected_value => 0,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-        $test->id ('zero.attr');
-        $test->assert_equals ($link->get_attribute_ns (<Q::thr|>, 'count'), '0');
-
-        $test->id ('one');
-        $link-><AS::AtomLinkElementThread.threadCount> (1);
-        $test->assert_num_equals
-                 (expected_value => 1,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-        $test->id ('one.attr');
-        $test->assert_equals ($link->get_attribute_ns (<Q::thr|>, 'count'), '1');
-
-        $test->id ('10000');
-        $link-><AS::AtomLinkElementThread.threadCount> (10000);
-        $test->assert_num_equals
-                 (expected_value => 10000,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-        $test->id ('10000.attr');
-        $test->assert_equals ($link->get_attribute_ns (<Q::thr|>, 'count'),
-                              '10000');
-
-        $test->id ('+10000');
-        $link->set_attribute_ns (<Q::thr|>, 'thr:count', '+10000');
-        $test->assert_num_equals
-                 (expected_value => 10000,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-
-        $test->id ('010000');
-        $link->set_attribute_ns (<Q::thr|>, 'thr:count', '010000');
-        $test->assert_num_equals
-                 (expected_value => 10000,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-
-        $test->id ('-100');
-        $link-><AS::AtomLinkElementThread.threadCount> (-100);
-        $test->assert_num_equals
-                 (expected_value => -1,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-        $test->id ('-100.attr');
-        $test->assert_false ($link->has_attribute_ns (<Q::thr|>, 'count'));
-
-        $test->id ('120a');
-        $link->set_attribute_ns (<Q::thr|>, 'thr:count', '120a');
-        $test->assert_num_equals
-                 (expected_value => -1,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-
-        $test->id ('-1');
-        $link-><AS::AtomLinkElementThread.threadCount> (-1);
-        $test->assert_num_equals
-                 (expected_value => -1,
-                  actual_value =>
-                    $link-><AG::AtomLinkElementThread.threadCount>);
-        $test->id ('-1.attr');
-        $test->assert_false ($link->has_attribute_ns (<Q::thr|>, 'count'));
-
-  @enImplNote:
-    @@ddid: updated
-    @@@:
-      {TODO::
-        <XA::thr|updated> attribute
-      }
-##AtomLinkElementThread
-
-enImplNote:
-  @@ddid: total
-  @@@:
-    {TODO::
-      <XE::thr|total>
-    }
-
-enImplNote:
-  @@ddid: threaddtd
-  @@@:
-    {TODO::
-      DTD impl for threading
-    }
-</xmp>
+<section>
+<h3 id=the-atomcategoryelement-interface><span class=secno>4.9 </span>The <a href=#atomcategoryelement><code>AtomCategoryElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>category</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atomcategoryelement><code>AtomCategoryElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomcategoryelement>AtomCategoryElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  attribute <span>DOMString</span> <a href=#dom-atomcategoryelement-term title=dom-AtomCategoryElement-term>term</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomcategoryelement-scheme title=dom-AtomCategoryElement-scheme>scheme</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomcategoryelement-label title=dom-AtomCategoryElement-label>label</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomcategoryelement-term title=dom-AtomCategoryElement-term><code>term</code></dfn>
+and <dfn id=dom-atomcategoryelement-label title=dom-AtomCategoryElement-label><code>label</code></dfn>
+attributes of the <a href=#atomcategoryelement><code>AtomCategoryElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.
+
+</p><p>The <dfn id=dom-atomcategoryelement-scheme title=dom-AtomCategoryElement-scheme><code>scheme</code></dfn>
+attribute of the <a href=#atomcategoryelement><code>AtomCategoryElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name, which for the purposees of
+reflection is defined as containing a <a href=#url>URL</a>.
+
+</p></section>
 
 <section>
-<h2 id=changes-from-earlier-versions-of-atom-dom><span class=secno>5 </span>Changes from earlier versions of Atom DOM</h2>
+<h3 id=the-atomgeneratorelement-interface><span class=secno>4.10 </span>The <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>generator</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> is <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomgeneratorelement>AtomGeneratorElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  attribute <span>DOMString</span> <a href=#dom-atomgeneratorelement-uri title=dom-AtomGeneratorElement-uri>uri</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomgeneratorelement-version title=dom-AtomGeneratorElement-version>version</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomgeneratorelement-uri title=dom-AtomGeneratorElement-uri><code>uri</code></dfn>
+attribute of the <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name, which for the purposees of
+reflection is defined as containing a <a href=#url>URL</a>.
+
+</p><p>The <dfn id=dom-atomgeneratorelement-version title=dom-AtomGeneratorElement-version><code>version</code></dfn>
+attribute of the <a href=#atomgeneratorelement><code>AtomGeneratorElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.
+
+</p></section>
+
+<section>
+<h3 id=the-atomlinkelement-interface><span class=secno>4.11 </span>The <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>link</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomlinkelement><code>AtomLinkElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomlinkelement>AtomLinkElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-href title=dom-AtomLinkElement-href>href</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-hreflang title=dom-AtomLinkElement-hreflang>hreflang</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-length title=dom-AtomLinkElement-length>length</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-rel title=dom-AtomLinkElement-rel>rel</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-title title=dom-AtomLinkElement-title>title</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomlinkelement-type title=dom-AtomLinkElement-type>type</a>;
+  attribute <span>unsigned long</span> <a href=#dom-atomlinkelement-threadcount title=dom-AtomLinkElement-threadCount>threadCount</a>;
+  attribute <span>DOMTimeStamp</span> <a href=#dom-atomlinkelement-threadupdated title=dom-AtomLinkElement-threadUpdated>threadUpdated</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomlinkelement-href title=dom-AtomLinkElement-href><code>href</code></dfn>
+attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name, which for the purposees of
+reflection is defined as containing a <a href=#url>URL</a>.
+
+</p><p>On getting, the <dfn id=dom-atomlinkelement-rel title=dom-AtomLinkElement-rel><code>rel</code></dfn> attribute <em class=rfc2119>MUST</em> run the following steps:
+
+  </p><ol class=algorithm>
+
+  <li>If the <a href=#context-object>context object</a> does not has the
+  <code>rel</code> <a href=#concept-attribute title=concept-attribute>content
+  attribute</a>, return the empty string and abort these steps.
+
+  </li><li>Let <var title="">value</var> be the <code>rel</code> <a href=#concept-attribute title=concept-attribute>attribute</a> <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the <a href=#context-object>context
+  object</a>.
+
+  </li><li>If <var title="">value</var> contains the <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>), return <var title="">value</var> and abort these steps.
+
+  </li><li>Return the string
+  <code>http://www.iana.org/assignments/relation/</code> followed by
+  <var title="">value</var>.
+
+  </li></ol>
+
+<p>On setting, the <a href=#dom-atomlinkelement-rel><code title=dom-AtomLinkElement-rel>rel</code></a>
+attribute <em class=rfc2119>MUST</em> run the following steps:
+
+  </p><ol class=algorithm>
+
+  <li>Let <var title="">value</var> be the given value.
+
+  </li><li>If <var title="">value</var> is
+  <code>http://www.iana.org/assignments/relation/</code> followed by
+  one or more characters other than <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>),
+  <code>U+002F</code> <code class=charname>SOLIDUS</code> character
+  (<code>/</code>), and <code>U+003F</code> <code class=charname>QUESTION MARK</code> character (<code>?</code>),
+  remove the <code>http://www.iana.org/assignments/relation/</code>
+  prefix from <var title="">value</var>.
+
+  </li><li><a href=#concept-element-attributes-set title=concept-element-attributes-set>Set the
+  <code>rel</code> attribute</a> of the <a href=#context-object>context object</a>
+  to <var title="">value</var>.
+
+  </li></ol>
+
+<p>The <dfn id=dom-atomlinkelement-type title=dom-AtomLinkElement-type><code>type</code></dfn>
+attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.  The default value for the
+<code>type</code> attribute is <code>application/atom+xml</code> if
+the <a href=#dom-atomlinkelement-rel><code title=dom-AtomLinkElement-rel>rel</code></a> attribute value of
+the <a href=#context-object>context object</a> is
+<code>http://www.iana.org/assignments/relation/replies</code>, or no
+default value otherwise.
+
+</p><p>The <dfn id=dom-atomlinkelement-hreflang title=dom-AtomLinkElement-hreflang><code>hreflang</code></dfn>, <dfn id=dom-atomlinkelement-title title=dom-AtomLinkElement-title><code>title</code></dfn>, <dfn id=dom-atomlinkelement-length title=dom-AtomLinkElement-length><code>length</code></dfn>, and <dfn id=dom-atomlinkelement-threadcount title=dom-AtomLinkElement-threadCount><code>threadCount</code></dfn>
+attributes of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.
+
+</p><p>On getting, the <dfn id=dom-atomlinkelement-threadupdated title=dom-AtomLinkElement-threadUpdated><code>threadUpdated</code></dfn>
+attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time
+string">parse</a> the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the <code>updated</code>
+<a href=#concept-attribute title=concept-attribute>attribute</a> in the <a href=#atom-threading-namespace>Atom
+Threading namespace</a>.  If the <a href=#concept-attribute title=concept-attribute>attribute</a> is not present, or the
+parsing fails, it <em class=rfc2119>MUST</em> return zero instead.
+
+</p><p>On setting, the <a href=#dom-atomlinkelement-threadupdated><code title=dom-AtomLinkElement-threadUpdated>threadUpdated</code></a> attribute
+of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#concept-element-attributes-set title=concept-element-attributes-set>Set
+the <code>updated</code> attribute</a> in the <a href=#atom-threading-namespace>Atom Threading
+namespace</a> to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
+and time string</a> representation of the given value.
+
+</p></section>
+
+</section>
+
+<section>
+<h2 id=interfaces-for-atom-threading-extensions><span class=secno>5 </span>Interfaces for Atom Threading extensions</h2>
+
+<section>
+<h3 id=the-atomthreadinreplytoelement-interface><span class=secno>5.1 </span>The <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>in-reply-to</code> <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-threading-namespace>Atom Threading
+namespace</a> is <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomthreadinreplytoelement>AtomThreadInReplyToElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  attribute <span>DOMString</span> <a href=#dom-atomthreadinreplytoelement-href title=dom-AtomThreadInReplyToElement-href>href</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomthreadinreplytoelement-ref title=dom-AtomThreadInReplyToElement-ref>ref</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomthreadinreplytoelement-source title=dom-AtomThreadInReplyToElement-source>source</a>;
+  attribute <span>DOMString</span> <a href=#dom-atomthreadinreplytoelement-type title=dom-AtomThreadInReplyToElement-type>type</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomthreadinreplytoelement-href title=dom-AtomThreadInReplyToElement-href><code>href</code></dfn>,
+<dfn id=dom-atomthreadinreplytoelement-ref title=dom-AtomThreadInReplyToElement-ref><code>ref</code></dfn>,
+and <dfn id=dom-atomthreadinreplytoelement-source title=dom-AtomThreadInReplyToElement-source><code>source</code></dfn>
+attributes of the <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface
+<em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name, which for the purposees of
+reflection is defined as containing a <a href=#url>URL</a>.
+
+</p><p>The <dfn id=dom-atomthreadinreplytoelement-type title=dom-AtomThreadInReplyToElement-type><code>type</code></dfn>,
+attribute of the <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+attribute</a> of the same name.
+
+</p></section>
+
+<section>
+<h3 id=the-atomthreadtotalelement-interface><span class=secno>5.2 </span>The <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface</h3>
+
+<p>The <a href=#concept-element-interface title=concept-element-interface>element interface</a>
+for the <code>total</code> <a href=#concept-element title=concept-element>element</a>
+in the <a href=#atom-threading-namespace>Atom Threading namespace</a> is
+<a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a>.
+
+</p><pre class=idl><code>interface <dfn id=atomthreadtotalelement>AtomThreadTotalElement</dfn> : <a href=#atomelement>AtomElement</a> {
+  attribute <span>unsigned long</span> <a href=#dom-atomthreadtotalelement-value title=dom-AtomThreadTotalElement-value>value</a>;
+};</code></pre>
+
+<p>The <dfn id=dom-atomthreadtotalelement-value title=dom-AtomThreadTotalElement-value><code>value</code></dfn>
+attribute of the <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> a fictional <a href=#content-attribute>content
+attribute</a> corresponding to the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> <a href=#idl-attribute>IDL
+attribute</a>.
+
+</p></section>
+
+</section>
+
+<section>
+<h2 id=changes-from-earlier-versions-of-atom-dom><span class=secno>6 </span>Changes from earlier versions of Atom DOM</h2>
 
 <p>Earlier versions of this specification defined following feature
-strings:
+strings, which are now considered obsolete:
 
 </p><ul>
 
@@ -2458,12 +1211,17 @@ support of the Atom DOM.
 
 </li></ul>
 
-<p>Earlier versions of this specification defined the <a href=#AtomImplementation><code>AtomImplementation</code></a>
-interface, which is now defined as a partial interface for
+<p>The <a href=#AtomImplementation><dfn id=atomimplementation><code>AtomImplementation</code></dfn></a>
+interface is now defined as a partial interface for
 <a href=#domimplementation><code>DOMImplementation</code></a>.
 
-</p><p>Earlier versions of this specification defined the empty
-<dfn id=atomdocument><code>AtomDocument</code></dfn> interface.
+</p><p>The <dfn id=atomdocument><code>AtomDocument</code></dfn> interface is deleted as it
+is empty and useless.
+
+</p><p>The <dfn id=atomentryelementthread><code>AtomEntryElementThread</code></dfn> and
+<dfn id=atomlinkelementthread><code>AtomLinkElementThread</code></dfn> interfaces are merged
+with <a href=#atomentryelement><code>AtomEntryElement</code></a> and <a href=#atomlinkelement><code>AtomLinkElement</code></a>
+interfaces, respectively.
 
 </p><p>Earlier versions of this specification specified different handling
 of <code>null</code> values for reflecting attributes.  They are
@@ -2474,10 +1232,10 @@ returned by various attributes as <a href=#concept-collection-static title=conce
 <a href=#concept-collection-live title=concept-collection-live>live</a> for consistency with
 HTML DOM.
 
-</p><p>The <code>id</code> attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a>
-interface is renamed as <a href=#dom-atomfeedelement-atomid><code title=dom-AtomFeedElement-atomId>atomId</code></a> to avoid confliction
-with <a href=#element><code>Element</code></a>'s <a href=#dom-element-id><code title=dom-Element-id>id</code></a>
-attribute defined by DOM.
+</p><p>The <code>id</code> attribute of <a href=#atomfeedelement><code>AtomFeedElement</code></a>,
+<a href=#atomentryelement><code>AtomEntryElement</code></a>, and <a href=#atomsourceelement><code>AtomSourceElement</code></a>
+interfaces is renamed as <code title="">atomId</code> to avoid
+confliction with <a href=#element><code>Element</code></a>'s <a href=#dom-element-id><code title=dom-Element-id>id</code></a> attribute defined by DOM.
 
 </p></section>
 
@@ -2488,6 +1246,9 @@ attribute defined by DOM.
 
 <dt id=ref-ATOM>ATOM
 </dt><dd><a href=http://tools.ietf.org/html/rfc4287><cite>The Atom Syndication Format</cite></a>, IETF, RFC 4287.
+
+</dd><dt id=ref-ATOMTHREADING>ATOMTHREADING
+</dt><dd><a href=http://tools.ietf.org/html/rfc4685><cite>Atom Threading Extensions</cite></a>, IETF, RFC 4685.
 
 </dd><dt id=ref-DOM>DOM
 </dt><dd><a href=http://dom.spec.whatwg.org/><cite>DOM Standard</cite></a>, WHATWG.

@@ -1377,7 +1377,10 @@ attribute</span> of the same name.
 title=dom-AtomLinkElement-threadCount><code>threadCount</code></dfn>
 attributes of the <code>AtomLinkElement</code> interface <em
 class=rfc2119>MUST</em> <span>reflect</span> the <code>count</code>
-attribute in the <span>Atom Threading namespace</span>.
+attribute in the <span>Atom Threading namespace</span>.  When a new
+attribute is set by the <span
+title=concept-attribute>attribute</span>, the namespace prefix <em
+class=rfc2119>MUST</em> be <code>thr</code>.
 
 <p>On getting, the <dfn
 title=dom-AtomLinkElement-threadUpdated><code>threadUpdated</code></dfn>
@@ -1393,10 +1396,11 @@ parsing fails, it <em class=rfc2119>MUST</em> return zero instead.
 <p>On setting, the <code
 title=dom-AtomLinkElement-threadUpdated>threadUpdated</code> attribute
 of the <code>AtomLinkElement</code> interface <em
-class=rfc2119>MUST</em> <span title=concept-element-attributes-set>Set
+class=rfc2119>MUST</em> <span title=concept-element-attributes-set>set
 the <code>updated</code> attribute</span> in the <span>Atom Threading
 namespace</span> to the <span>valid normalized forced-UTC global date
-and time string</span> representation of the given value.
+and time string</span> representation of the given value, with prefix
+<code>thr</code>.
 
 </section>
 

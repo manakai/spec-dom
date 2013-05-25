@@ -1187,7 +1187,8 @@ attribute</a> of the same name.
 
 </p><p>The <dfn id=dom-atomlinkelement-threadcount title=dom-AtomLinkElement-threadCount><code>threadCount</code></dfn>
 attributes of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <code>count</code>
-attribute in the <a href=#atom-threading-namespace>Atom Threading namespace</a>.
+attribute in the <a href=#atom-threading-namespace>Atom Threading namespace</a>.  When a new
+attribute is set by the <a href=#concept-attribute title=concept-attribute>attribute</a>, the namespace prefix <em class=rfc2119>MUST</em> be <code>thr</code>.
 
 </p><p>On getting, the <dfn id=dom-atomlinkelement-threadupdated title=dom-AtomLinkElement-threadUpdated><code>threadUpdated</code></dfn>
 attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time
@@ -1197,10 +1198,11 @@ Threading namespace</a>.  If the <a href=#concept-attribute title=concept-attrib
 parsing fails, it <em class=rfc2119>MUST</em> return zero instead.
 
 </p><p>On setting, the <a href=#dom-atomlinkelement-threadupdated><code title=dom-AtomLinkElement-threadUpdated>threadUpdated</code></a> attribute
-of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#concept-element-attributes-set title=concept-element-attributes-set>Set
+of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#concept-element-attributes-set title=concept-element-attributes-set>set
 the <code>updated</code> attribute</a> in the <a href=#atom-threading-namespace>Atom Threading
 namespace</a> to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
-and time string</a> representation of the given value.
+and time string</a> representation of the given value, with prefix
+<code>thr</code>.
 
 </p></section>
 

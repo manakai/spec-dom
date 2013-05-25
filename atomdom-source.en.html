@@ -441,11 +441,8 @@ the following steps:
 
 <ol class=algorithm>
 
-<li>Let <var title>document</var> be a <span
-title=concept-document>document</span> that would be returned by the
-invocation of the <code
-title=dom-DOMImplementation-createDocument>createDocument</code>
-method on the <span>context object</span>.
+<li>Let <var title>document</var> be a new <span
+title=concept-document>document</span>.
 
 <li>Set the <span title=concept-document-content-type>content
 type</span> of <var title>document</var> to
@@ -486,11 +483,8 @@ the following steps:
 
 <ol class=algorithm>
 
-<li>Let <var title>document</var> be a <span
-title=concept-document>document</span> that would be returned by the
-invocation of the <code
-title=dom-DOMImplementation-createDocument>createDocument</code>
-method on the <span>context object</span>.
+<li>Let <var title>document</var> be a new <span
+title=concept-document>document</span>.
 
 <li>Set the <span title=concept-document-content-type>content
 type</span> of <var title>document</var> to
@@ -1434,10 +1428,10 @@ title=dom-AtomThreadInReplyToElement-source><code>source</code></dfn>
 attributes of the <code>AtomThreadInReplyToElement</code> interface
 <em class=rfc2119>MUST</em> <span>reflect</span> the <span>content
 attribute</span> of the same name, which for the purposees of
-reflection is defined as containing a <span>URL</span>.
+reflection are defined as containing a <span>URL</span>.
 
 <p>The <dfn
-title=dom-AtomThreadInReplyToElement-type><code>type</code></dfn>,
+title=dom-AtomThreadInReplyToElement-type><code>type</code></dfn>
 attribute of the <code>AtomThreadInReplyToElement</code> interface <em
 class=rfc2119>MUST</em> <span>reflect</span> the <span>content
 attribute</span> of the same name.
@@ -1463,6 +1457,9 @@ class=rfc2119>MUST</em> <span>reflect</span> a fictional <span>content
 attribute</span> corresponding to the <code
 title=dom-Node-textContent>textContent</code> <span>IDL
 attribute</span>.
+
+<p class=ed>XXX Define exact processing model instead of using
+"fictional" attribute.
 
 </section>
 

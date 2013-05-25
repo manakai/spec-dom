@@ -386,9 +386,7 @@ the following steps:
 
 </p><ol class=algorithm>
 
-<li>Let <var title="">document</var> be a <a href=#concept-document title=concept-document>document</a> that would be returned by the
-invocation of the <a href=#dom-domimplementation-createdocument><code title=dom-DOMImplementation-createDocument>createDocument</code></a>
-method on the <a href=#context-object>context object</a>.
+<li>Let <var title="">document</var> be a new <a href=#concept-document title=concept-document>document</a>.
 
 </li><li>Set the <a href=#concept-document-content-type title=concept-document-content-type>content
 type</a> of <var title="">document</var> to
@@ -423,9 +421,7 @@ the following steps:
 
 </p><ol class=algorithm>
 
-<li>Let <var title="">document</var> be a <a href=#concept-document title=concept-document>document</a> that would be returned by the
-invocation of the <a href=#dom-domimplementation-createdocument><code title=dom-DOMImplementation-createDocument>createDocument</code></a>
-method on the <a href=#context-object>context object</a>.
+<li>Let <var title="">document</var> be a new <a href=#concept-document title=concept-document>document</a>.
 
 </li><li>Set the <a href=#concept-document-content-type title=concept-document-content-type>content
 type</a> of <var title="">document</var> to
@@ -1234,9 +1230,9 @@ and <dfn id=dom-atomthreadinreplytoelement-source title=dom-AtomThreadInReplyToE
 attributes of the <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface
 <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
 attribute</a> of the same name, which for the purposees of
-reflection is defined as containing a <a href=#url>URL</a>.
+reflection are defined as containing a <a href=#url>URL</a>.
 
-</p><p>The <dfn id=dom-atomthreadinreplytoelement-type title=dom-AtomThreadInReplyToElement-type><code>type</code></dfn>,
+</p><p>The <dfn id=dom-atomthreadinreplytoelement-type title=dom-AtomThreadInReplyToElement-type><code>type</code></dfn>
 attribute of the <a href=#atomthreadinreplytoelement><code>AtomThreadInReplyToElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
 attribute</a> of the same name.
 
@@ -1258,6 +1254,9 @@ in the <a href=#atom-threading-namespace>Atom Threading namespace</a> is
 attribute of the <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> a fictional <a href=#content-attribute>content
 attribute</a> corresponding to the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> <a href=#idl-attribute>IDL
 attribute</a>.
+
+</p><p class=ed>XXX Define exact processing model instead of using
+"fictional" attribute.
 
 </p></section>
 

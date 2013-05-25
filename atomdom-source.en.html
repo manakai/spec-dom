@@ -81,19 +81,34 @@ href="#ref-ATOM">ATOM</a>]</cite>.
 <section>
 <h3>History</h3>
 
-<p class=ed>XXX
+<p>The <span>Atom DOM</span> interfaces are defined for the manakai
+DOM implementation in April 2006.  It extends the standard DOM
+interface by adding convinience methods and attributes to construct or
+interpret Atom 1.0 documents <cite class="bibref normative">[<a
+href="#ref-ATOM">ATOM</a>]</cite>.  Additional interfaces are defined
+in October 2006 to support Atom Threading extension <cite
+class="bibref normative">[<a
+href="#ref-ATOMTHREADING">ATOMTHREADING</a>]</cite>.  Interface
+specificaiton at those days were <a
+href="http://suika.suikawiki.org/gate/cvs/messaging/manakai/lib/Message/Markup/Atom.dis">embedded
+in the source file of manakai's DOM implementation</a>.  The
+interfaces were defined in terms of DOM3.
 
-<p>The <span>Atom DOM</span> was <a
-href="http://suika.suikawiki.org/gate/cvs/messaging/manakai/lib/Message/Markup/Atom.dis">initially
-specified</a> as the inline documentation for the manakai's Atom DOM
-implementation.
-
-<p>Then <a
+<p>The interfaces are extended several times.  Some of <a
 href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/Atom%20DOM">additions
-to the specification</a> was edited in SuikaWiki.
+and work items</a> were recorded in SuikaWiki.
 
-<p>These documents are replaced by <a href="#version-history">this
-specification</a>.
+<p>In April 2013, these documents are replaced by <a
+href="#version-history">this specification</a>.  Unlike the earlier
+versions, it defines the interfaces in terms of WebIDL <cite
+class="bibref normative">[<a href="#ref-WEBIDL">WEBIDL</a>]</cite> and
+DOM Standard <cite class="bibref normative">[<a
+href="#ref-DOM">DOM</a>]</cite>.  Changes from the earlier versions
+are <a href="#changes">listed in the last section of the
+specification</a>.  Changes to this specification are recorded as the
+<a
+href="http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/atomdom-source.en.html">Git
+repository</a>.
 
 </section>
 
@@ -1504,7 +1519,7 @@ class=rfc2119>MUST</em> run the following steps:
 
 </section>
 
-<section>
+<section id=changes>
 <h2>Changes from earlier versions of Atom DOM</h2>
 
 <p>Earlier versions of this specification defined following feature

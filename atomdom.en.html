@@ -1160,11 +1160,14 @@ attribute <em class=rfc2119>MUST</em> run the following steps:
 
   </li><li>If <var title="">value</var> is
   <code>http://www.iana.org/assignments/relation/</code> followed by
-  one or more characters other than <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>),
-  <code>U+002F</code> <code class=charname>SOLIDUS</code> character
-  (<code>/</code>), and <code>U+003F</code> <code class=charname>QUESTION MARK</code> character (<code>?</code>),
-  remove the <code>http://www.iana.org/assignments/relation/</code>
-  prefix from <var title="">value</var>.
+  sequence of one or more characters other than <code>U+003A</code>
+  <code class=charname>COLON</code> character (<code>:</code>),
+  <code>U+0023</code> <code class=charname>NUMBER SIGN</code>
+  character (<code>#</code>), <code>U+002F</code> <code class=charname>SOLIDUS</code> character (<code>/</code>), and
+  <code>U+003F</code> <code class=charname>QUESTION MARK</code>
+  character (<code>?</code>), remove the
+  <code>http://www.iana.org/assignments/relation/</code> prefix from
+  <var title="">value</var>.
 
   </li><li><a href=#concept-element-attributes-set title=concept-element-attributes-set>Set the
   <code>rel</code> attribute</a> of the <a href=#context-object>context object</a>

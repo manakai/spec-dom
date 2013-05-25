@@ -168,7 +168,7 @@ out of memory, or to work around platform-specific limitations.
 <section>
 <h3 id=terms><span class=secno>2.2 </span>Terms</h3>
 
-<p>The terms <dfn id=context-object>context object</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-order title=concept-tree-order>tree order</dfn>, <dfn id=concept-node-append title=concept-node-append>append</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=dom-node-textcontent title=dom-Node-textContent><code>textContent</code></dfn>,
+<p>The terms <dfn id=context-object>context object</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-order title=concept-tree-order>tree order</dfn>, <dfn id=concept-node-append title=concept-node-append>append</dfn>, <dfn id=concept-node-pre-insert title=concept-node-pre-insert>pre-insert</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=dom-node-textcontent title=dom-Node-textContent><code>textContent</code></dfn>,
 <dfn id=document><code>Document</code></dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>, <dfn id=document-element>document
 element</dfn>, <dfn id=element><code>Element</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-interface title=concept-element-interface>element interface</dfn>, <dfn id=dom-element-id title=dom-Element-id><code>id</code></dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, <dfn id=content-attribute>content attribute</dfn>,
 <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>, <dfn id=concept-element-attributes-set title=concept-element-attributes-set>set an attribute</dfn>,
@@ -259,7 +259,15 @@ steps.
   name</var> and <span title=concept-namespace>namespace</span> is
   <var title="">namespace</var>.
 
-  </li><li><span title=concept-tree-append>Append</span> <var title="">child</var> to <var title="">element</var>.
+  </li><li>Let <var title="">entry</var> be <span>null</span>.
+
+  </li><li>If the <a href=#context-object>context object</a> is the <code>feed</code>
+  <a href=#concept-element title=concept-element>element</a> in the <a href=#atom-namespace>Atom
+  namespace</a> and it has an <code>entry</code> <a href=#concept-tree-child title=concept-tree-child>child</a> <a href=#concept-element title=concept-element>element</a>, let <var title="">entry</var> be
+  first such an element in <a href=#concept-tree-order title=concept-tree-order>tree
+  order</a>.
+
+  </li><li><a href=#concept-node-pre-insert title=concept-node-pre-insert>Pre-insert</a> <var title="">child</var> into <var title="">element</var> before <var title="">entry</var>.
 
   </li><li>Return <var title="">child</var> and abort these steps.
 
@@ -362,7 +370,7 @@ name</var> and <span title=concept-namespace>namespace</span> is <var title="">n
 </li><li>If the given value is not the empty string, <a href=#concept-node-append title=concept-node-append>append</a> a <a href=#text><code>Text</code></a> whose
 <a href=#concept-cd-data title=concept-cd-data>data</a> is the given value to <var title="">child</var>.
 
-</li><li><span title=concept-tree-append>Append</span> <var title="">child</var> to the <a href=#context-object>context object</a>.
+</li><li><a href=#concept-node-append title=concept-node-append>Append</a> <var title="">child</var> to the <a href=#context-object>context object</a>.
 
 </li></ol>
 
@@ -749,11 +757,6 @@ child element">the <code>title</code> child element</a>.
 </p><p>The <dfn id=dom-atomfeedelement-updatedelement title=dom-AtomFeedElement-updatedElement><code>updatedElement</code></dfn>
 attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
 child element">the <code>updated</code> child element</a>.
-
-</p><p class=ed>
-      atom:entry children MUST be placed after any other elements.
-      Attributes creating children should insert them before any
-      entries?
 
 </p><p>The <dfn id=dom-atomfeedelement-entryelements title=dom-AtomFeedElement-entryElements><code>entryElements</code></dfn>
 attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>entry</code> <a href=#child-element-list>child

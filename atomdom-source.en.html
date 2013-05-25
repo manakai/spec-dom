@@ -157,6 +157,7 @@ title=concept-tree-parent>parent</dfn>, <dfn
 title=concept-tree-child>child</dfn>, <dfn
 title=concept-tree-order>tree order</dfn>, <dfn
 title=concept-node-append>append</dfn>, <dfn
+title=concept-node-pre-insert>pre-insert</dfn>, <dfn
 title=concept-node-document>node document</dfn>, <dfn
 title=dom-Node-textContent><code>textContent</code></dfn>,
 <dfn><code>Document</code></dfn>, <dfn
@@ -283,8 +284,19 @@ title>element</var> is set to true:
   name</var> and <span title=concept-namespace>namespace</span> is
   <var title>namespace</var>.
 
-  <li><span title=concept-tree-append>Append</span> <var
-  title>child</var> to <var title>element</var>.
+  <li>Let <var title>entry</var> be <span>null</span>.
+
+  <li>If the <span>context object</span> is the <code>feed</code>
+  <span title=concept-element>element</span> in the <span>Atom
+  namespace</span> and it has an <code>entry</code> <span
+  title=concept-tree-child>child</span> <span
+  title=concept-element>element</span>, let <var title>entry</var> be
+  first such an element in <span title=concept-tree-order>tree
+  order</span>.
+
+  <li><span title=concept-node-pre-insert>Pre-insert</span> <var
+  title>child</var> into <var title>element</var> before <var
+  title>entry</var>.
 
   <li>Return <var title>child</var> and abort these steps.
 
@@ -413,7 +425,7 @@ title=concept-node-append>append</span> a <code>Text</code> whose
 <span title=concept-cd-data>data</span> is the given value to <var
 title>child</var>.
 
-<li><span title=concept-tree-append>Append</span> <var
+<li><span title=concept-node-append>Append</span> <var
 title>child</var> to the <span>context object</span>.
 
 </ol>
@@ -849,11 +861,6 @@ child element">the <code>title</code> child element</span>.
 title=dom-AtomFeedElement-updatedElement><code>updatedElement</code></dfn>
 attribute <em class=rfc2119>MUST</em> return <span title="obtain the
 child element">the <code>updated</code> child element</span>.
-
-<p class=ed>
-      atom:entry children MUST be placed after any other elements.
-      Attributes creating children should insert them before any
-      entries?
 
 <p>The <dfn
 title=dom-AtomFeedElement-entryElements><code>entryElements</code></dfn>

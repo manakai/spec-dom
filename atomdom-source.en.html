@@ -187,10 +187,12 @@ href="#ref-DOM">DOM</a>]</cite>.
 class="bibref normative">[<a href="#ref-URL">URL</a>]</cite>.
 
 <p>The terms <dfn>IDL attribute</dfn>, <dfn>reflect</dfn>,
-<dfn>resolve a URL</dfn>, <dfn>parse a global date and time
-string</dfn>, and <dfn>valid normalized forced-UTC global date and
-time string</dfn> are defined by the HTML Standard <cite class="bibref
-normative">[<a href="#ref-HTML">HTML</a>]</cite>.
+<dfn>resolve a URL</dfn>, <dfn>valid non-negative integer</dfn>,
+<dfn>rules for parsing non-negative integers</dfn>, <dfn>parse a
+global date and time string</dfn>, and <dfn>valid normalized
+forced-UTC global date and time string</dfn> are defined by the HTML
+Standard <cite class="bibref normative">[<a
+href="#ref-HTML">HTML</a>]</cite>.
 
 <p>The <dfn>Atom namespace</dfn> is
 <code>http://www.w3.org/2005/Atom</code> <cite class="bibref
@@ -1460,16 +1462,43 @@ in the <span>Atom Threading namespace</span> is
   attribute <span>unsigned long</span> <span title=dom-AtomThreadTotalElement-value>value</span>;
 };</code></pre>
 
-<p>The <dfn
+<!-- This should be equivalent to rules for "unsigned long" reflect
+     attributes, except that it uses |textContent| IDL attribute
+     instead of content attributes -->
+<p>On getting, the <dfn
 title=dom-AtomThreadTotalElement-value><code>value</code></dfn>
 attribute of the <code>AtomThreadTotalElement</code> interface <em
-class=rfc2119>MUST</em> <span>reflect</span> a fictional <span>content
-attribute</span> corresponding to the <code
-title=dom-Node-textContent>textContent</code> <span>IDL
-attribute</span>.
+class=rfc2119>MUST</em> parse the <code
+title=dom-Node-textContent>textContent</code> attribute value of the
+<span>context object</span> according to the <span>rules for parsing
+non-negative integers</span>, and if that is successful, and the value
+is in the range 0 to 2147483647 inclusive, it <em
+class=rfc2119>MUST</em> return the resulting value.  If, on the other
+hand, that fails or returns an out of range value, it <em
+class=rfc2119>MUST</em> return 0 instead.
 
-<p class=ed>XXX Define exact processing model instead of using
-"fictional" attribute.
+<p>On setting, the <code
+title=dom-AtomThreadTotalElement-value>value</code> attribute of the
+<code>AtomThreadTotalElement</code> interface <em
+class=rfc2119>MUST</em> run the following steps:
+
+  <ol class=algorithm>
+
+  <li>If the new value is in the range 0 to 2147483647, let <var
+  title>n</var> be the new value.
+
+  <li>Otherwise, let <var title>n</var> be 0.
+
+  <li>Convert <var title>n</var> to the shortest possible string
+  representing the number as a <span>valid non-negative
+  integer</span>.
+
+  <li>Act as if the <code
+  title=dom-Node-textContent>textContent</code> attribute of the
+  <span>context object</span> were set to the result of the previous
+  step.
+
+</ol>
 
 </section>
 

@@ -182,10 +182,11 @@ are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM
 </p><p>The term <dfn id=url>URL</dfn> is defined by the URL Standard <cite class="bibref normative">[<a href=#ref-URL>URL</a>]</cite>.
 
 </p><p>The terms <dfn id=idl-attribute>IDL attribute</dfn>, <dfn id=reflect>reflect</dfn>,
-<dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a global date and time
-string</dfn>, and <dfn id=valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date and
-time string</dfn> are defined by the HTML Standard <cite class="bibref
-normative">[<a href=#ref-HTML>HTML</a>]</cite>.
+<dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=valid-non-negative-integer>valid non-negative integer</dfn>,
+<dfn id=rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a
+global date and time string</dfn>, and <dfn id=valid-normalized-forced-utc-global-date-and-time-string>valid normalized
+forced-UTC global date and time string</dfn> are defined by the HTML
+Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn> is
 <code>http://www.w3.org/2005/Atom</code> <cite class="bibref
@@ -1255,15 +1256,36 @@ in the <a href=#atom-threading-namespace>Atom Threading namespace</a> is
   attribute <span>unsigned long</span> <a href=#dom-atomthreadtotalelement-value title=dom-AtomThreadTotalElement-value>value</a>;
 };</code></pre>
 
-<p>The <dfn id=dom-atomthreadtotalelement-value title=dom-AtomThreadTotalElement-value><code>value</code></dfn>
-attribute of the <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> a fictional <a href=#content-attribute>content
-attribute</a> corresponding to the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> <a href=#idl-attribute>IDL
-attribute</a>.
+<!-- This should be equivalent to rules for "unsigned long" reflect
+     attributes, except that it uses |textContent| IDL attribute
+     instead of content attributes -->
+<p>On getting, the <dfn id=dom-atomthreadtotalelement-value title=dom-AtomThreadTotalElement-value><code>value</code></dfn>
+attribute of the <a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface <em class=rfc2119>MUST</em> parse the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> attribute value of the
+<a href=#context-object>context object</a> according to the <a href=#rules-for-parsing-non-negative-integers>rules for parsing
+non-negative integers</a>, and if that is successful, and the value
+is in the range 0 to 2147483647 inclusive, it <em class=rfc2119>MUST</em> return the resulting value.  If, on the other
+hand, that fails or returns an out of range value, it <em class=rfc2119>MUST</em> return 0 instead.
 
-</p><p class=ed>XXX Define exact processing model instead of using
-"fictional" attribute.
+</p><p>On setting, the <a href=#dom-atomthreadtotalelement-value><code title=dom-AtomThreadTotalElement-value>value</code></a> attribute of the
+<a href=#atomthreadtotalelement><code>AtomThreadTotalElement</code></a> interface <em class=rfc2119>MUST</em> run the following steps:
 
-</p></section>
+  </p><ol class=algorithm>
+
+  <li>If the new value is in the range 0 to 2147483647, let <var title="">n</var> be the new value.
+
+  </li><li>Otherwise, let <var title="">n</var> be 0.
+
+  </li><li>Convert <var title="">n</var> to the shortest possible string
+  representing the number as a <a href=#valid-non-negative-integer>valid non-negative
+  integer</a>.
+
+  </li><li>Act as if the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> attribute of the
+  <a href=#context-object>context object</a> were set to the result of the previous
+  step.
+
+</li></ol>
+
+</section>
 
 </section>
 

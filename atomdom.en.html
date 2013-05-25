@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Atom DOM</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 21 May 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 25 May 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-21 May 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+25 May 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -692,7 +692,7 @@ in the <a href=#atom-namespace>Atom namespace</a> is <a href=#atomfeedelement><c
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-atomid title=dom-AtomFeedElement-atomId>atomId</a>;
   readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-linkelements title=dom-AtomFeedElement-linkElements>linkElements</a>;
   attribute <span>DOMString</span> <a href=#dom-atomfeedelement-logo title=dom-AtomFeedElement-logo>logo</a>;
-  readonly attribute <a href=#htmlcollection>HTMLCollection</a> <a href=#dom-atomfeedelement-rightselements title=dom-AtomFeedElement-rightsElements>rightsElements</a>;
+  readonly attribute <a href=#atomrightselement>AtomRightsElement</a>? <a href=#dom-atomfeedelement-rightselement title=dom-AtomFeedElement-rightsElement>rightsElement</a>;
   readonly attribute <a href=#atomsubtitleelement>AtomSubtitleElement</a>? <a href=#dom-atomfeedelement-subtitleelement title=dom-AtomFeedElement-subtitleElement>subtitleElement</a>;
   readonly attribute <a href=#atomtitleelement>AtomTitleElement</a>? <a href=#dom-atomfeedelement-titleelement title=dom-AtomFeedElement-titleElement>titleElement</a>;
   readonly attribute <a href=#atomupdatedelement>AtomUpdatedElement</a>? <a href=#dom-atomfeedelement-updatedelement title=dom-AtomFeedElement-updatedElement>updatedElement</a>;
@@ -736,9 +736,9 @@ attribute <em class=rfc2119>MUST</em> <a href=#reflect-the-url-value-of-a-child-
 value of a child element">reflect the URL value of the
 <code>logo</code> child element</a>.
 
-</p><p>The <dfn id=dom-atomfeedelement-rightselements title=dom-AtomFeedElement-rightsElements><code>rightsElements</code></dfn>
-attribute of the <a href=#atomfeedelement><code>AtomFeedElement</code></a> interface <em class=rfc2119>MUST</em> return the <code>rights</code> <a href=#child-element-list>child
-element list</a> for the <a href=#context-object>context object</a>.
+</p><p>The <dfn id=dom-atomfeedelement-rightselement title=dom-AtomFeedElement-rightsElement><code>rightsElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the
+child element">the <code>subtitle</code> child element</a>.
 
 </p><p>The <dfn id=dom-atomfeedelement-subtitleelement title=dom-AtomFeedElement-subtitleElement><code>subtitleElement</code></dfn>
 attribute <em class=rfc2119>MUST</em> return <a href=#obtain-the-child-element title="obtain the

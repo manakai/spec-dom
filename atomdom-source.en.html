@@ -781,7 +781,7 @@ in the <span>Atom namespace</span> is <code>AtomFeedElement</code>.
   attribute <span>DOMString</span> <span title=dom-AtomFeedElement-atomId>atomId</span>;
   readonly attribute <span>HTMLCollection</span> <span title=dom-AtomFeedElement-linkElements>linkElements</span>;
   attribute <span>DOMString</span> <span title=dom-AtomFeedElement-logo>logo</span>;
-  readonly attribute <span>HTMLCollection</span> <span title=dom-AtomFeedElement-rightsElements>rightsElements</span>;
+  readonly attribute <span>AtomRightsElement</span>? <span title=dom-AtomFeedElement-rightsElement>rightsElement</span>;
   readonly attribute <span>AtomSubtitleElement</span>? <span title=dom-AtomFeedElement-subtitleElement>subtitleElement</span>;
   readonly attribute <span>AtomTitleElement</span>? <span title=dom-AtomFeedElement-titleElement>titleElement</span>;
   readonly attribute <span>AtomUpdatedElement</span>? <span title=dom-AtomFeedElement-updatedElement>updatedElement</span>;
@@ -835,10 +835,9 @@ value of a child element">reflect the URL value of the
 <code>logo</code> child element</span>.
 
 <p>The <dfn
-title=dom-AtomFeedElement-rightsElements><code>rightsElements</code></dfn>
-attribute of the <code>AtomFeedElement</code> interface <em
-class=rfc2119>MUST</em> return the <code>rights</code> <span>child
-element list</span> for the <span>context object</span>.
+title=dom-AtomFeedElement-rightsElement><code>rightsElement</code></dfn>
+attribute <em class=rfc2119>MUST</em> return <span title="obtain the
+child element">the <code>subtitle</code> child element</span>.
 
 <p>The <dfn
 title=dom-AtomFeedElement-subtitleElement><code>subtitleElement</code></dfn>

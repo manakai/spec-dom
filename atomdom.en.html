@@ -1181,9 +1181,13 @@ the <a href=#context-object>context object</a> is
 <code>http://www.iana.org/assignments/relation/replies</code>, or no
 default value otherwise.
 
-</p><p>The <dfn id=dom-atomlinkelement-hreflang title=dom-AtomLinkElement-hreflang><code>hreflang</code></dfn>, <dfn id=dom-atomlinkelement-title title=dom-AtomLinkElement-title><code>title</code></dfn>, <dfn id=dom-atomlinkelement-length title=dom-AtomLinkElement-length><code>length</code></dfn>, and <dfn id=dom-atomlinkelement-threadcount title=dom-AtomLinkElement-threadCount><code>threadCount</code></dfn>
-attributes of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
+</p><p>The <dfn id=dom-atomlinkelement-hreflang title=dom-AtomLinkElement-hreflang><code>hreflang</code></dfn>, <dfn id=dom-atomlinkelement-title title=dom-AtomLinkElement-title><code>title</code></dfn>, and <dfn id=dom-atomlinkelement-length title=dom-AtomLinkElement-length><code>length</code></dfn> attributes
+of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <a href=#content-attribute>content
 attribute</a> of the same name.
+
+</p><p>The <dfn id=dom-atomlinkelement-threadcount title=dom-AtomLinkElement-threadCount><code>threadCount</code></dfn>
+attributes of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#reflect>reflect</a> the <code>count</code>
+attribute in the <a href=#atom-threading-namespace>Atom Threading namespace</a>.
 
 </p><p>On getting, the <dfn id=dom-atomlinkelement-threadupdated title=dom-AtomLinkElement-threadUpdated><code>threadUpdated</code></dfn>
 attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time

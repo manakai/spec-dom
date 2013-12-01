@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="formal-specification anolis">
+<head>
+<title>Handling of unknown namespaces in conformance checking</title>
+<link rel="stylesheet" href="http://suika.suikawiki.org/www/style/html/spec">
+<link rel="license" href="#license">
+</head>
+<body class="has-abstract">
+
+<header>
+
+<hgroup>
+  <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
+  <h2 class="no-toc no-num">Manakai Project Living Standard [DATE]</h2>
+</hgroup>
+
+<dl class="versions-uri">
+<dt>Latest Version</dt>
+  <dd><code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/atomdom"
+      >http://suika.suikawiki.org/www/markup/xml/validation-langs</a>&gt;</code></dd>
+<dt id=version-history>Version History</dt>
+  <dd><code class=URI>&lt;<a href="http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/validation-langs-source.en.html">http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/validation-langs-source.en.html</a>&gt;</code></dd>
+<dt id=author>Author</dt>
+  <dd><a href="http://suika.suikawiki.org/~wakaba/who?" rel="author"
+      lang=ja>Wakaba</a>
+  <code class="mail">&lt;<a href="mailto:wakaba@suikawiki.org" rel="author"
+      >wakaba@suikawiki.org</a>&gt;</code></dd>
+</dl>
+
+<p class="copyright" lang="en" id=license><a
+href=http://creativecommons.org/publicdomain/zero/1.0/
+rel=license><img alt=CC0
+src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
+extent possible under law, the editor has waived all copyright and
+related or neighboring rights to this work.  In addition, as of
+[DATE], the editor has made this specification available under the <a
+href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open
+Web Foundation Agreement Version 1.0</a>.
+
+</header>
+
+<section id=status>
+<h2 class="no-toc no-num">Status of This Document</h2>
+
+<p class=section-info><em>This section describes the status of this
+document at the time of its publication.  Other documents might
+supersede this document.</em></p>
+
+<p>This document is a technical specification produced as part of the
+<a href="https://github.com/manakai">manakai project</a>.  It might be
+updated, replaced, or obsoleted by other documents at any time.
+
+<p>The scope of this specification is explicitly limited within the
+manakai project.  It does not intended to be supported by multiple
+parties, although nothing prevents it from implemented by other DOM
+implementations.
+
+<p>Comments on this document are welcome and may be sent to the <a
+href="#author">author</a>.</p>
+
+<p>Translations of thie document might be available.  The English
+version of the document is the only normative version.</p>
+</section>
+
+<section>
+<h2 class="no-toc no-num">Table of contents</h2>
+<!-- toc -->
+</section>
+
+<section>
+<h2>Introduction</h2>
+
+<p>This specification defines how elements and attributes in no
+namespace and in unknown namespaces are handled by conformance
+checkers developed by the <a
+href="https://github.com/manakai/">manakai project</a>.
+
+</section>
+
+<section>
+<h2>Definitions</h2>
+
+<p>The keywords "<em class=rfc2119>MUST</em>" and "<em
+class=rfc2119>MAY</em>" in the normative parts of this document are to
+be interpreted as described in <a
+href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> <cite
+class="bibref normative">[<a href="#ref-RFC2119">RFC2119</a>]</cite>.
+
+<!--
+<p>Requirements phrased in the imperative as part of algorithms (such
+as "strip any leading space characters" or "return false and abort
+these steps") are to be interpreted with the meaning of the key word
+("<em class=rfc2119>MUST</em>", "<em class=rfc2119>MAY</em>", etc)
+used in introducing the algorithm.
+
+<p>Conformance requirements phrased as algorithms or specific steps
+<em class=rfc2119>MAY</em> be implemented in any manner, so long as
+the end result is equivalent. (In particular, the algorithms defined
+in this specification are intended to be easy to follow, and not
+intended to be performant.)
+
+<p>User agents <em class=rfc2119>MAY</em> impose
+implementation-specific limits on otherwise unconstrained inputs,
+e.g. to prevent denial of service attacks, to guard against running
+out of memory, or to work around platform-specific limitations.
+-->
+
+<hr>
+
+<p>User agent <em class=rfc2119>MUST</em> support DOM Standard <cite
+class="bibref normative">[<a href="#ref-DOM">DOM</a>]</cite>, HTML
+Standard <cite class="bibref normative">[<a
+href="#ref-HTML">HTML</a>]</cite>, XML <cite class="bibref
+normative">[<a href="#ref-XML">XML</a>]</cite>, and XML Namespaces
+<cite class="bibref normative">[<a
+href="#ref-XMLNS">XMLNS</a>]</cite>.
+
+<hr>
+
+<p>The terms <dfn title=concept-tree-ancestor>ancestor</dfn>, <dfn
+title=concept-tree-child>child</dfn>, <dfn
+title=concept-document>document</dfn>, <dfn
+title=concept-document-content-type>content type</dfn>, <dfn>document
+element</dfn>, <dfn title=concept-element>element</dfn>, <dfn
+title=concept-element-local-name>local name</dfn>, <dfn
+title=concept-element-namespace>namespace</dfn>, and <dfn
+title=concept-attribute>attribute</dfn> are defined by the DOM
+Standard <cite class="bibref normative">[<a
+href="#ref-DOM">DOM</a>]</cite>.
+
+<p>The term <dfn>applicable specification</dfn> is defined by the HTML
+Standard <cite class="bibref normative">[<a
+href="#ref-HTML">HTML</a>]</cite>.
+
+</section>
+
+<section>
+<h2>Validation modes</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance checkers have three modes:
+
+<dl>
+
+<dt><dfn>Default mode</dfn>
+<dd>Conformance of elements are determined by their original
+definition.
+
+<dt><dfn>XSLT mode</dfn>
+<dd>Conformance of elements are determined by XSLT 1.0 specification.
+
+<dt><dfn>RDF mode</dfn>
+<dd>Conformance of elements are determined by RDF/XML specification.
+
+</dl>
+
+<p class=ed>XXX Should we also define RSS1 mode?
+
+<p>A mode can invoke another mode for a subtree.  Examples of mode
+"integration points" include:
+
+<ul>
+
+<li>If the <span title=concept-document-content-type>content
+type</span> of a <span title=concept-document>document</span> is
+<code>application/rdf+xml</code>, the <span>RDF mode</span> is used
+for the <span title=concept-document>document</span>.
+
+<li>Otherwise, if the <span
+title=concept-document-content-type>content type</span> of a <span
+title=concept-document>document</span> is
+<code>application/xslt+xml</code> or <code>text/xsl</code>, the
+<span>XSLT mode</span> is used for the <span
+title=concept-document>document</span>.
+
+<li>Otherwise, the <span>default mode</span> is used.
+
+<li>If there is the <code><var>xsl</var>:version</code> attribute for
+the <span>document element</span>, the <span>XSLT mode</span> is used
+for the subtree.
+
+<li>If there is an element in the <span>XSLT namespace</span> in the
+<span>default mode</span>, the <span>XSLT mode</span> is used for the
+subtree.
+
+<li>If there is an <code><var>rdf</var>:RDF</code> element in the
+<span>default mode</span>, the <span>RDF mode</span> is used for the
+subtree.
+
+<li>If there is an <span>XML literal</span> element in the <span>RDF
+mode</span>, the <span>default mode</span> is used for the content of
+the element.
+
+</ul>
+<!-- <rdf:RDF xsl:version=""> document element can be interpreted as both RDF and XSLT -->
+
+<p>Following sections define requirements for the <span>default
+mode</span>.
+
+</section>
+
+<section>
+<h2>Unknown namespaces</h2>
+
+<p>A non-null namespace is <dfn title="supported
+namespace">supported</dfn> if it is defined by an <span>applicable
+specification</span> (other than this specificationm).
+
+<p>A non-null namespace is <dfn title="unknown
+namespace">unknown</dfn> if it is not <span title="supported
+namespace">supported</span>.
+
+<p>An element or attribute in an <span>unknown namespace</span>, as
+well as an element in no namespace (or null namespace), <em
+class=rfc2119>MUST NOT</em> be used anywhere except where they are
+explicitly allowed.<!-- Somewhat redundant with HTML Standard but
+still worth clarifying. -->
+
+<p>An element in no namespace or an <span>unknown namespace</span> <em
+class=rfc2119>MAY</em> be used as the <span>document element</span> or
+as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
+any element is allowed.
+
+<p>An element in no namespace or an <span>unknown namespace</span>
+that is not an <span>RSS2 element</span> <em class=rfc2119>MAY</em>
+have any <span title=concept-attribute>attribute</span> in no
+namespace or in an <span>unknown namespace</span>.
+
+<div class="note memo">
+
+<p>Additionally, any attribute in a <span>supported namespace</span>
+might also be specified as long as it is allowed by an
+<span>applicable specification</span>.
+
+</div>
+
+<p>An element in no namespace or an <span>unknown namespace</span>
+that is not an <span>RSS2 element</span> <em class=rfc2119>MAY</em>
+have any kind of <span title=concept-tree-child>child</span> (unless
+otherwise disallowed).
+
+<p>Conformance checkers <em class=rfc2119>MAY</em> warn any non-<span
+title="RSS2 element">RSS2</span> element in no namespace or an
+<span>unknown namespace</span> or any attribute in an <span>unknown
+namespace</span>.
+
+</section>
+
+<section>
+<h2>RSS elements</h2>
+
+<p>An element in no namespace is an <dfn>RSS2 element</dfn> if it is a
+<span>document element</span> and its <span
+title=concept-element-local-name>local name</span> is
+<code>rss</code>, or if one of its <span
+title=concept-tree-ancestor>ancestor</span> is an <span>RSS2
+element</span>.
+
+<p>An <span>RSS2 element</span> is interpreted as defined by RSS2
+specifications <cite class="bibref normative">[<a
+href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
+href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
+
+</section>
+
+<section class="reference normative">
+<h2 class=no-num>References</h2>
+
+<dl>
+
+<dt id=ref-DOM>DOM
+<dd><a href="http://dom.spec.whatwg.org/"><cite>DOM</cite></a>, WHATWG Living Standard.
+
+<dt id=ref-HTML>HTML
+<dd><a href="http://c.whatwg.org/"><cite>HTML</cite></a>, WHATWG Living Standard.
+
+<dt id=ref-RFC2119>RFC2119
+<dd><a href="http://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>, IETF, RFC 2119, BCP 14.
+
+<dt id=ref-RSS2>RSS2
+<dd><a href="http://www.rssboard.org/rss-specification"><cite>RSS 2.0</cite></a>, RSS Advisory Board.
+
+<dt id=ref-RSSPROFILE>RSSPROFILE
+<dd><a href="http://www.rssboard.org/rss-profile"><cite>Really Simple Syndication Best Practices Profile</cite></a>, RSS Advisory Board.
+
+<dt id=ref-XML>XML
+<dd><a href="http://www.w3.org/TR/xml/"><cite>Extensible Markup Language (XML)</cite></a>, W3C Recommendation.
+
+<dt id=ref-XMLNS>XMLNS
+<dd><a href="http://www.w3.org/TR/xml-names/"><cite>Namespaces in XML</cite></a>, W3C Recommendation.
+
+</dl>
+
+</section>

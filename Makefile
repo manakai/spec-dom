@@ -1,9 +1,6 @@
 ANOLIS = anolis
 
-all: nsfixup.en.html atomdom.en.html
+all: nsfixup.en.html atomdom.en.html validation-langs.en.html
 
-nsfixup.en.html: nsfixup-source.en.html
-	$(ANOLIS) $< $@
-
-atomdom.en.html: atomdom-source.en.html
+%.en.html: %-source.en.html
 	$(ANOLIS) $< $@

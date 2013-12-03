@@ -211,54 +211,70 @@ specification</span> (other than this specification).
 namespace">unknown</dfn> if it is not <span title="supported
 namespace">supported</span>.
 
-<p>An element or attribute in an <span>unknown namespace</span>, as
-well as an element in no namespace (or null namespace), <em
-class=rfc2119>MUST NOT</em> be used anywhere except where they are
-explicitly allowed.<!-- Somewhat redundant with HTML Standard but
-still worth clarifying. -->
+<p>An <dfn>unknown namespace element</dfn> is an <span
+title=concept-element>element</span> in an <span>unknown
+namespace</span> or in no namespace and is not an <span>RSS2
+element</span>.
 
-<p>An element in no namespace or an <span>unknown namespace</span> <em
+<p>An <dfn>unknown namespace attribute</dfn> is an <span
+title=concept-attribute>attribute</span> in an <span>unknown
+namespace</span>.
+
+<p>An <span>unknown namespace element</span> or <span>unknown
+namespace attribute</span> <em class=rfc2119>MUST NOT</em> be used
+anywhere except where they are explicitly allowed.<!-- Somewhat
+redundant with HTML Standard but still worth clarifying. -->
+
+<p>An <span>unknown namespace element</span> <em
 class=rfc2119>MAY</em> be used as the <span>document element</span> or
 as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
-any element is allowed.
+any kind of <span title=concept-element>element</span> is allowed.
 
-<p>An element in no namespace or an <span>unknown namespace</span>
-that is not an <span>RSS2 element</span> <em class=rfc2119>MAY</em>
-have any <span title=concept-attribute>attribute</span> in no
-namespace or in an <span>unknown namespace</span>.
+<p>An <span>unknown namespace element</span> <em
+class=rfc2119>MAY</em> have any <span
+title=concept-attribute>attribute</span> in no namespace or any
+<span>unknown namespace attribute</span>.
 
 <div class="note memo">
 
-<p>Additionally, any attribute in a <span>supported namespace</span>
-might also be specified as long as it is allowed by an
+<p>Additionally, any <span title=concept-attribute>attribute</span> in
+a <span>supported namespace</span> might also be specified to an
+<span>unknown namespace element</span> as long as it is allowed by an
 <span>applicable specification</span>.
 
 </div>
 
-<p>An element in no namespace or an <span>unknown namespace</span>
-that is not an <span>RSS2 element</span> <em class=rfc2119>MAY</em>
-have any kind of <span title=concept-tree-child>child</span> (unless
-otherwise disallowed).
+<p>An <span>unknown namespace element</span> <em
+class=rfc2119>MAY</em> have any kind of <span
+title=concept-tree-child>child</span> (unless otherwise disallowed).
 
-<p>Conformance checkers <em class=rfc2119>MAY</em> warn any non-<span
-title="RSS2 element">RSS2</span> element in no namespace or an
-<span>unknown namespace</span> or any attribute in an <span>unknown
-namespace</span>.
+<p>Conformance checkers <em class=rfc2119>MAY</em> warn any
+<span>unknown namespace element</span> or <span>unknown namespace
+attribute</span> as use of it could be an authoring error.
 
 </section>
 
 <section>
 <h2>RSS elements</h2>
 
-<p>An element in no namespace is an <dfn>RSS2 element</dfn> if it is a
+<p>An <span title=concept-element>element</span> is an <dfn>RSS2
+element</dfn> if it is in no namespace and either it is the
 <span>document element</span> and its <span
-title=concept-element-local-name>local name</span> is
-<code>rss</code>, or if one of its <span
-title=concept-tree-ancestor>ancestor</span> is an <span>RSS2
-element</span>.
+title=concept-element-local-name>local name</span> is <code>rss</code>
+or one of its <span title=concept-tree-ancestor>ancestor</span> is an
+<span>RSS2 element</span>.
 
-<p>An <span>RSS2 element</span> is interpreted as defined by RSS2
-specifications <cite class="bibref normative">[<a
+<div class="note memo">
+
+<p>In other words, elements in no namespace are <span>RSS2
+element</span> if they belong to the main document tree whose
+<span>document element</span> is the <code>rss</code> element in no
+namespace.
+
+</div>
+
+<p><span title="RSS2 element">RSS2 elements</span> are interpreted as
+described by RSS2 specifications <cite class="bibref normative">[<a
 href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
 href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
 
@@ -274,9 +290,9 @@ or not is determined by following steps:
 
 <ol class=steps>
 
-<li>If the element is allowed as the <span>document element</span> by
-an <span>applicable specification</span> other than this
-specification, return true.
+<li>If the element is in a <span>supported namespace</span> and is
+allowed as the <span>document element</span> by an <span>applicable
+specification</span>, return true.
 
 <li>Otherwise, if the element is in the <span>XSLT mode</span>, return
 true.
@@ -287,8 +303,8 @@ true.
 <li>Otherwise, if the element is the <code>rss</code> element in no
 namespace, return true.
 
-<li>Otherwise, if the element is in no namespace or in <span>unknown
-namespace</span>, return true.
+<li>Otherwise, if the element is an <span>unknown namespace
+element</span>, return true.
 
 <li>Otherwise, return false.
 

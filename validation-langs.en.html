@@ -187,55 +187,68 @@ mode</a>.
 
 <p>A non-null namespace is <dfn id=supported-namespace title="supported
 namespace">supported</dfn> if it is defined by an <a href=#applicable-specification>applicable
-specification</a> (other than this specificationm).
+specification</a> (other than this specification).
 
 </p><p>A non-null namespace is <dfn id=unknown-namespace title="unknown
 namespace">unknown</dfn> if it is not <a href=#supported-namespace title="supported
 namespace">supported</a>.
 
-</p><p>An element or attribute in an <a href=#unknown-namespace>unknown namespace</a>, as
-well as an element in no namespace (or null namespace), <em class=rfc2119>MUST NOT</em> be used anywhere except where they are
-explicitly allowed.<!-- Somewhat redundant with HTML Standard but
-still worth clarifying. -->
+</p><p>An <dfn id=unknown-namespace-element>unknown namespace element</dfn> is an <a href=#concept-element title=concept-element>element</a> in an <a href=#unknown-namespace>unknown
+namespace</a> or in no namespace and is not an <a href=#rss2-element>RSS2
+element</a>.
 
-</p><p>An element in no namespace or an <a href=#unknown-namespace>unknown namespace</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element-0>document element</a> or
+</p><p>An <dfn id=unknown-namespace-attribute>unknown namespace attribute</dfn> is an <a href=#concept-attribute title=concept-attribute>attribute</a> in an <a href=#unknown-namespace>unknown
+namespace</a>.
+
+</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown
+namespace attribute</a> <em class=rfc2119>MUST NOT</em> be used
+anywhere except where they are explicitly allowed.<!-- Somewhat
+redundant with HTML Standard but still worth clarifying. -->
+
+</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element-0>document element</a> or
 as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
-any element is allowed.
+any kind of <a href=#concept-element title=concept-element>element</a> is allowed.
 
-</p><p>An element in no namespace or an <a href=#unknown-namespace>unknown namespace</a>
-that is not an <a href=#rss2-element>RSS2 element</a> <em class=rfc2119>MAY</em>
-have any <a href=#concept-attribute title=concept-attribute>attribute</a> in no
-namespace or in an <a href=#unknown-namespace>unknown namespace</a>.
+</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> have any <a href=#concept-attribute title=concept-attribute>attribute</a> in no namespace or any
+<a href=#unknown-namespace-attribute>unknown namespace attribute</a>.
 
 </p><div class="note memo">
 
-<p>Additionally, any attribute in a <a href=#supported-namespace>supported namespace</a>
-might also be specified as long as it is allowed by an
+<p>Additionally, any <a href=#concept-attribute title=concept-attribute>attribute</a> in
+a <a href=#supported-namespace>supported namespace</a> might also be specified to an
+<a href=#unknown-namespace-element>unknown namespace element</a> as long as it is allowed by an
 <a href=#applicable-specification>applicable specification</a>.
 
 </p></div>
 
-<p>An element in no namespace or an <a href=#unknown-namespace>unknown namespace</a>
-that is not an <a href=#rss2-element>RSS2 element</a> <em class=rfc2119>MAY</em>
-have any kind of <a href=#concept-tree-child title=concept-tree-child>child</a> (unless
-otherwise disallowed).
+<p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> have any kind of <a href=#concept-tree-child title=concept-tree-child>child</a> (unless otherwise disallowed).
 
-</p><p>Conformance checkers <em class=rfc2119>MAY</em> warn any non-<a href=#rss2-element title="RSS2 element">RSS2</a> element in no namespace or an
-<a href=#unknown-namespace>unknown namespace</a> or any attribute in an <a href=#unknown-namespace>unknown
-namespace</a>.
+</p><p>Conformance checkers <em class=rfc2119>MAY</em> warn any
+<a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown namespace
+attribute</a> as use of it could be an authoring error.
 
 </p></section>
 
 <section>
 <h2 id=rss-elements><span class=secno>5 </span>RSS elements</h2>
 
-<p>An element in no namespace is an <dfn id=rss2-element>RSS2 element</dfn> if it is a
-<a href=#document-element-0>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is
-<code>rss</code>, or if one of its <a href=#concept-tree-ancestor title=concept-tree-ancestor>ancestor</a> is an <a href=#rss2-element>RSS2
-element</a>.
+<p>An <a href=#concept-element title=concept-element>element</a> is an <dfn id=rss2-element>RSS2
+element</dfn> if it is in no namespace and either it is the
+<a href=#document-element-0>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <code>rss</code>
+or one of its <a href=#concept-tree-ancestor title=concept-tree-ancestor>ancestor</a> is an
+<a href=#rss2-element>RSS2 element</a>.
 
-</p><p>An <a href=#rss2-element>RSS2 element</a> is interpreted as defined by RSS2
-specifications <cite class="bibref normative">[<a href=#ref-RSS2>RSS2</a>]</cite> <cite class="bibref normative">[<a href=#ref-RSSPROFILE>RSSPROFILE</a>]</cite>.
+</p><div class="note memo">
+
+<p>In other words, elements in no namespace are <a href=#rss2-element>RSS2
+element</a> if they belong to the main document tree whose
+<a href=#document-element-0>document element</a> is the <code>rss</code> element in no
+namespace.
+
+</p></div>
+
+<p><a href=#rss2-element title="RSS2 element">RSS2 elements</a> are interpreted as
+described by RSS2 specifications <cite class="bibref normative">[<a href=#ref-RSS2>RSS2</a>]</cite> <cite class="bibref normative">[<a href=#ref-RSSPROFILE>RSSPROFILE</a>]</cite>.
 
 </p></section>
 
@@ -249,9 +262,9 @@ or not is determined by following steps:
 
 </p><ol class=steps>
 
-<li>If the element is allowed as the <a href=#document-element-0>document element</a> by
-an <a href=#applicable-specification>applicable specification</a> other than this
-specification, return true.
+<li>If the element is in a <a href=#supported-namespace>supported namespace</a> and is
+allowed as the <a href=#document-element-0>document element</a> by an <a href=#applicable-specification>applicable
+specification</a>, return true.
 
 </li><li>Otherwise, if the element is in the <a href=#xslt-mode>XSLT mode</a>, return
 true.
@@ -262,8 +275,8 @@ true.
 </li><li>Otherwise, if the element is the <code>rss</code> element in no
 namespace, return true.
 
-</li><li>Otherwise, if the element is in no namespace or in <a href=#unknown-namespace>unknown
-namespace</a>, return true.
+</li><li>Otherwise, if the element is an <a href=#unknown-namespace-element>unknown namespace
+element</a>, return true.
 
 </li><li>Otherwise, return false.
 

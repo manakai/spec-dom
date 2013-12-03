@@ -205,7 +205,7 @@ mode</span>.
 
 <p>A non-null namespace is <dfn title="supported
 namespace">supported</dfn> if it is defined by an <span>applicable
-specification</span> (other than this specificationm).
+specification</span> (other than this specification).
 
 <p>A non-null namespace is <dfn title="unknown
 namespace">unknown</dfn> if it is not <span title="supported
@@ -261,6 +261,38 @@ element</span>.
 specifications <cite class="bibref normative">[<a
 href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
 href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
+
+</section>
+
+<section>
+<h2>Document element</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Whether an element can be used as the <span>document element</span>
+or not is determined by following steps:
+
+<ol class=steps>
+
+<li>If the element is allowed as the <span>document element</span> by
+an <span>applicable specification</span> other than this
+specification, return true.
+
+<li>Otherwise, if the element is in the <span>XSLT mode</span>, return
+true.
+
+<li>Otherwise, if the element is in the <span>RDF mode</span>, return
+true.
+
+<li>Otherwise, if the element is the <code>rss</code> element in no
+namespace, return true.
+
+<li>Otherwise, if the element is in no namespace or in <span>unknown
+namespace</span>, return true.
+
+<li>Otherwise, return false.
+
+</ol>
 
 </section>
 

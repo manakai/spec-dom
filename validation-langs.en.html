@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 1 December 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 3 December 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-1 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+3 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -62,6 +62,7 @@ version of the document is the only normative version.</p>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a></li>
  <li><a href=#unknown-namespaces><span class=secno>4 </span>Unknown namespaces</a></li>
  <li><a href=#rss-elements><span class=secno>5 </span>RSS elements</a></li>
+ <li><a href=#document-element><span class=secno>6 </span>Document element</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -109,7 +110,7 @@ normative">[<a href=#ref-XML>XML</a>]</cite>, and XML Namespaces
 
 </p><hr>
 
-<p>The terms <dfn id=concept-tree-ancestor title=concept-tree-ancestor>ancestor</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>, <dfn id=document-element>document
+<p>The terms <dfn id=concept-tree-ancestor title=concept-tree-ancestor>ancestor</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>, <dfn id=document-element-0>document
 element</dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, and <dfn id=concept-attribute title=concept-attribute>attribute</dfn> are defined by the DOM
 Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
@@ -158,7 +159,7 @@ for the <a href=#concept-document title=concept-document>document</a>.
 </li><li>Otherwise, the <a href=#default-mode>default mode</a> is used.
 
 </li><li>If there is the <code><var>xsl</var>:version</code> attribute for
-the <a href=#document-element>document element</a>, the <a href=#xslt-mode>XSLT mode</a> is used
+the <a href=#document-element-0>document element</a>, the <a href=#xslt-mode>XSLT mode</a> is used
 for the subtree.
 
 </li><li>If there is an element in the <span>XSLT namespace</span> in the
@@ -197,7 +198,7 @@ well as an element in no namespace (or null namespace), <em class=rfc2119>MUST N
 explicitly allowed.<!-- Somewhat redundant with HTML Standard but
 still worth clarifying. -->
 
-</p><p>An element in no namespace or an <a href=#unknown-namespace>unknown namespace</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element>document element</a> or
+</p><p>An element in no namespace or an <a href=#unknown-namespace>unknown namespace</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element-0>document element</a> or
 as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
 any element is allowed.
 
@@ -229,7 +230,7 @@ namespace</a>.
 <h2 id=rss-elements><span class=secno>5 </span>RSS elements</h2>
 
 <p>An element in no namespace is an <dfn id=rss2-element>RSS2 element</dfn> if it is a
-<a href=#document-element>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is
+<a href=#document-element-0>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is
 <code>rss</code>, or if one of its <a href=#concept-tree-ancestor title=concept-tree-ancestor>ancestor</a> is an <a href=#rss2-element>RSS2
 element</a>.
 
@@ -237,6 +238,38 @@ element</a>.
 specifications <cite class="bibref normative">[<a href=#ref-RSS2>RSS2</a>]</cite> <cite class="bibref normative">[<a href=#ref-RSSPROFILE>RSSPROFILE</a>]</cite>.
 
 </p></section>
+
+<section>
+<h2 id=document-element><span class=secno>6 </span>Document element</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Whether an element can be used as the <a href=#document-element-0>document element</a>
+or not is determined by following steps:
+
+</p><ol class=steps>
+
+<li>If the element is allowed as the <a href=#document-element-0>document element</a> by
+an <a href=#applicable-specification>applicable specification</a> other than this
+specification, return true.
+
+</li><li>Otherwise, if the element is in the <a href=#xslt-mode>XSLT mode</a>, return
+true.
+
+</li><li>Otherwise, if the element is in the <a href=#rdf-mode>RDF mode</a>, return
+true.
+
+</li><li>Otherwise, if the element is the <code>rss</code> element in no
+namespace, return true.
+
+</li><li>Otherwise, if the element is in no namespace or in <a href=#unknown-namespace>unknown
+namespace</a>, return true.
+
+</li><li>Otherwise, return false.
+
+</li></ol>
+
+</section>
 
 <section class="reference normative">
 <h2 class=no-num id=references>References</h2>

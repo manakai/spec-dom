@@ -298,48 +298,62 @@ definition.
 
 <p class=ed>XXX Should we also define RSS1 mode?
 
-<p>A mode can invoke another mode for a subtree.  Examples of mode
-"integration points" include:
+<p>The <span>validation mode</span> for a node can be <dfn
+title="determine the validation mode">determined</dfn> as follows:
 
-<ul>
+<ol class=steps>
 
-<li>If the <span title=concept-document-content-type>content
-type</span> of a <span title=concept-document>document</span> is
-<code>application/rdf+xml</code>, the <span>RDF mode</span> is used
-for the <span title=concept-document>document</span>.
+<li>If the node is a <span title=concept-document>document</span>:
+
+  <ol>
+
+  <li>If the <span title=concept-document-content-type>content
+  type</span> of the <span title=concept-document>document</span> is
+  <code>application/rdf+xml</code>, return <span>RDF mode</span>.
+
+  <li>Otherwise, if the <span
+  title=concept-document-content-type>content type</span> of the <span
+  title=concept-document>document</span> is
+  <code>application/xslt+xml</code> or <code>text/xsl</code>, return
+  <span>XSLT mode</span>.
+
+  <li>Otherwise, return <span>default mode</span>.
+
+  </ol>
 
 <li>Otherwise, if the <span
-title=concept-document-content-type>content type</span> of a <span
-title=concept-document>document</span> is
-<code>application/xslt+xml</code> or <code>text/xsl</code>, the
-<span>XSLT mode</span> is used for the <span
-title=concept-document>document</span>.
+title=concept-document-content-type>content type</span> of the <span
+title=concept-node-document>document</span> of the node is
+<code>text/xml</code> or <code>application/xml</code>, the node is the
+<span>document element</span>, and there is the
+<code><var>xsl</var>:version</code> attribute, return <span>XSLT
+mode</span>.  <!-- <rdf:RDF xsl:version=""> document element can be
+interpreted as both RDF and XSLT, but handled as XSLT in this
+steps. -->
 
-<li>Otherwise, the <span>default mode</span> is used.
+<li>Otherwise, if the node has no parent, if the <span>validation
+mode</span> of the parent of the node is <span>default mode</span>, or
+if the parent of the node is an <span>XML literal</span> in RDF/XML:
 
-<li>If there is the <code><var>xsl</var>:version</code> attribute for
-the <span>document element</span>, the <span>XSLT mode</span> is used
-for the subtree.
+  <ol>
 
-<li>If there is an element in the <span>XSLT namespace</span> in the
-<span>default mode</span>, the <span>XSLT mode</span> is used for the
-subtree.
+  <li>If the node is an element in the <span>XSLT namespace</span>,
+  return <span>XSLT mode</span>.
 
-<li>If there is an <code><var>rdf</var>:RDF</code> element in the
-<span>default mode</span>, the <span>RDF mode</span> is used for the
-subtree.
+  <li>Otherwise, if the node is an <code><var>rdf</var>:RDF</code>
+  element, return <span>RDF mode</span>.
 
-<li>If there is an <span>XML literal</span> element in the <span>RDF
-mode</span>, the <span>default mode</span> is used for the content of
-the element.
+  <li>Otherwise, return <span>default mode</span>.
 
-</ul>
-<!-- <rdf:RDF xsl:version=""> document element can be interpreted as both RDF and XSLT -->
+  </ol>
 
-</section>
+<li>Otherwise, return the <span>validation mode</span> of the parent
+of the node.
+
+</ol>
 
 <section>
-<h2>Document element</h2>
+<h3>Document element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -348,30 +362,30 @@ or not is determined by following steps:
 
 <ol class=steps>
 
-<li>If the element is in a <span>supported namespace</span> and is
-allowed as the <span>document element</span> by an <span>applicable
-specification</span>, return true.
+<li><span>Determine the validation mode</span> of the element.
 
-<li>Otherwise, if the element is in the <span>XSLT mode</span>, return
-true.
+<li>If the element is in the <span>XSLT mode</span>, return whether
+the element is allowed as the <span>document element</span> according
+to XSLT 1.0 specification.
 
 <li>Otherwise, if the element is in the <span>RDF mode</span>, return
-true.
+whether the element is allowed as the <span>document element</span>
+according to RDF/XML specification.
 
-<li>Otherwise, if the element is the <code>rss</code> element in no
-namespace, return true.
+<li>Otherwise, if the element is in a <span>supported namespace</span>
+or an <span>RSS2 element</span>, return whether the element is allowed
+as the <span>document element</span> by an <span>applicable
+specification</span>.
 
-<li>Otherwise, if the element is an <span>unknown namespace
-element</span>, return true.
-
-<li>Otherwise, return false.
+<li>Otherwise, the element is an <span>unknown namespace
+element</span>.  Return true.
 
 </ol>
 
 </section>
 
 <section>
-<h2>Checking an element</h2>
+<h3>Checking an element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -379,7 +393,7 @@ element</span>, return true.
 
 <ol class=steps>
 
-<li>Determine the <span>validation mode</span> of the element.
+<li><span>Determine the validation mode</span> of the element.
 
 <li>If the <span>validation mode</span> of the element is the
 <span>XSLT mode</span>, check the element according to the XSLT 1.0
@@ -406,6 +420,8 @@ or is an <span>RSS2 element</span>:
 element</span>.  Report an "unknown element" warning.
 
 </ol>
+
+</section>
 
 </section>
 

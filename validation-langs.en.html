@@ -63,9 +63,10 @@ version of the document is the only normative version.</p>
  <li><a href=#definitions><span class=secno>2 </span>Definitions</a></li>
  <li><a href=#unknown-namespaces><span class=secno>3 </span>Unknown namespaces</a></li>
  <li><a href=#rss-elements><span class=secno>4 </span>RSS elements</a></li>
- <li><a href=#validation-modes><span class=secno>5 </span>Validation modes</a></li>
- <li><a href=#document-element><span class=secno>6 </span>Document element</a></li>
- <li><a href=#checking-an-element><span class=secno>7 </span>Checking an element</a></li>
+ <li><a href=#validation-modes><span class=secno>5 </span>Validation modes</a>
+  <ol>
+   <li><a href=#document-element><span class=secno>5.1 </span>Document element</a></li>
+   <li><a href=#checking-an-element><span class=secno>5.2 </span>Checking an element</a></li></ol></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -276,45 +277,57 @@ definition.
 
 <p class=ed>XXX Should we also define RSS1 mode?
 
-</p><p>A mode can invoke another mode for a subtree.  Examples of mode
-"integration points" include:
+</p><p>The <a href=#validation-mode>validation mode</a> for a node can be <dfn id=determine-the-validation-mode title="determine the validation mode">determined</dfn> as follows:
 
-</p><ul>
+</p><ol class=steps>
 
-<li>If the <a href=#concept-document-content-type title=concept-document-content-type>content
-type</a> of a <a href=#concept-document title=concept-document>document</a> is
-<code>application/rdf+xml</code>, the <a href=#rdf-mode>RDF mode</a> is used
-for the <a href=#concept-document title=concept-document>document</a>.
+<li>If the node is a <a href=#concept-document title=concept-document>document</a>:
 
-</li><li>Otherwise, if the <a href=#concept-document-content-type title=concept-document-content-type>content type</a> of a <a href=#concept-document title=concept-document>document</a> is
-<code>application/xslt+xml</code> or <code>text/xsl</code>, the
-<a href=#xslt-mode>XSLT mode</a> is used for the <a href=#concept-document title=concept-document>document</a>.
+  <ol>
 
-</li><li>Otherwise, the <a href=#default-mode>default mode</a> is used.
+  <li>If the <a href=#concept-document-content-type title=concept-document-content-type>content
+  type</a> of the <a href=#concept-document title=concept-document>document</a> is
+  <code>application/rdf+xml</code>, return <a href=#rdf-mode>RDF mode</a>.
 
-</li><li>If there is the <code><var>xsl</var>:version</code> attribute for
-the <a href=#document-element-0>document element</a>, the <a href=#xslt-mode>XSLT mode</a> is used
-for the subtree.
+  </li><li>Otherwise, if the <a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the <a href=#concept-document title=concept-document>document</a> is
+  <code>application/xslt+xml</code> or <code>text/xsl</code>, return
+  <a href=#xslt-mode>XSLT mode</a>.
 
-</li><li>If there is an element in the <span>XSLT namespace</span> in the
-<a href=#default-mode>default mode</a>, the <a href=#xslt-mode>XSLT mode</a> is used for the
-subtree.
+  </li><li>Otherwise, return <a href=#default-mode>default mode</a>.
 
-</li><li>If there is an <code><var>rdf</var>:RDF</code> element in the
-<a href=#default-mode>default mode</a>, the <a href=#rdf-mode>RDF mode</a> is used for the
-subtree.
+  </li></ol>
 
-</li><li>If there is an <span>XML literal</span> element in the <a href=#rdf-mode>RDF
-mode</a>, the <a href=#default-mode>default mode</a> is used for the content of
-the element.
+</li><li>Otherwise, if the <a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the <span title=concept-node-document>document</span> of the node is
+<code>text/xml</code> or <code>application/xml</code>, the node is the
+<a href=#document-element-0>document element</a>, and there is the
+<code><var>xsl</var>:version</code> attribute, return <a href=#xslt-mode>XSLT
+mode</a>.  <!-- <rdf:RDF xsl:version=""> document element can be
+interpreted as both RDF and XSLT, but handled as XSLT in this
+steps. -->
 
-</li></ul>
-<!-- <rdf:RDF xsl:version=""> document element can be interpreted as both RDF and XSLT -->
+</li><li>Otherwise, if the node has no parent, if the <a href=#validation-mode>validation
+mode</a> of the parent of the node is <a href=#default-mode>default mode</a>, or
+if the parent of the node is an <span>XML literal</span> in RDF/XML:
 
-</section>
+  <ol>
+
+  <li>If the node is an element in the <span>XSLT namespace</span>,
+  return <a href=#xslt-mode>XSLT mode</a>.
+
+  </li><li>Otherwise, if the node is an <code><var>rdf</var>:RDF</code>
+  element, return <a href=#rdf-mode>RDF mode</a>.
+
+  </li><li>Otherwise, return <a href=#default-mode>default mode</a>.
+
+  </li></ol>
+
+</li><li>Otherwise, return the <a href=#validation-mode>validation mode</a> of the parent
+of the node.
+
+</li></ol>
 
 <section>
-<h2 id=document-element><span class=secno>6 </span>Document element</h2>
+<h3 id=document-element><span class=secno>5.1 </span>Document element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -323,30 +336,30 @@ or not is determined by following steps:
 
 </p><ol class=steps>
 
-<li>If the element is in a <a href=#supported-namespace>supported namespace</a> and is
-allowed as the <a href=#document-element-0>document element</a> by an <a href=#applicable-specification>applicable
-specification</a>, return true.
+<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
 
-</li><li>Otherwise, if the element is in the <a href=#xslt-mode>XSLT mode</a>, return
-true.
+</li><li>If the element is in the <a href=#xslt-mode>XSLT mode</a>, return whether
+the element is allowed as the <a href=#document-element-0>document element</a> according
+to XSLT 1.0 specification.
 
 </li><li>Otherwise, if the element is in the <a href=#rdf-mode>RDF mode</a>, return
-true.
+whether the element is allowed as the <a href=#document-element-0>document element</a>
+according to RDF/XML specification.
 
-</li><li>Otherwise, if the element is the <code>rss</code> element in no
-namespace, return true.
+</li><li>Otherwise, if the element is in a <a href=#supported-namespace>supported namespace</a>
+or an <a href=#rss2-element>RSS2 element</a>, return whether the element is allowed
+as the <a href=#document-element-0>document element</a> by an <a href=#applicable-specification>applicable
+specification</a>.
 
-</li><li>Otherwise, if the element is an <a href=#unknown-namespace-element>unknown namespace
-element</a>, return true.
-
-</li><li>Otherwise, return false.
+</li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
+element</a>.  Return true.
 
 </li></ol>
 
 </section>
 
 <section>
-<h2 id=checking-an-element><span class=secno>7 </span>Checking an element</h2>
+<h3 id=checking-an-element><span class=secno>5.2 </span>Checking an element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -354,7 +367,7 @@ element</a>, return true.
 
 </p><ol class=steps>
 
-<li>Determine the <a href=#validation-mode>validation mode</a> of the element.
+<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
 
 </li><li>If the <a href=#validation-mode>validation mode</a> of the element is the
 <a href=#xslt-mode>XSLT mode</a>, check the element according to the XSLT 1.0
@@ -381,6 +394,8 @@ or is an <a href=#rss2-element>RSS2 element</a>:
 element</a>.  Report an "unknown element" warning.
 
 </li></ol>
+
+</section>
 
 </section>
 

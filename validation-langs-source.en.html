@@ -199,7 +199,8 @@ href="#ref-HTML">HTML</a>]</cite>.
 
 <p class=section-info><em>This section is non-normative.</em>
 
-<p>Conformance checkers have three modes:
+<p>Conformance checkers have three <dfn title="validation
+mode">modes</dfn>:
 
 <dl>
 
@@ -367,6 +368,45 @@ namespace, return true.
 element</span>, return true.
 
 <li>Otherwise, return false.
+
+</ol>
+
+</section>
+
+<section>
+<h2>Checking an element</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance of an element is checked as follows:
+
+<ol class=steps>
+
+<li>Determine the <span>validation mode</span> of the element.
+
+<li>If the <span>validation mode</span> of the element is the
+<span>XSLT mode</span>, check the element according to the XSLT 1.0
+specification.
+
+<li>Otherwise, if the <span>validation mode</span> of the element is
+the <span>RDF mode</span>, check the element according to the RDF/XML
+specification.
+
+<li>Otherwise, if the element is in a <span>supported namespace</span>
+or is an <span>RSS2 element</span>:
+
+  <ol>
+
+  <li>If the element is defined in an <span>applicable
+  specification</span>, check the element according to the
+  specification.
+
+  <li>Otherwise, report an "unknown element" error.
+
+  </ol>
+
+<li>Otherwise, the element is an <span>unknown namespace
+element</span>.  Report an "unknown element" warning.
 
 </ol>
 

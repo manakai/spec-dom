@@ -65,6 +65,7 @@ version of the document is the only normative version.</p>
  <li><a href=#unknown-namespaces><span class=secno>4 </span>Unknown namespaces</a></li>
  <li><a href=#rss-elements><span class=secno>5 </span>RSS elements</a></li>
  <li><a href=#document-element><span class=secno>6 </span>Document element</a></li>
+ <li><a href=#checking-an-element><span class=secno>7 </span>Checking an element</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -186,7 +187,8 @@ Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
 
 <p class=section-info><em>This section is non-normative.</em>
 
-</p><p>Conformance checkers have three modes:
+</p><p>Conformance checkers have three <dfn id=validation-mode title="validation
+mode">modes</dfn>:
 
 </p><dl>
 
@@ -341,6 +343,45 @@ namespace, return true.
 element</a>, return true.
 
 </li><li>Otherwise, return false.
+
+</li></ol>
+
+</section>
+
+<section>
+<h2 id=checking-an-element><span class=secno>7 </span>Checking an element</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Conformance of an element is checked as follows:
+
+</p><ol class=steps>
+
+<li>Determine the <a href=#validation-mode>validation mode</a> of the element.
+
+</li><li>If the <a href=#validation-mode>validation mode</a> of the element is the
+<a href=#xslt-mode>XSLT mode</a>, check the element according to the XSLT 1.0
+specification.
+
+</li><li>Otherwise, if the <a href=#validation-mode>validation mode</a> of the element is
+the <a href=#rdf-mode>RDF mode</a>, check the element according to the RDF/XML
+specification.
+
+</li><li>Otherwise, if the element is in a <a href=#supported-namespace>supported namespace</a>
+or is an <a href=#rss2-element>RSS2 element</a>:
+
+  <ol>
+
+  <li>If the element is defined in an <a href=#applicable-specification>applicable
+  specification</a>, check the element according to the
+  specification.
+
+  </li><li>Otherwise, report an "unknown element" error.
+
+  </li></ol>
+
+</li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
+element</a>.  Report an "unknown element" warning.
 
 </li></ol>
 

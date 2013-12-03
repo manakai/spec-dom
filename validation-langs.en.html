@@ -289,21 +289,25 @@ definition.
   type</a> of the <a href=#concept-document title=concept-document>document</a> is
   <code>application/rdf+xml</code>, return <a href=#rdf-mode>RDF mode</a>.
 
-  </li><li>Otherwise, if the <a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the <a href=#concept-document title=concept-document>document</a> is
-  <code>application/xslt+xml</code> or <code>text/xsl</code>, return
-  <a href=#xslt-mode>XSLT mode</a>.
-
   </li><li>Otherwise, return <a href=#default-mode>default mode</a>.
 
   </li></ol>
 
-</li><li>Otherwise, if the <a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the <span title=concept-node-document>document</span> of the node is
-<code>text/xml</code> or <code>application/xml</code>, the node is the
-<a href=#document-element-0>document element</a>, and there is the
+</li><li>Otherwise, if the node is the <a href=#document-element-0>document element</a>, the
+<a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the
+<span title=concept-node-document>document</span> of the node is
+<code>application/xslt+xml</code> or <code>text/xsl</code>, and the
+node is an XSLT <span>literal result element</span>, return <a href=#xslt-mode>XSLT
+mode</a>.
+
+</li><li>Otherwise, if the node is the <a href=#document-element-0>document element</a>, the
+<a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the
+<span title=concept-node-document>document</span> of the node is
+<code>text/xml</code> or <code>application/xml</code>, the node is an
+XSLT <span>literal result element</span>, and the node has the
 <code><var>xsl</var>:version</code> attribute, return <a href=#xslt-mode>XSLT
-mode</a>.  <!-- <rdf:RDF xsl:version=""> document element can be
-interpreted as both RDF and XSLT, but handled as XSLT in this
-steps. -->
+mode</a>.<!-- <rdf:RDF xsl:version=""> document element can be
+interpreted as both RDF and XSLT, but handled as XSLT here. -->
 
 </li><li>Otherwise, if the node has no parent, if the <a href=#validation-mode>validation
 mode</a> of the parent of the node is <a href=#default-mode>default mode</a>, or
@@ -311,8 +315,10 @@ if the parent of the node is an <span>XML literal</span> in RDF/XML:
 
   <ol>
 
-  <li>If the node is an element in the <span>XSLT namespace</span>,
-  return <a href=#xslt-mode>XSLT mode</a>.
+  <li>If the parent of the node is an element and the node is
+  interpreted as an XSLT <span>literal result element</span> according
+  to the definition of the parent of the node, return <a href=#xslt-mode>XSLT
+  mode</a>.
 
   </li><li>Otherwise, if the node is an <code><var>rdf</var>:RDF</code>
   element, return <a href=#rdf-mode>RDF mode</a>.

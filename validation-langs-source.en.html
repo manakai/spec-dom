@@ -311,25 +311,25 @@ title="determine the validation mode">determined</dfn> as follows:
   type</span> of the <span title=concept-document>document</span> is
   <code>application/rdf+xml</code>, return <span>RDF mode</span>.
 
-  <li>Otherwise, if the <span
-  title=concept-document-content-type>content type</span> of the <span
-  title=concept-document>document</span> is
-  <code>application/xslt+xml</code> or <code>text/xsl</code>, return
-  <span>XSLT mode</span>.
-
   <li>Otherwise, return <span>default mode</span>.
 
   </ol>
 
-<li>Otherwise, if the <span
-title=concept-document-content-type>content type</span> of the <span
-title=concept-node-document>document</span> of the node is
-<code>text/xml</code> or <code>application/xml</code>, the node is the
-<span>document element</span>, and there is the
+<li>Otherwise, if the node is the <span>document element</span>, the
+<span title=concept-document-content-type>content type</span> of the
+<span title=concept-node-document>document</span> of the node is
+<code>application/xslt+xml</code> or <code>text/xsl</code>, and the
+node is an XSLT <span>literal result element</span>, return <span>XSLT
+mode</span>.
+
+<li>Otherwise, if the node is the <span>document element</span>, the
+<span title=concept-document-content-type>content type</span> of the
+<span title=concept-node-document>document</span> of the node is
+<code>text/xml</code> or <code>application/xml</code>, the node is an
+XSLT <span>literal result element</span>, and the node has the
 <code><var>xsl</var>:version</code> attribute, return <span>XSLT
-mode</span>.  <!-- <rdf:RDF xsl:version=""> document element can be
-interpreted as both RDF and XSLT, but handled as XSLT in this
-steps. -->
+mode</span>.<!-- <rdf:RDF xsl:version=""> document element can be
+interpreted as both RDF and XSLT, but handled as XSLT here. -->
 
 <li>Otherwise, if the node has no parent, if the <span>validation
 mode</span> of the parent of the node is <span>default mode</span>, or
@@ -337,8 +337,10 @@ if the parent of the node is an <span>XML literal</span> in RDF/XML:
 
   <ol>
 
-  <li>If the node is an element in the <span>XSLT namespace</span>,
-  return <span>XSLT mode</span>.
+  <li>If the parent of the node is an element and the node is
+  interpreted as an XSLT <span>literal result element</span> according
+  to the definition of the parent of the node, return <span>XSLT
+  mode</span>.
 
   <li>Otherwise, if the node is an <code><var>rdf</var>:RDF</code>
   element, return <span>RDF mode</span>.

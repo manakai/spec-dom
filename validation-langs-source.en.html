@@ -195,73 +195,6 @@ href="#ref-HTML">HTML</a>]</cite>.
 </section>
 
 <section>
-<h2>Validation modes</h2>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Conformance checkers have three <dfn title="validation
-mode">modes</dfn>:
-
-<dl>
-
-<dt><dfn>Default mode</dfn>
-<dd>Conformance of elements are determined by their original
-definition.
-
-<dt><dfn>XSLT mode</dfn>
-<dd>Conformance of elements are determined by XSLT 1.0 specification.
-
-<dt><dfn>RDF mode</dfn>
-<dd>Conformance of elements are determined by RDF/XML specification.
-
-</dl>
-
-<p class=ed>XXX Should we also define RSS1 mode?
-
-<p>A mode can invoke another mode for a subtree.  Examples of mode
-"integration points" include:
-
-<ul>
-
-<li>If the <span title=concept-document-content-type>content
-type</span> of a <span title=concept-document>document</span> is
-<code>application/rdf+xml</code>, the <span>RDF mode</span> is used
-for the <span title=concept-document>document</span>.
-
-<li>Otherwise, if the <span
-title=concept-document-content-type>content type</span> of a <span
-title=concept-document>document</span> is
-<code>application/xslt+xml</code> or <code>text/xsl</code>, the
-<span>XSLT mode</span> is used for the <span
-title=concept-document>document</span>.
-
-<li>Otherwise, the <span>default mode</span> is used.
-
-<li>If there is the <code><var>xsl</var>:version</code> attribute for
-the <span>document element</span>, the <span>XSLT mode</span> is used
-for the subtree.
-
-<li>If there is an element in the <span>XSLT namespace</span> in the
-<span>default mode</span>, the <span>XSLT mode</span> is used for the
-subtree.
-
-<li>If there is an <code><var>rdf</var>:RDF</code> element in the
-<span>default mode</span>, the <span>RDF mode</span> is used for the
-subtree.
-
-<li>If there is an <span>XML literal</span> element in the <span>RDF
-mode</span>, the <span>default mode</span> is used for the content of
-the element.
-
-</ul>
-<!-- <rdf:RDF xsl:version=""> document element can be interpreted as both RDF and XSLT -->
-
-<p>Following sections define requirements for the <span>default
-mode</span>.
-
-</section>
-
-<section>
 <h2>Unknown namespaces</h2>
 
 <p>A non-null namespace is <dfn title="supported
@@ -338,6 +271,70 @@ namespace.
 described by RSS2 specifications <cite class="bibref normative">[<a
 href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
 href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
+
+</section>
+
+<section>
+<h2>Validation modes</h2>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance checkers have three <dfn title="validation
+mode">modes</dfn>:
+
+<dl>
+
+<dt><dfn>Default mode</dfn>
+<dd>Conformance of elements are determined by their original
+definition.
+
+<dt><dfn>XSLT mode</dfn>
+<dd>Conformance of elements are determined by XSLT 1.0 specification.
+
+<dt><dfn>RDF mode</dfn>
+<dd>Conformance of elements are determined by RDF/XML specification.
+
+</dl>
+
+<p class=ed>XXX Should we also define RSS1 mode?
+
+<p>A mode can invoke another mode for a subtree.  Examples of mode
+"integration points" include:
+
+<ul>
+
+<li>If the <span title=concept-document-content-type>content
+type</span> of a <span title=concept-document>document</span> is
+<code>application/rdf+xml</code>, the <span>RDF mode</span> is used
+for the <span title=concept-document>document</span>.
+
+<li>Otherwise, if the <span
+title=concept-document-content-type>content type</span> of a <span
+title=concept-document>document</span> is
+<code>application/xslt+xml</code> or <code>text/xsl</code>, the
+<span>XSLT mode</span> is used for the <span
+title=concept-document>document</span>.
+
+<li>Otherwise, the <span>default mode</span> is used.
+
+<li>If there is the <code><var>xsl</var>:version</code> attribute for
+the <span>document element</span>, the <span>XSLT mode</span> is used
+for the subtree.
+
+<li>If there is an element in the <span>XSLT namespace</span> in the
+<span>default mode</span>, the <span>XSLT mode</span> is used for the
+subtree.
+
+<li>If there is an <code><var>rdf</var>:RDF</code> element in the
+<span>default mode</span>, the <span>RDF mode</span> is used for the
+subtree.
+
+<li>If there is an <span>XML literal</span> element in the <span>RDF
+mode</span>, the <span>default mode</span> is used for the content of
+the element.
+
+</ul>
+<!-- <rdf:RDF xsl:version=""> document element can be interpreted as both RDF and XSLT -->
 
 </section>
 

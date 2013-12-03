@@ -70,10 +70,70 @@ version of the document is the only normative version.</p>
 <section>
 <h2>Introduction</h2>
 
+<p class=section-info><em>This section is non-normative.</em>
+
 <p>This specification defines how elements and attributes in no
 namespace and in unknown namespaces are handled by conformance
 checkers developed by the <a
 href="https://github.com/manakai/">manakai project</a>.
+
+<section>
+<h3>Design goals</h3>
+
+<p>Conformance checkers should report errors or warnings on unknown
+elements and attributes useful for authors.
+
+<p>This specification should not override any other specification's
+requirements.
+
+<p>For a public Web document, non-standard element which is not
+defined by any <span>applicable specification</span> should be
+reported as an error.
+
+<div class=example>
+
+<p>In the following example, as the
+<code>http://mybookmark.example/</code> namespace is not defined by
+any specification, this fragment is non-conforming:
+
+<pre class=XML><code>&lt;div xmlns="http://www.w3.org/1999/xhtml">
+  &lt;bookmark xmlns="http://mybookmark.example/">Hello&lt;/bookmark>
+&lt;/div></code></pre>
+
+</div>
+
+<p>For XML data that is not expected to be directly shown to user
+(e.g. an XML data retrieved via <code>XMLHttpRequest</code>), use of
+null- or non-standard namespaces should not be an error.
+
+<div class=example>
+
+<p>For example, following document fragment should not be considered
+as non-conforming, nevertheless none of <code>data</code> and
+<code>item</code> elements and the <code>name</code> attribute is
+defined by any public standard:
+
+<pre class=XML><code>&lt;data>
+  &lt;item name="x1"/>
+  &lt;item name="x2">&lt;p xmlns="http://www.w3.org/1999/xhtml">Hi!&lt;/p>&lt;/item>
+&lt;/data></code></pre>
+
+<p>If the <code>p</code> element contained an <code>item</code>
+element in no namespace, it should be reported as an error, as no
+standard allows the <code>item</code> element in no namespace in the
+content of the HTML <code>p</code> element.
+
+</div>
+
+<div class=example>
+
+<p>If there is an element in the
+<code>http://www.w3.org/2000/svg<mark>/</mark></code> namespace, an
+error or warning should be reported.  It is likely an authoring error.
+
+</div>
+
+</section>
 
 </section>
 

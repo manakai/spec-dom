@@ -57,7 +57,9 @@ version of the document is the only normative version.</p>
 
 <!--begin-toc-->
 <ol class=toc>
- <li><a href=#introduction><span class=secno>1 </span>Introduction</a></li>
+ <li><a href=#introduction><span class=secno>1 </span>Introduction</a>
+  <ol>
+   <li><a href=#design-goals><span class=secno>1.1 </span>Design goals</a></li></ol></li>
  <li><a href=#definitions><span class=secno>2 </span>Definitions</a></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a></li>
  <li><a href=#unknown-namespaces><span class=secno>4 </span>Unknown namespaces</a></li>
@@ -70,11 +72,71 @@ version of the document is the only normative version.</p>
 <section>
 <h2 id=introduction><span class=secno>1 </span>Introduction</h2>
 
-<p>This specification defines how elements and attributes in no
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>This specification defines how elements and attributes in no
 namespace and in unknown namespaces are handled by conformance
 checkers developed by the <a href=https://github.com/manakai/>manakai project</a>.
 
-</p></section>
+</p><section>
+<h3 id=design-goals><span class=secno>1.1 </span>Design goals</h3>
+
+<p>Conformance checkers should report errors or warnings on unknown
+elements and attributes useful for authors.
+
+</p><p>This specification should not override any other specification's
+requirements.
+
+</p><p>For a public Web document, non-standard element which is not
+defined by any <a href=#applicable-specification>applicable specification</a> should be
+reported as an error.
+
+</p><div class=example>
+
+<p>In the following example, as the
+<code>http://mybookmark.example/</code> namespace is not defined by
+any specification, this fragment is non-conforming:
+
+</p><pre class=XML><code>&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;bookmark xmlns="http://mybookmark.example/"&gt;Hello&lt;/bookmark&gt;
+&lt;/div&gt;</code></pre>
+
+</div>
+
+<p>For XML data that is not expected to be directly shown to user
+(e.g. an XML data retrieved via <code>XMLHttpRequest</code>), use of
+null- or non-standard namespaces should not be an error.
+
+</p><div class=example>
+
+<p>For example, following document fragment should not be considered
+as non-conforming, nevertheless none of <code>data</code> and
+<code>item</code> elements and the <code>name</code> attribute is
+defined by any public standard:
+
+</p><pre class=XML><code>&lt;data&gt;
+  &lt;item name="x1"/&gt;
+  &lt;item name="x2"&gt;&lt;p xmlns="http://www.w3.org/1999/xhtml"&gt;Hi!&lt;/p&gt;&lt;/item&gt;
+&lt;/data&gt;</code></pre>
+
+<p>If the <code>p</code> element contained an <code>item</code>
+element in no namespace, it should be reported as an error, as no
+standard allows the <code>item</code> element in no namespace in the
+content of the HTML <code>p</code> element.
+
+</p></div>
+
+<div class=example>
+
+<p>If there is an element in the
+<code>http://www.w3.org/2000/svg<mark>/</mark></code> namespace, an
+error or warning should be reported.  It is likely an authoring error.
+
+</p></div>
+
+</section>
+
+</section>
 
 <section>
 <h2 id=definitions><span class=secno>2 </span>Definitions</h2>

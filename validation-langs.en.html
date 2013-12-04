@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 3 December 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 4 December 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-3 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+4 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -146,24 +146,22 @@ error or warning should be reported.  It is likely an authoring error.
 <p>The keywords "<em class=rfc2119>MUST</em>" and "<em class=rfc2119>MAY</em>" in the normative parts of this document are to
 be interpreted as described in <a href=http://tools.ietf.org/html/rfc2119>RFC 2119</a> <cite class="bibref normative">[<a href=#ref-RFC2119>RFC2119</a>]</cite>.
 
-<!--
-<p>Requirements phrased in the imperative as part of algorithms (such
+</p><p>Requirements phrased in the imperative as part of algorithms (such
 as "strip any leading space characters" or "return false and abort
 these steps") are to be interpreted with the meaning of the key word
 ("<em class=rfc2119>MUST</em>", "<em class=rfc2119>MAY</em>", etc)
 used in introducing the algorithm.
 
-<p>Conformance requirements phrased as algorithms or specific steps
+</p><p>Conformance requirements phrased as algorithms or specific steps
 <em class=rfc2119>MAY</em> be implemented in any manner, so long as
 the end result is equivalent. (In particular, the algorithms defined
 in this specification are intended to be easy to follow, and not
 intended to be performant.)
 
-<p>User agents <em class=rfc2119>MAY</em> impose
+</p><p>User agents <em class=rfc2119>MAY</em> impose
 implementation-specific limits on otherwise unconstrained inputs,
 e.g. to prevent denial of service attacks, to guard against running
 out of memory, or to work around platform-specific limitations.
--->
 
 </p><hr>
 
@@ -258,8 +256,9 @@ described by RSS2 specifications <cite class="bibref normative">[<a href=#ref-RS
 
 <p class=section-info><em>This section is non-normative.</em>
 
-</p><p>Conformance checkers have three <dfn id=validation-mode title="validation
-mode">modes</dfn>:
+</p><p>Conformance checking of a node tree is the process to traverse
+nodes in the tree while checking the conformance of them.  Conformance
+of nodes in the tree are checked in one of these <dfn id=validation-mode title="validation mode">modes</dfn>:
 
 </p><dl>
 
@@ -268,69 +267,134 @@ mode">modes</dfn>:
 definition.
 
 </dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
-</dt><dd>Conformance of elements are determined by XSLT 1.0 specification.
+</dt><dd>Conformance of elements are determined by <a href=#xslt-specifications>XSLT
+specifications</a>.  <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable specification">applicable specifications</a>
+defining XSLT and its extensions.  For the purpose of this
+specification, <dfn id=xslt-element title="XSLT element">XSLT elements</dfn> are
+elements in the <span>XSLT namespace</span> and XSLT <span title="extension namespace">extension namespaces</span> defined by
+<a href=#xslt-specifications>XSLT specifications</a>.  Note that XSLT <span title="literal
+result element">literal result elements</span> are not <a href=#xslt-element title="XSLT element">XSLT elements</a>.
 
 </dd><dt><dfn id=rdf-mode>RDF mode</dfn>
 </dt><dd>Conformance of elements are determined by RDF/XML specification.
 
+</dd><dt><dfn id=rss1-mode>RSS1 mode</dfn>
+</dt><dd>Conformance of elements are determined by both RDF/XML
+specification and <a href=#rss1-specifications>RSS1 specifications</a>.  <dfn id=rss1-specifications>RSS1
+specifications</dfn> are any <a href=#applicable-specification title="applicable
+specification">applicable specifications</a> defining RSS1 and its
+modules.
+
 </dd></dl>
 
-<p class=ed>XXX Should we also define RSS1 mode?
-
-</p><p>The <a href=#validation-mode>validation mode</a> for a node can be <dfn id=determine-the-validation-mode title="determine the validation mode">determined</dfn> as follows:
+<p>The <a href=#validation-mode>validation mode</a> for a node can be <dfn id=determine-the-validation-mode title="determine the validation mode">determined</dfn> as follows:
 
 </p><ol class=steps>
 
-<li>If the node is a <a href=#concept-document title=concept-document>document</a>:
+<li>If the node is the <a href=#document-element-0>document element</a>:
 
-  <ol>
+  <dl class=switch>
 
-  <li>If the <a href=#concept-document-content-type title=concept-document-content-type>content
-  type</a> of the <a href=#concept-document title=concept-document>document</a> is
-  <code>application/rdf+xml</code>, return <a href=#rdf-mode>RDF mode</a>.
+  <dt>If the <a href=#concept-document-content-type title=concept-document-content-type>content
+  type</a> of the <span title=concept-node-document>document</span>
+  of the node is <code>application/xml</code> or <code>text/xml</code>
 
-  </li><li>Otherwise, return <a href=#default-mode>default mode</a>.
+  </dt><dd>
 
-  </li></ol>
+    <ol>
 
-</li><li>Otherwise, if the node is the <a href=#document-element-0>document element</a>, the
-<a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the
-<span title=concept-node-document>document</span> of the node is
-<code>application/xslt+xml</code> or <code>text/xsl</code>, and the
-node is an XSLT <span>literal result element</span>, return <a href=#xslt-mode>XSLT
+    <li>If the node is an XSLT <span>literal result element</span>,
+    and the node has the <code>version</code> attribute in the
+    <span>XSLT namespace</span>, return <a href=#xslt-mode>XSLT mode</a> and
+    abort these steps.
+
+    </li><li>Otherwise, go to the next step of the overall set of steps.
+
+    </li></ol>
+
+  </dd><dt>If the <a href=#concept-document-content-type title=concept-document-content-type>content
+  type</a> of the <span title=concept-node-document>document</span>
+  of the node is <code>application/xslt+xml</code> or
+  <code>text/xsl</code>
+
+  </dt><dd>
+
+    <ol>
+
+    <li>If the node is an <a href=#xslt-element>XSLT element</a> or an XSLT
+    <span>literal result element</span>, return <a href=#xslt-mode>XSLT mode</a>
+    and abort these steps.
+
+    </li><li>Otherwise, go to the next step of the overall set of steps.
+
+    </li></ol>
+
+  </dd><dt>If the <a href=#concept-document-content-type title=concept-document-content-type>content
+  type</a> of the <span title=concept-node-document>document</span>
+  of the node is <code>application/rdf+xml</code>
+
+  </dt><dd>
+
+    <ol>
+
+    <li>If the node can be interpreted as matching with the production
+    <code>nodeElement</code>, return <a href=#rdf-mode>RDF mode</a> and abort
+    these steps.
+
+    </li><li>Otherwise, go to the next step of the overall set of steps.
+
+    </li></ol>
+
+  </dd><dt>Otherwise
+
+  </dt><dd>Go to the next step of the overall set of steps.
+
+  </dd></dl>
+
+</li><li>Let <var>parent mode</var> be the <a href=#validation-mode>validation mode</a> of
+the parent of the node, if any, or <a href=#default-mode>default mode</a>.
+
+</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <a href=#rss1-mode>RSS1
+mode</a> and the parent of the node is an RSS/XML <span>XML
+literal</span>, set <var>parent mode</var> to <a href=#default-mode>default
 mode</a>.
 
-</li><li>Otherwise, if the node is the <a href=#document-element-0>document element</a>, the
-<a href=#concept-document-content-type title=concept-document-content-type>content type</a> of the
-<span title=concept-node-document>document</span> of the node is
-<code>text/xml</code> or <code>application/xml</code>, the node is an
-XSLT <span>literal result element</span>, and the node has the
-<code><var>xsl</var>:version</code> attribute, return <a href=#xslt-mode>XSLT
-mode</a>.<!-- <rdf:RDF xsl:version=""> document element can be
-interpreted as both RDF and XSLT, but handled as XSLT here. -->
+</li><li>If the node is an <a href=#xslt-element>XSLT element</a> or if <var>parent
+mode</var> is <a href=#xslt-mode>XSLT mode</a> and the node is an XSLT
+<span>literal result element</span>, return <a href=#xslt-mode>XSLT mode</a> and
+abort these steps.
 
-</li><li>Otherwise, if the node has no parent, if the <a href=#validation-mode>validation
-mode</a> of the parent of the node is <a href=#default-mode>default mode</a>, or
-if the parent of the node is an <span>XML literal</span> in RDF/XML:
+</li><li>If the node is the <code>RDF</code> element in the <span>RDF
+namespace</span>:
 
   <ol>
 
-  <li>If the parent of the node is an element and the node is
-  interpreted as an XSLT <span>literal result element</span> according
-  to the definition of the parent of the node, return <a href=#xslt-mode>XSLT
-  mode</a>.
+  <li>If the node has the <code>xmlns</code> attribute in the
+  <span>XMLNS namespace</span> whose value is the <span>RSS1
+  namespace</span> and the <code>rdf</code> attribute in the
+  <span>XMLNS namespace</span> whose value is the <span>RDF
+  namespace</span>, return <a href=#rss1-mode>RSS1 mode</a> and abort these
+  steps.
 
-  </li><li>Otherwise, if the node is an <code><var>rdf</var>:RDF</code>
-  element, return <a href=#rdf-mode>RDF mode</a>.
-
-  </li><li>Otherwise, return <a href=#default-mode>default mode</a>.
+  </li><li>Otherwise, return <a href=#rdf-mode>RDF mode</a> and abort these steps.
 
   </li></ol>
 
-</li><li>Otherwise, return the <a href=#validation-mode>validation mode</a> of the parent
-of the node.
+</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <a href=#rss1-mode>RSS1
+mode</a> and the node is considered as matching to a part of the
+current production in the RDF/XML Syntax Data Model, return
+<var>parent mode</var> and abort these steps.
+
+</li><li>Return <a href=#default-mode>default mode</a>.
 
 </li></ol>
+
+<div class="note memo">
+
+<p>Elements not conforming to the RDF/XML specification (e.g. an
+element in string literal) are validated in <a href=#default-mode>default mode</a>.
+
+</p></div>
 
 <section>
 <h3 id=document-element><span class=secno>5.1 </span>Document element</h3>
@@ -346,16 +410,16 @@ or not is determined by following steps:
 
 </li><li>If the element is in the <a href=#xslt-mode>XSLT mode</a>, return whether
 the element is allowed as the <a href=#document-element-0>document element</a> according
-to XSLT 1.0 specification.
+to <a href=#xslt-specifications>XSLT specifications</a>.
 
 </li><li>Otherwise, if the element is in the <a href=#rdf-mode>RDF mode</a>, return
 whether the element is allowed as the <a href=#document-element-0>document element</a>
 according to RDF/XML specification.
 
-</li><li>Otherwise, if the element is in a <a href=#supported-namespace>supported namespace</a>
-or an <a href=#rss2-element>RSS2 element</a>, return whether the element is allowed
-as the <a href=#document-element-0>document element</a> by an <a href=#applicable-specification>applicable
-specification</a>.
+</li><li>Otherwise, if the element is in the <a href=#rss1-mode>RSS1 mode</a>, in a
+<a href=#supported-namespace>supported namespace</a>, or an <a href=#rss2-element>RSS2 element</a>,
+return whether the element is allowed as the <a href=#document-element-0>document
+element</a> by an <a href=#applicable-specification>applicable specification</a>.
 
 </li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
 element</a>.  Return true.
@@ -375,13 +439,18 @@ element</a>.  Return true.
 
 <li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
 
-</li><li>If the <a href=#validation-mode>validation mode</a> of the element is the
-<a href=#xslt-mode>XSLT mode</a>, check the element according to the XSLT 1.0
-specification.
+</li><li>Let <var>mode</var> be the <a href=#validation-mode>validation mode</a> of the
+element.
 
-</li><li>Otherwise, if the <a href=#validation-mode>validation mode</a> of the element is
-the <a href=#rdf-mode>RDF mode</a>, check the element according to the RDF/XML
-specification.
+</li><li>If <var>mode</var> is <a href=#xslt-mode>XSLT mode</a>, check the element
+according to <a href=#xslt-specifications>XSLT specifications</a>.
+
+</li><li>Otherwise, if <var>mode</var> is <a href=#rdf-mode>RDF mode</a>, check the
+element according to the RDF/XML specification.
+
+</li><li>Otherwise, if <var>mode</var> is <a href=#rss1-mode>RSS1 mode</a>, check the
+element according to the RDF/XML specification and <a href=#rss1-specifications>RSS1
+specifications</a>.
 
 </li><li>Otherwise, if the element is in a <a href=#supported-namespace>supported namespace</a>
 or is an <a href=#rss2-element>RSS2 element</a>:

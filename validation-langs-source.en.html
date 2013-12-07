@@ -181,14 +181,23 @@ title=concept-document>document</dfn>, <dfn
 title=concept-document-content-type>content type</dfn>, <dfn>document
 element</dfn>, <dfn title=concept-element>element</dfn>, <dfn
 title=concept-element-local-name>local name</dfn>, <dfn
-title=concept-element-namespace>namespace</dfn>, and <dfn
-title=concept-attribute>attribute</dfn> are defined by the DOM
-Standard <cite class="bibref normative">[<a
-href="#ref-DOM">DOM</a>]</cite>.
+title=concept-element-namespace>namespace</dfn>, <dfn
+title=concept-attribute>attribute</dfn>, and <dfn>XMLNS
+namespace</dfn> are defined by the DOM Standard <cite class="bibref
+normative">[<a href="#ref-DOM">DOM</a>]</cite>.
 
 <p>The term <dfn>applicable specification</dfn> is defined by the HTML
 Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>.
+
+<p>The <dfn>XSLT namespace</dfn> is
+<code>http://www.w3.org/1999/XSL/Transform</code>.
+
+<p>The <dfn>RDF namespace</dfn> is
+<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
+<p>The <dfn>RSS1 namespace</dfn> is
+<code>http://purl.org/rss/1.0/</code>.
 
 </section>
 
@@ -239,6 +248,12 @@ a <span>supported namespace</span> might also be specified to an
 <p>An <span>unknown namespace element</span> <em
 class=rfc2119>MAY</em> have any kind of <span
 title=concept-tree-child>child</span> (unless otherwise disallowed).
+
+<p>An <span>unknown namespace attribute</span> <em
+class=rfc2119>MAY</em> have any value.
+
+<p>An attribute in no namespace of an <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> have any value.
 
 <p>Conformance checkers <em class=rfc2119>MAY</em> warn any
 <span>unknown namespace element</span> or <span>unknown namespace

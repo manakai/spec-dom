@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 4 December 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 7 December 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-4 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+7 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -173,11 +173,21 @@ normative">[<a href=#ref-XML>XML</a>]</cite>, and XML Namespaces
 </p><hr>
 
 <p>The terms <dfn id=concept-tree-ancestor title=concept-tree-ancestor>ancestor</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-document title=concept-document>document</dfn>, <dfn id=concept-document-content-type title=concept-document-content-type>content type</dfn>, <dfn id=document-element-0>document
-element</dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, and <dfn id=concept-attribute title=concept-attribute>attribute</dfn> are defined by the DOM
-Standard <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
+element</dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-attribute title=concept-attribute>attribute</dfn>, and <dfn id=xmlns-namespace>XMLNS
+namespace</dfn> are defined by the DOM Standard <cite class="bibref
+normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
 </p><p>The term <dfn id=applicable-specification>applicable specification</dfn> is defined by the HTML
 Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
+
+</p><p>The <dfn id=xslt-namespace>XSLT namespace</dfn> is
+<code>http://www.w3.org/1999/XSL/Transform</code>.
+
+</p><p>The <dfn id=rdf-namespace>RDF namespace</dfn> is
+<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
+</p><p>The <dfn id=rss1-namespace>RSS1 namespace</dfn> is
+<code>http://purl.org/rss/1.0/</code>.
 
 </p></section>
 
@@ -221,6 +231,11 @@ a <a href=#supported-namespace>supported namespace</a> might also be specified t
 </p></div>
 
 <p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> have any kind of <a href=#concept-tree-child title=concept-tree-child>child</a> (unless otherwise disallowed).
+
+</p><p>An <a href=#unknown-namespace-attribute>unknown namespace attribute</a> <em class=rfc2119>MAY</em> have any value.
+
+</p><p>An attribute in no namespace of an <a href=#unknown-namespace-element>unknown namespace
+element</a> <em class=rfc2119>MAY</em> have any value.
 
 </p><p>Conformance checkers <em class=rfc2119>MAY</em> warn any
 <a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown namespace
@@ -271,7 +286,7 @@ definition.
 specifications</a>.  <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable specification">applicable specifications</a>
 defining XSLT and its extensions.  For the purpose of this
 specification, <dfn id=xslt-element title="XSLT element">XSLT elements</dfn> are
-elements in the <span>XSLT namespace</span> and XSLT <span title="extension namespace">extension namespaces</span> defined by
+elements in the <a href=#xslt-namespace>XSLT namespace</a> and XSLT <span title="extension namespace">extension namespaces</span> defined by
 <a href=#xslt-specifications>XSLT specifications</a>.  Note that XSLT <span title="literal
 result element">literal result elements</span> are not <a href=#xslt-element title="XSLT element">XSLT elements</a>.
 
@@ -305,7 +320,7 @@ modules.
 
     <li>If the node is an XSLT <span>literal result element</span>,
     and the node has the <code>version</code> attribute in the
-    <span>XSLT namespace</span>, return <a href=#xslt-mode>XSLT mode</a> and
+    <a href=#xslt-namespace>XSLT namespace</a>, return <a href=#xslt-mode>XSLT mode</a> and
     abort these steps.
 
     </li><li>Otherwise, go to the next step of the overall set of steps.
@@ -364,16 +379,16 @@ mode</var> is <a href=#xslt-mode>XSLT mode</a> and the node is an XSLT
 <span>literal result element</span>, return <a href=#xslt-mode>XSLT mode</a> and
 abort these steps.
 
-</li><li>If the node is the <code>RDF</code> element in the <span>RDF
-namespace</span>:
+</li><li>If the node is the <code>RDF</code> element in the <a href=#rdf-namespace>RDF
+namespace</a>:
 
   <ol>
 
   <li>If the node has the <code>xmlns</code> attribute in the
-  <span>XMLNS namespace</span> whose value is the <span>RSS1
-  namespace</span> and the <code>rdf</code> attribute in the
-  <span>XMLNS namespace</span> whose value is the <span>RDF
-  namespace</span>, return <a href=#rss1-mode>RSS1 mode</a> and abort these
+  <a href=#xmlns-namespace>XMLNS namespace</a> whose value is the <a href=#rss1-namespace>RSS1
+  namespace</a> and the <code>rdf</code> attribute in the
+  <a href=#xmlns-namespace>XMLNS namespace</a> whose value is the <a href=#rdf-namespace>RDF
+  namespace</a>, return <a href=#rss1-mode>RSS1 mode</a> and abort these
   steps.
 
   </li><li>Otherwise, return <a href=#rdf-mode>RDF mode</a> and abort these steps.

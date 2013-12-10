@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 1 February 2013</h2>
+<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 10 December 2013</h2>
 
 <dl class=versions-uri>
 <dt>Latest Version</dt>
@@ -389,6 +389,12 @@ following values <em class=rfc2119>MUST</em> be copied:
 types</a>, <a href=#concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general
 entities</a>, and <a href=#concept-documenttype-notations title=concept-DocumentType-notations>notations</a>.
 
+  <div class="note memo">
+  
+  <p>The DOM Standard defines more values to copy.
+
+  </p></div>
+
 </dd><dt><a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> </dt><dd>Its <a href=#concept-element-type-name title=concept-element-type-name>name</a> and <a href=#concept-elementtypedefinition-attributedefinitions title=concept-ElementTypeDefinition-attributeDefinitions>attribute
 definitions</a>.<!-- XXX content model -->
 
@@ -401,6 +407,13 @@ value</a>.
 </dd><dt><a href=#entity><code>Entity</code></a>
 <!-- Implementation dependent in DOM3CORE -->
 </dt><dd>Its <span title=concept-entity-name>name</span>, <a href=#concept-entity-publicid title=concept-entity-publicid>public ID</a>, <a href=#concept-entity-systemid title=concept-entity-systemid>system ID</a>, <a href=#concept-entity-notation-name title=concept-entity-notation-name>notation name</a>, and <a href=#concept-entity-replacement-text title=concept-entity-replacement-text>replacement text</a>.
+
+  <div class="note memo">
+
+  <p>The <span title=concept-entity-encoding>encoding</span><!--
+  [MANAKAI] --> is not copied.
+
+  </p></div>
 
 </dd><dt><a href=#notation><code>Notation</code></a>
 <!-- Implementation dependent in DOM3CORE -->

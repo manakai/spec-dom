@@ -186,9 +186,9 @@ title=concept-attribute>attribute</dfn>, and <dfn>XMLNS
 namespace</dfn> are defined by the DOM Standard <cite class="bibref
 normative">[<a href="#ref-DOM">DOM</a>]</cite>.
 
-<p>The term <dfn>applicable specification</dfn> is defined by the HTML
-Standard <cite class="bibref normative">[<a
-href="#ref-HTML">HTML</a>]</cite>.
+<p>The terms <dfn>applicable specification</dfn> and <dfn>the script
+block's type</dfn> are defined by the HTML Standard <cite
+class="bibref normative">[<a href="#ref-HTML">HTML</a>]</cite>.
 
 <p>The <dfn>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
@@ -508,6 +508,113 @@ or is an <span>RSS2 element</span>:
 
 <li>Otherwise, the element is an <span>unknown namespace
 element</span>.  Report an "unknown element" warning.
+
+</ol>
+
+</section>
+
+<section>
+<h3>Checking an HTML <code>script</code> element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance of an HTML <code>script</code> element is checked as
+follows:
+
+<ol class=steps>
+
+<li>Check the conformance of the attributes.
+
+<li>Check the content according to the <a
+href="http://www.whatwg.org/specs/web-apps/current-work/#restrictions-for-contents-of-script-elements">restrictions
+for contents</a>.
+
+<li>If the <code title=attr-script-src>src</code> attribute is
+specified:
+
+  <ol class=switch>
+
+  <li>Check the content according to the restrictions on the <a
+  href="http://www.whatwg.org/specs/web-apps/current-work/#inline-documentation-for-external-scripts">inline
+  documentation</a>.
+
+  <li>If <span>the script block's type</span> is not a scripting
+  language, report an error.
+
+  <li>Check the referenced resource.
+
+  </ol>
+
+<li>If <span>the script block's type</span> is an XML-based language:
+
+  <ol class=switch>
+
+  <li>If the <span title="the script block's type">type</span> is
+  supported, validate the content of the element according to the
+  specification of the language.
+
+  <li>Otherwise, report an "unknown language" warning.
+  
+  </ol>
+
+<li>Otherwise:
+
+  <ol class=switch>
+
+  <li>Report an "element not allowed" error for each child element in
+  the content.
+
+  <li>If the <span title="the script block's type">type</span> is
+  supported, validate the <code title=dom-script-text>text</code> of
+  the element according to the specification of the language.
+
+  <li>Otherwise, report an "unknown language" warning.
+  
+  </ol>
+
+</ol>
+
+</section>
+
+<section>
+<h3>Checking an HTML <code>style</code> element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance of an HTML <code>style</code> element is checked as
+follows:
+
+<ol class=steps>
+
+<li>Check the conformance of the attributes.
+
+<li>Check the content according to the restrictions for contents.
+
+<li>If the type is an XML-based language:
+
+  <ol class=switch>
+
+  <li>If the type is supported, validate the content of the element
+  according to the specification of the language.
+
+  <li>Otherwise, report an "unknown language" warning.
+  
+  </ol>
+
+<li>Otherwise:
+
+  <ol class=switch>
+
+  <li>Report an "element not allowed" error for each child element in
+  the content.
+
+  <li>If the type is supported, validate the concatenation of child
+  text nodes, in tree order, of the element according to the
+  specification of the language.
+
+  <li>Otherwise, report an "unknown language" warning.
+  
+  </ol>
 
 </ol>
 

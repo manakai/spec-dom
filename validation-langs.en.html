@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 7 December 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 26 December 2013</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-7 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+26 December 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -66,7 +66,9 @@ version of the document is the only normative version.</p>
  <li><a href=#validation-modes><span class=secno>5 </span>Validation modes</a>
   <ol>
    <li><a href=#document-element><span class=secno>5.1 </span>Document element</a></li>
-   <li><a href=#checking-an-element><span class=secno>5.2 </span>Checking an element</a></li></ol></li>
+   <li><a href=#checking-an-element><span class=secno>5.2 </span>Checking an element</a></li>
+   <li><a href=#checking-an-html-script-element><span class=secno>5.3 </span>Checking an HTML <code>script</code> element</a></li>
+   <li><a href=#checking-an-html-style-element><span class=secno>5.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
  <li><a href=#data><span class=secno>6 </span>Data</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
@@ -178,8 +180,8 @@ element</dfn>, <dfn id=concept-element title=concept-element>element</dfn>, <dfn
 namespace</dfn> are defined by the DOM Standard <cite class="bibref
 normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
-</p><p>The term <dfn id=applicable-specification>applicable specification</dfn> is defined by the HTML
-Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
+</p><p>The terms <dfn id=applicable-specification>applicable specification</dfn> and <dfn id="the-script-block's-type">the script
+block's type</dfn> are defined by the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
 
 </p><p>The <dfn id=xslt-namespace>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
@@ -483,6 +485,111 @@ or is an <a href=#rss2-element>RSS2 element</a>:
 
 </li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
 element</a>.  Report an "unknown element" warning.
+
+</li></ol>
+
+</section>
+
+<section>
+<h3 id=checking-an-html-script-element><span class=secno>5.3 </span>Checking an HTML <code>script</code> element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Conformance of an HTML <code>script</code> element is checked as
+follows:
+
+</p><ol class=steps>
+
+<li>Check the conformance of the attributes.
+
+</li><li>Check the content according to the <a href=http://www.whatwg.org/specs/web-apps/current-work/#restrictions-for-contents-of-script-elements>restrictions
+for contents</a>.
+
+</li><li>If the <code title=attr-script-src>src</code> attribute is
+specified:
+
+  <ol class=switch>
+
+  <li>Check the content according to the restrictions on the <a href=http://www.whatwg.org/specs/web-apps/current-work/#inline-documentation-for-external-scripts>inline
+  documentation</a>.
+
+  </li><li>If <a href="#the-script-block's-type">the script block's type</a> is not a scripting
+  language, report an error.
+
+  </li><li>Check the referenced resource.
+
+  </li></ol>
+
+</li><li>If <a href="#the-script-block's-type">the script block's type</a> is an XML-based language:
+
+  <ol class=switch>
+
+  <li>If the <a href="#the-script-block's-type" title="the script block's type">type</a> is
+  supported, validate the content of the element according to the
+  specification of the language.
+
+  </li><li>Otherwise, report an "unknown language" warning.
+  
+  </li></ol>
+
+</li><li>Otherwise:
+
+  <ol class=switch>
+
+  <li>Report an "element not allowed" error for each child element in
+  the content.
+
+  </li><li>If the <a href="#the-script-block's-type" title="the script block's type">type</a> is
+  supported, validate the <code title=dom-script-text>text</code> of
+  the element according to the specification of the language.
+
+  </li><li>Otherwise, report an "unknown language" warning.
+  
+  </li></ol>
+
+</li></ol>
+
+</section>
+
+<section>
+<h3 id=checking-an-html-style-element><span class=secno>5.4 </span>Checking an HTML <code>style</code> element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Conformance of an HTML <code>style</code> element is checked as
+follows:
+
+</p><ol class=steps>
+
+<li>Check the conformance of the attributes.
+
+</li><li>Check the content according to the restrictions for contents.
+
+</li><li>If the type is an XML-based language:
+
+  <ol class=switch>
+
+  <li>If the type is supported, validate the content of the element
+  according to the specification of the language.
+
+  </li><li>Otherwise, report an "unknown language" warning.
+  
+  </li></ol>
+
+</li><li>Otherwise:
+
+  <ol class=switch>
+
+  <li>Report an "element not allowed" error for each child element in
+  the content.
+
+  </li><li>If the type is supported, validate the concatenation of child
+  text nodes, in tree order, of the element according to the
+  specification of the language.
+
+  </li><li>Otherwise, report an "unknown language" warning.
+  
+  </li></ol>
 
 </li></ol>
 

@@ -7,7 +7,7 @@
 <body class=has-abstract>
 
 <div class=header>
-<h1 class="no-toc no-num">XML procesing and DOM Document Type Definitions</h1>
+<h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
 <h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 7 February 2014</h2>
 
 <dl class=versions-uri>
@@ -32,11 +32,12 @@ available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreemen
 <div class=section id=abstract>
 <h2 class="no-toc no-num" id=abstract-0>Abstract</h2>
 
-<p>The <abbr>DOM</abbr> Document Type Definitions specification
-defines a set of <abbr>DOM</abbr> interfaces, including both new
-interfaces and modifications to existing <abbr>DOM</abbr> interfaces,
-over which <abbr>DOM</abbr> applications are able to access to the
-definitions of the document type.</p> </div>
+<p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
+documents, including: how information in XML DTDs are represented in
+DOM; how base URLs are determined in XML documents; and how
+conformance of XML documents are checked.
+
+</p></div>
 
 <div class=section id=status>
 <h2 class="no-toc no-num" id=status-of-this-document>Status of This Document</h2>
@@ -44,11 +45,11 @@ definitions of the document type.</p> </div>
 <p class=section-info>This section describes the status of this document at the
 time of its publication.  Other documents might supersede this document.</p>
 
-<p>This document is a specification produced as part of the <a href=http://suika.suikawiki.org/www/manakai-core/doc/web/>manakai</a>
-project.  It is not intended to be implemented by any other DOM
-implementation, although nothing prevents it from being implemented by
-any other party.  It might be updated, replaced, or obsoleted by other
-documents at any time.
+<p>This document is a specification produced as part of <a href=https://github.com/manakai/>the manakai project</a>.  It is not
+intended to be implemented by any other DOM implementation, although
+nothing prevents it from being implemented by any other party.  It
+might be updated, replaced, or obsoleted by other documents at any
+time.
 
 </p><p class=ed>This specification was originllay developed in DOM3 age.
 Most part of this document need to be rewritten to align with modern
@@ -70,10 +71,10 @@ normative version.</p>
  <li><a href=#introduction-0><span class=secno>1 </span>Introduction</a>
   <ol>
    <li><a href=#history-0><span class=secno>1.1 </span>History</a></li></ol></li>
- <li><a href=#conformance-requirements><span class=secno>2 </span>Conformance Requirements</a>
+ <li><a href=#conformance-requirements><span class=secno>2 </span>Conformance requirements</a>
   <ol>
    <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li></ol></li>
- <li><a href=#dom-for-document-type-definitions><span class=secno>3 </span>DOM for document type definitions</a>
+ <li><a href=#dom-document-type-definitions><span class=secno>3 </span>DOM Document Type Definitions</a>
   <ol>
    <li><a href=#Node><span class=secno>3.1 </span>Nodes</a></li>
    <li><a href=#Document><span class=secno>3.2 </span>Documents</a></li>
@@ -83,10 +84,22 @@ normative version.</p>
    <li><a href=#general-entities><span class=secno>3.6 </span>General entities</a></li>
    <li><a href=#notations><span class=secno>3.7 </span>Notations</a></li></ol></li>
  <li><a href=#base-urls><span class=secno>4 </span>Base URLs</a></li>
- <li><a href=#obsolete-features><span class=secno>5 </span>Obsolete features</a>
+ <li><a href=#conformance-checking-of-xml-documents><span class=secno>5 </span>Conformance checking of XML documents</a>
   <ol>
-   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>5.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
-   <li><a href=#obsolete-attribute><span class=secno>5.2 </span>Obsolete attribute</a></li></ol></li>
+   <li><a href=#processing-model-0><span class=secno>5.1 </span>Processing Model</a>
+    <ol>
+     <li><a href=#error-classification><span class=secno>5.1.1 </span>Error Classification</a></li></ol></li>
+   <li><a href=#parsing-an-xml-document><span class=secno>5.2 </span>Parsing an <abbr>XML</abbr> Document</a></li>
+   <li><a href=#checking-an-xml-dom-tree><span class=secno>5.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</a>
+    <ol>
+     <li><a href=#definitions-0><span class=secno>5.3.1 </span>Definitions</a></li>
+     <li><a href=#conformance-checking-algorithms-for-components><span class=secno>5.3.2 </span>Conformance Checking Algorithms for Components</a></li>
+     <li><a href=#checking-node-0><span class=secno>5.3.3 </span>Checking <code>Node</code></a></li></ol></li>
+   <li><a href=#character-classes><span class=secno>5.4 </span>Character Classes</a></li></ol></li>
+ <li><a href=#obsolete-features><span class=secno>6 </span>Obsolete features</a>
+  <ol>
+   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>6.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
+   <li><a href=#obsolete-attribute><span class=secno>6.2 </span>Obsolete attribute</a></li></ol></li>
  <li><a class=no-num href=#references-0>References</a>
   <ol>
    <li><a class=no-num href=#normative-references-0>Normative References</a></li>
@@ -99,30 +112,16 @@ normative version.</p>
 
 <p class=section-info>This section is <em>non-normative</em>.</p>
 
-<p>The <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type
-Definitions</dfn> specification defines a set of <abbr>DOM</abbr>
-interfaces, including both new interfaces and modifications to
-existing <abbr>DOM</abbr> interfaces, over which <abbr>DOM</abbr>
-applications are able to access to the definitions of the document
-type.</p>
+<p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
+documents, including: how information in XML DTDs are represented in
+DOM; how base URLs are determined in XML documents; and how
+conformance of XML documents are checked.
 
-<p>The primary goal of the features defined by this specification is
-to make it possible to built an XML DTD validator on the top of the
-extended DOM API (combined with an XML parser implementation aware of
-that API).  It can support both XML 1.0 <cite class="bibref
-normative">[<a href=#ref-XML10>XML10</a>]</cite> and XML 1.1 <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>, but
-the implementation is not required to implement XML 1.1.
+</p><p>In general, this specification does not intend to override
+requirements imposed by various XML specifications.  In addition, this
+specification does not intend to be implemented by Web browsers.
 
-</p><p>Interfaces defined in this document are partially modeled and inspired by
-early drafts of <abbr>DOM</abbr> Level 1
-<cite class="bibref informative">[<a href=#ref-DOM1WD>DOM1WD</a>]</cite>,
-<abbr>DOM</abbr> Level 3 Abstract Schemas <abbr>W3C</abbr> Note
-<cite class="bibref informative">[<a href=#ref-DOM3AS>DOM3AS</a>]</cite>,
-and <abbr>XML</abbr> Schema <abbr>API</abbr> specification
-<cite class="bibref informative">[<a href=#ref-XSAPI>XSAPI</a>]</cite>, but 
-they are not compatible with any of them as a whole.</p>
-
-<div class=section id=history>
+</p><div class=section id=history>
 <h3 id=history-0><span class=secno>1.1 </span>History</h3>
 
 <p>Most part of this specification was originally published as
@@ -131,12 +130,16 @@ and <em>this</em> specifications are available at <code class=URI>&lt;<a href=ht
 The First Edition of the <cite>DOM Document Type Definition</cite>
 specification is available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209>http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code>.
 
+</p><p>Some part of this specification is derived from the <a href=http://suika.suikawiki.org/www/markup/xml/xmlcc/xmlcc-work><cite>manakai's
+<abbr>XML</abbr> Conformance Checking</cite></a> specification.
+Revision history of the specification is available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html>http://suika.suikawiki.org/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html</a>&gt;</code>.
+
 </p></div>
 
 </div>
 
 <div class=section id=conformance>
-<h2 id=conformance-requirements><span class=secno>2 </span>Conformance Requirements</h2>
+<h2 id=conformance-requirements><span class=secno>2 </span>Conformance requirements</h2>
 
 <div class=section id=terminology>
 <h3 id=terminology-0><span class=secno>2.1 </span>Terminology</h3>
@@ -256,12 +259,43 @@ in the <i>patch</i>, then the former instance of
 </div><!-- section -->
 
 <div class=section>
-<h2 id=dom-for-document-type-definitions><span class=secno>3 </span>DOM for document type definitions</h2>
+<h2 id=dom-document-type-definitions><span class=secno>3 </span>DOM Document Type Definitions</h2>
 
 <p>This section defines various extensions to DOM to represent
-definitions that can be contained in XML DTDs.
+definitions that can be contained in XML DTDs.  They are referred to
+as <dfn id=term-dom-dtdef><abbr>DOM</abbr> Document Type
+Definitions</dfn>, which is a set of <abbr>DOM</abbr> interfaces,
+including both new interfaces and modifications to existing standard
+<abbr>DOM</abbr> interfaces.
 
-</p><div class=section id=section-node>
+</p><p>The primary goal of those features is to make it possible to built
+an XML DTD validator on the top of the extended DOM API.  It can
+support both XML 1.0 <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> and XML 1.1 <cite class="bibref
+normative">[<a href=#ref-XML11>XML11</a>]</cite>, but the
+implementation is not required to implement XML 1.1.<!-- XXX
+XMLVERSION -->
+
+</p><div class="note memo">
+
+<p>Although these features are defined as extensions to the standard
+DOM interfaces, they are not expected to be implemented by Web
+browsers.
+
+</p></div>
+
+<div class="note memo">
+
+<p>Interfaces defined in this section are partially modeled and
+inspired by early Working Drafts of <cite><abbr>DOM</abbr> Level
+1</cite> <cite class="bibref informative">[<a href=#ref-DOM1WD>DOM1WD</a>]</cite>, <cite><abbr>DOM</abbr> Level 3
+Abstract Schemas</cite> draft <cite class="bibref informative">[<a href=#ref-DOM3AS>DOM3AS</a>]</cite>, and <cite><abbr>XML</abbr>
+Schema <abbr>API</abbr></cite> specification <cite class="bibref
+informative">[<a href=#ref-XSAPI>XSAPI</a>]</cite>, but they are not
+compatible with any of them as a whole.</p>
+
+</div>
+
+<div class=section id=section-node>
 <h3 id=Node><span class=secno>3.1 </span>Nodes</h3>
 
 <p>This specification introduces two kinds of <span class=concept-node>nodes</span>: <a href=#concept-element-type title=concept-element-type>element types</a> and <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definitions</a>.
@@ -1694,11 +1728,1402 @@ base URL</a> of the <span title=concept-document>document</span>.
 
 </div><!-- section -->
 
+
+<div class="section ed">
+<h2 id=conformance-checking-of-xml-documents><span class=secno>5 </span>Conformance checking of XML documents</h2>
+
+<div class="issue ed">...
+
+<p>Much of invalid (well-formed or not) XML document parsing and XML document
+/ XML DOM conformance is left undefined so that this document provides a
+guideline for conformance checkers.
+</p></div>
+
+<p>This document sometimes cites parts of <abbr>XML</abbr> 1.0 specification
+by hyperlinks.  When the document being processed is an <abbr>XML</abbr> 1.1
+document, however, corresponding parts of the <abbr>XML</abbr> 1.1 
+specification should be consulted instead.</p>
+
+<div class=section id=processing-model>
+<h3 id=processing-model-0><span class=secno>5.1 </span>Processing Model</h3>
+
+<p>Conceptually, validation of an XML document is split into two
+stages for the purpose of this specification: the <dfn id=xml-document-parsing>XML document parsing</dfn> stage and the <dfn id=dom-xml-conformance-checking>DOM XML conformance checking</dfn>
+stage.
+
+</p><p>The input to the XML document parsing stage is a byte sequence
+representing the parsed XML document (and any additional metadata),
+and the output are a DOM tree representing the XML document and zero
+or more <a href=#error>errors</a>.  The processor that implements
+this stage is called <dfn id=parser>parser</dfn>.  Requirements for a
+parser are defined in the section of <a href=#parsing-xml>Parsing an
+XML Document</a>.
+
+</p><p>The input to the DOM XML conformance chcking stage is a DOM tree,
+and the output are zero or more <a href=#error>errors</a>.  The
+processor that implements this stage is called <dfn id=conformance-checker>conformance checker</dfn>.  Requirements for a
+conformance checker are defined in the section of <a href=#checking-dom>Checking an XML DOM Tree</a>.
+
+
+</p><div class=section id=error-categories>
+<h4 id=error-classification><span class=secno>5.1.1 </span>Error Classification</h4>
+
+<p class=ed>An <dfn id=error>error</dfn> is ...
+
+</p><p class=ed>If a <a href=#document-0><code>Document</code></a> node has no 
+xml-well-formedness-error, entity-error, and unknown-error,
+then it is well-formed.  If a well-formed <a href=#document-0><code>Document</code></a>
+node has no xml-validity-error, it is valid.</p>
+
+<div class="note memo">
+<p>A well‐formed <a href=#document-0><code>Document</code></a> can be safely serialized
+into a well‐formed XML document.  A valid <a href=#document-0><code>Document</code></a>
+can be easily serialized into a valid XML document.</p>
+</div>
+
+<p class=ed>To be a conforming <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating>validating XML processor</a>,
+...</p>
+
+<p>Errors are classified into these 
+<dfn id=error-category title="error category">error categories</dfn>:</p>
+
+<dl id=errors>
+<dt><dfn id=entity-error><code>entity-error</code></dfn></dt>
+  <dd>
+    <p class=ed>@@</p>
+    <div class="note memo">
+      <p>This <span class=ed>algorithm</span> does not support
+      <abbr>DOM</abbr> tree with one or more <code>EntityReference</code>
+      nodes.  It is expected that any entity references are expanded
+      at the parse time and any unexpandable entity references
+      make parse time errors raised so that never result in
+      <abbr>DOM</abbr> tree with <code>EntityReference</code> nodes.</p>
+    </div>
+  </dd>
+<dt><dfn id=round-trip-error><code>round-trip-error</code></dfn></dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=round-trip-warning><code>round-trip-warning</code></dfn></dt>
+  <dd>
+    <p>A <a href=#round-trip-warning><code>round-trip-warning</code></a>
+    will be raised when a construct, which might not be restored to the same
+    construct when it is serialized and then re-parsed by a conforming
+    processor, is encountered.</p>
+    <div class="example memo">
+      <p>For a <code>Comment</code> node a
+      <a href=#round-trip-warning><code>round-trip-warning</code></a> will
+      be raised, since <abbr>XML</abbr> processors are not required to
+      report texts of comments for applications.</p>
+    </div>
+  </dd>
+<dt class=ed><dfn id=unknown-error><code>unknown-error</code></dfn>?</dt>
+  <dd class=ed>@@</dd>
+<dt><dfn id=xml-misc-error><code>xml-misc-error</code></dfn></dt>
+  <dd>An <abbr>XML</abbr> <a href=#error><i>error</i></a> (<abbr>XML</abbr> 1.0
+  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> 
+  <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-error>error</a> /
+  <abbr>XML</abbr> 1.1
+  <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>
+  <a href=@@/#dt-error>error</a>)
+  that is not classified to any other <a href=#error-category>error
+  category</a>.</dd>
+<dt><dfn id=xml-misc-fatal-error><code>xml-misc-fatal-error</code></dfn></dt>
+  <dd>An <abbr>XML</abbr> <i>fatal error</i> (<abbr>XML</abbr> 1.0
+  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> 
+  <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-fatal>fatal
+  error</a> / <abbr>XML</abbr> 1.1
+  <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>
+  <a href=@@/#dt-fatal>fatal error</a>)
+  that is not classified to any other <a href=#error-category>error
+  category</a>. <span class=ed>@@ What errors fall into this category?</span></dd>
+<dt><dfn id=xml-misc-recommendation><code>xml-misc-recommendation</code></dfn></dt>
+  <dd>
+    <p>An
+    <a href=#xml-misc-recommendation><code>xml-misc-recommendation</code></a>
+    will be raised if a <em class=rfc2119>SHOULD</em>‐level requirement
+    in <abbr>XML</abbr> specification is not met.</p>
+  </dd>
+<dt><dfn id=xml-validity-error><code>xml-validity-error</code></dfn></dt>
+  <dd>A violation of validity constraint in XML document.</dd>
+<dt><dfn id=xml-well-formedness-error><code>xml-well-formedness-error</code></dfn></dt>
+  <dd><p>If an <a href=#xml-well-formedness-error><code>xml-well-formedness-error</code></a> is raised,
+  it would not be possible to generate an XML serialization that
+  would match to the appropriate production rule and that would not 
+  violate to any well‐formedness constraint in XML
+  specification <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <a href=#ref-XML11>XML11</a>]</cite>.</p></dd>
+<dt><dfn id=misc-info><code>misc-info</code></dfn>
+  </dt><dd><p>A <a href=#misc-info><code>misc-info</code></a> is raised when some status information
+  on parsing or checking process that are considered useful for debugging
+  and so on is available.  It by no means implies the non-conformance of
+  the document.
+</p></dd></dl>
+
+<div class=ed><p>@@ TODO: #dt-atuseroption at user option
+(MAY or MUST), #dt-compat for compatibility,
+#dt-interop for interoperability</p>
+
+<p>TODO: XML 1.1, XML Namespace 1.0/1.1, xml:base, xml:id
+
+</p><p>TODO: XML "error"/"fatal error" is not always non-conforming (only
+when MUST or SHOULD).
+</p></div>
+
+</div>
+
+</div>
+
+<div class=section id=parsing-xml>
+<h3 id=parsing-an-xml-document><span class=secno>5.2 </span>Parsing an <abbr>XML</abbr> Document</h3>
+
+<p>When a byte stream that represents an XML document is given to a
+parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
+relevant specifications <span class=ed>[XML10, XML11, XMLNAMES10,
+XMLNAMES11, DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
+
+</p><p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
+document even after a fatal error (as defined by the relavant
+specifications) is encountered.  How the parsing ought to be continued
+is not defined by this specification.
+
+<!--
+  <div class="note memo informative">
+  <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
+  will define how the parser has to convert any string into DOM tree
+  completely.
+  </div>
+-->
+
+</p><p class=ed>A future version of this specification might define the
+entire parser in terms of input stream preprocessor, tokenizer, and
+tree constructor.
+
+</p><p>In addition, the following requirements are applied to the parser:
+
+</p><dl class=switch>
+<dt>For each external entity (including the document entity and the external
+subset entity, if any)
+  </dt><dd>If there is a byte sequence that are not legal in the encoding in use,
+  then the parser <em class=rfc2119>MUST</em> raise an
+  <a href=#xml-misc-error id=xme-illegal-bytes><code>xml-misc-error</code></a>.
+  <!--
+     <q>It is a fatal error when an XML processor encounters an entity with an
+     encoding that it is unable to process. It is a fatal error if an XML
+     entity is determined (via default, encoding declaration, or higher-level
+     protocol) to be in a certain encoding but contains byte sequences that are
+     not legal in that encoding.</q>
+  -->
+
+  </dd><dd>If it is the document entity or a general entity, then:
+    <ul>
+    <li>If the input byte sequence for the entity begins with the
+    <abbr class=charname title="BYTE ORDER MARK">BOM</abbr>, then the parser
+    <em class=rfc2119>MUST</em> set the <span class=ed>BOM flag</span> of
+    the node corresponding to the entity (the <a href=#document-0><code>Document</code></a> node
+    for the document entity or an <a href=#entity><code>Entity</code></a> node for a general
+    entity) to <code>true</code>.
+    <!--
+      <q>Entities encoded in UTF-16 MUST and entities encoded in UTF-8 MAY
+      begin with the Byte Order Mark</q>
+    -->
+    <span class=ed>@@ flag must be checked later</span>
+    <!-- <?xml encoding=""?> must be reflected to xmlEncoding; this should be
+    enforced by DOM Core spec. -->
+    </li></ul>
+  </dd><dd>If it is a parameter entity or the external subset entity, then:
+    <ul>
+    <li>If the character encoding of the entity is <code>UTF-16</code> but
+    the input byte stream for the entity does not begin with the
+    <abbr class=charname title="BYTE ORDER MARK">BOM</abbr>, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <a href=#xml-misc-error id=xme-pe-bom><code>xml-misc-error</code></a>.
+    </li><li class=ed>@@ encoding="" preferred name?
+<!--
+"In an encoding declaration, the values "UTF-8", "UTF-16", "ISO-10646-UCS-2", and "ISO-10646-UCS-4" SHOULD be used for the various encodings and transformations of Unicode / ISO/IEC 10646, the values "ISO-8859-1", "ISO-8859-2", ... "ISO-8859-n" (where n is the part number) SHOULD be used for the parts of ISO 8859, and the values "ISO-2022-JP", "Shift_JIS", and "EUC-JP" SHOULD be used for the various encoded forms of JIS X-0208-1997. It is RECOMMENDED that character encodings registered (as charsets) with the Internet Assigned Numbers Authority [IANA-CHARSETS], other than those just listed, be referred to using their registered names; other encodings SHOULD use names starting with an "x-" prefix."
+
+In addition, this should be checked later for Document and Entity nodes.
+-->
+    </li></ul>
+
+</dd><dt>For the document
+  </dt><dd>If the <abbr>XML</abbr> document does not begin with an
+  <abbr>XML</abbr> declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an
+  <a href=#xml-misc-recommentation id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.
+  </dd><dd>If the document does not contain the document type declaration, or
+  if it does but the document type definition does not contain entity 
+  declaration for any of <code>amp</code>, <code>lt</code>, <code>gt</code>,
+  <code>apos</code>, or <code>quot</code>, then the parser
+  <em class=rfc2119>MUST</em> raise
+  <a href=#xml-misc-recommentation id=xmr-predefined-decl><code>xml-misc-recommendation</code></a>(s).
+  <!--
+    <q>For interoperability, valid documents SHOULD declare the entities
+    amp, lt, gt, apos, quot, in the form specified in 4.6 Predefined
+    Entities.</q>
+  -->
+</dd><dt>For the document type declaration
+  </dt><dd class=ed>@@ read external entity
+  </dd><dd>The <code>entities</code> attribute of the <a href=#documenttype><code>DocumentType</code></a>
+  node <em class=rfc2119>MUST</em> contain a <a href=#namednodemap><code>NamedNodeMap</code></a> object
+  whose first five items are as follows:
+    <ol start=0>
+    <li>An <a href=#entity><code>Entity</code></a> node whose <code>nodeName</code> attribute
+    is <code>amp</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>&amp;</code>.
+    </li><li>An <a href=#entity><code>Entity</code></a> node whose <code>nodeName</code> attribute
+    is <code>lt</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>&lt;</code>.
+    </li><li>An <a href=#entity><code>Entity</code></a> node whose <code>nodeName</code> attribute
+    is <code>gt</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>&gt;</code>.
+    </li><li>An <a href=#entity><code>Entity</code></a> node whose <code>nodeName</code> attribute
+    is <code>quot</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>"</code>.
+    </li><li>An <a href=#entity><code>Entity</code></a> node whose <code>nodeName</code> attribute
+    is <code>apos</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>'</code>.
+    </li></ol>
+</dd><dt>For each internal general entity declaration being processed by the parser
+  </dt><dd>If the 
+  <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-EntityValue><code>EntityValue</code></a>
+  part of the general entity declaration contains a bare <code>U+003C</code>
+  <code>LESS-THAN SIGN</code> (<code>&lt;</code>) character, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href=#xml-misc-warning id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
+"strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
+-->
+</dd><dt>For each element type declaration being processed by the parser
+  </dt><dd>If there is another processed element type declaration whose
+  <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is equal to the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the element type
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
+  <a href=#xml-validity-error id=vc-edunique><code>xml-validity-error</code></a>.
+</dd><dt>For each attribute definition list declaration being processed by the
+parser
+  </dt><dd>If there is another processed attribute defintion list declaration whose
+  <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is equal to the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the attribute
+  definition list declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an 
+  <a href=#xml-misc-warning id=xme-attlist-unique><code>xml-misc-warning</code></a>.
+  </dd><dd>For each attribute definition in the attribute definition list 
+  declaration, if there is another processed attribute definition whose
+  <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is equal to the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the attribute
+  definition (whether or not in the same attribute definition list
+  declaration), then the parser <em class=rfc2119>MUST</em> raise an
+  <a href=#xml-misc-warning id=xme-attrdef-unique><code>xml-misc-warning</code></a>.
+  <!--
+    <q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at
+    user option issue a warning when more than one attribute-list declaration
+    is provided for a given element type, or more than one attribute definition
+    is provided for a given attribute, but this is not an error.</q>
+  -->
+<!--
+  NOTE: <!ATTLIST a xml:space (default) #IMPLIED xml:space CDATA #IMPLIED>
+  will not be warned.
+-->
+
+</dd><dt>For each entity declaration being processed by the parser
+  </dt><dd>Handle as follows:
+    <ol>
+    <li><p>If the entity declaration declares a general entity, the following
+    is applied:
+      </p><dl>
+      <dt>If the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is <code>lt</code> or <code>amp</code>
+        </dt><dd><p>If the entity declaration does not declare an internal entity,
+        or if the replacement text of the entity is not the escaped form of
+        <code>&lt;</code> (if <code>lt</code>) or <code>&amp;</code> (if
+        <code>amp</code>), then the parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-misc-error id=xme-double-escape><code>xml-misc-error</code></a>.
+
+          </p><div class="note memo informative">
+          <p>In other word, the character in the <code>EntityValue</code>
+          has to be double-escaped.
+          </p></div>
+      </dd><dt>If the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is <code>gt</code>, <code>quot</code>, or
+      <code>apos</code>
+        </dt><dd><p>If the entity declaration does not declare an internal entity,
+        or if the replacement text of the entity is not equal to or not the
+        escaped form of <code>&gt;</code> (if <code>gt</code>), <code>"</code> (if
+        <code>quot</code>), or <code>'</code> (if <code>apos</code>), then the
+        parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-misc-error id=xme-single-escape><code>xml-misc-error</code></a>.
+
+          </p><div class="note memo informative">
+          <p>In other word, the character in the <code>EntityValue</code>
+          has to be single- or double-escaped.
+          </p></div>
+      </dd></dl>
+      <!--
+        <q>If the entities lt or amp are declared, they MUST be declared as internal entities whose replacement text is a character reference to the respective character (less-than sign or ampersand) being escaped; the double escaping is REQUIRED for these entities so that references to them produce a well-formed result. If the entities gt, apos, or quot are declared, they MUST be declared as internal entities whose replacement text is the single character being escaped (or a character reference to that character; the double escaping here is OPTIONAL but harmless).</q>
+      -->
+
+    </li><li><p>If the entity declaration has to be ignored since there has already
+    been declared an entity with the same <a href=#getAttributeDefinitionNode-name><code>Name</code></a> as the declaration,
+    then the parser <em class=rfc2119>MUST</em> raise a
+    <a href=#misc-info id=mi-ent-unique><code>misc-info</code></a>
+    and abort these steps.
+
+    </p><div class="informative note memo">
+    <p>Five predefined entities, i.e. <code>amp</code>, <code>lt</code>,
+    <code>gt</code>, <code>quot</code>, and <code>apos</code>, are always
+    declared implicitly and therefore any declaration for such an entity 
+    always raises an
+    <a href=#misc-info id=mi-ent-unique><code>misc-info</code></a>.
+    </p></div>  
+
+    </li><li><p>If the entity declaration declares a parameter entity and the
+    <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the entity begins with the string <code>xml</code>
+    (in any combination of upper- and lowercase letters), then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <a href=#xml-misc-warning id=xmw-reserved-pe-name><code>xml-misc-warning</code></a>.
+
+    </p></li><li><p>If the entity declaration contains the <code>EntityValue</code>,
+    then for each occurence of any references to unparsed entities in the
+    <code>EntityValue</code>, the parser <em class=rfc2119>MUST</em> raise an
+    <a href=#xml-misc-error id=xme-unparsed-in-ev><code>xml-misc-error</code></a>.
+    <!--
+      <q>It is an error for a reference to an unparsed entity to appear in the
+      EntityValue in an entity declaration.</q>
+    -->
+    </p></li><li><p>If the entity declaration declares a general entity, then an
+    <a href=#entity><code>Entity</code></a> node <em class=rfc2119>MUST</em> be created and
+    appended to the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the
+    <code>entities</code> attribute of the <a href=#documenttype><code>DocumentType</code></a> node.
+    
+    </p><p class=ed>Read the external entity
+
+    </p><p>If the replacement text of the entity is read, then parse the 
+    replacement text as if it were referenced from the content of an
+    element (with no namespace bindings).  If no <span class=ed>@@ parse error</span>
+    is raised by the parsing process, then the nodes generated by the
+    parsing <em class=rfc2119>MUST</em> be appended to the <a href=#entity><code>Entity</code></a>
+    node.  The parse error <em class=rfc2119>MUST NOT</em> be propagated to
+    the entire parsing process.  Other kinds of errors
+    <em class=rfc2119>MUST</em> be propagated.  The first parse error
+    <em class=rfc2119>MUST</em> abort the internal parsing process.
+    <span class=ed>@@ better wording</span>
+
+    </p><p class=ed>@@ prop
+     
+    </p><p>Then, the <a href=#entity><code>Entity</code></a> node and its descendant 
+    <em class=rfc2119>MUST</em> be marked as read-only.
+  </p></li></ol>
+
+</dd><dt>For each notation declaration being processed by the parser
+  </dt><dd>If there is another processed notation declaration whose
+  <a href=#getAttributeDefinitionNode-name><code>Name</code></a> is equal to the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the notation
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
+  <a href=#xml-validity-error id=vc-uniquenotationname><code>xml-validity-error</code></a>.
+  <!-- <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a> -->
+
+</dd><dt>For each empty-element tag
+  </dt><dd>If the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the tag is not declared by a processed
+  element type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href=#xml-misc-recommentation id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.
+</dd><dt>For each start-tag
+  </dt><dd>If the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the tag is declared by a processed element
+  type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href=#xml-misc-recommentation id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
+</dd><dt>For each attribute
+  </dt><dd><p>The parser <em class=rfc2119>MUST</em> set the normalized value of 
+  the attribute to the <code>value</code> attribute of the <a href=#attr><code>Attr</code></a>
+  node created for the attribute.
+
+    </p><div class="note memo informative">
+    <p>That is, any entity reference has to be expanded.  Unexpanded entity
+    references in attribute values are discarded.
+    </p></div>
+</dd><dt>For each <code>xml:space</code> attribute
+  </dt><dd>The parser <em class=rfc2119>MUST</em> set the normalized value of
+  the <code>xml:space</code> attribute to the <code>value</code> attribute
+  of the <a href=#attr><code>Attr</code></a> node created for the attribute even if the
+  normalized value is different from <code>default</code> or
+  <code>preserve</code>.
+  <!-- In XML 1.0/1.1 specification, the attribute specification MAY be
+  ignored. -->
+
+</dd><dt>For each parameter entity reference
+  </dt><dd><p>Process as follows:
+    </p><ol>
+    <li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        </dt><dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-well-formedness-error id=wf-entdeclared-pe><code>xml-well-formedness-error</code></a>.
+      </dd><dt>Otherwise
+        </dt><dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-validity-error id=vc-entdeclared-pe><code>xml-validity-error</code></a>.
+      </dd></dl>
+    </li><li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </li></ol>
+
+    <p>In any of two cases above, process as follows:
+    </p><ul>
+    <li>If the parameter entity reference is contained in a declaration, then
+    the declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
+    any error before the parameter entity <em class=rfc2119>MUST</em> be
+    raised as usual.
+    </li><li>If the parameter entity reference is contained in the status portion of
+    a conditional section, then the conditional section
+    <em class=rfc2119>MUST</em> be processed as if it were an
+    <code>IGNORE</code>d section.
+    </li><li>The parser <em class=rfc2119>MUST NOT</em> process any entity or
+    attribute-list declaration after the parameter entity reference in the DTD
+    <em>except</em> when the <code>standalone</code> pseudo-attribute of the
+    XML declaration (if any) is set to <code>yes</code>.
+    <!-- This requirement is enforced for internal DTD subset case in
+    XML 1.0/1.1 specification (section 5.1) but not for any other cases. -->
+    <!-- According to this definition, element type declarations, notation
+    declarations, and PIs ARE processed. -->
+    </li><li>If the parameter entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href=#entity-error id=ee-unread-pe><code>entity-error</code></a>.
+    </li><li>The <code>allDeclarationsProcessed</code> <span class=ed>@@ ref</span>
+    attribute of the <a href=#document-0><code>Document</code></a> node <em class=rfc2119>MUST</em> be
+    set to <code>false</code>.
+    </li></ul>
+</dd><dt>For each general entity reference in an attribute value or in the content
+of an element
+  </dt><dd><p>Process as follows:
+    </p><ol>
+    <li>If the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the entity reference is either
+    <code>amp</code>, <code>lt</code>, <code>gt</code>, <code>quot</code>,
+    or <code>apos</code>, then abort these steps.
+    </li><li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        </dt><dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-well-formedness-error id=wf-entdeclared-ge><code>xml-well-formedness-error</code></a>.
+      </dd><dt>Otherwise
+        </dt><dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href=#xml-validity-error id=vc-entdeclared-ge><code>xml-validity-error</code></a>.
+      </dd></dl>
+    </li><li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </li></ol>
+
+    <p>In any of two cases above, process as follows:
+    </p><ul>
+    <li>If the general entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href=#entity-error id=ee-unread-ge><code>entity-error</code></a>.
+    <span class=ed>@@ entity declared WFC?</span>
+    </li><li class=ed>An unexpended entity reference node <em class=rfc2119>MUST</em> be inserted to the current node.
+    </li></ul>
+
+</dd><dt>For each comment <em>outside</em> of document type declaration
+  </dt><dd>A <code>Comment</code> node <em class=rfc2119>MUST</em> be created
+  and inserted appropriately.
+  <!-- In XML 1.0/1.1 spec, this is optional. -->
+</dd></dl>
+
+<p>The parser <em class=rfc2119>MUST</em> try to read any entity
+referenced by general or parameter entity references<!--,--> and the
+external subset entity, if any<!--, and any general entity declared-->
+in the document type definition.
+
+</p><p><strong>Well-formedness constraints</strong>.  When the parser
+detects a voilation to one of certain well-formedness constraints, it
+<em class=rfc2119>MUST</em> raise an <a href=#xml-well-formedness-error><code>xml-well-formedness-error</code></a>.
+The list of such well-formed constraints is as follows:
+
+</p><ul>
+<li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset>Well-formedness constraint: PEs in Internal Subset</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch>Well-formedness constraint: Element Type Match</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#uniqattspec>Well-formedness constraint: Unique Att Spec</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NoExternalRefs>Well-formedness constraint: No External Entity References</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#CleanAttrVals>Well-formedness constraint: No &lt; in Attribute Values</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#wf-Legalchar>Well-formedness constraint: Legal Character</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#textent>Well-formedness constraint: Parsed Entity</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#norecursion>Well-formedness constraint: No Recursion</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#indtd>Well-formedness constraint: In DTD</a>
+</li></ul>
+
+<p><strong>Validity constraints</strong>.  When the parser detects a
+violation to one of certain validity contraints, it <em class=rfc2119>MUST</em> raise an <a href=#xml-validity-error><code>xml-validity-error</code></a>.  The
+list of such validity constraints is as follows:
+
+</p><ul>
+<li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl>Validity constraint: Proper Declaration/PE Nesting</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup>Validity constraint: Proper Group/PE Nesting</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting>Validity constraint: Proper Conditional Section/PE Nesting</a>
+</li><li><a href=http://www.w3.org/TR/2006/REC-xml-20060816/#vc-check-rmd>Validity constraint: Standalone Document Declaration</a>
+</li></ul>
+
+<p><strong>Other creteria</strong>.  If the parser detects a violation
+to one of certain additional constraints, it <em class=rfc2119>MUST</em> raise an <a href=#xml-misc-recommendation><code>xml-misc-recommendation</code></a>.
+The list of such constraints is as follows:
+
+</p><ul>
+<li><q>For interoperability, if a parameter-entity reference appears in a 
+<code>choice</code>, <code>seq</code>, or <code>Mixed</code> construct, its 
+replacement text <em class=rfc2119>SHOULD</em> contain at least one non-blank 
+character, and neither the first nor last non-blank character of the 
+replacement text <em class=rfc2119>SHOULD</em> be a connector (<code>|</code> 
+or <code>,</code>).</q>
+</li><li><q>External parsed entities <em class=rfc2119>SHOULD</em> each begin with a
+text declaration.</q>
+</li></ul>
+
+<p>The parser <em class=rfc2119>MUST</em> act as if it is a <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating>validating
+XML processor</a> for the purpose of informing of white space
+characters appearing in <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-elemcontent>element
+content</a> (See <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space>Section
+2.10</a> of the XML specification).
+
+  </p><div class="note memo informative">
+  <p>In other word, the <code>isElementContentWhitespace</code> attribute
+  of <code>Text</code> nodes has to be set appropriately.  Note that the
+  value of the attribute will be set to <code>false</code> for any 
+  <code>Text</code> node in the content of an element whose declaration
+  is not processed.
+  </p></div>
+
+<p>The parser <em class=rfc2119>MUST</em> raise at least one <a href=#xml-well-formedness-error id=wfe-syntax><code>xml-well-formedness-error</code></a> if the entity
+it parses does not match to the appropriate production rule in the XML
+specification.  As an exception to this requirement, it <em class=rfc2119>MAY</em> choose not to raise such an error if the error
+will be raised by the conformance checker when the conformance checker
+<a href=#algorithm-to-check-a-node title="check a node">checks</a>
+the <a href=#document-0><code>Document</code></a> object produced by the parser.
+
+<!--
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
+-->
+
+<!--
+  Inpossible to test:
+    "In the absence of external character encoding information (such as MIME
+    headers), parsed entities which are stored in an encoding other than UTF-8
+    or UTF-16 MUST begin with a text declaration"
+-->
+</p></div>
+
+<div class=section id=checking-dom>
+<h3 id=checking-an-xml-dom-tree><span class=secno>5.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</h3>
+
+<p>The following algorithms and definitions are applied to
+<abbr>XML</abbr> documents; especially, they are not applied
+to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
+
+<div class=section id=definitions>
+<h4 id=definitions-0><span class=secno>5.3.1 </span>Definitions</h4>
+
+<p>The <dfn id=xml-version><abbr>XML</abbr> version</dfn> of a node is 
+the <abbr>XML</abbr> version of the document to which the node belongs.
+For a <code>Documemt</code> node, the <abbr>XML</abbr> version
+of the document is the value of the <code>xmlVersion</code>
+attribute of the node.  For a <a href=#documenttype><code>DocumentType</code></a> node whose 
+<code>ownerDocument</code> attribute is set to <a href=#null><code>null</code></a>,
+the <abbr>XML</abbr> version of the document is <code>1.0</code><!--
+since createDocumentType [DOM3CORE] assumes XML 1.0 [XML10TE] -->.
+For any other node, the <abbr>XML</abbr> version of the document
+is that of the <a href=#document-0><code>Document</code></a> node contained in the
+<code>ownerDocument</code> attribute of the node.</p>
+
+</div>
+
+
+<div class=section id=checking-components>
+<h4 id=conformance-checking-algorithms-for-components><span class=secno>5.3.2 </span>Conformance Checking Algorithms for Components</h4>
+
+<p>To
+<dfn id=algorithm-to-validate-an-xml-character-data title="validate an XML string">to
+validate an <abbr>XML</abbr> string (<dfn id=var-s><var>s</var></dfn>)</dfn>,
+the following algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+<li>If <a href=#var-ncname-s><var>s</var></a> contains a character that is <em>not</em> in
+the character class <a href=#class-Char10><code>Char10</code></a>, 
+then raise an
+<a href=#xml-well-formedness-error id=wfe-illegal-char><code>xml-well-formedness-error</code></a>.</li>
+<li>If <a href=#var-ncname-s><var>s</var></a> contains a character that is in the character
+class <a href=#class-CompatChar10><code>CompatChar10</code></a>,
+then raise an
+<a href=#xml-misc-warning id=xmw-compat-char><code>xml-misc-warning</code></a>.</li>
+<li>If <a href=#var-ncname-s><var>s</var></a> contains a character that is in the character
+class <a href=#class-ControlChar10><code>ControlChar10</code></a>,
+then raise an
+<a href=#xml-misc-warning id=xmw-control-char><code>xml-misc-warning</code></a>.</li>
+<li class=ed>@@ XML 1.1 support</li>
+<li>If <a href=#var-ncname-s><var>s</var></a> contains a <code class=char>U+000D</code>
+<code class=charname>CARRIAGE RETURN</code> character, then
+raise a 
+<a href=#round-trip-error id=rte-cr><code>round-trip-error</code></a>.
+<span class=ed>@@ We should not raise duplicate errors for U+000D
+in attribute values.  In addition, we should support a mode where
+U+000D will be serialized as 
+ (so that no round-trip-error
+will be raised).</span></li>
+</ol>
+
+<p>To
+<dfn id=algorithm-to-validate-a-name title="validate a Name">validate a
+<code>Name</code> (<dfn id=var-name-s><var>s</var></dfn>)</dfn>, the following
+algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+<li>If <a href=#var-ncname-s><var>s</var></a> is an empty string, then raise an
+<a href=#xml-well-formedness-error id=wfe-name-empty><code>xml-well-formedness-error</code></a>.
+Abort these steps.</li>
+<li><a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">Validate
+<var>s</var> as an <abbr>XML</abbr> string</a>.</li>
+<li>If the first character in <a href=#var-ncname-s><var>s</var></a> is a character that is 
+<em>not</em> in the character class 
+<a href=#class-NameStartChar10><code>NameStartChar10</code></a>, then raise
+an
+<a href=#xml-well-formedness-error id=wfe-name-startchar><code>xml-well-formedness-error</code></a>.</li>
+<li>If a character other than the first character in <a href=#var-ncname-s><var>s</var></a> is a 
+character that is <em>not</em> in the character class 
+<a href=#class-NameChar10><code>NameChar10</code></a>, then raise an
+<a href=#xml-well-formedness-error id=wfe-name-char><code>xml-well-formedness-error</code></a>.</li>
+<li>If <a href=#var-ncname-s><var>s</var></a> begins with the string <code>xml</code> (in any
+case combination), then raise an
+<a href=#xml-misc-warning id=xmw-reserved-name><code>xml-misc-warning</code></a>.
+<span class=ed>@@ except for attribute names <code>xml:lang</code>,
+<code>xml:space</code><!--, <code>xml:base</code>, <code>xml:id</code>,
+<code>xmlns</code>, <code>xmlns:<var>*</var></code>,
+pi name <code>xml-stylesheet</code>-->.</span><!--
+"names beginning with a match to (('X'|'x')('M'|'m')('L'|'l')) are reserved for standardization in this or future versions of this specification.":
+xmlns, xml-stylesheet, xml:base and xml:id specifications violate to this sentense!
+--></li>
+<!-- COLON in Name is a lowercase "should not" in a Note of [XML10],
+[XML11]. -->
+<li class=ed>@@ XML 1.1 support</li>
+</ol>
+
+<p>To
+<dfn id=algorithm-to-validate-an-ncname title="validate an NCName">validate
+an <code>NCName</code> (<dfn id=var-ncname-s><var>s</var></dfn>)</dfn>, the
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+<li><a href=#algorithm-to-validate-a-name title="validate a Name">Validate
+<var>s</var> as a <code>Name</code></a>.</li>
+<li class=ed>@@</li>
+</ol>
+
+<p>To 
+<dfn id=algorithm-to-validate-a-public-identifier title="validate a public identifier">validate
+a public identifier (<dfn id=var-pid><var>pid</var></dfn>)</dfn>, the
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+<li>If <a href=#var-pid><var>pid</var></a> is <a href=#null><code>null</code></a>, abort these steps.</li>
+<li>If <a href=#var-pid><var>pid</var></a> contains a character that is <em>not</em> in the
+character class <a href=#class-PubidChar><code>PubidChar</code></a>, then
+raise an
+<a href=#xml-well-formedness-error id=wfe-pubid-char><code>xml-well-formedness-error</code></a>.</li>
+  <li>If <a href=#var-pid><var>pid</var></a> contains one of <code class=char>U+0009</code>
+  <code class=charname>CHARACTER TABULATION</code>, 
+  <code class=char>U+000A</code> <code class=charname>CARRIAGE RETURN</code>,
+  and <code class=char>U+000D</code> <code class=charname>LINE FEED</code>
+  characters, if the first character of <a href=#var-pid><var>pid</var></a> is
+  <code class=char>U+0020</code> <code class=charname>SPACE</code> character,
+  if the last character of <a href=#var-pid><var>pid</var></a> is <code class=char>U+0020</code>
+  <code class=charname>SPACE</code> character, or if there is a
+  <code class=char>U+0020</code> <code class=charname>SPACE</code> character
+  immediately followed by another <code class=char>U+0020</code>
+  <code class=charname>SPACE</code> character in <a href=#var-pid><var>pid</var></a>, then it is a
+  <a href=#round-trip-error id=rte-pubid-space><code>round-trip-error</code></a>.
+  <span class=ed>Is this really a roundtripness problem?  XML spec
+  does only define the way to match public identifiers in fact, no
+  canonical form.</span></li>
+</ol>
+
+<p>To 
+<dfn id=algorithm-to-validate-a-system-identifier title="validate a system identifier">validate
+a system identifier (<dfn id=var-sid><var>sid</var></dfn>)</dfn>, the
+following algorithm <em class=rfc2119>MUST</em> be used:</p>
+<ol>
+  <li>If <a href=#var-sid><var>sid</var></a> is <a href=#null><code>null</code></a>, abort these steps.</li>
+<li><a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">Validate
+<var>sid</var> as an <abbr>XML</abbr> string</a>.</li>
+  <li>If <a href=#var-sid><var>sid</var></a> contains both <code class=char>U+0022</code>
+  <code class=charname>QUOTATION MARK</code> (<code class=char>"</code>) and
+  <code class=char>U+0027</code> <code class=charname>APOSTROPHE</code>
+  (<code class=char>'</code>) characters, raise an
+  <a href=#xml-well-formedness-error id=wfe-sid-lit><code>xml-well-formedness-error</code></a>.</li>
+  <li>If <a href=#var-sid><var>sid</var></a> contains at least one <code class=char>U+0023</code>
+  <code class=charname>NUMBER SIGN</code> (<code class=char>#</code>)
+  character, then raise an
+  <a href=#xml-misc-error id=xme-sid-fragment><code>xml-misc-error</code></a>.</li>
+  <li class=ed>@@ If <a href=#var-sid><var>sid</var></a> cannot be converted to a URI
+  reference, then raise a fact-level error (xml-misc-warning?).<!--
+  XML 1.0 has no conformance language for system identifier being
+  a URI reference. --></li>
+</ol>
+
+</div>
+
+<div class=section id=checking-node>
+<h4 id=checking-node-0><span class=secno>5.3.3 </span>Checking <a href=#node><code>Node</code></a></h4>
+
+<p>The algorithm <dfn id=algorithm-to-check-a-node title="to check a node">to 
+check a node (<dfn id=var-n><var>n</var></dfn>)</dfn> is defined as 
+following:</p>
+<dl class=switch>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#attr><code>Attr</code></a> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>prefix</code> attribute value is different from
+    <a href=#null><code>null</code></a>, then <a href=#algorithm-to-validate-an-ncname>validate
+    the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>For each node <dfn id=var-attr-nc><var>n<sub><var>c</var></sub></var></dfn> in the
+    <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> a
+      <code>Text</code> or <code>EntityReference</code> node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-attr-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is an
+      <code>EntityReference</code> node, then it is an 
+      <a href=#entity-error id=ee-attr-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
+    <li>If <code>nodeName</code> attribute of <a href=#var-n><var>n</var></a> is
+    <code>xml:space</code> <span class=ed>@@ or {xml namespace}:space ?</span>
+    and <code>value</code> attribute of <a href=#var-n><var>n</var></a> is neither 
+    <code>default</code> nor <code>preserve</code>, then it is an
+    <a href=#xml-misc-error id=xme-attr-xml-space><code>xml-misc-error</code></a>.<!--
+    Note that <!ATTLIST e xml:space (default|preserve) "a">...
+    <e xml:space="default"/> is conforming and valid. --></li>
+    <li class=ed>@@ xml:lang value is not a language tag [RFC 3066 or its
+    successor] or an empty string, then xml-misc-warning
+    (a "fact"-level error; not an XML error).</li>
+    <li class=ed>@@ <code>specified</code>,
+    <code>manakaiAttributeType</code> (#ValueType Validity constraint: Attribute Value Type)</li>
+    <!-- xml:space MUST be declared to be valid. -->
+    <li>Let <dfn id=var-v><var>v</var></dfn> be the value of the
+    attribute <code>value</code> of <a href=#var-n><var>n</var></a>.</li>
+    <li>Validate the <a href=#var-n><var>n</var></a> against the <span class=ed>declared 
+    type</span> as following:
+      <dl class=switch>
+      <dt class=ed><a href=#ID_ATTR><code>ID_ATTR</code></a></dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <a href=#var-v><var>v</var></a> as an
+          <a href=#getAttributeDefinitionNode-name><code>Name</code></a>.</span>  If it fails, then raise an
+          <a href=#xml-validity-error id=vc-id-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <code>ID</code> <a href=#var-v><var>v</var></a> is defined,</span>
+          then raise an  
+          <a href=#xml-validity-error id=vc-id-duplication><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>IDREF_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <a href=#var-v><var>v</var></a> as an
+          <a href=#getAttributeDefinitionNode-name><code>Name</code></a>.</span>  If it fails, then raise an
+          <a href=#xml-validity-error id=vc-idref-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <code>ID</code> <a href=#var-v><var>v</var></a> is NOT
+          defined,</span> then raise an  
+          <a href=#xml-validity-error id=vc-idref-match><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>IDREFS_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>ENTITY_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <a href=#var-v><var>v</var></a> as an
+          <a href=#getAttributeDefinitionNode-name><code>Name</code></a>.</span>  If it fails, then raise an
+          <a href=#xml-validity-error id=vc-entname-name><code>xml-validity-error</code></a>.</li>
+          <li><span class=ed>If <a href=#entity><code>Entity</code></a> <a href=#var-v><var>v</var></a> is NOT
+          defined,</span> then raise an  
+          <a href=#xml-validity-error id=vc-entname-match><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>ENTITIES_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>NMTOKEN_ATTR</dt>
+        <dd>
+          <ol>
+          <li><span class=ed>Validate <a href=#var-v><var>v</var></a> as an
+          <code>Nmtoken</code>.</span>  If it fails, then raise an
+          <a href=#xml-validity-error id=vc-nmtok-name><code>xml-validity-error</code></a>.</li>
+          </ol>
+        </dd>
+      <dt class=ed>NMTOKENS_ATTR</dt>
+        <dd class=ed>@@</dd>
+      <dt class=ed>NOTATION_ATTR</dt>
+        <dd class=ed><a href=#var-v><var>v</var></a> must be one of enumerated values.
+        If not, then raise an
+        <a href=#xml-validity-error id=vc-notatn-match><code>xml-validity-error</code></a>.</dd>
+      <dt class=ed>ENUMERATED_ATTR</dt>
+        <dd class=ed><a href=#var-v><var>v</var></a> must be one of enumerated values.
+        If not, then raise an
+        <a href=#xml-validity-error id=vc-enum><code>xml-validity-error</code></a>.</dd>
+      <dt class=ed>@@</dt>
+      </dl>
+    </li>
+    <li>If <span class=ed>type ID and default is NOT #IMPLIED or #REQUIRED</span>, then
+    raise an
+    <a href=#xml-validity-error id=vc-id-default><code>xml-validity-error</code></a>.</li>
+    <li class=ed>@@ #FixedAttr Validity constraint: Fixed Attribute Default</li>
+    <li class=ed>@@ strict serialization error for U+000D, U+000A, and
+    U+0009 characters, leading/trailing U+0020, and U+0020{2,} string?</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node</dt>
+  <dd>
+    <ol>
+    <li class=ed></li>
+    <li>If <code>nodeName</code> attribute of <a href=#var-n><var>n</var></a> is
+    <code>xml:space</code> <span class=ed>@@ or {xml namespace}:space ?</span>
+    and <span class=ed>its declared type is different from (default|preserve),
+    (preserve|default), (default), or (preserve)</span>, then raise an
+    <a href=#xml-misc-error id=xme-at-xml-space><code>xml-misc-error</code></a>.</li>
+    <li>For each node <dfn id=var-ad-nc><var>n<sub><var>c</var></sub></var></dfn> in the
+    <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> a
+      <code>Text</code> or <code>EntityReference</code> node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-at-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is an
+      <code>EntityReference</code> node, then it is an 
+      <a href=#entity-error id=ee-at-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
+    <li class=ed>If <a href=#NOTATION_ATTR><code>NOTATION_ATTR</code></a>, enumerated values MUST
+    be declared.  If not, then raise an
+    <a href=#xml-validity-error id=vc-notatn-declared><code>xml-validity-error</code></a>.</li>
+    <li class=ed>If <a href=#NOTATION_ATTR><code>NOTATION_ATTR</code></a> or <code>ENUMERATED_ATTR</code>,
+    values MUST all be distinct.  If not, then raise an
+    <a href=#xml-validity-error id=vc-no-duplicate-tokens><code>xml-validity-error</code></a>.</li>
+    <li class=ed>If <a href=#NOTATION_ATTR><code>NOTATION_ATTR</code></a> on an <code>EMPTY</code> 
+    element, then raise an
+    <a href=#xml-validity-error id=vc-no-notation-empty><code>xml-validity-error</code></a>.</li>
+    <li class=ed>@@ #defattrvalid Validity constraint: Attribute Default Value Syntactically Correct</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <code>CDATASection</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains
+    a string <code>]]&gt;</code>, then raise an
+    <a href=#xml-well-formedness-error id=wfe-cs-mse><code>xml-well-formedness-error</code></a>.<!-- "for compatibility" --></li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-cs-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <code>Comment</code> node</dt>
+  <dd>
+    <ol>
+    <li>Raise an
+    <a href=#round-trip-warning id=rtw-comment><code>round-trip-warning</code></a>.</li>
+    <li><a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains
+    a string <code>--</code>, or if it ends with a character
+    <code>-</code>, then raise an
+    <a href=#xml-well-formedness-error id=wfe-comment-com><code>xml-well-formedness-error</code></a>.<!--
+    "for compatibility" --></li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-comment-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <a href=#document-0><code>Document</code></a> node</dt>
+  <dd>
+    <ol>
+    <li>If <a href=#xml-version><abbr>XML</abbr> version</a> of <a href=#var-n><var>n</var></a>
+    is different from <code>1.0</code> or <code>1.1</code>,
+    then it is an <code class=ed>unknown-error?</code>.</li>
+    <li>If the <code>xmlEncoding</code> attribute value does <em>not</em>
+    match to <code>[A-Za-z] ([A-Za-z0-9._] | '-')*</code>
+    <span class=ed>@@ formal def</span>, then it is an
+    <a href=#xml-well-formedness-error id=wfe-encoding><code>xml-well-formedness-error</code></a>.</li>
+    <li>The <code>childNodes</code> list of <a href=#var-n><var>n</var></a> have to
+    consist of zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes, followed by
+    an optional <a href=#documenttype><code>DocumentType</code></a> node, followed
+    by zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes, followed by
+    an <code>Element</code> node, followed
+    by zero or more <code>Comment</code> and/or
+    <code>ProcessingInstruction</code> nodes.  Any violation to this is an
+    <a href=#xml-well-formedness-error id=wfe-document-child><code>xml-well-formedness-error</code></a>.</li>
+    <li>For each node <dfn id=var-document-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
+      <code>EntityReference</code> node, then
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
+    <li class=ed>@@ <code>allDeclarationsProcessed</code></li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <code>DocumentFragment</code> node</dt>
+  <dd>
+    <ol>
+    <li>For each node <dfn id=var-df-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
+      <code>Element</code>, <code>Text</code>, <code>CDATASection</code>,
+      <code>Comment</code>, <code>ProcessingInstruction</code>, or
+      <code>EntityReference</code> node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-df-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is an
+      <code>EntityReference</code> node, then it is an
+      <a href=#entity-error id=ee-df-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <a href=#documenttype><code>DocumentType</code></a> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>Follow the following substeps:
+      <ol>
+      <li>If <code>ownerDocument</code> attribute of <a href=#var-n><var>n</var></a> is
+      <a href=#null><code>null</code></a>, then abort these substeps.</li>
+      <li>If <code>documentElement</code> attribute of the node
+      set to <code>ownerDocument</code> attribute of <a href=#var-n><var>n</var></a> is
+      <a href=#null><code>null</code></a>, then abort these substeps.</li>
+      <li>If <code>nodeName</code> attribute of the node set to
+      <code>documentElement</code> attribute of the node set to
+      <code>ownerDocument</code> attribute of <a href=#var-n><var>n</var></a> is
+      different from <code>nodeName</code> of <a href=#var-n><var>n</var></a>,
+      then raise an
+      <a href=#xml-validity-error id=vc-roottype><code>xml-validity-error</code></a>.</li>
+      </ol>
+    </li>
+    <li><a href=#algorithm-to-validate-a-public-identifier title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
+    <li><a href=#algorithm-to-validate-a-system-identifier title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>publicId</code> attribute value of <a href=#var-n><var>n</var></a> is
+    <em>not</em> <a href=#null><code>null</code></a> and the <code>systemId</code> attribute
+    value of <a href=#var-n><var>n</var></a> is <a href=#null><code>null</code></a>, then raise an
+    <a href=#xml-well-formedness-error id=wfe-dt-sid><code>xml-well-formedness-error</code></a>.
+    <span class=ed>@@ publicId == null?  Or, publicId == ""</span></li>
+    <li>For each node <dfn id=var-dt-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> a
+      <code>ProcessingInstruction</code> node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-dt-child><code>xml-well-formedness-error</code></a>.
+      <span class=ed>@@ ref to manakai's extensions</span></li>
+      <li>Otherwise, <!-- if n_c is not an EntityReference node, -->
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recusrively.</li>
+      </ol></li>
+    <li>For each node in the <code>entities</code>, <code>notations</code>,
+    and <code>elementTypes</code> lists of <a href=#var-n><var>n</var></a>,
+    <a href=#algorithm-to-check-a-node title="check a node">check the
+    node</a> recursively.</li>
+    <li class=ed>@@ externally declared?</li>
+    <li>If the <a href=#namednodemap><code>NamedNodeMap</code></a> object in the <code>entities</code>
+    attribute of <a href=#var-n><var>n</var></a> does not contain <a href=#entity><code>Entity</code></a> nodes
+    whose <code>nodeName</code> attribute are <code>amp</code>,
+    <code>lt</code>, <code>gt</code>, <code>apos</code>, and <code>quot</code>
+    then raise
+    <a href=#xml-misc-recommentation id=xmr-predefined><code>xml-misc-recommendation</code></a>(s).
+    </li></ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <code>Element</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>localName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>If the <code>prefix</code> attribute value is different from
+    <a href=#null><code>null</code></a>, then <a href=#algorithm-to-validate-an-ncname>validate
+    the <code>prefix</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>For each node <dfn id=var-element-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an 
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or
+      <code>EntityReference</code> node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-element-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is an
+      <code>EntityReference</code> node, then it is an
+      <a href=#entity-error id=ee-element-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
+    <li class=ed>@@ #elementvalid Validity constraint: Element Valid</li>
+    <li>Let <var>attrs</var> be the value of the <code>attribute</code>
+    attribute of <a href=#var-n><var>n</var></a>.  Check conformance of <var>attrs</var>
+    as following:
+      <ol>
+      <li>If <var>attrs</var> contains an <a href=#attr><code>Attr</code></a> node whose
+      <code>nodeName</code> attribute value is equal to that of another
+      <a href=#attr><code>Attr</code></a> node in <var>attrs</var>, then raise an
+      <a href=#xml-well-formedness-error id=wfe-uniqattspec><code>xml-well-formedness-error</code></a>.<!--
+      #uniqattspec Well-formedness constraint: Unique Att Spec --></li>
+      <li class=ed>@@ #RequiredAttr Validity constraint: Required Attribute</li>
+      </ol>
+    </li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> node</dt>
+  <dd>
+    <ol>
+    <li class=ed></li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-et-child><code>xml-well-formedness-error</code></a>.</li>
+    <li class=ed>@@ <q cite=http://www.w3.org/TR/2006/REC-xml-20060816/#elemdecls>At user option, an XML processor MAY issue a warning when a declaration mentions an element type for which no declaration is provided, but this is not an error.</q></li>
+    <li class=ed>@@ <q cite=http://www.w3.org/TR/2006/REC-xml-20060816/#sec-element-content>For compatibility, it is an error if the content model allows an element to match more than one occurrence of an element type in the content model. </q></li>
+    <li class=ed>@@ #vc-MixedChildrenUnique
+    Validity constraint: No Duplicate Types</li>
+    <li class=ed>@@ <q cite=http://www.w3.org/TR/2006/REC-xml-20060816/#attdecls>At user option, an XML processor MAY issue a warning if attributes are declared for an element type not itself declared, but this is not an error.</q></li>
+    <li>If there is more than one <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node
+    with <span class=ed>attribute type <code>ID</code></span> in the 
+    <a href=#namednodemap><code>NamedNodeMap</code></a> list contained in the 
+    <code>attributeDefinitions</code> attribute of <a href=#var-n><var>n</var></a>, then raise an
+    <a href=#xml-validity-error id=vc-one-id-per-el><code>xml-validity-error</code></a>.</li>
+    <li>If there is more than one <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node
+    with <span class=ed>attribute type <a href=#notation><code>NOTATION</code></a></span> in the 
+    <a href=#namednodemap><code>NamedNodeMap</code></a> list contained in the 
+    <code>attributeDefinitions</code> attribute of <a href=#var-n><var>n</var></a>, then raise an
+    <a href=#xml-validity-error id=vc-one-notation-per><code>xml-validity-error</code></a>.</li>
+    <li class=ed>"For interoperability, the same Nmtoken  SHOULD NOT occur more than once in the enumerated attribute types of a single element type."</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#entity><code>Entity</code></a> node whose
+<code>notationName</code> attribute value is <a href=#null><code>null</code></a> (i.e. a
+parsed entity)</dt>
+  <dd>
+    <ol>
+    <li>Raise an
+    <a href=#entity-error id=ee-entity-node><code>entity-error</code></a>.</li>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li><a href=#algorithm-to-validate-a-public-identifier title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
+    <li><a href=#algorithm-to-validate-a-system-identifier title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>publicId</code> attribute value of <a href=#var-n><var>n</var></a> is
+    <em>not</em> <a href=#null><code>null</code></a> and the <code>systemId</code> attribute
+    value of <a href=#var-n><var>n</var></a> is <a href=#null><code>null</code></a>, then raise an
+    <a href=#xml-well-formedness-error id=wfe-entity-sid><code>xml-well-formedness-error</code></a>.</li>
+    <li>For each node <dfn id=var-entity-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or <code>EntityReference</code>
+      node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-entity-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is an
+      <code>EntityReference</code> node, then it is an
+      <a href=#entity-error id=ee-er-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#entity><code>Entity</code></a> node whose
+<code>notationName</code> attribute value is <em>not</em> <a href=#null><code>null</code></a>
+(i.e. an unparsed entity)</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li><a href=#algorithm-to-validate-a-public-identifier title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
+    <li><a href=#algorithm-to-validate-a-system-identifier title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>systemId</code> attribute value of <a href=#var-n><var>n</var></a> is
+    <a href=#null><code>null</code></a>, then raise an
+    <a href=#xml-well-formedness-error id=wfe-uentity-sid><code>xml-well-formedness-error</code></a>.</li>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>notationName</code> attribute value of <var>n</var> as an
+    <code>NCName</code></a>.</li>
+    <li class=ed>@@ #not-declared Validity constraint: Notation Declared</li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-uentity-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is an <code>EntityReference</code> node</dt>
+  <dd>
+    <ol>
+    <li>An <a href=#entity-error id=ee-er-node><code>entity-error</code></a>.</li>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>For each node <dfn id=var-er-nc><var>n<sub><var>c</var></sub></var></dfn>
+    in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
+      <ol>
+      <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
+      <code>Element</code>,
+      <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
+      <code>ProcessingInstruction</code>, or <code>EntityReference</code>
+      node, then it is an
+      <a href=#xml-well-formedness-error id=wfe-er-child><code>xml-well-formedness-error</code></a>.</li>
+      <li>Otherwise, if <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
+      <code>EntityReference</code> node, then it is an 
+      <a href=#entity-error id=ee-entity-er><code>entity-error</code></a>.</li>
+      <li>Otherwise,
+      <a href=#algorithm-to-check-a-node title="check a node">check
+      <var>n<sub><var>c</var></sub></var></a> recursively.</li>
+      </ol></li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <a href=#notation><code>Notation</code></a> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-ncname>Validate the
+    <code>nodeName</code> attribute value as an <code>NCName</code></a>.</li>
+    <li><a href=#algorithm-to-validate-a-public-identifier title="validate a public identifier">Validate
+    the <code>publicId</code> attribute value as a public identifier</a>.</li>
+    <li><a href=#algorithm-to-validate-a-system-identifier title="validate a system identifier">Validate
+    the <code>systemId</code> attribute value as a system identifier</a>.</li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-notation-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <code>ProcessingInstruction</code> node</dt>
+  <dd>
+    <ol>
+    <li>If the <code>target</code> attribute value matches to the string
+    <code>xml</code> in any case combination, then raise a 
+    <a href=#xml-well-formedness-error id=wfe-pi-xml><code>xml-well-formedness-error</code></a>.</li>
+    <li>Otherwise, <a href=#algorithm-to-validate-an-ncname>validate the
+    <code>target</code> attribute value as an <code>NCName</code></a>.</li>
+    <li>Then,
+    <a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">validate
+    the <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>data</code> attribute value contains a string
+    <code>?&gt;</code>, then raise a 
+    <a href=#xml-well-formedness-error id=wfe-pi-pic><code>xml-well-formedness-error</code></a>.</li>
+    <li>If the <code>data</code> attribute value starts with either
+    <code class=char>U+0009</code> <code class=charname>CHARACTER
+    TABULATION</code>, <code class=char>U+000A</code> <code class=charname>LINE
+    FEED</code>, <code class=char>U+000D</code> <code class=charname>CARRIAGE
+    RETURN</code>, or <code class=char>U+0020</code>
+    <code class=charname>SPACE</code> character, then raise a
+    <a href=#round-trip-error id=rte-pi-s><code>round-trip-error</code></a>.</li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, then raise an
+    <a href=#xml-well-formedness-error id=wfe-pi-child><code>xml-well-formedness-error</code></a>.</li>
+    <li class=ed>@@ Warn if not declared
+    </li></ol>
+  </dd>
+<dt>If <a href=#var-n><var>n</var></a> is a <code>Text</code> node</dt>
+  <dd>
+    <ol>
+    <li><a href=#algorithm-to-validate-an-xml-character-data title="validate an XML string">Validate the 
+    <code>data</code> attribute value as an <abbr>XML</abbr> character
+    data</a>.</li>
+    <li>If the <code>childNodes</code> list of <a href=#var-n><var>n</var></a> contains
+    any nodes, they are in
+    <a href=#xml-well-formedness-error id=wfe-text-child><code>xml-well-formedness-error</code></a>.</li>
+    </ol>
+  </dd>
+<dt>Otherwise</dt>
+  <dd><span class=ed>xml-well-formedness-error?  unknown-error?</span></dd>
+</dl>
+
+</div>
+
+</div>
+
+<div class=section id=classes>
+<h3 id=character-classes><span class=secno>5.4 </span>Character Classes</h3>
+
+<p>This section defines a couple of character classes.
+These classes are referred to by algorithms specified above.</p>
+
+<p>Character class <dfn id=class-Char10><code>Char10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+0009</code> <code class=charname>CHARACTER
+TABULATION</code></li>
+<li><code class=char>U+000A</code> <code class=charname>LINE FEED</code></li>
+<li><code class=char>U+000D</code> <code class=charname>CARRIAGE
+RETURN</code></li>
+<li><code class=char>U+0020</code> <code class=charname>SPACE</code>
+.. <code class=char>U+D7FF</code></li>
+<li><code class=char>U+E000</code> .. <code class=char>U+FFFD</code>
+<code class=charname>REPLACEMENT CHARACTER</code></li>
+<li><code class=char>U+10000</code> .. <code class=char>U+10FFFF</code></li>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed in the production rule
+<a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Char><code>Char</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+</div>
+
+<p>Character class <dfn id=class-CompatChar10><code>CompatChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li class=ed>@@ <q>Document authors are encouraged to avoid "compatibility characters", as defined in section 6.8 of [Unicode @@ Unicode 2.0 @@] (see also D21 in section 3.6 of [Unicode3]).</q></li>
+</ul>
+
+<p>Character class <dfn id=class-ControlChar10><code>ControlChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+007F</code> <code class=charname>DELETE</code> ..
+<code class=char>U+0084</code> <code class=charname>INDEX</code></li>
+<li><code class=char>U+0086</code> <code class=charname>START OF SELECTED
+AREA</code> .. <code class=char>U+009F</code> <code class=charname>APPLICATION
+PROGRAM COMMAND</code></li>
+<li><code class=char>U+FDD0</code> .. <code class=char>U+FDEF</code></li>
+<li><code class=char>U+1FFFE</code> .. <code class=char>U+1FFFF</code></li>
+<li><code class=char>U+2FFFE</code> .. <code class=char>U+2FFFF</code></li>
+<li><code class=char>U+3FFFE</code> .. <code class=char>U+3FFFF</code></li>
+<li><code class=char>U+4FFFE</code> .. <code class=char>U+4FFFF</code></li>
+<li><code class=char>U+5FFFE</code> .. <code class=char>U+5FFFF</code></li>
+<li><code class=char>U+6FFFE</code> .. <code class=char>U+6FFFF</code></li>
+<li><code class=char>U+7FFFE</code> .. <code class=char>U+7FFFF</code></li>
+<li><code class=char>U+8FFFE</code> .. <code class=char>U+8FFFF</code></li>
+<li><code class=char>U+9FFFE</code> .. <code class=char>U+9FFFF</code></li>
+<li><code class=char>U+AFFFE</code> .. <code class=char>U+AFFFF</code></li>
+<li><code class=char>U+BFFFE</code> .. <code class=char>U+BFFFF</code></li>
+<li><code class=char>U+CFFFE</code> .. <code class=char>U+CFFFF</code></li>
+<li><code class=char>U+DFFFE</code> .. <code class=char>U+DFFFF</code></li>
+<li><code class=char>U+EFFFE</code> .. <code class=char>U+EFFFF</code></li>
+<li><code class=char>U+FFFFE</code> .. <code class=char>U+FFFFF</code></li>
+<li><code class=char>U+10FFFE</code> .. <code class=char>U+10FFFF</code></li>
+</ul>
+<div class="note memo">
+<p>This character class contains the characters listed in the Note in
+<a href=http://www.w3.org/TR/2006/REC-xml-20060816/#charsets>Section 2.2</a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>,
+as amended by
+<a href=http://www.w3.org/XML/xml-V10-4e-errata#E02>errata</a>.</p>
+</div>
+
+<p>The character class <dfn id=class-NameStartChar10><code>NameStartChar10</code></dfn> 
+contains the following characters:</p>
+<ul class=ed>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed as the first character
+of a string matching to the production rule
+<a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name><code>Name</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+</div>
+
+<p>The character class <dfn id=class-NameChar10><code>NameChar10</code></dfn> 
+contains the following characters:</p>
+<ul>
+<li>The characters in the character class
+<a href=#class-NameStartChar10>NameStartChar10</a>.</li>
+<li class=ed></li>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed as the second
+character of a string matching to the production rule
+<a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name><code>Name</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+</div>
+
+<p>The character class <dfn id=class-PubidChar><code>PubidChar</code></dfn>
+contains the following characters:</p>
+<ul>
+<li><code class=char>U+0009</code> <code class=charname>CHARACTER 
+TABULATION</code></li>
+<li><code class=char>U+000A</code> <code class=charname>LINE FEED</code></li>
+<li><code class=char>U+000D</code> <code class=charname>CARRIAGE
+RETURN</code></li>
+<li><code class=char>U+0020</code> <code class=charname>SPACE</code></li>
+<li><code class=char>U+0021</code> <code class=charname>EXCLAMATION MARK</code>
+(<code class=char>!</code>)</li>
+<li><code class=char>U+0023</code> <code class=charname>DOLLAR SIGN</code>
+(<code class=char>$</code>)</li>
+<li><code class=char>U+0024</code> <code class=charname>NUMBER SIGN</code>
+(<code class=char>#</code>)</li>
+<li><code class=char>U+0025</code> <code class=charname>PERCENT SIGN</code>
+(<code class=char>%</code>)</li>
+<li><code class=char>U+0027</code> <code class=charname>APOSTROPHE</code>
+(<code class=char>'</code>)</li>
+<li><code class=char>U+0028</code> <code class=charname>LEFT PARENTHESIS</code>
+(<code class=char>(</code>)</li>
+<li><code class=char>U+0029</code> <code class=charname>RIGHT
+PARENTHESIS</code> (<code class=char>)</code>)</li>
+<li><code class=char>U+002A</code> <code class=charname>ASTERISK</code>
+(<code class=char>*</code>)</li>
+<li><code class=char>U+002B</code> <code class=charname>PLUS SIGN</code>
+(<code class=char>+</code>)</li>
+<li><code class=char>U+002C</code> <code class=charname>COMMA</code>
+(<code class=char>,</code>)</li>
+<li><code class=char>U+002D</code> <code class=charname>HYPHEN-MINUS</code>
+(<code class=char>-</code>)</li>
+<li><code class=char>U+002E</code> <code class=charname>FULL STOP</code>
+(<code class=char>.</code>)</li>
+<li><code class=char>U+002F</code> <code class=charname>SOLIDUS</code>
+(<code class=char>/</code>)</li>
+<li><code class=char>U+0030</code> <code class=charname>DIGIT ZERO</code>
+(<code class=char>0</code>) .. <code class=char>U+0039</code>
+<code class=charname>DIGIT NINE</code> (<code class=char>9</code>)</li>
+<li><code class=char>U+003A</code> <code class=charname>COLON</code>
+(<code class=char>:</code>)</li>
+<li><code class=char>U+003B</code> <code class=charname>SEMICOLON</code>
+(<code class=char>;</code>)</li>
+<li><code class=char>U+003D</code> <code class=charname>EQUAL SIGN</code>
+(<code class=char>=</code>)</li>
+<li><code class=char>U+003F</code> <code class=charname>QUESTION MARK</code>
+(<code class=char>?</code>)</li>
+<li><code class=char>U+0040</code> <code class=charname>COMMERCIAL AT</code>
+(<code class=char>@</code>)</li>
+<li><code class=char>U+0041</code> <code class=charname>LATIN CAPITAL LETTER
+A</code> (<code class=char>A</code>) .. <code class=char>U+005A</code>
+<code class=charname>LATIN CAPITAL LETTER Z</code> 
+(<code class=char>Z</code>)</li>
+<li><code class=char>U+005F</code> <code class=charname>LOW LINE</code>
+(<code class=char>_</code>)</li>
+<li><code class=char>U+0061</code> <code class=charname>LATIN CAPITAL LETTER
+A</code> (<code class=char>A</code>) .. <code class=char>U+007A</code>
+<code class=charname>LATIN CAPITAL LETTER Z</code> 
+(<code class=char>Z</code>)</li>
+</ul>
+<div class="note memo">
+<p>This character class contains all characters allowed in the production rule
+<a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-PubidChar><code>PubidChar</code></a>
+of <abbr>XML</abbr> 1.0
+<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+</div>
+
+</div>
+
+
+</div><!-- section -->
+
+
 <div class=section>
-<h2 id=obsolete-features><span class=secno>5 </span>Obsolete features</h2>
+<h2 id=obsolete-features><span class=secno>6 </span>Obsolete features</h2>
 
 <div class=section id=features>
-<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>5.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
+<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>6.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
 
 <p>Ealier versions of this specification defined the DOM feature <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
 <dfn id=feature-XDoctype><code>http://suika.suikawiki.org/www/2006/feature/XDoctype</code></dfn>
@@ -1706,7 +3131,7 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 </p></div><!-- section -->
 
 <div class=section>
-<h3 id=obsolete-attribute><span class=secno>5.2 </span>Obsolete attribute</h3>
+<h3 id=obsolete-attribute><span class=secno>6.2 </span>Obsolete attribute</h3>
 
 <p>The <code id=internalSubset>internalSubset</code> attribute of the
 <a href=#DocumentTypeDefinition><code>DocumentTypeDefinition</code></a>

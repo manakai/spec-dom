@@ -1,5 +1,5 @@
 <!DOCTYPE html><html class="formal-specification anolis" lang=en><head>
-<title>DOM Document Type Definitions</title>
+<title>XML processing and DOM Document Type Definitions</title>
 <link href=http://suika.suikawiki.org/www/style/html/spec rel=stylesheet>
 <link href=http://suika.suikawiki.org/www/style/def/dom rel=stylesheet>
 <link href=http://suika.suikawiki.org/c/gnu/fdl rel=license>
@@ -7,30 +7,27 @@
 <body class=has-abstract>
 
 <div class=header>
-<h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-living-standard-date>Manakai Project Living Standard 10 December 2013</h2>
+<h1 class="no-toc no-num">XML procesing and DOM Document Type Definitions</h1>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 7 February 2014</h2>
 
 <dl class=versions-uri>
-<dt>Latest Version</dt>
+<dt>Latest version</dt>
   <dd><code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef>http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
-<dt>First Edition</dt>
-  <dd><code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209>http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
-<dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html>http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html</a>&gt;</code></dd>
-<dt id=author>Author</dt>
+<dt>Version history</dt>
+  <dd><a href=#history>History</a>
+</dd><dt id=author>Author</dt>
   <dd><a href=http://suika.suikawiki.org/~wakaba/who? lang=ja rel=author>Wakaba</a>
   <code class=mail>&lt;<a href=mailto:wakaba@suikawiki.org rel=author>wakaba@suikawiki.org</a>&gt;</code></dd>
 </dl>
 
-<p class=copyright lang=en>© <time>2007</time>-<time>2013</time> <a href=http://suika.suikawiki.org/~wakaba/who? rel=author>Wakaba</a>.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the <a href=http://www.gnu.org/copyleft/fdl.html rel=license>GNU Free Documentation License</a>,
-Version 1.2
-or any later version published by the <a href=http://www.fsf.org/>Free Software Foundation</a>;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is
-available at <code class=URI>&lt;<a href=http://www.gnu.org/copyleft/fdl.html rel=license>http://www.gnu.org/copyleft/fdl.html</a>&gt;</code>.</p>
-</div>
+<p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
+extent possible under law, the editor has waived all copyright and
+related or neighboring rights to this work.  In addition, as of
+7 February 2014, the editor has made this specification available under the
+<cite>Open Web Foundation Agreement Version 1.0</cite>, which is
+available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
+
+</p></div>
 
 <div class=section id=abstract>
 <h2 class="no-toc no-num" id=abstract-0>Abstract</h2>
@@ -70,22 +67,26 @@ normative version.</p>
 
 <!--begin-toc-->
 <ol class=toc>
- <li><a href=#introduction-0><span class=secno>1 </span>Introduction</a></li>
+ <li><a href=#introduction-0><span class=secno>1 </span>Introduction</a>
+  <ol>
+   <li><a href=#history-0><span class=secno>1.1 </span>History</a></li></ol></li>
  <li><a href=#conformance-requirements><span class=secno>2 </span>Conformance Requirements</a>
   <ol>
    <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li></ol></li>
- <li><a href=#Node><span class=secno>3 </span>Nodes</a></li>
- <li><a href=#Document><span class=secno>4 </span>Documents</a></li>
- <li><a href=#document-types><span class=secno>5 </span>Document types</a></li>
- <li><a href=#element-types><span class=secno>6 </span>Element types</a></li>
- <li><a href=#attribute-definitions><span class=secno>7 </span>Attribute definitions</a></li>
- <li><a href=#general-entities><span class=secno>8 </span>General entities</a></li>
- <li><a href=#notations><span class=secno>9 </span>Notations</a></li>
- <li><a href=#base-urls><span class=secno>10 </span>Base URLs</a></li>
- <li><a href=#obsolete-features><span class=secno>11 </span>Obsolete features</a>
+ <li><a href=#dom-for-document-type-definitions><span class=secno>3 </span>DOM for document type definitions</a>
   <ol>
-   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>11.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
-   <li><a href=#obsolete-attribute><span class=secno>11.2 </span>Obsolete attribute</a></li></ol></li>
+   <li><a href=#Node><span class=secno>3.1 </span>Nodes</a></li>
+   <li><a href=#Document><span class=secno>3.2 </span>Documents</a></li>
+   <li><a href=#document-types><span class=secno>3.3 </span>Document types</a></li>
+   <li><a href=#element-types><span class=secno>3.4 </span>Element types</a></li>
+   <li><a href=#attribute-definitions><span class=secno>3.5 </span>Attribute definitions</a></li>
+   <li><a href=#general-entities><span class=secno>3.6 </span>General entities</a></li>
+   <li><a href=#notations><span class=secno>3.7 </span>Notations</a></li></ol></li>
+ <li><a href=#base-urls><span class=secno>4 </span>Base URLs</a></li>
+ <li><a href=#obsolete-features><span class=secno>5 </span>Obsolete features</a>
+  <ol>
+   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>5.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
+   <li><a href=#obsolete-attribute><span class=secno>5.2 </span>Obsolete attribute</a></li></ol></li>
  <li><a class=no-num href=#references-0>References</a>
   <ol>
    <li><a class=no-num href=#normative-references-0>Normative References</a></li>
@@ -108,8 +109,9 @@ type.</p>
 <p>The primary goal of the features defined by this specification is
 to make it possible to built an XML DTD validator on the top of the
 extended DOM API (combined with an XML parser implementation aware of
-that API).  It supports both XML 1.0 <cite class="bibref
-normative">[<a href=#ref-XML10>XML10</a>]</cite> and XML 1.1 <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>.
+that API).  It can support both XML 1.0 <cite class="bibref
+normative">[<a href=#ref-XML10>XML10</a>]</cite> and XML 1.1 <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>, but
+the implementation is not required to implement XML 1.1.
 
 </p><p>Interfaces defined in this document are partially modeled and inspired by
 early drafts of <abbr>DOM</abbr> Level 1
@@ -119,6 +121,18 @@ early drafts of <abbr>DOM</abbr> Level 1
 and <abbr>XML</abbr> Schema <abbr>API</abbr> specification
 <cite class="bibref informative">[<a href=#ref-XSAPI>XSAPI</a>]</cite>, but 
 they are not compatible with any of them as a whole.</p>
+
+<div class=section id=history>
+<h3 id=history-0><span class=secno>1.1 </span>History</h3>
+
+<p>Most part of this specification was originally published as
+<cite>DOM Document Type Definition</cite>.  Version history of that
+and <em>this</em> specifications are available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html>http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html</a>&gt;</code>.
+The First Edition of the <cite>DOM Document Type Definition</cite>
+specification is available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209>http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code>.
+
+</p></div>
+
 </div>
 
 <div class=section id=conformance>
@@ -241,8 +255,14 @@ in the <i>patch</i>, then the former instance of
 
 </div><!-- section -->
 
-<div class=section id=section-node>
-<h2 id=Node><span class=secno>3 </span>Nodes</h2>
+<div class=section>
+<h2 id=dom-for-document-type-definitions><span class=secno>3 </span>DOM for document type definitions</h2>
+
+<p>This section defines various extensions to DOM to represent
+definitions that can be contained in XML DTDs.
+
+</p><div class=section id=section-node>
+<h3 id=Node><span class=secno>3.1 </span>Nodes</h3>
 
 <p>This specification introduces two kinds of <span class=concept-node>nodes</span>: <a href=#concept-element-type title=concept-element-type>element types</a> and <a href=#concept-attribute-definition title=concept-attribute-definition>attribute definitions</a>.
 Also, this specification reuses two kinds of nodes defined by DOM3
@@ -549,7 +569,7 @@ normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite> <em class=rfc2119>MUST</e
 </p></div>
 
 <div class=section id=section-document>
-<h2 id=Document><span class=secno>4 </span>Documents</h2>
+<h3 id=Document><span class=secno>3.2 </span>Documents</h3>
 
 <p>Several factory methods are added to the <a href=#document-0><code>Document</code></a>
 interface.
@@ -656,7 +676,7 @@ method <em class=rfc2119>MUST</em> run these steps:
 
 
 <div class=section id=section-documenttype>
-<h2 id=document-types><span class=secno>5 </span>Document types</h2>
+<h3 id=document-types><span class=secno>3.3 </span>Document types</h3>
 
 <p>Each <a href=#concept-doctype title=concept-doctype>doctype</a> has associated
 unordered sets of nodes <dfn id=concept-documenttype-elementtypes title=concept-DocumentType-elementTypes>element types</dfn>, <dfn id=concept-documenttype-generalentities title=concept-DocumentType-generalEntities>general entities</dfn>, and
@@ -948,7 +968,7 @@ from <var title="">set</var>.
 </div><!-- section -->
 
 <div class=section id=section-elementtypedefinition>
-<h2 id=element-types><span class=secno>6 </span>Element types</h2>
+<h3 id=element-types><span class=secno>3.4 </span>Element types</h3>
 
 <p>The <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> objects are simply known as
 <dfn id=concept-element-type title=concept-element-type>element types</dfn>.  It represents
@@ -1057,7 +1077,7 @@ element type.</p>
 </div><!-- section -->
 
 <div class=section id=section-attributedefinition>
-<h2 id=attribute-definitions><span class=secno>7 </span>Attribute definitions</h2>
+<h3 id=attribute-definitions><span class=secno>3.5 </span>Attribute definitions</h3>
 
 <p>The nodes of type <a href=#ATTRIBUTE_DEFINITION_NODE><code>ATTRIBUTE_DEFINITION_NODE</code></a>
 represents an <dfn id=concept-attribute-definition title=concept-attribute-definition>attribute
@@ -1358,7 +1378,7 @@ type <code>unsigned short</code></dt>
 </div>
 
 <div class=section id=section-entity>
-<h2 id=general-entities><span class=secno>8 </span>General entities</h2>
+<h3 id=general-entities><span class=secno>3.6 </span>General entities</h3>
 
 <p>The <a href=#entity><code>Entity</code></a> node is known as <dfn id=concept-general-entity title=concept-general-entity>general entity</dfn>, or when not
 ambiguous, simply <dfn id=concept-entity title=concept-entity>entity</dfn>.
@@ -1485,7 +1505,7 @@ when an external entity is read.
 </div><!-- section -->
 
 <div class=section id=section-notation>
-<h2 id=notations><span class=secno>9 </span>Notations</h2>
+<h3 id=notations><span class=secno>3.7 </span>Notations</h3>
 
 <p>The <a href=#notation><code>Notation</code></a> node is simply known as <dfn id=concept-notation title=concept-notation>notation.
 
@@ -1503,8 +1523,10 @@ specified, their values are the empty string when the <a href=#concept-notation 
 
 </div><!-- section -->
 
+</div><!-- section -->
+
 <div class=section>
-<h2 id=base-urls><span class=secno>10 </span>Base URLs</h2>
+<h2 id=base-urls><span class=secno>4 </span>Base URLs</h2>
 
 <p>To determine the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a>
 of a <span title=concept-node>node</span> <var title="">node</var>, these
@@ -1673,10 +1695,10 @@ base URL</a> of the <span title=concept-document>document</span>.
 </div><!-- section -->
 
 <div class=section>
-<h2 id=obsolete-features><span class=secno>11 </span>Obsolete features</h2>
+<h2 id=obsolete-features><span class=secno>5 </span>Obsolete features</h2>
 
 <div class=section id=features>
-<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>11.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
+<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>5.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
 
 <p>Ealier versions of this specification defined the DOM feature <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
 <dfn id=feature-XDoctype><code>http://suika.suikawiki.org/www/2006/feature/XDoctype</code></dfn>
@@ -1684,7 +1706,7 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 </p></div><!-- section -->
 
 <div class=section>
-<h3 id=obsolete-attribute><span class=secno>11.2 </span>Obsolete attribute</h3>
+<h3 id=obsolete-attribute><span class=secno>5.2 </span>Obsolete attribute</h3>
 
 <p>The <code id=internalSubset>internalSubset</code> attribute of the
 <a href=#DocumentTypeDefinition><code>DocumentTypeDefinition</code></a>

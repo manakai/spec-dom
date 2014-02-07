@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="formal-specification anolis">
 <head>
-<title>DOM Document Type Definitions</title>
+<title>XML processing and DOM Document Type Definitions</title>
 <link rel="stylesheet" href="http://suika.suikawiki.org/www/style/html/spec">
 <link rel="stylesheet" href="http://suika.suikawiki.org/www/style/def/dom">
 <link rel="license" href="http://suika.suikawiki.org/c/gnu/fdl">
@@ -9,18 +9,15 @@
 <body class="has-abstract">
 
 <div class="header">
-<h1 class="no-toc no-num">DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num">Manakai Project Living Standard [DATE]</h2>
+<h1 class="no-toc no-num">XML procesing and DOM Document Type Definitions</h1>
+<h2 class="no-toc no-num">Manakai Project Specification [DATE]</h2>
 
 <dl class="versions-uri">
-<dt>Latest Version</dt>
+<dt>Latest version</dt>
   <dd><code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef"
       >http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
-<dt>First Edition</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209"
-      >http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
-<dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href="http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html">http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html</a>&gt;</code></dd>
+<dt>Version history</dt>
+  <dd><a href="#history">History</a>
 <dt id=author>Author</dt>
   <dd><a href="http://suika.suikawiki.org/~wakaba/who?" rel="author"
       lang=ja>Wakaba</a>
@@ -28,19 +25,17 @@
       >wakaba@suikawiki.org</a>&gt;</code></dd>
 </dl>
 
-<p class="copyright" lang="en">&#xA9; <time>2007</time>-<time>[YEAR]</time> <a
-    href="http://suika.suikawiki.org/~wakaba/who?" rel="author">Wakaba</a>.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the <a rel="license"
-href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
-Version 1.2
-or any later version published by the <a
-href="http://www.fsf.org/">Free Software Foundation</a>;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is
-available at <code class="URI">&lt;<a
-    href="http://www.gnu.org/copyleft/fdl.html"
-    rel="license">http://www.gnu.org/copyleft/fdl.html</a>&gt;</code>.</p>
+<p class="copyright" lang="en" id=license><a
+href=http://creativecommons.org/publicdomain/zero/1.0/
+rel=license><img alt=CC0
+src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
+extent possible under law, the editor has waived all copyright and
+related or neighboring rights to this work.  In addition, as of
+[DATE], the editor has made this specification available under the
+<cite>Open Web Foundation Agreement Version 1.0</cite>, which is
+available at <a
+href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
+
 </div>
 
 <div id="abstract" class="section">
@@ -97,9 +92,10 @@ type.</p>
 <p>The primary goal of the features defined by this specification is
 to make it possible to built an XML DTD validator on the top of the
 extended DOM API (combined with an XML parser implementation aware of
-that API).  It supports both XML 1.0 <cite class="bibref
+that API).  It can support both XML 1.0 <cite class="bibref
 normative">[<a href="#ref-XML10">XML10</a>]</cite> and XML 1.1 <cite
-class="bibref normative">[<a href="#ref-XML11">XML11</a>]</cite>.
+class="bibref normative">[<a href="#ref-XML11">XML11</a>]</cite>, but
+the implementation is not required to implement XML 1.1.
 
 <p>Interfaces defined in this document are partially modeled and inspired by
 early drafts of <abbr>DOM</abbr> Level 1
@@ -109,10 +105,26 @@ early drafts of <abbr>DOM</abbr> Level 1
 and <abbr>XML</abbr> Schema <abbr>API</abbr> specification
 <cite class="bibref informative">[<a href="#ref-XSAPI">XSAPI</a>]</cite>, but 
 they are not compatible with any of them as a whole.</p>
+
+<div class=section id=history>
+<h3>History</h3>
+
+<p>Most part of this specification was originally published as
+<cite>DOM Document Type Definition</cite>.  Version history of that
+and <em>this</em> specifications are available at <code
+class=URI>&lt;<a
+href="http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html">http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/domdtdef/source.en.html</a>&gt;</code>.
+The First Edition of the <cite>DOM Document Type Definition</cite>
+specification is available at <code class="URI">&lt;<a
+href="http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209"
+>http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code>.
+
+</div>
+
 </div>
 
 <div class="section" id=conformance>
-<h2>Conformance Requirements</h2>
+<h2>Conformance requirements</h2>
 
 <div class=section id=terminology>
 <h3>Terminology</h3>
@@ -255,8 +267,14 @@ in the <i>patch</i>, then the former instance of
 
 </div><!-- section -->
 
+<div class=section>
+<h2>DOM for document type definitions</h2>
+
+<p>This section defines various extensions to DOM to represent
+definitions that can be contained in XML DTDs.
+
 <div class=section id=section-node>
-<h2 id=Node>Nodes</h2>
+<h3 id=Node>Nodes</h3>
 
 <p>This specification introduces two kinds of <span
 class=concept-node>nodes</span>: <span
@@ -648,7 +666,7 @@ class=rfc2119>MUST</em> <span>throw</span> a
 </div>
 
 <div class=section id=section-document>
-<h2 id=Document>Documents</h2>
+<h3 id=Document>Documents</h3>
 
 <p>Several factory methods are added to the <code>Document</code>
 interface.
@@ -770,7 +788,7 @@ method <em class=rfc2119>MUST</em> run these steps:
 
 
 <div class=section id=section-documenttype>
-<h2>Document types</h2>
+<h3>Document types</h3>
 
 <p>Each <span title=concept-doctype>doctype</span> has associated
 unordered sets of nodes <dfn
@@ -1115,7 +1133,7 @@ title>node</var> to <var title>owner</var>.
 </div><!-- section -->
 
 <div class=section id=section-elementtypedefinition>
-<h2>Element types</h2>
+<h3>Element types</h3>
 
 <p>The <code>ElementTypeDefinition</code> objects are simply known as
 <dfn title=concept-element-type>element types</dfn>.  It represents
@@ -1244,7 +1262,7 @@ element type.</p>
 </div><!-- section -->
 
 <div class=section id=section-attributedefinition>
-<h2>Attribute definitions</h2>
+<h3>Attribute definitions</h3>
 
 <p>The nodes of type <a
 href="#ATTRIBUTE_DEFINITION_NODE"><code>ATTRIBUTE_DEFINITION_NODE</code></a>
@@ -1553,7 +1571,7 @@ type <code>unsigned short</code></dt>
 </div>
 
 <div class=section id=section-entity>
-<h2>General entities</h2>
+<h3>General entities</h3>
 
 <p>The <code>Entity</code> node is known as <dfn
 title=concept-general-entity>general entity</dfn>, or when not
@@ -1693,7 +1711,7 @@ when an external entity is read.
 </div><!-- section -->
 
 <div class=section id=section-notation>
-<h2>Notations</h2>
+<h3>Notations</h3>
 
 <p>The <code>Notation</code> node is simply known as <dfn
 title=concept-notation>notation</span>.
@@ -1711,6 +1729,8 @@ title=concept-notation>notation</span> is created.
   attribute <span>DOMString</span>? <span title=dom-declarationBaseURI>declarationBaseURI</span>;
   attribute <span>DOMString</span>? <span title=dom-manakaiDeclarationBaseURI>manakaiDeclarationBaseURI</span>;
 };</code></pre>
+
+</div><!-- section -->
 
 </div><!-- section -->
 

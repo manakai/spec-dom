@@ -34,8 +34,9 @@ available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreemen
 
 <p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
 documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; and how
-conformance of XML documents are checked.
+DOM; how base URLs are determined in XML documents; how namespace
+prefixes are serialized; and how conformance of XML documents are
+checked.
 
 </p></div>
 
@@ -46,10 +47,10 @@ conformance of XML documents are checked.
 time of its publication.  Other documents might supersede this document.</p>
 
 <p>This document is a specification produced as part of <a href=https://github.com/manakai/>the manakai project</a>.  It is not
-intended to be implemented by any other DOM implementation, although
-nothing prevents it from being implemented by any other party.  It
-might be updated, replaced, or obsoleted by other documents at any
-time.
+intended to be implemented by any other DOM or XML implementation,
+although nothing prevents it from being implemented by any other
+party.  It might be updated, replaced, or obsoleted by other documents
+at any time.
 
 </p><p class=ed>This specification was originllay developed in DOM3 age.
 Most part of this document need to be rewritten to align with modern
@@ -84,22 +85,27 @@ normative version.</p>
    <li><a href=#general-entities><span class=secno>3.6 </span>General entities</a></li>
    <li><a href=#notations><span class=secno>3.7 </span>Notations</a></li></ol></li>
  <li><a href=#base-urls><span class=secno>4 </span>Base URLs</a></li>
- <li><a href=#conformance-checking-of-xml-documents><span class=secno>5 </span>Conformance checking of XML documents</a>
+ <li><a href=#xml-namespaces><span class=secno>5 </span>XML namespaces</a>
   <ol>
-   <li><a href=#processing-model-0><span class=secno>5.1 </span>Processing Model</a>
-    <ol>
-     <li><a href=#error-classification><span class=secno>5.1.1 </span>Error Classification</a></li></ol></li>
-   <li><a href=#parsing-an-xml-document><span class=secno>5.2 </span>Parsing an <abbr>XML</abbr> Document</a></li>
-   <li><a href=#checking-an-xml-dom-tree><span class=secno>5.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</a>
-    <ol>
-     <li><a href=#definitions-0><span class=secno>5.3.1 </span>Definitions</a></li>
-     <li><a href=#conformance-checking-algorithms-for-components><span class=secno>5.3.2 </span>Conformance Checking Algorithms for Components</a></li>
-     <li><a href=#checking-node-0><span class=secno>5.3.3 </span>Checking <code>Node</code></a></li></ol></li>
-   <li><a href=#character-classes><span class=secno>5.4 </span>Character Classes</a></li></ol></li>
- <li><a href=#obsolete-features><span class=secno>6 </span>Obsolete features</a>
+   <li><a href=#namespace-mappings><span class=secno>5.1 </span>Namespace mappings</a></li>
+   <li><a href=#namespace-fixup-of-an-xml-element-for-serialization><span class=secno>5.2 </span>Namespace fixup of an XML element for serialization</a></li>
+   <li><a href=#tests><span class=secno>5.3 </span>Tests</a></li></ol></li>
+ <li><a href=#conformance-checking-of-xml-documents><span class=secno>6 </span>Conformance checking of XML documents</a>
   <ol>
-   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>6.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
-   <li><a href=#obsolete-attribute><span class=secno>6.2 </span>Obsolete attribute</a></li></ol></li>
+   <li><a href=#processing-model-0><span class=secno>6.1 </span>Processing Model</a>
+    <ol>
+     <li><a href=#error-classification><span class=secno>6.1.1 </span>Error Classification</a></li></ol></li>
+   <li><a href=#parsing-an-xml-document><span class=secno>6.2 </span>Parsing an <abbr>XML</abbr> Document</a></li>
+   <li><a href=#checking-an-xml-dom-tree><span class=secno>6.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</a>
+    <ol>
+     <li><a href=#definitions-0><span class=secno>6.3.1 </span>Definitions</a></li>
+     <li><a href=#conformance-checking-algorithms-for-components><span class=secno>6.3.2 </span>Conformance Checking Algorithms for Components</a></li>
+     <li><a href=#checking-node-0><span class=secno>6.3.3 </span>Checking <code>Node</code></a></li></ol></li>
+   <li><a href=#character-classes><span class=secno>6.4 </span>Character Classes</a></li></ol></li>
+ <li><a href=#obsolete-features><span class=secno>7 </span>Obsolete features</a>
+  <ol>
+   <li><a href=#the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>7.1 </span>The DOM feature string for the DOM Document Type Definitions</a></li>
+   <li><a href=#obsolete-attribute><span class=secno>7.2 </span>Obsolete attribute</a></li></ol></li>
  <li><a class=no-num href=#references-0>References</a>
   <ol>
    <li><a class=no-num href=#normative-references-0>Normative References</a></li>
@@ -114,12 +120,18 @@ normative version.</p>
 
 <p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
 documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; and how
-conformance of XML documents are checked.
+DOM; how base URLs are determined in XML documents; how namespace
+prefixes are serialized; and how conformance of XML documents are
+checked.
 
 </p><p>In general, this specification does not intend to override
-requirements imposed by various XML specifications.  In addition, this
-specification does not intend to be implemented by Web browsers.
+requirements imposed by various XML specifications.  It is not
+intended to be implemented by any other DOM or XML implementation,
+although nothing prevents it from being implemented by any other party
+than <a href=https://github.com/manakai/>the manakai project</a>.
+Especially, it is not intended to be implemented by Web browsers.  In
+fact some of features in this specification (e.g. handling of external
+entities) are not compatible with Web contents.
 
 </p><div class=section id=history>
 <h3 id=history-0><span class=secno>1.1 </span>History</h3>
@@ -133,6 +145,9 @@ specification is available at <code class=URI>&lt;<a href=http://suika.suikawiki
 </p><p>Some part of this specification is derived from the <a href=http://suika.suikawiki.org/www/markup/xml/xmlcc/xmlcc-work><cite>manakai's
 <abbr>XML</abbr> Conformance Checking</cite></a> specification.
 Revision history of the specification is available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html>http://suika.suikawiki.org/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html</a>&gt;</code>.
+
+</p><p>Some part of this specification is derived from the <a href=http://suika.suikawiki.org/www/markup/xml/nsfixup><cite>Namespace
+fixup</cite></a> note, whose revision history is available at <code class=URI>&lt;<a href=http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/nsfixup-source.en.html>http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/nsfixup-source.en.html</a>&gt;</code>.
 
 </p></div>
 
@@ -204,10 +219,14 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 <cite class="bibref normative">[<a href=#ref-DOMBIND>DOMBIND</a>]</cite>.
 
 </p><p>The terms, interfaces, attributes, and exceptions <dfn id=context-object>context
-object</dfn>, <dfn id=xml-namespace>XML namespace</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node><code>Node</code></dfn>,
-<dfn id=attr><code>Attr</code></dfn>, <dfn id=document>document</dfn>
-(<dfn id=document-0><code>Document</code></dfn>), <dfn id=in-a-document>in a document</dfn>, <dfn id=concept-doctype title=concept-doctype>doctype</dfn>
-(<dfn id=documenttype><code>DocumentType</code></dfn>), <dfn id=concept-doctype-name title=concept-doctype-name>doctype name</dfn>, <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>, <dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
+object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node>node</dfn> or
+<dfn id=node-0><code>Node</code></dfn> (which has <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>), <dfn id=document>document</dfn> or
+<dfn id=document-0><code>Document</code></dfn>, <dfn id=concept-element title=concept-element>element</dfn> or <dfn id=element><code>Element</code></dfn>
+(which has <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, and <dfn id=concept-element-attribute title=concept-element-attribute>attribute list</dfn>), <dfn id=concept-attribute title=concept-attribute>attribute</dfn> or
+<dfn id=attr><code>Attr</code></dfn> (which has <dfn id=concept-attribute-namespace title=concept-attribute-namespace>namespace</dfn>, <dfn id=concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-attribute-local-name title=concept-attribute-local-name>local name</dfn>, and <dfn id=concept-attribute-value title=concept-attribute-value>value</dfn>), <dfn id=concept-doctype title=concept-doctype>doctype</dfn> or
+<dfn id=documenttype><code>DocumentType</code></dfn> (which has <dfn id=concept-doctype-name title=concept-doctype-name>doctype name</dfn>), <dfn id=xml-namespace>XML
+namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-document>in a document</dfn>,
+<dfn id=concept-collection title=concept-collection>collection</dfn>, <dfn id=throw>throw</dfn>,
 <dfn id=domexception><code>DOMException</code></dfn>,
 <dfn id=hierarchyrequesterror><code>HierarchyRequestError</code></dfn>,
 <dfn id=invalidcharactererror><code>InvalidCharacterError</code></dfn>, and
@@ -357,7 +376,7 @@ kind of node as <a href=#concept-tree-child title=concept-tree-child>child</a>.
 
 <hr>
 
-<pre class=idl><code>partial interface <a href=#node>Node</a> {
+<pre class=idl><code>partial interface <a href=#node-0>Node</a> {
   const unsigned short <a href=#dom-node-element_type_definition_node title=dom-Node-ELEMENT_TYPE_DEFINITION_NODE>ELEMENT_TYPE_DEFINITION_NODE</a> = 81001;
   const unsigned short <a href=#dom-node-attribute_definition_node title=dom-Node-ATTRIBUTE_DEFINITION_NODE>ATTRIBUTE_DEFINITION_NODE</a> = 81002;
 };</code></pre>
@@ -1010,12 +1029,12 @@ the definition of the element, identified by the <dfn id=concept-element-type-na
 
 </dfn></p><div class="note memo">
 <p>Although the <a href=#concept-element-type title=concept-element-type>element type</a>
-is corresponding to the <code>ELEMENT</code> declaration in the XML
+is corresponding to the <a href=#element><code>ELEMENT</code></a> declaration in the XML
 DTD, the <a href=#concept-element-type title=concept-element-type>element type</a> does not
-directly represent the <code>ELEMENT</code> declaration.
+directly represent the <a href=#element><code>ELEMENT</code></a> declaration.
 </p></div>
 
-<pre class=idl><code>interface <dfn id=ElementTypeDefinition>ElementTypeDefinition</dfn> : <a href=#node>Node</a> {
+<pre class=idl><code>interface <dfn id=ElementTypeDefinition>ElementTypeDefinition</dfn> : <a href=#node-0>Node</a> {
   readonly attribute <a href=#documenttype>DocumentType</a>? <a href=#dom-ownerdocumenttypedefinition title=dom-ownerDocumentTypeDefinition>ownerDocumentTypeDefinition</a>;
 
   readonly attribute <a href=#namednodemap>NamedNodeMap</a> <a href=#dom-elementtypedefinition-attributedefinitions title=dom-ElementTypeDefinition-attributeDefinitions>attributeDefinitions</a>;
@@ -1591,7 +1610,7 @@ these steps.
   
   </dd></dl>
 
-</li><li>Otherwise, if <var title="">node</var> is an <span title=concept-attribute>attribute</span>:
+</li><li>Otherwise, if <var title="">node</var> is an <a href=#concept-attribute title=concept-attribute>attribute</a>:
 
   <dl class=switch>
 
@@ -1609,8 +1628,8 @@ these steps.
   
   </dd></dl>
 
-</li><li>If <var title="">node</var> is an <span title=concept-element>element</span> and it has the <code>base</code>
-attribute in the <span title="">XML namespace</span>, <a href=#resolve-a-url title="resolve a URL">resolve</a> the <span title=concept-attribute-value>value</span> of the <span title=concept-attribute>attribute</span> relative to the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <span title=concept-attribute>attribute</span>.  If it succeeded, return the
+</li><li>If <var title="">node</var> is an <a href=#concept-element title=concept-element>element</a> and it has the <code>base</code>
+attribute in the <span title="">XML namespace</span>, <a href=#resolve-a-url title="resolve a URL">resolve</a> the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the <a href=#concept-attribute title=concept-attribute>attribute</a> relative to the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <a href=#concept-attribute title=concept-attribute>attribute</a>.  If it succeeded, return the
 result and abort these steps.
 
 </li><li>If the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> of <var title="">node</var> is not <a href=#null>null</a>, return the <a href=#concept-node-base-url title=concept-node-base-url>base URL</a> of the <a href=#concept-tree-parent title=concept-tree-parent>parent</a> and abort these steps.
@@ -1729,8 +1748,371 @@ base URL</a> of the <span title=concept-document>document</span>.
 </div><!-- section -->
 
 
+<div class=section>
+<h2 id=xml-namespaces><span class=secno>5 </span>XML namespaces</h2>
+
+<p class=section-info>This section is <em>non-normative</em>.
+
+</p><p>This section describes how to implement namespace fixup.</p>
+
+<div class=section>
+<h3 id=namespace-mappings><span class=secno>5.1 </span>Namespace mappings</h3>
+
+<p class=section-info>This section is <em>non-normative</em>.
+
+</p><p>A <dfn id=concept-nsmap title=concept-nsmap>namespace mapping</dfn> is a data
+structure with the following fields:
+
+</p><dl>
+
+<dt><dfn id=concept-nsmap-default title=concept-nsmap-default>Default namespace</dfn>
+
+</dt><dd>Either a namespace URL, <a href=#null><i>null</i></a>, or <i>missing</i>.  By
+default, its value is <i>missing</i>.
+
+</dd><dt><dfn id=concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>Prefix to URL</dfn>
+
+</dt><dd>An ordered list of key/value pairs, where keys are namespace
+prefixes and values are namespace URLs or <i>none</i>.  By default,
+the set contains two pairs: (<code>xml</code>, the <a href=#xml-namespace>XML
+namespace</a>) and (<code>xmlns</code>, the <a href=#xmlns-namespace>XMLNS
+namespace</a>).
+
+</dd></dl>
+
+<div class="note memo">
+
+<p>There will be at most one pair with same key in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list.  However,
+there might be more than one pairs with same value in the list.
+
+</p></div>
+
+<p>A <dfn id=concept-default-namespace-declaration title=concept-default-namespace-declaration>default
+namespace declaration</dfn> with namespace URL <var title="">url</var> is
+an <a href=#concept-attribute title=concept-attribute>attribute</a> whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the <a href=#xmlns-namespace>XMLNS
+namespace</a>, <a href=#concept-attribute-local-name title=concept-attribute-local-name>local
+name</a> is <code>xmlns</code>, and <a href=#concept-attribute-value title=concept-attribute-value>value</a> is <var title="">url</var>.
+
+</p><p>A <dfn id=concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+declaration</dfn> with prefix <var title="">prefix</var> and namespace
+URL <var title="">url</var> is an <a href=#concept-attribute title=concept-attribute>attribute</a> whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the <a href=#xmlns-namespace>XMLNS
+namespace</a>, <a href=#concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</a> is
+<code>xmlns</code>, <a href=#concept-attribute-local-name title=concept-attribute-local-name>local
+name</a> is <var title="">prefix</var>, and <a href=#concept-attribute-value title=concept-attribute-value>value</a> is <var title="">url</var>.
+
+</p></div>
+
+<div class=section>
+<h3 id=namespace-fixup-of-an-xml-element-for-serialization><span class=secno>5.2 </span>Namespace fixup of an XML element for serialization</h3>
+
+<p class=section-info>This section is <em>non-normative</em>.
+
+</p><p>The <dfn id=steps-for-namespace-fixup-of-an-xml-element-for-serialization>steps for namespace fixup of an XML element for
+serialization</dfn>, with an <a href=#concept-element title=concept-element>element</a> <var title="">element</var> and
+optional <a href=#concept-nsmap title=concept-nsmap>namespace mapping</a> <var title="">nsmap</var>, are as follows:
+
+</p><ol>
+
+<li>If <var title="">nsmap</var> is not specified, let <var title="">nsmap</var> be a new <a href=#concept-nsmap title=concept-nsmap>namespace
+mapping</a>.
+
+</li><li>Otherwise, let <var title="">nsmap</var> be a deep clone of <var title="">nsmap</var>.
+
+</li><li>Let <var title="">attributes</var> be the list containing the <a href=#concept-attribute title=concept-attribute>attributes</a> in the <a href=#concept-element-attribute title=concept-element-attribute>attribute list</a> of <var title="">element</var> in same order.
+
+</li><li>For each <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var> in <var title="">attributes</var>, in order:
+
+  <ol>
+
+  <li>If the <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a>
+  of <var title="">attr</var> is not the <a href=#xmlns-namespace>XMLNS namespace</a>,
+  skip the rest of these substeps and continue with any next <a href=#concept-attribute title=concept-attribute>attribute</a>.
+
+  </li><li>Let <var title="">local name</var> be the <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> of <var title="">attr</var>.
+
+  </li><li>Let <var title="">value</var> be the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of <var title="">attr</var>.
+
+  </li><li>If <var title="">local name</var> is <code>xml</code>, or if <var title="">value</var> is the <a href=#xml-namespace>XML namespace</a> or the
+  <a href=#xmlns-namespace>XMLNS namespace</a>, do nothing.
+
+  </li><li>Otherwise, if <var title="">local name</var> is <code>xmlns</code>:
+
+    <ol>
+
+    <li>If <var title="">value</var> is the empty string, set the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> to <a href=#null><i>null</i></a>.
+
+    </li><li>Otherwise, set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+    namespace</a> of <var title="">nsmap</var> to <var title="">value</var>.
+
+    </li></ol>
+
+  </li><li>Otherwise:
+
+    <ol>
+
+    <li>Delete the key/value pair whose key is equal to <var title="">local name</var>, if any, from the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
+
+    </li><li>If <var title="">value</var> is the empty string, append
+    key/value pair (<var title="">local name</var>,
+    <i>none</i>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix
+    to URL</a> list of <var title="">nsmap</var>.
+
+    </li><li>Otherwise, append key/value pair (<var title="">local name</var>,
+    <var title="">value</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
+
+    </li></ol>
+
+  </li></ol>
+
+</li><li>Let <var title="">tag name</var> and <var title="">new attr</var> be the
+values returned by the <a href=#steps-to-obtain-a-qname>steps to obtain a QName</a> with the
+<a href=#concept-element-namespace title=concept-element-namespace>namespace</a>, <a href=#concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</a>, and
+<a href=#concept-element-local-name title=concept-element-local-name>local name</a> of <var title="">element</var>, <var title="">attributes</var>, and <var title="">nsmap</var> and with the <var title="">is element</var> flag.
+
+</li><li>If <var title="">new attr</var> is not null, prepend it to <var title="">attributes</var>.
+
+</li><li>Let <var title="">attribute specifications</var> be the empty list.
+
+</li><li>For each <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var> in <var title="">attributes</var>, in order:
+
+  <ol>
+
+  <li>Let <var title="">attr name</var> and <var title="">new attr</var> be
+  the values returned by the <a href=#steps-to-obtain-a-qname>steps to obtain a QName</a> with
+  the <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a>, <a href=#concept-attribute-namespace-prefix title=concept-attribute-namespace-prefix>namespace prefix</a>,
+  and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> of
+  <var title="">attr</var>, <var title="">attributes</var>, and <var title="">nsmap</var> (without the <var title="">is element</var> flag).
+
+  </li><li>If <var title="">new attr</var> is not null, insert it into <var title="">attributes</var> just after <var title="">attr</var>.
+
+  </li><li>Append attribute name/value pair (<var title="">attr name</var>,
+  the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of <var title="">attr</var>) to <var title="">attribute specifications</var>.
+
+  </li></ol>
+
+  </li><li>Return <var title="">tag name</var>, <var title="">attribute
+  specifications</var>, and <var title="">nsmap</var>.
+
+</li></ol>
+
+<p>These steps return three values.  The first value, <var title="">tag
+name</var>, is used as the tag name in the start and end tag of the
+serialization of <var title="">element</var>.  The second value, <var title="">attribute specifications</var>, contains zero or more pairs of
+attribute names and values, which are used in the start tag of the
+serialization of <var title="">element</var>.  The third value, <var title="">nsmap</var>, is used as the input to the steps for serialization
+of the child elements of <var title="">element</var>.
+
+</p><p>The <dfn id=steps-to-obtain-a-qname>steps to obtain a QName</dfn>, with parameters <var title="">namespace URL</var>, <var title="">prefix</var>, <var title="">local
+name</var>, <var title="">attributes</var>, and <var title="">nsmap</var>,
+where <var title="">attributes</var> and <var title="">nsmap</var> are
+shared with the callee such that any modification to them is also
+reflected to those variables in the steps which invoked these steps,
+and the <var title="">is element</var> flag, are as follows:
+
+</p><ol>
+
+<li>Let <var title="">qname</var> be <var title="">local name</var>.
+
+</li><li>Let <var title="">new attr</var> be null.
+
+</li><li>If <var title="">namespace URL</var> is null:
+
+  <ol>
+
+  <li>If the <var title="">is element</var> flag is not set, do nothing.
+
+  </li><li>Otherwise, if the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+  namespace</a> of <var title="">nsmap</var> is not <a href=#null><i>null</i></a>:
+
+    <ol>
+
+    <li>Set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+    namespace</a> of <var title="">nsmap</var> to <a href=#null><i>null</i></a>.
+
+    </li><li>If <var title="">attributes</var> contains an <a href=#concept-attribute title=concept-attribute>attribute</a> <var title="">attr</var>
+    whose <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is
+    the <a href=#xmlns-namespace>XMLNS namespace</a> and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> is
+    <code>xmlns</code>:
+
+      <ol>
+
+      <li>If the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of
+      <var title="">attr</var> is not the empty string, replace <var title="">attr</var> in <var title="">attributes</var> by a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
+      declaration</a> with namespace URL <i>the empty string</i>,
+      preserving the order.
+
+      </li></ol>
+
+    </li><li>Otherwise, let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>defualt namespace
+    declaration</a> with namespace URL <i>the empty string</i>.
+
+    </li></ol>
+
+  </li></ol>
+
+</li><li>Otherwise, if <var title="">namespace URL</var> is not null:
+
+  <ol>
+
+  <li>If <var title="">namespace URL</var> is the <a href=#xml-namespace>XML
+  namespace</a>, let <var title="">prefix</var> be <code>xml</code>.
+
+  </li><li>Otherwise, if <var title="">namespace URL</var> is the <a href=#xmlns-namespace>XMLNS
+  namespace</a>, let <var title="">prefix</var> be <code>xmlns</code>.
+
+  </li><li>If <var title="">namespace URL</var> is the <a href=#xmlns-namespace>XMLNS
+  namespace</a> and <var title="">qname</var> is <code>xmlns</code>,
+  do nothing.
+
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is <i>missing</i>:
+
+    <ol>
+
+    <li>Set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+    namespace</a> of <var title="">nsmap</var> to <var title="">namespace
+    URL</var>.
+
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
+    declaration</a> with namespace URL <var title="">namespace
+    URL</var>.
+
+    </li></ol>
+
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of <var title="">nsmap</var> is equal to <var title="">namespace URL</var>, do
+  nothing.
+
+  </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
+  the key/value pair whose key is <var title="">prefix</var> and value is
+  <var title="">namespace URL</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>, prepend <var title="">prefix</var> followed by a
+  <code>U+003A</code> <code class=charname>COLON</code> character
+  (<code>:</code>) to <var title="">qname</var>.
+
+  </li><li>Otherwise, if <var title="">prefix</var> is not null and there is
+  no key/value pair whose key is <var title="">prefix</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>:
+
+    <ol>
+
+    <li>Append key/value pair (<var title="">prefix</var>, <var title="">namespace URL</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
+
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    declaration</a> with prefix <var title="">prefix</var> and
+    namespace URL <var title="">namespace URL</var>.
+
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">qname</var>.
+
+    </li></ol>
+
+  </li><li>Otherwise, if there is the key/value pair whose value is equal
+  to <var title="">namespace URL</var> in the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of <var title="">nsmap</var>:
+
+    <ol>
+
+    <li>Let <var title="">prefix</var> be the key of the last key/value
+    pair whose value is equal to <var title="">namespace URL</var> in the
+    <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list
+    of <var title="">nsmap</var>.
+
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">qname</var>.
+
+    </li></ol>
+
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set and
+  the <a href=#concept-nsmap-default title=concept-nsmap-default>default namespace</a> of
+  <var title="">nsmap</var> is equal to <var title="">namespace URL</var>,
+  do nothing.
+
+  </li><li>Otherwise, if the <var title="">is element</var> flag is set, <var title="">prefix</var> is null, and <var title="">attribute</var> does not
+  contain an <a href=#concept-attribute title=concept-attribute>attribute</a> whose
+  <a href=#concept-attribute-namespace title=concept-attribute-namespace>namespace</a> is the
+  <a href=#xmlns-namespace>XMLNS namespace</a> and <a href=#concept-attribute-local-name title=concept-attribute-local-name>local name</a> is
+  <code>xmlns</code>:
+
+    <ol>
+
+    <li>Set the <a href=#concept-nsmap-default title=concept-nsmap-default>default
+    namespace</a> of <var title="">nsmap</var> to <var title="">namespace
+    URL</var>.
+
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-default-namespace-declaration title=concept-default-namespace-declaration>default namespace
+    declaration</a> with namespace URL <var title="">namespace
+    URL</var>.
+
+    </li></ol>
+
+  </li><li>Otherwise:
+
+    <ol>
+
+    <li>Let <var title="">prefix</var> be <code title="">a<var title="">n</var></code> where <var title="">n</var> is chosen such that
+    <var title="">n</var> is the minimum non-negative integer <code title="">a<var title="">n</var></code> is not found as a key of the
+    <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list
+    of <var title="">nsmap</var>.
+
+    </li><li>Append key/value pair (<var title="">prefix</var>, <var title="">namespace URL</var>) to the <a href=#concept-nsmap-prefix-to-url title=concept-nsmap-prefix-to-url>prefix to URL</a> list of
+    <var title="">nsmap</var>.
+
+    </li><li>Let <var title="">new attr</var> be a new <a href=#concept-namespace-prefix-declaration title=concept-namespace-prefix-declaration>namespace prefix
+    declaration</a> with prefix <var title="">prefix</var> and
+    namespace URL <var title="">namespace URL</var>.
+
+    </li><li>Prepend <var title="">prefix</var> followed by a
+    <code>U+003A</code> <code class=charname>COLON</code> character
+    (<code>:</code>) to <var title="">qname</var>.
+
+    </li></ol>
+
+  </li></ol>
+
+  </li><li>Return <var title="">qname</var> and <var title="">new attr</var>.
+
+</li></ol>
+
+<div class="note memo">
+
+<p>These steps are based on, but not equivalent to, <a href=http://suika.fam.cx/~wakaba/wiki/sw/n/XML%E3%81%AE%E7%9B%B4%E5%88%97%E5%8C%96#anchor-8>Gecko's
+implementation at the time of writing</a>.
+
+</p></div>
+
+<div class="note memo">
+
+<p>These steps do not prevent an unserializable set of <var title="">tag
+name</var> and <var title="">attributes</var> from being returned when,
+for example, there is an <code>xmlns</code> <a href=#concept-attribute title=concept-attribute>attribute</a> in null namespace, there is
+an <code>xml</code> <a href=#concept-attribute title=concept-attribute>attribute</a> in
+the <a href=#xmlns-namespace>XMLNS namespace</a> whose <a href=#concept-attribute-value title=concept-attribute-value>value</a> is not equal to the
+<a href=#xml-namespace>XML namespace</a>, or the given <var title="">nsmap</var>
+contains a key which is not a valid XML <code>NCName</code>.
+
+</p></div>
+
+</div>
+
+<div class=section>
+<h3 id=tests><span class=secno>5.3 </span>Tests</h3>
+
+<p class=section-info>This section is <em>non-normative</em>.
+
+</p><p>There is no comprehensive test suite of namespace fixup at the time
+of writing.
+
+</p><p>There are some tests at: <code class=URI>&lt;<a href=http://suika.suikawiki.org/~wakaba/test/web/dom/element/inner-html/>http://suika.suikawiki.org/~wakaba/test/web/dom/element/inner-html/</a>&gt;</code>
+and <code class=URI>&lt;<a href=https://github.com/manakai/perl-web-markup/blob/master/t/modules/Web-XML-Serializer.t>https://github.com/manakai/perl-web-markup/blob/master/t/modules/Web-XML-Serializer.t</a>&gt;</code>.
+
+</p></div>
+
+</div><!-- section -->
+
+
 <div class="section ed">
-<h2 id=conformance-checking-of-xml-documents><span class=secno>5 </span>Conformance checking of XML documents</h2>
+<h2 id=conformance-checking-of-xml-documents><span class=secno>6 </span>Conformance checking of XML documents</h2>
 
 <div class="issue ed">...
 
@@ -1745,7 +2127,7 @@ document, however, corresponding parts of the <abbr>XML</abbr> 1.1
 specification should be consulted instead.</p>
 
 <div class=section id=processing-model>
-<h3 id=processing-model-0><span class=secno>5.1 </span>Processing Model</h3>
+<h3 id=processing-model-0><span class=secno>6.1 </span>Processing Model</h3>
 
 <p>Conceptually, validation of an XML document is split into two
 stages for the purpose of this specification: the <dfn id=xml-document-parsing>XML document parsing</dfn> stage and the <dfn id=dom-xml-conformance-checking>DOM XML conformance checking</dfn>
@@ -1766,7 +2148,7 @@ conformance checker are defined in the section of <a href=#checking-dom>Checking
 
 
 </p><div class=section id=error-categories>
-<h4 id=error-classification><span class=secno>5.1.1 </span>Error Classification</h4>
+<h4 id=error-classification><span class=secno>6.1.1 </span>Error Classification</h4>
 
 <p class=ed>An <dfn id=error>error</dfn> is ...
 
@@ -1873,7 +2255,7 @@ when MUST or SHOULD).
 </div>
 
 <div class=section id=parsing-xml>
-<h3 id=parsing-an-xml-document><span class=secno>5.2 </span>Parsing an <abbr>XML</abbr> Document</h3>
+<h3 id=parsing-an-xml-document><span class=secno>6.2 </span>Parsing an <abbr>XML</abbr> Document</h3>
 
 <p>When a byte stream that represents an XML document is given to a
 parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
@@ -2311,14 +2693,14 @@ the <a href=#document-0><code>Document</code></a> object produced by the parser.
 </p></div>
 
 <div class=section id=checking-dom>
-<h3 id=checking-an-xml-dom-tree><span class=secno>5.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</h3>
+<h3 id=checking-an-xml-dom-tree><span class=secno>6.3 </span>Checking an <abbr>XML</abbr> <abbr>DOM</abbr> Tree</h3>
 
 <p>The following algorithms and definitions are applied to
 <abbr>XML</abbr> documents; especially, they are not applied
 to <abbr>HTML</abbr> documents.<!-- TODO: ref to HTML5 --></p>
 
 <div class=section id=definitions>
-<h4 id=definitions-0><span class=secno>5.3.1 </span>Definitions</h4>
+<h4 id=definitions-0><span class=secno>6.3.1 </span>Definitions</h4>
 
 <p>The <dfn id=xml-version><abbr>XML</abbr> version</dfn> of a node is 
 the <abbr>XML</abbr> version of the document to which the node belongs.
@@ -2336,7 +2718,7 @@ is that of the <a href=#document-0><code>Document</code></a> node contained in t
 
 
 <div class=section id=checking-components>
-<h4 id=conformance-checking-algorithms-for-components><span class=secno>5.3.2 </span>Conformance Checking Algorithms for Components</h4>
+<h4 id=conformance-checking-algorithms-for-components><span class=secno>6.3.2 </span>Conformance Checking Algorithms for Components</h4>
 
 <p>To
 <dfn id=algorithm-to-validate-an-xml-character-data title="validate an XML string">to
@@ -2464,7 +2846,7 @@ following algorithm <em class=rfc2119>MUST</em> be used:</p>
 </div>
 
 <div class=section id=checking-node>
-<h4 id=checking-node-0><span class=secno>5.3.3 </span>Checking <a href=#node><code>Node</code></a></h4>
+<h4 id=checking-node-0><span class=secno>6.3.3 </span>Checking <a href=#node-0><code>Node</code></a></h4>
 
 <p>The algorithm <dfn id=algorithm-to-check-a-node title="to check a node">to 
 check a node (<dfn id=var-n><var>n</var></dfn>)</dfn> is defined as 
@@ -2657,7 +3039,7 @@ following:</p>
     an optional <a href=#documenttype><code>DocumentType</code></a> node, followed
     by zero or more <code>Comment</code> and/or
     <code>ProcessingInstruction</code> nodes, followed by
-    an <code>Element</code> node, followed
+    an <a href=#element><code>Element</code></a> node, followed
     by zero or more <code>Comment</code> and/or
     <code>ProcessingInstruction</code> nodes.  Any violation to this is an
     <a href=#xml-well-formedness-error id=wfe-document-child><code>xml-well-formedness-error</code></a>.</li>
@@ -2679,7 +3061,7 @@ following:</p>
     in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
       <ol>
       <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
-      <code>Element</code>, <code>Text</code>, <code>CDATASection</code>,
+      <a href=#element><code>Element</code></a>, <code>Text</code>, <code>CDATASection</code>,
       <code>Comment</code>, <code>ProcessingInstruction</code>, or
       <code>EntityReference</code> node, then it is an
       <a href=#xml-well-formedness-error id=wfe-df-child><code>xml-well-formedness-error</code></a>.</li>
@@ -2745,7 +3127,7 @@ following:</p>
     <a href=#xml-misc-recommentation id=xmr-predefined><code>xml-misc-recommendation</code></a>(s).
     </li></ol>
   </dd>
-<dt>If <a href=#var-n><var>n</var></a> is an <code>Element</code> node</dt>
+<dt>If <a href=#var-n><var>n</var></a> is an <a href=#element><code>Element</code></a> node</dt>
   <dd>
     <ol>
     <li><a href=#algorithm-to-validate-an-ncname>Validate the
@@ -2757,7 +3139,7 @@ following:</p>
     in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
       <ol>
       <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an 
-      <code>Element</code>,
+      <a href=#element><code>Element</code></a>,
       <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
       <code>ProcessingInstruction</code>, or
       <code>EntityReference</code> node, then it is an
@@ -2830,7 +3212,7 @@ parsed entity)</dt>
     in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
       <ol>
       <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
-      <code>Element</code>,
+      <a href=#element><code>Element</code></a>,
       <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
       <code>ProcessingInstruction</code>, or <code>EntityReference</code>
       node, then it is an
@@ -2877,7 +3259,7 @@ parsed entity)</dt>
     in the <code>childNodes</code> list of <a href=#var-n><var>n</var></a>,
       <ol>
       <li>If <a href=#var-er-nc><var>n<sub><var>c</var></sub></var></a> is <em>not</em> an
-      <code>Element</code>,
+      <a href=#element><code>Element</code></a>,
       <code>Text</code>, <code>CDATASection</code>, <code>Comment</code>,
       <code>ProcessingInstruction</code>, or <code>EntityReference</code>
       node, then it is an
@@ -2953,7 +3335,7 @@ parsed entity)</dt>
 </div>
 
 <div class=section id=classes>
-<h3 id=character-classes><span class=secno>5.4 </span>Character Classes</h3>
+<h3 id=character-classes><span class=secno>6.4 </span>Character Classes</h3>
 
 <p>This section defines a couple of character classes.
 These classes are referred to by algorithms specified above.</p>
@@ -3120,10 +3502,10 @@ of <abbr>XML</abbr> 1.0
 
 
 <div class=section>
-<h2 id=obsolete-features><span class=secno>6 </span>Obsolete features</h2>
+<h2 id=obsolete-features><span class=secno>7 </span>Obsolete features</h2>
 
 <div class=section id=features>
-<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>6.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
+<h3 id=the-dom-feature-string-for-the-dom-document-type-definitions><span class=secno>7.1 </span>The DOM feature string for the DOM Document Type Definitions</h3>
 
 <p>Ealier versions of this specification defined the DOM feature <cite class="bibref normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>
 <dfn id=feature-XDoctype><code>http://suika.suikawiki.org/www/2006/feature/XDoctype</code></dfn>
@@ -3131,7 +3513,7 @@ version <dfn id=feature-XDoctype-3.0><code>3.0</code></dfn>.
 </p></div><!-- section -->
 
 <div class=section>
-<h3 id=obsolete-attribute><span class=secno>6.2 </span>Obsolete attribute</h3>
+<h3 id=obsolete-attribute><span class=secno>7.2 </span>Obsolete attribute</h3>
 
 <p>The <code id=internalSubset>internalSubset</code> attribute of the
 <a href=#DocumentTypeDefinition><code>DocumentTypeDefinition</code></a>
@@ -3148,7 +3530,7 @@ interface has been removed.
 
 </p></div>
 
-<pre class=idl><code>partial interface <span>Element</span> {
+<pre class=idl><code>partial interface <a href=#element>Element</a> {
   readonly attribute DOMString? <a href=#dom-manakaibaseuri title=dom-manakaiBaseURI>manakaiBaseURI</a>;
 };
 
@@ -3157,7 +3539,7 @@ partial interface <span>ProcessingInstruction</span> {
 };</code></pre>
 
 <p>The <dfn id=dom-manakaibaseuri title=dom-manakaiBaseURI><code>manakaiBaseURI</code></dfn>
-attribute of the <code>Element</code> and
+attribute of the <a href=#element><code>Element</code></a> and
 <code>ProcessingInstruction</code> interfaces <em class=rfc2119>MUST</em> return <a href=#null>null</a>.
 
 </p></div><!-- section -->

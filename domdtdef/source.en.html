@@ -212,9 +212,10 @@ title=concept-node-adopt>adopt</dfn>, <dfn
 title=concept-node-document>node document</dfn>, <dfn
 title=concept-node-clone>clone</dfn>, <dfn
 title=concept-node-base-url>base URL</dfn>), <dfn>document</dfn> or
-<dfn><code>Document</code></dfn>, <dfn
-title=concept-element>element</dfn> or <dfn><code>Element</code></dfn>
-(which has <dfn title=concept-element-namespace>namespace</dfn>, <dfn
+<dfn><code>Document</code></dfn>, <dfn>XML document</dfn>, <dfn>HTML
+document</dfn>, <dfn title=concept-element>element</dfn> or
+<dfn><code>Element</code></dfn> (which has <dfn
+title=concept-element-namespace>namespace</dfn>, <dfn
 title=concept-element-namespace-prefix>namespace prefix</dfn>, <dfn
 title=concept-element-local-name>local name</dfn>, and <dfn
 title=concept-element-attribute>attribute list</dfn>), <dfn
@@ -316,6 +317,461 @@ specifications has to be supported.
 
 </div><!-- section -->
 
+
+<div class=section id=parsing-xml>
+<h2>Parsing XML documents</h2>
+
+<div class=ed>
+
+<p>When a byte stream that represents an XML document is given to a
+parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
+relevant specifications <span class=ed>[XML, XML11, XMLNS, XMLNS11,
+DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
+
+<p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
+document even after a fatal error (as defined by the relavant
+specifications) is encountered.  How the parsing ought to be continued
+is not defined by this specification.
+
+<!--
+  <div class="note memo informative">
+  <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
+  will define how the parser has to convert any string into DOM tree
+  completely.
+  </div>
+-->
+
+<p class=ed>A future version of this specification might define the
+entire parser in terms of input stream preprocessor, tokenizer, and
+tree constructor.
+
+<p>In addition, the following requirements are applied to the parser:
+
+<dl class=switch>
+<dt>For each external entity (including the document entity and the external
+subset entity, if any)
+  <dd>If there is a byte sequence that are not legal in the encoding in use,
+  then the parser <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-error" id=xme-illegal-bytes><code>xml-misc-error</code></a>.
+  <!--
+     <q>It is a fatal error when an XML processor encounters an entity with an
+     encoding that it is unable to process. It is a fatal error if an XML
+     entity is determined (via default, encoding declaration, or higher-level
+     protocol) to be in a certain encoding but contains byte sequences that are
+     not legal in that encoding.</q>
+  -->
+
+  <dd>If it is the document entity or a general entity, then:
+    <ul>
+    <li>If the input byte sequence for the entity begins with the
+    <abbr title="BYTE ORDER MARK" class=charname>BOM</abbr>, then the parser
+    <em class=rfc2119>MUST</em> set the <span class=ed>BOM flag</span> of
+    the node corresponding to the entity (the <code>Document</code> node
+    for the document entity or an <code>Entity</code> node for a general
+    entity) to <code>true</code>.
+    <!--
+      <q>Entities encoded in UTF-16 MUST and entities encoded in UTF-8 MAY
+      begin with the Byte Order Mark</q>
+    -->
+    <span class=ed>@@ flag must be checked later</span>
+    <!-- <?xml encoding=""?> must be reflected to xmlEncoding; this should be
+    enforced by DOM Core spec. -->
+    </ul>
+  <dd>If it is a parameter entity or the external subset entity, then:
+    <ul>
+    <li>If the character encoding of the entity is <code>UTF-16</code> but
+    the input byte stream for the entity does not begin with the
+    <abbr title="BYTE ORDER MARK" class=charname>BOM</abbr>, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <a href="#xml-misc-error" id=xme-pe-bom><code>xml-misc-error</code></a>.
+    <li class=ed>@@ encoding="" preferred name?
+<!--
+"In an encoding declaration, the values "UTF-8", "UTF-16", "ISO-10646-UCS-2", and "ISO-10646-UCS-4" SHOULD be used for the various encodings and transformations of Unicode / ISO/IEC 10646, the values "ISO-8859-1", "ISO-8859-2", ... "ISO-8859-n" (where n is the part number) SHOULD be used for the parts of ISO 8859, and the values "ISO-2022-JP", "Shift_JIS", and "EUC-JP" SHOULD be used for the various encoded forms of JIS X-0208-1997. It is RECOMMENDED that character encodings registered (as charsets) with the Internet Assigned Numbers Authority [IANA-CHARSETS], other than those just listed, be referred to using their registered names; other encodings SHOULD use names starting with an "x-" prefix."
+
+In addition, this should be checked later for Document and Entity nodes.
+-->
+    </ul>
+
+<dt>For the document
+  <dd>If the <abbr>XML</abbr> document does not begin with an
+  <abbr>XML</abbr> declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an
+  <a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.
+  <dd>If the document does not contain the document type declaration, or
+  if it does but the document type definition does not contain entity 
+  declaration for any of <code>amp</code>, <code>lt</code>, <code>gt</code>,
+  <code>apos</code>, or <code>quot</code>, then the parser
+  <em class=rfc2119>MUST</em> raise
+  <a href="#xml-misc-recommentation" id=xmr-predefined-decl><code>xml-misc-recommendation</code></a>(s).
+  <!--
+    <q>For interoperability, valid documents SHOULD declare the entities
+    amp, lt, gt, apos, quot, in the form specified in 4.6 Predefined
+    Entities.</q>
+  -->
+<dt>For the document type declaration
+  <dd class=ed>@@ read external entity
+  <dd>The <code>entities</code> attribute of the <code>DocumentType</code>
+  node <em class=rfc2119>MUST</em> contain a <code>NamedNodeMap</code> object
+  whose first five items are as follows:
+    <ol start=0>
+    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
+    is <code>amp</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>&amp;</code>.
+    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
+    is <code>lt</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>&lt;</code>.
+    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
+    is <code>gt</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>></code>.
+    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
+    is <code>quot</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>"</code>.
+    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
+    is <code>apos</code>.  It contains a <code>Text</code> node whose
+    <code>data</code> attribute is set to <code>'</code>.
+    </ol>
+<dt>For each internal general entity declaration being processed by the parser
+  <dd>If the 
+  <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-EntityValue"><code>EntityValue</code></a>
+  part of the general entity declaration contains a bare <code>U+003C</code>
+  <code>LESS-THAN SIGN</code> (<code>&lt;</code>) character, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
+"strongly advised to avoid" in a Note in Section 2.3 of [XML], [XML11].
+-->
+<dt>For each element type declaration being processed by the parser
+  <dd>If there is another processed element type declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the element type
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
+  <a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.
+<dt>For each attribute definition list declaration being processed by the
+parser
+  <dd>If there is another processed attribute defintion list declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the attribute
+  definition list declaration, then the parser <em class=rfc2119>MUST</em>
+  raise an 
+  <a href="#xml-misc-warning" id=xme-attlist-unique><code>xml-misc-warning</code></a>.
+  <dd>For each attribute definition in the attribute definition list 
+  declaration, if there is another processed attribute definition whose
+  <code>Name</code> is equal to the <code>Name</code> of the attribute
+  definition (whether or not in the same attribute definition list
+  declaration), then the parser <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-warning" id=xme-attrdef-unique><code>xml-misc-warning</code></a>.
+  <!--
+    <q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at
+    user option issue a warning when more than one attribute-list declaration
+    is provided for a given element type, or more than one attribute definition
+    is provided for a given attribute, but this is not an error.</q>
+  -->
+<!--
+  NOTE: <!ATTLIST a xml:space (default) #IMPLIED xml:space CDATA #IMPLIED>
+  will not be warned.
+-->
+
+<dt>For each entity declaration being processed by the parser
+  <dd>Handle as follows:
+    <ol>
+    <li><p>If the entity declaration declares a general entity, the following
+    is applied:
+      <dl>
+      <dt>If the <code>Name</code> is <code>lt</code> or <code>amp</code>
+        <dd><p>If the entity declaration does not declare an internal entity,
+        or if the replacement text of the entity is not the escaped form of
+        <code>&lt;</code> (if <code>lt</code>) or <code>&amp;</code> (if
+        <code>amp</code>), then the parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-misc-error" id=xme-double-escape><code>xml-misc-error</code></a>.
+
+          <div class="note memo informative">
+          <p>In other word, the character in the <code>EntityValue</code>
+          has to be double-escaped.
+          </div>
+      <dt>If the <code>Name</code> is <code>gt</code>, <code>quot</code>, or
+      <code>apos</code>
+        <dd><p>If the entity declaration does not declare an internal entity,
+        or if the replacement text of the entity is not equal to or not the
+        escaped form of <code>></code> (if <code>gt</code>), <code>"</code> (if
+        <code>quot</code>), or <code>'</code> (if <code>apos</code>), then the
+        parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-misc-error" id=xme-single-escape><code>xml-misc-error</code></a>.
+
+          <div class="note memo informative">
+          <p>In other word, the character in the <code>EntityValue</code>
+          has to be single- or double-escaped.
+          </div>
+      </dl>
+      <!--
+        <q>If the entities lt or amp are declared, they MUST be declared as internal entities whose replacement text is a character reference to the respective character (less-than sign or ampersand) being escaped; the double escaping is REQUIRED for these entities so that references to them produce a well-formed result. If the entities gt, apos, or quot are declared, they MUST be declared as internal entities whose replacement text is the single character being escaped (or a character reference to that character; the double escaping here is OPTIONAL but harmless).</q>
+      -->
+
+    <li><p>If the entity declaration has to be ignored since there has already
+    been declared an entity with the same <code>Name</code> as the declaration,
+    then the parser <em class=rfc2119>MUST</em> raise a
+    <a href="#misc-info" id=mi-ent-unique><code>misc-info</code></a>
+    and abort these steps.
+
+    <div class="informative note memo">
+    <p>Five predefined entities, i.e. <code>amp</code>, <code>lt</code>,
+    <code>gt</code>, <code>quot</code>, and <code>apos</code>, are always
+    declared implicitly and therefore any declaration for such an entity 
+    always raises an
+    <a href="#misc-info" id=mi-ent-unique><code>misc-info</code></a>.
+    </div>  
+
+    <li><p>If the entity declaration declares a parameter entity and the
+    <code>Name</code> of the entity begins with the string <code>xml</code>
+    (in any combination of upper- and lowercase letters), then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <a href="#xml-misc-warning" id=xmw-reserved-pe-name><code>xml-misc-warning</code></a>.
+
+    <li><p>If the entity declaration contains the <code>EntityValue</code>,
+    then for each occurence of any references to unparsed entities in the
+    <code>EntityValue</code>, the parser <em class=rfc2119>MUST</em> raise an
+    <a href="#xml-misc-error" id=xme-unparsed-in-ev><code>xml-misc-error</code></a>.
+    <!--
+      <q>It is an error for a reference to an unparsed entity to appear in the
+      EntityValue in an entity declaration.</q>
+    -->
+    <li><p>If the entity declaration declares a general entity, then an
+    <code>Entity</code> node <em class=rfc2119>MUST</em> be created and
+    appended to the <code>NamedNodeMap</code> object in the
+    <code>entities</code> attribute of the <code>DocumentType</code> node.
+    
+    <p class=ed>Read the external entity
+
+    <p>If the replacement text of the entity is read, then parse the 
+    replacement text as if it were referenced from the content of an
+    element (with no namespace bindings).  If no <span class=ed>@@ parse error</span>
+    is raised by the parsing process, then the nodes generated by the
+    parsing <em class=rfc2119>MUST</em> be appended to the <code>Entity</code>
+    node.  The parse error <em class=rfc2119>MUST NOT</em> be propagated to
+    the entire parsing process.  Other kinds of errors
+    <em class=rfc2119>MUST</em> be propagated.  The first parse error
+    <em class=rfc2119>MUST</em> abort the internal parsing process.
+    <span class=ed>@@ better wording</span>
+
+    <p class=ed>@@ prop
+     
+    <p>Then, the <code>Entity</code> node and its descendant 
+    <em class=rfc2119>MUST</em> be marked as read-only.
+  </ol>
+
+<dt>For each notation declaration being processed by the parser
+  <dd>If there is another processed notation declaration whose
+  <code>Name</code> is equal to the <code>Name</code> of the notation
+  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
+  <a href="#xml-validity-error" id=vc-uniquenotationname><code>xml-validity-error</code></a>.
+  <!-- <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a> -->
+
+<dt>For each empty-element tag
+  <dd>If the <code>Name</code> of the tag is not declared by a processed
+  element type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-recommentation" id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.
+<dt>For each start-tag
+  <dd>If the <code>Name</code> of the tag is declared by a processed element
+  type declaration as <code>EMPTY</code> content, then the parser
+  <em class=rfc2119>MUST</em> raise an
+  <a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
+<dt>For each attribute
+  <dd><p>The parser <em class=rfc2119>MUST</em> set the normalized value of 
+  the attribute to the <code>value</code> attribute of the <code>Attr</code>
+  node created for the attribute.
+
+    <div class="note memo informative">
+    <p>That is, any entity reference has to be expanded.  Unexpanded entity
+    references in attribute values are discarded.
+    </div>
+<dt>For each <code>xml:space</code> attribute
+  <dd>The parser <em class=rfc2119>MUST</em> set the normalized value of
+  the <code>xml:space</code> attribute to the <code>value</code> attribute
+  of the <code>Attr</code> node created for the attribute even if the
+  normalized value is different from <code>default</code> or
+  <code>preserve</code>.
+  <!-- In XML 1.0/1.1 specification, the attribute specification MAY be
+  ignored. -->
+
+<dt>For each parameter entity reference
+  <dd><p>Process as follows:
+    <ol>
+    <li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-well-formedness-error" id=wf-entdeclared-pe><code>xml-well-formedness-error</code></a>.
+      <dt>Otherwise
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-validity-error" id=vc-entdeclared-pe><code>xml-validity-error</code></a>.
+      </dl>
+    <li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </ol>
+
+    <p>In any of two cases above, process as follows:
+    <ul>
+    <li>If the parameter entity reference is contained in a declaration, then
+    the declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
+    any error before the parameter entity <em class=rfc2119>MUST</em> be
+    raised as usual.
+    <li>If the parameter entity reference is contained in the status portion of
+    a conditional section, then the conditional section
+    <em class=rfc2119>MUST</em> be processed as if it were an
+    <code>IGNORE</code>d section.
+    <li>The parser <em class=rfc2119>MUST NOT</em> process any entity or
+    attribute-list declaration after the parameter entity reference in the DTD
+    <em>except</em> when the <code>standalone</code> pseudo-attribute of the
+    XML declaration (if any) is set to <code>yes</code>.
+    <!-- This requirement is enforced for internal DTD subset case in
+    XML 1.0/1.1 specification (section 5.1) but not for any other cases. -->
+    <!-- According to this definition, element type declarations, notation
+    declarations, and PIs ARE processed. -->
+    <li>If the parameter entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href="#entity-error" id=ee-unread-pe><code>entity-error</code></a>.
+    <li>The <code>allDeclarationsProcessed</code> <span class=ed>@@ ref</span>
+    attribute of the <code>Document</code> node <em class=rfc2119>MUST</em> be
+    set to <code>false</code>.
+    </ul>
+<dt>For each general entity reference in an attribute value or in the content
+of an element
+  <dd><p>Process as follows:
+    <ol>
+    <li>If the <code>Name</code> of the entity reference is either
+    <code>amp</code>, <code>lt</code>, <code>gt</code>, <code>quot</code>,
+    or <code>apos</code>, then abort these steps.
+    <li>If the declaration for the entity is <em>not</em> processed,
+    then:
+      <dl class=switch>
+      <dt>If the document contains no external entity or if the document
+      contains the <code>standalone</code> pseudo-attribute set to
+      <code>yes</code><!-- or the document contains no DTD -->
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-well-formedness-error" id=wf-entdeclared-ge><code>xml-well-formedness-error</code></a>.
+      <dt>Otherwise
+        <dd>The parser <em class=rfc2119>MUST</em> raise an
+        <a href="#xml-validity-error" id=vc-entdeclared-ge><code>xml-validity-error</code></a>.
+      </dl>
+    <li>If the declaration for the entity <em>is</em> processed but the
+    referenced entity cannot be retrieved, then the parser
+    <em class=rfc2119>MUST</em> raise an
+    <span class=ed>@@ ??-error</span>.
+    </ol>
+
+    <p>In any of two cases above, process as follows:
+    <ul>
+    <li>If the general entity reference is the first reference to an entity
+    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
+    <a href="#entity-error" id=ee-unread-ge><code>entity-error</code></a>.
+    <span class=ed>@@ entity declared WFC?</span>
+    <li class=ed>An unexpended entity reference node <em class=rfc2119>MUST</em> be inserted to the current node.
+    </ul>
+
+<dt>For each comment <em>outside</em> of document type declaration
+  <dd>A <code>Comment</code> node <em class=rfc2119>MUST</em> be created
+  and inserted appropriately.
+  <!-- In XML 1.0/1.1 spec, this is optional. -->
+</dl>
+
+<p>The parser <em class=rfc2119>MUST</em> try to read any entity
+referenced by general or parameter entity references<!--,--> and the
+external subset entity, if any<!--, and any general entity declared-->
+in the document type definition.
+
+<p><strong>Well-formedness constraints</strong>.  When the parser
+detects a voilation to one of certain well-formedness constraints, it
+<em class=rfc2119>MUST</em> raise an <a
+href="#xml-well-formedness-error"><code>xml-well-formedness-error</code></a>.
+The list of such well-formed constraints is as follows:
+
+<ul>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset">Well-formedness constraint: PEs in Internal Subset</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch">Well-formedness constraint: Element Type Match</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#uniqattspec">Well-formedness constraint: Unique Att Spec</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NoExternalRefs">Well-formedness constraint: No External Entity References</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#CleanAttrVals">Well-formedness constraint: No &lt; in Attribute Values</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wf-Legalchar">Well-formedness constraint: Legal Character</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#textent">Well-formedness constraint: Parsed Entity</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#norecursion">Well-formedness constraint: No Recursion</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#indtd">Well-formedness constraint: In DTD</a>
+</ul>
+
+<p><strong>Validity constraints</strong>.  When the parser detects a
+violation to one of certain validity contraints, it <em
+class=rfc2119>MUST</em> raise an <a
+href="#xml-validity-error"><code>xml-validity-error</code></a>.  The
+list of such validity constraints is as follows:
+
+<ul>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting">Validity constraint: Proper Conditional Section/PE Nesting</a>
+<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-check-rmd">Validity constraint: Standalone Document Declaration</a>
+</ul>
+
+<p><strong>Other creteria</strong>.  If the parser detects a violation
+to one of certain additional constraints, it <em
+class=rfc2119>MUST</em> raise an <a
+href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>.
+The list of such constraints is as follows:
+
+<ul>
+<li><q>For interoperability, if a parameter-entity reference appears in a 
+<code>choice</code>, <code>seq</code>, or <code>Mixed</code> construct, its 
+replacement text <em class=rfc2119>SHOULD</em> contain at least one non-blank 
+character, and neither the first nor last non-blank character of the 
+replacement text <em class=rfc2119>SHOULD</em> be a connector (<code>|</code> 
+or <code>,</code>).</q>
+<li><q>External parsed entities <em class=rfc2119>SHOULD</em> each begin with a
+text declaration.</q>
+</ul>
+
+<p>The parser <em class=rfc2119>MUST</em> act as if it is a <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating">validating
+XML processor</a> for the purpose of informing of white space
+characters appearing in <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-elemcontent">element
+content</a> (See <a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">Section
+2.10</a> of the XML specification).
+
+  <div class="note memo informative">
+  <p>In other word, the <code>isElementContentWhitespace</code> attribute
+  of <code>Text</code> nodes has to be set appropriately.  Note that the
+  value of the attribute will be set to <code>false</code> for any 
+  <code>Text</code> node in the content of an element whose declaration
+  is not processed.
+  </div>
+
+<p>The parser <em class=rfc2119>MUST</em> raise at least one <a
+href="#xml-well-formedness-error"
+id=wfe-syntax><code>xml-well-formedness-error</code></a> if the entity
+it parses does not match to the appropriate production rule in the XML
+specification.  As an exception to this requirement, it <em
+class=rfc2119>MAY</em> choose not to raise such an error if the error
+will be raised by the conformance checker when the conformance checker
+<a href="#algorithm-to-check-a-node" title="check a node">checks</a>
+the <code>Document</code> object produced by the parser.
+
+<!--
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
+  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
+-->
+
+<!--
+  Inpossible to test:
+    "In the absence of external character encoding information (such as MIME
+    headers), parsed entities which are stored in an encoding other than UTF-8
+    or UTF-16 MUST begin with a text declaration"
+-->
+</div><!-- ed -->
+
+</div><!-- section -->
+
+
 <div class=section>
 <h2>DOM Document Type Definitions</h2>
 
@@ -348,6 +804,14 @@ href="#ref-DOM3AS">DOM3AS</a>]</cite>, and <cite><abbr>XML</abbr>
 Schema <abbr>API</abbr></cite> specification <cite class="bibref
 informative">[<a href="#ref-XSAPI">XSAPI</a>]</cite>, but they are not
 compatible with any of them as a whole.</p>
+
+</div>
+
+<div class="note memo">
+
+<p>Features in this section are applied to both <span title="XML
+document">XML documents</span> and <span title="HTML document">HTML
+documents</span>.
 
 </div>
 
@@ -2595,455 +3059,6 @@ when MUST or SHOULD).
 
 </div>
 
-</div>
-
-<div class=section id=parsing-xml>
-<h3>Parsing an <abbr>XML</abbr> Document</h3>
-
-<p>When a byte stream that represents an XML document is given to a
-parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
-relevant specifications <span class=ed>[XML, XML11, XMLNS, XMLNS11,
-DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
-
-<p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
-document even after a fatal error (as defined by the relavant
-specifications) is encountered.  How the parsing ought to be continued
-is not defined by this specification.
-
-<!--
-  <div class="note memo informative">
-  <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
-  will define how the parser has to convert any string into DOM tree
-  completely.
-  </div>
--->
-
-<p class=ed>A future version of this specification might define the
-entire parser in terms of input stream preprocessor, tokenizer, and
-tree constructor.
-
-<p>In addition, the following requirements are applied to the parser:
-
-<dl class=switch>
-<dt>For each external entity (including the document entity and the external
-subset entity, if any)
-  <dd>If there is a byte sequence that are not legal in the encoding in use,
-  then the parser <em class=rfc2119>MUST</em> raise an
-  <a href="#xml-misc-error" id=xme-illegal-bytes><code>xml-misc-error</code></a>.
-  <!--
-     <q>It is a fatal error when an XML processor encounters an entity with an
-     encoding that it is unable to process. It is a fatal error if an XML
-     entity is determined (via default, encoding declaration, or higher-level
-     protocol) to be in a certain encoding but contains byte sequences that are
-     not legal in that encoding.</q>
-  -->
-
-  <dd>If it is the document entity or a general entity, then:
-    <ul>
-    <li>If the input byte sequence for the entity begins with the
-    <abbr title="BYTE ORDER MARK" class=charname>BOM</abbr>, then the parser
-    <em class=rfc2119>MUST</em> set the <span class=ed>BOM flag</span> of
-    the node corresponding to the entity (the <code>Document</code> node
-    for the document entity or an <code>Entity</code> node for a general
-    entity) to <code>true</code>.
-    <!--
-      <q>Entities encoded in UTF-16 MUST and entities encoded in UTF-8 MAY
-      begin with the Byte Order Mark</q>
-    -->
-    <span class=ed>@@ flag must be checked later</span>
-    <!-- <?xml encoding=""?> must be reflected to xmlEncoding; this should be
-    enforced by DOM Core spec. -->
-    </ul>
-  <dd>If it is a parameter entity or the external subset entity, then:
-    <ul>
-    <li>If the character encoding of the entity is <code>UTF-16</code> but
-    the input byte stream for the entity does not begin with the
-    <abbr title="BYTE ORDER MARK" class=charname>BOM</abbr>, then the parser
-    <em class=rfc2119>MUST</em> raise an
-    <a href="#xml-misc-error" id=xme-pe-bom><code>xml-misc-error</code></a>.
-    <li class=ed>@@ encoding="" preferred name?
-<!--
-"In an encoding declaration, the values "UTF-8", "UTF-16", "ISO-10646-UCS-2", and "ISO-10646-UCS-4" SHOULD be used for the various encodings and transformations of Unicode / ISO/IEC 10646, the values "ISO-8859-1", "ISO-8859-2", ... "ISO-8859-n" (where n is the part number) SHOULD be used for the parts of ISO 8859, and the values "ISO-2022-JP", "Shift_JIS", and "EUC-JP" SHOULD be used for the various encoded forms of JIS X-0208-1997. It is RECOMMENDED that character encodings registered (as charsets) with the Internet Assigned Numbers Authority [IANA-CHARSETS], other than those just listed, be referred to using their registered names; other encodings SHOULD use names starting with an "x-" prefix."
-
-In addition, this should be checked later for Document and Entity nodes.
--->
-    </ul>
-
-<dt>For the document
-  <dd>If the <abbr>XML</abbr> document does not begin with an
-  <abbr>XML</abbr> declaration, then the parser <em class=rfc2119>MUST</em>
-  raise an
-  <a href="#xml-misc-recommentation" id=xmr-xml-decl><code>xml-misc-recommendation</code></a>.
-  <dd>If the document does not contain the document type declaration, or
-  if it does but the document type definition does not contain entity 
-  declaration for any of <code>amp</code>, <code>lt</code>, <code>gt</code>,
-  <code>apos</code>, or <code>quot</code>, then the parser
-  <em class=rfc2119>MUST</em> raise
-  <a href="#xml-misc-recommentation" id=xmr-predefined-decl><code>xml-misc-recommendation</code></a>(s).
-  <!--
-    <q>For interoperability, valid documents SHOULD declare the entities
-    amp, lt, gt, apos, quot, in the form specified in 4.6 Predefined
-    Entities.</q>
-  -->
-<dt>For the document type declaration
-  <dd class=ed>@@ read external entity
-  <dd>The <code>entities</code> attribute of the <code>DocumentType</code>
-  node <em class=rfc2119>MUST</em> contain a <code>NamedNodeMap</code> object
-  whose first five items are as follows:
-    <ol start=0>
-    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
-    is <code>amp</code>.  It contains a <code>Text</code> node whose
-    <code>data</code> attribute is set to <code>&amp;</code>.
-    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
-    is <code>lt</code>.  It contains a <code>Text</code> node whose
-    <code>data</code> attribute is set to <code>&lt;</code>.
-    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
-    is <code>gt</code>.  It contains a <code>Text</code> node whose
-    <code>data</code> attribute is set to <code>></code>.
-    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
-    is <code>quot</code>.  It contains a <code>Text</code> node whose
-    <code>data</code> attribute is set to <code>"</code>.
-    <li>An <code>Entity</code> node whose <code>nodeName</code> attribute
-    is <code>apos</code>.  It contains a <code>Text</code> node whose
-    <code>data</code> attribute is set to <code>'</code>.
-    </ol>
-<dt>For each internal general entity declaration being processed by the parser
-  <dd>If the 
-  <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-EntityValue"><code>EntityValue</code></a>
-  part of the general entity declaration contains a bare <code>U+003C</code>
-  <code>LESS-THAN SIGN</code> (<code>&lt;</code>) character, then the parser
-  <em class=rfc2119>MUST</em> raise an
-  <a href="#xml-misc-warning" id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
-"strongly advised to avoid" in a Note in Section 2.3 of [XML], [XML11].
--->
-<dt>For each element type declaration being processed by the parser
-  <dd>If there is another processed element type declaration whose
-  <code>Name</code> is equal to the <code>Name</code> of the element type
-  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
-  <a href="#xml-validity-error" id=vc-edunique><code>xml-validity-error</code></a>.
-<dt>For each attribute definition list declaration being processed by the
-parser
-  <dd>If there is another processed attribute defintion list declaration whose
-  <code>Name</code> is equal to the <code>Name</code> of the attribute
-  definition list declaration, then the parser <em class=rfc2119>MUST</em>
-  raise an 
-  <a href="#xml-misc-warning" id=xme-attlist-unique><code>xml-misc-warning</code></a>.
-  <dd>For each attribute definition in the attribute definition list 
-  declaration, if there is another processed attribute definition whose
-  <code>Name</code> is equal to the <code>Name</code> of the attribute
-  definition (whether or not in the same attribute definition list
-  declaration), then the parser <em class=rfc2119>MUST</em> raise an
-  <a href="#xml-misc-warning" id=xme-attrdef-unique><code>xml-misc-warning</code></a>.
-  <!--
-    <q>For interoperability, an XML processor <em class=rfc2119>MAY</em> at
-    user option issue a warning when more than one attribute-list declaration
-    is provided for a given element type, or more than one attribute definition
-    is provided for a given attribute, but this is not an error.</q>
-  -->
-<!--
-  NOTE: <!ATTLIST a xml:space (default) #IMPLIED xml:space CDATA #IMPLIED>
-  will not be warned.
--->
-
-<dt>For each entity declaration being processed by the parser
-  <dd>Handle as follows:
-    <ol>
-    <li><p>If the entity declaration declares a general entity, the following
-    is applied:
-      <dl>
-      <dt>If the <code>Name</code> is <code>lt</code> or <code>amp</code>
-        <dd><p>If the entity declaration does not declare an internal entity,
-        or if the replacement text of the entity is not the escaped form of
-        <code>&lt;</code> (if <code>lt</code>) or <code>&amp;</code> (if
-        <code>amp</code>), then the parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-misc-error" id=xme-double-escape><code>xml-misc-error</code></a>.
-
-          <div class="note memo informative">
-          <p>In other word, the character in the <code>EntityValue</code>
-          has to be double-escaped.
-          </div>
-      <dt>If the <code>Name</code> is <code>gt</code>, <code>quot</code>, or
-      <code>apos</code>
-        <dd><p>If the entity declaration does not declare an internal entity,
-        or if the replacement text of the entity is not equal to or not the
-        escaped form of <code>></code> (if <code>gt</code>), <code>"</code> (if
-        <code>quot</code>), or <code>'</code> (if <code>apos</code>), then the
-        parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-misc-error" id=xme-single-escape><code>xml-misc-error</code></a>.
-
-          <div class="note memo informative">
-          <p>In other word, the character in the <code>EntityValue</code>
-          has to be single- or double-escaped.
-          </div>
-      </dl>
-      <!--
-        <q>If the entities lt or amp are declared, they MUST be declared as internal entities whose replacement text is a character reference to the respective character (less-than sign or ampersand) being escaped; the double escaping is REQUIRED for these entities so that references to them produce a well-formed result. If the entities gt, apos, or quot are declared, they MUST be declared as internal entities whose replacement text is the single character being escaped (or a character reference to that character; the double escaping here is OPTIONAL but harmless).</q>
-      -->
-
-    <li><p>If the entity declaration has to be ignored since there has already
-    been declared an entity with the same <code>Name</code> as the declaration,
-    then the parser <em class=rfc2119>MUST</em> raise a
-    <a href="#misc-info" id=mi-ent-unique><code>misc-info</code></a>
-    and abort these steps.
-
-    <div class="informative note memo">
-    <p>Five predefined entities, i.e. <code>amp</code>, <code>lt</code>,
-    <code>gt</code>, <code>quot</code>, and <code>apos</code>, are always
-    declared implicitly and therefore any declaration for such an entity 
-    always raises an
-    <a href="#misc-info" id=mi-ent-unique><code>misc-info</code></a>.
-    </div>  
-
-    <li><p>If the entity declaration declares a parameter entity and the
-    <code>Name</code> of the entity begins with the string <code>xml</code>
-    (in any combination of upper- and lowercase letters), then the parser
-    <em class=rfc2119>MUST</em> raise an
-    <a href="#xml-misc-warning" id=xmw-reserved-pe-name><code>xml-misc-warning</code></a>.
-
-    <li><p>If the entity declaration contains the <code>EntityValue</code>,
-    then for each occurence of any references to unparsed entities in the
-    <code>EntityValue</code>, the parser <em class=rfc2119>MUST</em> raise an
-    <a href="#xml-misc-error" id=xme-unparsed-in-ev><code>xml-misc-error</code></a>.
-    <!--
-      <q>It is an error for a reference to an unparsed entity to appear in the
-      EntityValue in an entity declaration.</q>
-    -->
-    <li><p>If the entity declaration declares a general entity, then an
-    <code>Entity</code> node <em class=rfc2119>MUST</em> be created and
-    appended to the <code>NamedNodeMap</code> object in the
-    <code>entities</code> attribute of the <code>DocumentType</code> node.
-    
-    <p class=ed>Read the external entity
-
-    <p>If the replacement text of the entity is read, then parse the 
-    replacement text as if it were referenced from the content of an
-    element (with no namespace bindings).  If no <span class=ed>@@ parse error</span>
-    is raised by the parsing process, then the nodes generated by the
-    parsing <em class=rfc2119>MUST</em> be appended to the <code>Entity</code>
-    node.  The parse error <em class=rfc2119>MUST NOT</em> be propagated to
-    the entire parsing process.  Other kinds of errors
-    <em class=rfc2119>MUST</em> be propagated.  The first parse error
-    <em class=rfc2119>MUST</em> abort the internal parsing process.
-    <span class=ed>@@ better wording</span>
-
-    <p class=ed>@@ prop
-     
-    <p>Then, the <code>Entity</code> node and its descendant 
-    <em class=rfc2119>MUST</em> be marked as read-only.
-  </ol>
-
-<dt>For each notation declaration being processed by the parser
-  <dd>If there is another processed notation declaration whose
-  <code>Name</code> is equal to the <code>Name</code> of the notation
-  declaration, then the parser <em class=rfc2119>MUST</em> raise an 
-  <a href="#xml-validity-error" id=vc-uniquenotationname><code>xml-validity-error</code></a>.
-  <!-- <a href="http://www.w3.org/TR/2006/REC-xml-20060816/#UniqueNotationName">Validity constraint: Unique Notation Name</a> -->
-
-<dt>For each empty-element tag
-  <dd>If the <code>Name</code> of the tag is not declared by a processed
-  element type declaration as <code>EMPTY</code> content, then the parser
-  <em class=rfc2119>MUST</em> raise an
-  <a href="#xml-misc-recommentation" id=xmr-emptyelemtag-not-empty><code>xml-misc-recommendation</code></a>.
-<dt>For each start-tag
-  <dd>If the <code>Name</code> of the tag is declared by a processed element
-  type declaration as <code>EMPTY</code> content, then the parser
-  <em class=rfc2119>MUST</em> raise an
-  <a href="#xml-misc-recommentation" id=xmr-empty-not-emptyelemtag><code>xml-misc-recommendation</code></a>.
-<dt>For each attribute
-  <dd><p>The parser <em class=rfc2119>MUST</em> set the normalized value of 
-  the attribute to the <code>value</code> attribute of the <code>Attr</code>
-  node created for the attribute.
-
-    <div class="note memo informative">
-    <p>That is, any entity reference has to be expanded.  Unexpanded entity
-    references in attribute values are discarded.
-    </div>
-<dt>For each <code>xml:space</code> attribute
-  <dd>The parser <em class=rfc2119>MUST</em> set the normalized value of
-  the <code>xml:space</code> attribute to the <code>value</code> attribute
-  of the <code>Attr</code> node created for the attribute even if the
-  normalized value is different from <code>default</code> or
-  <code>preserve</code>.
-  <!-- In XML 1.0/1.1 specification, the attribute specification MAY be
-  ignored. -->
-
-<dt>For each parameter entity reference
-  <dd><p>Process as follows:
-    <ol>
-    <li>If the declaration for the entity is <em>not</em> processed,
-    then:
-      <dl class=switch>
-      <dt>If the document contains no external entity or if the document
-      contains the <code>standalone</code> pseudo-attribute set to
-      <code>yes</code><!-- or the document contains no DTD -->
-        <dd>The parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-well-formedness-error" id=wf-entdeclared-pe><code>xml-well-formedness-error</code></a>.
-      <dt>Otherwise
-        <dd>The parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-validity-error" id=vc-entdeclared-pe><code>xml-validity-error</code></a>.
-      </dl>
-    <li>If the declaration for the entity <em>is</em> processed but the
-    referenced entity cannot be retrieved, then the parser
-    <em class=rfc2119>MUST</em> raise an
-    <span class=ed>@@ ??-error</span>.
-    </ol>
-
-    <p>In any of two cases above, process as follows:
-    <ul>
-    <li>If the parameter entity reference is contained in a declaration, then
-    the declaration <em class=rfc2119>MUST</em> be ignored <em>except</em> that
-    any error before the parameter entity <em class=rfc2119>MUST</em> be
-    raised as usual.
-    <li>If the parameter entity reference is contained in the status portion of
-    a conditional section, then the conditional section
-    <em class=rfc2119>MUST</em> be processed as if it were an
-    <code>IGNORE</code>d section.
-    <li>The parser <em class=rfc2119>MUST NOT</em> process any entity or
-    attribute-list declaration after the parameter entity reference in the DTD
-    <em>except</em> when the <code>standalone</code> pseudo-attribute of the
-    XML declaration (if any) is set to <code>yes</code>.
-    <!-- This requirement is enforced for internal DTD subset case in
-    XML 1.0/1.1 specification (section 5.1) but not for any other cases. -->
-    <!-- According to this definition, element type declarations, notation
-    declarations, and PIs ARE processed. -->
-    <li>If the parameter entity reference is the first reference to an entity
-    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
-    <a href="#entity-error" id=ee-unread-pe><code>entity-error</code></a>.
-    <li>The <code>allDeclarationsProcessed</code> <span class=ed>@@ ref</span>
-    attribute of the <code>Document</code> node <em class=rfc2119>MUST</em> be
-    set to <code>false</code>.
-    </ul>
-<dt>For each general entity reference in an attribute value or in the content
-of an element
-  <dd><p>Process as follows:
-    <ol>
-    <li>If the <code>Name</code> of the entity reference is either
-    <code>amp</code>, <code>lt</code>, <code>gt</code>, <code>quot</code>,
-    or <code>apos</code>, then abort these steps.
-    <li>If the declaration for the entity is <em>not</em> processed,
-    then:
-      <dl class=switch>
-      <dt>If the document contains no external entity or if the document
-      contains the <code>standalone</code> pseudo-attribute set to
-      <code>yes</code><!-- or the document contains no DTD -->
-        <dd>The parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-well-formedness-error" id=wf-entdeclared-ge><code>xml-well-formedness-error</code></a>.
-      <dt>Otherwise
-        <dd>The parser <em class=rfc2119>MUST</em> raise an
-        <a href="#xml-validity-error" id=vc-entdeclared-ge><code>xml-validity-error</code></a>.
-      </dl>
-    <li>If the declaration for the entity <em>is</em> processed but the
-    referenced entity cannot be retrieved, then the parser
-    <em class=rfc2119>MUST</em> raise an
-    <span class=ed>@@ ??-error</span>.
-    </ol>
-
-    <p>In any of two cases above, process as follows:
-    <ul>
-    <li>If the general entity reference is the first reference to an entity
-    that is not read, then the parser <em class=rfc2119>MUST</em> raise an
-    <a href="#entity-error" id=ee-unread-ge><code>entity-error</code></a>.
-    <span class=ed>@@ entity declared WFC?</span>
-    <li class=ed>An unexpended entity reference node <em class=rfc2119>MUST</em> be inserted to the current node.
-    </ul>
-
-<dt>For each comment <em>outside</em> of document type declaration
-  <dd>A <code>Comment</code> node <em class=rfc2119>MUST</em> be created
-  and inserted appropriately.
-  <!-- In XML 1.0/1.1 spec, this is optional. -->
-</dl>
-
-<p>The parser <em class=rfc2119>MUST</em> try to read any entity
-referenced by general or parameter entity references<!--,--> and the
-external subset entity, if any<!--, and any general entity declared-->
-in the document type definition.
-
-<p><strong>Well-formedness constraints</strong>.  When the parser
-detects a voilation to one of certain well-formedness constraints, it
-<em class=rfc2119>MUST</em> raise an <a
-href="#xml-well-formedness-error"><code>xml-well-formedness-error</code></a>.
-The list of such well-formed constraints is as follows:
-
-<ul>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wfc-PEinInternalSubset">Well-formedness constraint: PEs in Internal Subset</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#GIMatch">Well-formedness constraint: Element Type Match</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#uniqattspec">Well-formedness constraint: Unique Att Spec</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#NoExternalRefs">Well-formedness constraint: No External Entity References</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#CleanAttrVals">Well-formedness constraint: No &lt; in Attribute Values</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#wf-Legalchar">Well-formedness constraint: Legal Character</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#textent">Well-formedness constraint: Parsed Entity</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#norecursion">Well-formedness constraint: No Recursion</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#indtd">Well-formedness constraint: In DTD</a>
-</ul>
-
-<p><strong>Validity constraints</strong>.  When the parser detects a
-violation to one of certain validity contraints, it <em
-class=rfc2119>MUST</em> raise an <a
-href="#xml-validity-error"><code>xml-validity-error</code></a>.  The
-list of such validity constraints is as follows:
-
-<ul>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinMarkupDecl">Validity constraint: Proper Declaration/PE Nesting</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-PEinGroup">Validity constraint: Proper Group/PE Nesting</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#condsec-nesting">Validity constraint: Proper Conditional Section/PE Nesting</a>
-<li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#vc-check-rmd">Validity constraint: Standalone Document Declaration</a>
-</ul>
-
-<p><strong>Other creteria</strong>.  If the parser detects a violation
-to one of certain additional constraints, it <em
-class=rfc2119>MUST</em> raise an <a
-href="#xml-misc-recommendation"><code>xml-misc-recommendation</code></a>.
-The list of such constraints is as follows:
-
-<ul>
-<li><q>For interoperability, if a parameter-entity reference appears in a 
-<code>choice</code>, <code>seq</code>, or <code>Mixed</code> construct, its 
-replacement text <em class=rfc2119>SHOULD</em> contain at least one non-blank 
-character, and neither the first nor last non-blank character of the 
-replacement text <em class=rfc2119>SHOULD</em> be a connector (<code>|</code> 
-or <code>,</code>).</q>
-<li><q>External parsed entities <em class=rfc2119>SHOULD</em> each begin with a
-text declaration.</q>
-</ul>
-
-<p>The parser <em class=rfc2119>MUST</em> act as if it is a <a
-href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-validating">validating
-XML processor</a> for the purpose of informing of white space
-characters appearing in <a
-href="http://www.w3.org/TR/2006/REC-xml-20060816/#dt-elemcontent">element
-content</a> (See <a
-href="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">Section
-2.10</a> of the XML specification).
-
-  <div class="note memo informative">
-  <p>In other word, the <code>isElementContentWhitespace</code> attribute
-  of <code>Text</code> nodes has to be set appropriately.  Note that the
-  value of the attribute will be set to <code>false</code> for any 
-  <code>Text</code> node in the content of an element whose declaration
-  is not processed.
-  </div>
-
-<p>The parser <em class=rfc2119>MUST</em> raise at least one <a
-href="#xml-well-formedness-error"
-id=wfe-syntax><code>xml-well-formedness-error</code></a> if the entity
-it parses does not match to the appropriate production rule in the XML
-specification.  As an exception to this requirement, it <em
-class=rfc2119>MAY</em> choose not to raise such an error if the error
-will be raised by the conformance checker when the conformance checker
-<a href="#algorithm-to-check-a-node" title="check a node">checks</a>
-the <code>Document</code> object produced by the parser.
-
-<!--
-  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#ExtSubset">Well-formedness constraint: External Subset</a>
-  <li><a href="http://www.w3.org/TR/2006/REC-xml-20060816/#PE-between-Decls">Well-formedness constraint: PE Between Declarations</a>
--->
-
-<!--
-  Inpossible to test:
-    "In the absence of external character encoding information (such as MIME
-    headers), parsed entities which are stored in an encoding other than UTF-8
-    or UTF-16 MUST begin with a text declaration"
--->
 </div>
 
 <div class="section" id=checking-dom>

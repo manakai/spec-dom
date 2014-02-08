@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 7 February 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 8 February 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-7 February 2014, the editor has made this specification available under the
+8 February 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -74,7 +74,8 @@ normative version.</p>
    <li><a href=#history-0><span class=secno>1.1 </span>History</a></li></ol></li>
  <li><a href=#conformance-requirements><span class=secno>2 </span>Conformance requirements</a>
   <ol>
-   <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li></ol></li>
+   <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li>
+   <li><a href=#xml-versions><span class=secno>2.2 </span>XML versions</a></li></ol></li>
  <li><a href=#dom-document-type-definitions><span class=secno>3 </span>DOM Document Type Definitions</a>
   <ol>
    <li><a href=#Node><span class=secno>3.1 </span>Nodes</a></li>
@@ -254,7 +255,7 @@ specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]<
 
 </p><p>The term <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>
 is defined in the XML 1.0 specification <cite class="bibref
-normative">[<a href=#ref-XML10>XML10</a>]</cite>.
+normative">[<a href=#ref-XML>XML</a>]</cite>.
 
 </p><div class=ed>
 <p>Following paragraph need to be updated:
@@ -279,6 +280,30 @@ in the <i>patch</i>, then the former instance of
 
 </div><!-- section -->
 
+<div class=section>
+<h3 id=xml-versions><span class=secno>2.2 </span>XML versions</h3>
+
+<p>Implementations of this specification <em class=rfc2119>MUST</em>
+support features defined in <cite>XML 1.0</cite> <cite class="bibref
+normative">[<a href=#ref-XML>XML</a>]</cite> and <cite>Namespaces in
+XML 1.0</cite> <cite class="bibref normative">[<a href=#ref-XMLNS>XMLNS</a>]</cite> specifications.
+
+</p><p>Unless explicitly specified, featurs in this specification does not
+support XML 1.1.
+
+</p><p>This document sometimes cites parts of XML 1.0 and Namespaces in
+XML 1.0 specifications by hyperlinks.  If such a requirement is
+applied to XML 1.1, however, they should be read as references to
+<cite>XML 1.1</cite> <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite> and <cite>Namespaces in XML
+1.1</cite> <cite class="bibref normative">[<a href=#ref-XMLNS11>XMLNS11</a>]</cite> specifications.
+
+</p><p class=ed>XXX Should we drop XML 1.1 support entirely?
+
+</p><p>This specification does not specify which edition of relevant
+specifications has to be supported.
+
+</p></div>
+
 </div><!-- section -->
 
 <div class=section>
@@ -292,11 +317,7 @@ including both new interfaces and modifications to existing standard
 <abbr>DOM</abbr> interfaces.
 
 </p><p>The primary goal of those features is to make it possible to built
-an XML DTD validator on the top of the extended DOM API.  It can
-support both XML 1.0 <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> and XML 1.1 <cite class="bibref
-normative">[<a href=#ref-XML11>XML11</a>]</cite>, but the
-implementation is not required to implement XML 1.1.<!-- XXX
-XMLVERSION -->
+an XML DTD validator on the top of the extended DOM API.
 
 </p><div class="note memo">
 
@@ -782,7 +803,7 @@ document, the <code>NodeList</code> object in the <code>childNodes</code>
 object <em class=rfc2119>MUST</em> contains the 
 <code>ProcessingInstruction</code> nodes representing the processing 
 instructions in the document type definition of the document processed
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite> by the <abbr>XML</abbr> processor.
 
 </p><p>If a <a href=#DocumentType><code>DocumentType</code></a> node is created
@@ -847,7 +868,7 @@ of the <a href=#DocumentType><code>DocumentType</code></a> node.</p>
   the <a href=#ElementTypeDefinition><code>ElementTypeDefinition</code></a> nodes for the element types
   whose name is presented as the <a href=#getAttributeDefinitionNode-name><code>Name</code></a> of the element type or
   attribute definition list declarations processed
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite> by the <abbr>XML</abbr>
   processor.  If there are more than one element type declarations for an
   element type, then the declarations other than the first one 
@@ -1081,7 +1102,7 @@ node for that element type.</p>
   <a href=#AttributeDefinition><code>AttributeDefinition</code></a> node
   corresponding to the attribute definitions in the attribute definition
   list declarations processed
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite> by the <abbr>XML</abbr> processor and
   associated to the element type represented by the node.  If there are more
   than one attribute definitions for an attribute, then the definitions other
@@ -1205,7 +1226,7 @@ interface <dfn id=attrdeclaredvaluetype>AttrDeclaredValueType</dfn> {
 <dt><dfn class=dom-attr id=declaredType><code>declaredType</code></dfn> of type
 <code>unsigned short</code></dt>
   <dd><p>The declared type
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite> of the attribute.  It is expected that
   this attribute contains a value from the definition group
   <a href=#DeclaredValueType><code>DeclaredValueType</code></a>.</p>
@@ -1241,52 +1262,52 @@ value</a>
 <tr>
 <th scope=row><dfn class=dom-const id=CDATA_ATTR><code>CDATA_ATTR</code>
 </dfn></th><td><code>1</code></td><td><code>CDATA</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=ID_ATTR><code>ID_ATTR</code>
 </dfn></th><td><code>2</code></td><td><code>ID</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=IDREF_ATTR><code>IDREF_ATTR</code>
 </dfn></th><td><code>3</code></td><td><code>IDREF</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=IDREFS_ATTR><code>IDREFS_ATTR</code>
 </dfn></th><td><code>4</code></td><td><code>IDREFS</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=ENTITY_ATTR><code>ENTITY_ATTR</code>
 </dfn></th><td><code>5</code></td><td><a href=#entity><code>ENTITY</code></a>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=ENTITIES_ATTR><code>ENTITIES_ATTR</code>
 </dfn></th><td><code>6</code></td><td><code>ENTITIES</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=NMTOKEN_ATTR><code>NMTOKEN_ATTR</code>
 </dfn></th><td><code>7</code></td><td><code>NMTOKEN</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=NMTOKENS_ATTR><code>NMTOKENS_ATTR</code>
 </dfn></th><td><code>8</code></td><td><code>NMTOKENS</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=NOTATION_ATTR><code>NOTATION_ATTR</code>
 </dfn></th><td><code>9</code></td><td><a href=#notation><code>NOTATION</code></a>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=ENUMERATION_ATTR><code>ENUMERATION_ATTR</code>
 </dfn></th><td><code>10</code></td><td>Enumeration
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
 <tr>
 <th scope=row><dfn class=dom-const id=UNKNOWN_ATTR><code>UNKNOWN_ATTR</code>
@@ -1323,7 +1344,7 @@ value</a> and/or
 <a href=http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#intro.null>unknown</a>
 <cite class="bibref normative">[<a href=#ref-INFOSET>INFOSET</a>]</cite> and
 <code>CDATA</code>
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>,
 <a href=#ref-XML11>XML11</a>]</cite>, then the value
 <a href=#CDATA_ATTR><code>CDATA_ATTR</code></a> <em class=rfc2119>MUST</em>
 be used.</p>
@@ -1400,7 +1421,7 @@ type <code>unsigned short</code></dt>
   <tr>
   <th scope=row><dfn class=dom-const id=FIXED_DEFAULT><code>FIXED_DEFAULT</code></dfn>
   </th><td><code>1</code></td><td>Provided explicitly and only the value is allowed.
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
   <tr>
   <th scope=row><dfn class=dom-const id=REQUIRED_DEFAULT><code>REQUIRED_DEFAULT</code></dfn>
@@ -1409,7 +1430,7 @@ type <code>unsigned short</code></dt>
   <tr>
   <th scope=row><dfn class=dom-const id=IMPLIED_DEFAULT><code>IMPLIED_DEFAULT</code></dfn>
   </th><td><code>3</code></td><td>Implied
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite>.</td></tr>
   <tr>
   <th scope=row><dfn class=dom-const id=EXPLICIT_DEFAULT><code>EXPLICIT_DEFAULT</code></dfn>
@@ -2123,12 +2144,8 @@ and <code class=URI>&lt;<a href=https://github.com/manakai/perl-web-markup/blob/
 <p>Much of invalid (well-formed or not) XML document parsing and XML document
 / XML DOM conformance is left undefined so that this document provides a
 guideline for conformance checkers.
-</p></div>
 
-<p>This document sometimes cites parts of <abbr>XML</abbr> 1.0 specification
-by hyperlinks.  When the document being processed is an <abbr>XML</abbr> 1.1
-document, however, corresponding parts of the <abbr>XML</abbr> 1.1 
-specification should be consulted instead.</p>
+</p></div>
 
 <div class=section id=processing-model>
 <h3 id=processing-model-0><span class=secno>6.1 </span>Processing Model</h3>
@@ -2205,7 +2222,7 @@ can be easily serialized into a valid XML document.</p>
   <dd class=ed>@@</dd>
 <dt><dfn id=xml-misc-error><code>xml-misc-error</code></dfn></dt>
   <dd>An <abbr>XML</abbr> <a href=#error><i>error</i></a> (<abbr>XML</abbr> 1.0
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> 
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite> 
   <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-error>error</a> /
   <abbr>XML</abbr> 1.1
   <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>
@@ -2214,7 +2231,7 @@ can be easily serialized into a valid XML document.</p>
   category</a>.</dd>
 <dt><dfn id=xml-misc-fatal-error><code>xml-misc-fatal-error</code></dfn></dt>
   <dd>An <abbr>XML</abbr> <i>fatal error</i> (<abbr>XML</abbr> 1.0
-  <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite> 
+  <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite> 
   <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#dt-fatal>fatal
   error</a> / <abbr>XML</abbr> 1.1
   <cite class="bibref normative">[<a href=#ref-XML11>XML11</a>]</cite>
@@ -2235,7 +2252,7 @@ can be easily serialized into a valid XML document.</p>
   it would not be possible to generate an XML serialization that
   would match to the appropriate production rule and that would not 
   violate to any well‐formedness constraint in XML
-  specification <cite class="bibref normative">[<a href=#ref-XML10>XML10</a>,
+  specification <cite class="bibref normative">[<a href=#ref-XML>XML</a>,
   <a href=#ref-XML11>XML11</a>]</cite>.</p></dd>
 <dt><dfn id=misc-info><code>misc-info</code></dfn>
   </dt><dd><p>A <a href=#misc-info><code>misc-info</code></a> is raised when some status information
@@ -2263,8 +2280,8 @@ when MUST or SHOULD).
 
 <p>When a byte stream that represents an XML document is given to a
 parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
-relevant specifications <span class=ed>[XML10, XML11, XMLNAMES10,
-XMLNAMES11, DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
+relevant specifications <span class=ed>[XML, XML11, XMLNS, XMLNS11,
+DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
 
 </p><p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
 document even after a fatal error (as defined by the relavant
@@ -2375,7 +2392,7 @@ In addition, this should be checked later for Document and Entity nodes.
   <code>LESS-THAN SIGN</code> (<code>&lt;</code>) character, then the parser
   <em class=rfc2119>MUST</em> raise an
   <a href=#xml-misc-warning id=xmw-entity-value-lt><code>xml-misc-warning</code></a>.<!--
-"strongly advised to avoid" in a Note in Section 2.3 of [XML10], [XML11].
+"strongly advised to avoid" in a Note in Section 2.3 of [XML], [XML11].
 -->
 </dd><dt>For each element type declaration being processed by the parser
   </dt><dd>If there is another processed element type declaration whose
@@ -2782,7 +2799,7 @@ pi name <code>xml-stylesheet</code>-->.</span><!--
 "names beginning with a match to (('X'|'x')('M'|'m')('L'|'l')) are reserved for standardization in this or future versions of this specification.":
 xmlns, xml-stylesheet, xml:base and xml:id specifications violate to this sentense!
 --></li>
-<!-- COLON in Name is a lowercase "should not" in a Note of [XML10],
+<!-- COLON in Name is a lowercase "should not" in a Note of [XML],
 [XML11]. -->
 <li class=ed>@@ XML 1.1 support</li>
 </ol>
@@ -3362,7 +3379,7 @@ RETURN</code></li>
 <p>This character class contains all characters allowed in the production rule
 <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Char><code>Char</code></a>
 of <abbr>XML</abbr> 1.0
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.</p>
 </div>
 
 <p>Character class <dfn id=class-CompatChar10><code>CompatChar10</code></dfn> 
@@ -3401,7 +3418,7 @@ PROGRAM COMMAND</code></li>
 <p>This character class contains the characters listed in the Note in
 <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#charsets>Section 2.2</a>
 of <abbr>XML</abbr> 1.0
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>,
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>,
 as amended by
 <a href=http://www.w3.org/XML/xml-V10-4e-errata#E02>errata</a>.</p>
 </div>
@@ -3415,7 +3432,7 @@ contains the following characters:</p>
 of a string matching to the production rule
 <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name><code>Name</code></a>
 of <abbr>XML</abbr> 1.0
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.</p>
 </div>
 
 <p>The character class <dfn id=class-NameChar10><code>NameChar10</code></dfn> 
@@ -3430,7 +3447,7 @@ contains the following characters:</p>
 character of a string matching to the production rule
 <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name><code>Name</code></a>
 of <abbr>XML</abbr> 1.0
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.</p>
 </div>
 
 <p>The character class <dfn id=class-PubidChar><code>PubidChar</code></dfn>
@@ -3496,7 +3513,7 @@ A</code> (<code class=char>A</code>) .. <code class=char>U+007A</code>
 <p>This character class contains all characters allowed in the production rule
 <a href=http://www.w3.org/TR/2006/REC-xml-20060816/#NT-PubidChar><code>PubidChar</code></a>
 of <abbr>XML</abbr> 1.0
-<cite class="bibref normative">[<a href=#ref-XML10>XML10</a>]</cite>.</p>
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.</p>
 </div>
 
 </div>
@@ -3607,23 +3624,28 @@ Standard</a></cite>, WHATWG.
   <dd><cite><a href=http://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Extensions>
   manakai's <abbr>DOM</abbr> Extensions</a></cite>, editor's draft.  Work in 
   progress.</dd>
-<dt id=ref-XML10>XML10</dt>
-  <dd><cite><a href=http://www.w3.org/TR/2006/REC-xml-20060816>Extensible
-  Markup Language (<abbr>XML</abbr>) 1.0 (Fourth Edition)</a></cite>,
-  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
-  2006</time>, edited in place <time datetime=2006-09-29>29 September
-  2006</time>.  <em>This</em> version of the specification is referenced.  The
-  latest version of the specification is available at
-  <code class=uri>&lt;<a href=http://www.w3.org/TR/xml>http://www.w3.org/TR/xml</a>&gt;</code>.</dd>
-<dt id=ref-XML11>XML11</dt>
-  <dd><cite><a href=http://www.w3.org/TR/2006/REC-xml11-20060816/>Extensible
-  Markup Language (<abbr>XML</abbr>) 1.1 (Second Edition)</a></cite>,
-  <abbr>W3C</abbr> Recommendation, <time datetime=2006-08-16>16 August 
-  2006</time>, edited in place <time datetime=2006-09-29>29 September
-  2006</time>.  <em>This</em> version of the specification is referenced.  The
-  latest version of the specification is available at
-  <code class=uri>&lt;<a href=http://www.w3.org/TR/xml11>http://www.w3.org/TR/xml11</a>&gt;</code>.</dd>
-</dl>
+
+<dt id=ref-XML>XML
+
+</dt><dd><a href=http://www.w3.org/TR/xml/><cite>Extensible Markup
+Language (<abbr>XML</abbr>) 1.0</cite></a>, W3C.
+
+</dd><dt id=ref-XML11>XML11
+
+</dt><dd><a href=http://www.w3.org/TR/xml11/><cite>Extensible Markup
+Language (<abbr>XML</abbr>) 1.1</cite></a>, W3C.
+
+</dd><dt id=ref-XMLNS>XMLNS
+
+</dt><dd><a href=http://www.w3.org/TR/xml-names/><cite>Namespaces in XML
+1.0</cite></a>, W3C.
+
+</dd><dt id=ref-XMLNS11>XMLNS11
+
+</dt><dd><a href=http://www.w3.org/TR/xml-names11/><cite>Namespaces in
+XML 1.1</cite></a>, W3C.
+
+</dd></dl>
 </div>
 
 <div class="section informative reference" id=informative-references>

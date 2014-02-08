@@ -242,10 +242,11 @@ href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
 title="resolve a URL">resolve a URL</dfn>, <dfn>willful
 violation</dfn>, <dfn>XML parser</dfn>, <em id=setting>setting</em>
 and <em id=getting>getting</em> of an attribute, <dfn>character
-token</dfn>, <dfn>character reference in attribute value state</dfn>,
-<dfn>consume a character reference</dfn>, <dfn>additional allowed
-character</dfn>, and <dfn>named character references</dfn> are defined
-in the HTML Standard <cite class="bibref normative">[<a
+token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
+<dfn>character reference in attribute value state</dfn>, <dfn>consume
+a character reference</dfn>, <dfn>additional allowed character</dfn>,
+and <dfn>named character references</dfn> are defined in the HTML
+Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
@@ -269,9 +270,10 @@ href="http://www.w3.org/TR/xml/#NT-Name"><dfn><code>Name</code></dfn></a>,
 <dfn>replacement text</dfn> are defined in the XML 1.0 specification
 <cite class="bibref normative">[<a href="#ref-XML">XML</a>]</cite>.
 
-<p>The terms <dfn>parse error</dfn>, <dfn>list of entities</dfn>,
-<dfn>append an entity</dfn>, and <dfn>entity flag</dfn> are defined in
-the XML5 specification <cite class="bibref normative">[<a
+<p>The terms <dfn>parse error</dfn>, <dfn>stack of open
+elements</dfn>, <dfn>list of entities</dfn>, <dfn>append an
+entity</dfn>, and <dfn>entity flag</dfn> are defined in the XML5
+specification <cite class="bibref normative">[<a
 href="#ref-XML5">XML5</a>]</cite>.
 
 <p>The <dfn>predefined entity names</dfn> are <code>apos</code>,
@@ -353,12 +355,21 @@ entity</span>, if the <span>entity flag</span> is "normal" and the
 entity name is one of <span>predefined entity names</span>, it <em
 class=rfc2119>MUST</em> do nothing.
 
+<!-- When a start tag token is emitted with its <i>self-closing
+flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
+title="acknowledge self-closing flag">acknowledged</span>. -->
+
 <div class=section>
 <h3>Expansion of entities</h3>
 
-<p>When the rules to <span>consume a character reference</span> is
+<p>When the steps to <span>consume a character reference</span> is
 applied to an <span>XML parser</span>, requirements in this section is
 applied.</p>
+
+<p>If the <span>stack of open elements</span> is empty and the state
+is not the <span>character reference in attribute value state</span>
+when the steps to <span>consume a character reference</span> is
+invoked, this is a <span>parse error</span>.
 
 <p>Each entity in the <span>list of entities</span> <em
 class=rfc2119>MUST</em> be appendded to the table of the <span>named
@@ -387,7 +398,7 @@ value state</span>, this is a <span>parse error</span>.  Return
 nothing and abort the <span>consume a character reference</span>
 steps.
 
-<li>Let <var title>replacment text</var> be the empty string.
+<li>Let <var title>replacement text</var> be the empty string.
 
 <li>If <var title>entity</var> is an <span>external entity</span>,
 <span class=ed>fetch and wait for the <span>replacement
@@ -446,11 +457,23 @@ attribute value state</span>:
   tokens</span> equivalent to characters in <var title>s</var> and
   abort the <span>consume a character reference</span> steps.
 
+    <div class="note memo">
+
+    <p>The number of returned <span title="character token">character
+    tokens</span> could be zero, which is different from returning
+    nothing.
+
+    </div>
+
   </ol>
 
 <li>Otherwise:
 
   <ol>
+
+  <li>If the <span>phase</span> of the <span>tree construction
+  stage</span> is not the <span>main phase</span>, return nothing and
+  abort the <span>consume a character reference</span> steps.
 
   <li class=ed>XXX insert <span>replacement text</span> to the input
   stream.
@@ -461,7 +484,7 @@ attribute value state</span>:
 
 <p>If a row from the original <span>character entity references</span>
 table is used, the first column of the row ends with a
-<code>U+003B</code> <code class=charname>;</code> character
+<code>U+003B</code> <code class=charname>SEMICOLON</code> character
 (<code>;</code>), and the first column of the row is none of
 <span>predefined entity names</span>, this is a <span>parse
 error</span>.
@@ -3041,8 +3064,13 @@ href="https://github.com/manakai/perl-web-markup/blob/master/t/modules/Web-XML-S
 </div><!-- section -->
 
 
-<div class="section ed">
+<div class=makesection>
 <h2>Conformance checking of XML documents</h2>
+
+<p>If there is a <span>parse error</span>, the document is not
+well-formed.
+
+<div class=ed>
 
 <div class="issue ed">...
 
@@ -3988,6 +4016,7 @@ of <abbr>XML</abbr> 1.0
 
 </div>
 
+</div><!-- ed -->
 
 </div><!-- section -->
 

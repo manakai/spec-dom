@@ -245,10 +245,11 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 <dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a URL</dfn>, <dfn id=willful-violation>willful
 violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em>
 and <em id=getting>getting</em> of an attribute, <dfn id=character-token>character
-token</dfn>, <dfn id=character-reference-in-attribute-value-state>character reference in attribute value state</dfn>,
-<dfn id=consume-a-character-reference>consume a character reference</dfn>, <dfn id=additional-allowed-character>additional allowed
-character</dfn>, and <dfn id=named-character-references>named character references</dfn> are defined
-in the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
+token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
+<dfn id=character-reference-in-attribute-value-state>character reference in attribute value state</dfn>, <dfn id=consume-a-character-reference>consume
+a character reference</dfn>, <dfn id=additional-allowed-character>additional allowed character</dfn>,
+and <dfn id=named-character-references>named character references</dfn> are defined in the HTML
+Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
@@ -265,9 +266,10 @@ specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]<
 <dfn id=replacement-text>replacement text</dfn> are defined in the XML 1.0 specification
 <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.
 
-</p><p>The terms <dfn id=parse-error>parse error</dfn>, <dfn id=list-of-entities>list of entities</dfn>,
-<dfn id=append-an-entity>append an entity</dfn>, and <dfn id=entity-flag>entity flag</dfn> are defined in
-the XML5 specification <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite>.
+</p><p>The terms <dfn id=parse-error>parse error</dfn>, <dfn id=stack-of-open-elements>stack of open
+elements</dfn>, <dfn id=list-of-entities>list of entities</dfn>, <dfn id=append-an-entity>append an
+entity</dfn>, and <dfn id=entity-flag>entity flag</dfn> are defined in the XML5
+specification <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite>.
 
 </p><p>The <dfn id=predefined-entity-names>predefined entity names</dfn> are <code>apos</code>,
 <code>amp</code>, <code>lt</code>, <code>gt</code>, and
@@ -343,14 +345,23 @@ error</a>.
 entity</a>, if the <a href=#entity-flag>entity flag</a> is "normal" and the
 entity name is one of <a href=#predefined-entity-names>predefined entity names</a>, it <em class=rfc2119>MUST</em> do nothing.
 
+<!-- When a start tag token is emitted with its <i>self-closing
+flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
+title="acknowledge self-closing flag">acknowledged</span>. -->
+
 </p><div class=section>
 <h3 id=expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</h3>
 
-<p>When the rules to <a href=#consume-a-character-reference>consume a character reference</a> is
+<p>When the steps to <a href=#consume-a-character-reference>consume a character reference</a> is
 applied to an <a href=#xml-parser>XML parser</a>, requirements in this section is
 applied.</p>
 
-<p>Each entity in the <a href=#list-of-entities>list of entities</a> <em class=rfc2119>MUST</em> be appendded to the table of the <span>named
+<p>If the <a href=#stack-of-open-elements>stack of open elements</a> is empty and the state
+is not the <a href=#character-reference-in-attribute-value-state>character reference in attribute value state</a>
+when the steps to <a href=#consume-a-character-reference>consume a character reference</a> is
+invoked, this is a <a href=#parse-error>parse error</a>.
+
+</p><p>Each entity in the <a href=#list-of-entities>list of entities</a> <em class=rfc2119>MUST</em> be appendded to the table of the <span>named
 charactr references</span> as a row, where the first column is the
 name of the entity followed by a <code>U+003B</code> <code class=charname>SEMICOLON</code> character (<code>;</code>).  If the
 table already has a row whose first column is equal to the first
@@ -375,7 +386,7 @@ value state</a>, this is a <a href=#parse-error>parse error</a>.  Return
 nothing and abort the <a href=#consume-a-character-reference>consume a character reference</a>
 steps.
 
-</li><li>Let <var title="">replacment text</var> be the empty string.
+</li><li>Let <var title="">replacement text</var> be the empty string.
 
 </li><li>If <var title="">entity</var> is an <a href=#external-entity>external entity</a>,
 <span class=ed>fetch and wait for the <a href=#replacement-text>replacement
@@ -429,13 +440,25 @@ attribute value state</a>:
   tokens</a> equivalent to characters in <var title="">s</var> and
   abort the <a href=#consume-a-character-reference>consume a character reference</a> steps.
 
+    <div class="note memo">
+
+    <p>The number of returned <a href=#character-token title="character token">character
+    tokens</a> could be zero, which is different from returning
+    nothing.
+
+    </p></div>
+
   </li></ol>
 
 </li><li>Otherwise:
 
   <ol>
 
-  <li class=ed>XXX insert <a href=#replacement-text>replacement text</a> to the input
+  <li>If the <span>phase</span> of the <span>tree construction
+  stage</span> is not the <span>main phase</span>, return nothing and
+  abort the <a href=#consume-a-character-reference>consume a character reference</a> steps.
+
+  </li><li class=ed>XXX insert <a href=#replacement-text>replacement text</a> to the input
   stream.
 
   </li></ol>
@@ -444,7 +467,7 @@ attribute value state</a>:
 
 <p>If a row from the original <span>character entity references</span>
 table is used, the first column of the row ends with a
-<code>U+003B</code> <code class=charname>;</code> character
+<code>U+003B</code> <code class=charname>SEMICOLON</code> character
 (<code>;</code>), and the first column of the row is none of
 <a href=#predefined-entity-names>predefined entity names</a>, this is a <a href=#parse-error>parse
 error</a>.
@@ -2705,8 +2728,13 @@ and <code class=URI>&lt;<a href=https://github.com/manakai/perl-web-markup/blob/
 </div><!-- section -->
 
 
-<div class="section ed">
+<div class=makesection>
 <h2 id=conformance-checking-of-xml-documents><span class=secno>7 </span>Conformance checking of XML documents</h2>
+
+<p>If there is a <a href=#parse-error>parse error</a>, the document is not
+well-formed.
+
+</p><div class=ed>
 
 <div class="issue ed">...
 
@@ -3649,6 +3677,7 @@ of <abbr>XML</abbr> 1.0
 
 </div>
 
+</div><!-- ed -->
 
 </div><!-- section -->
 

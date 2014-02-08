@@ -236,14 +236,17 @@ namespace</dfn>, <dfn>XMLNS namespace</dfn>, <dfn>in a document</dfn>,
 <dfn><code>NotFoundError</code></dfn> are defined by the DOM Standard
 <cite class="bibref normative">[<a href="#ref-DOM">DOM</a>]</cite>.
 
-<p>The terms <em id=live><a
+<p>The terms and steps <em id=live><a
 href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
 <dfn>document base URL</dfn>, <dfn>the document's address</dfn>, <dfn
 title="resolve a URL">resolve a URL</dfn>, <dfn>willful
-violation</dfn>, <dfn>XML parser</dfn>, and <em
-id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute are defined in the HTML Standard <cite class="bibref
-normative">[<a href="#ref-HTML">HTML</a>]</cite>.</p>
+violation</dfn>, <dfn>XML parser</dfn>, <em id=setting>setting</em>
+and <em id=getting>getting</em> of an attribute, <dfn>character
+token</dfn>, <dfn>character reference in attribute value state</dfn>,
+<dfn>consume a character reference</dfn>, <dfn>additional allowed
+character</dfn>, and <dfn>named character references</dfn> are defined
+in the HTML Standard <cite class="bibref normative">[<a
+href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a
@@ -260,10 +263,20 @@ element</dfn> is defined in the <cite>Manakai DOM Extensions</cite>
 specification <cite class="bibref normative">[<a
 href="#ref-MANAKAI">MANAKAI</a>]</cite>.
 
-<p>The term <a
-href="http://www.w3.org/TR/xml/#NT-Name"><dfn><code>Name</code></dfn></a>
-is defined in the XML 1.0 specification <cite class="bibref
-normative">[<a href="#ref-XML">XML</a>]</cite>.
+<p>The terms <a
+href="http://www.w3.org/TR/xml/#NT-Name"><dfn><code>Name</code></dfn></a>,
+<dfn>external entity</dfn>, <dfn>unparsed entity</dfn>, and
+<dfn>replacement text</dfn> are defined in the XML 1.0 specification
+<cite class="bibref normative">[<a href="#ref-XML">XML</a>]</cite>.
+
+<p>The terms <dfn>parse error</dfn>, <dfn>list of entities</dfn>,
+<dfn>append an entity</dfn>, and <dfn>entity flag</dfn> are defined in
+the XML5 specification <cite class="bibref normative">[<a
+href="#ref-XML5">XML5</a>]</cite>.
+
+<p>The <dfn>predefined entity names</dfn> are <code>apos</code>,
+<code>amp</code>, <code>lt</code>, <code>gt</code>, and
+<code>quot</code>.
 
 <div class=ed>
 <p>Following paragraph need to be updated:
@@ -326,9 +339,134 @@ parser</span>.
 
 <p>An <span>XML parser</span> <em class=rfc2119>MUST</em> parse an XML
 document as specified in the XML5 <cite class="bibref normative">[<a
-href="#ref-XML5">XML5</a>]</cite> specification.  <span class=ed>XXX
-Changes to HTML tokenizer made after XML5 has been specced must also
-be applied to XML tokenizer, where possible.</span>
+href="#ref-XML5">XML5</a>]</cite> specification.
+
+<p class=ed>XXX If steps for an <span>XML parser</span> is not yet
+defined, similar steps for an <span>HTML parser</span> has to be used
+instead.  Changes to HTML tokenizer made after XML5 has been specced
+must also be applied to XML tokenizer, where possible.  Even for such
+cases, if the input is not well-formed, it is a <span>parse
+error</span>.
+
+<p>When an <span>XML parser</span> has to <span>append an
+entity</span>, if the <span>entity flag</span> is "normal" and the
+entity name is one of <span>predefined entity names</span>, it <em
+class=rfc2119>MUST</em> do nothing.
+
+<div class=section>
+<h3>Expansion of entities</h3>
+
+<p>When the rules to <span>consume a character reference</span> is
+applied to an <span>XML parser</span>, requirements in this section is
+applied.</p>
+
+<p>Each entity in the <span>list of entities</span> <em
+class=rfc2119>MUST</em> be appendded to the table of the <span>named
+charactr references</span> as a row, where the first column is the
+name of the entity followed by a <code>U+003B</code> <code
+class=charname>SEMICOLON</code> character (<code>;</code>).  If the
+table already has a row whose first column is equal to the first
+column of the new row, the existing row <em class=rfc2119>MUST</em> be
+replaced by the new row.
+
+<p>When character tokens are returned using the second column of the
+table, an <span>XML parser</span> <em class=rfc2119>MUST</em> run
+these steps:
+
+<ol>
+
+<li>Let <var title>entity</var> be the entity of the selected row.
+
+<li>If <var title>entity</var> is an <span>unparsed entity</span>,
+this is a <span>parse error</span>.  Return nothing and abort the
+<span>consume a character reference</span> steps.
+
+<li>If <var title>entity</var> is an <span>external entity</span> and
+these steps are invoked in the <span>character reference in attribute
+value state</span>, this is a <span>parse error</span>.  Return
+nothing and abort the <span>consume a character reference</span>
+steps.
+
+<li>Let <var title>replacment text</var> be the empty string.
+
+<li>If <var title>entity</var> is an <span>external entity</span>,
+<span class=ed>fetch and wait for the <span>replacement
+text</span></span>.  If it does not fail, set <var title>replacement
+text</var> to the <span>replacement text</span> of <var
+title>entity</var>.  <span class=ed>If failed or not fetched, set some
+flag.</span> <span class=ed>XXX standalone=yes</span>
+
+<li>Otherwise, set <var title>replacement text</var> to the
+<span>replacement text</span> of <var title>entity</var>.
+
+<li>If these steps are invoked in the <span>character reference in
+attribute value state</span>:
+
+  <ol>
+
+  <li>If <var title>replacement text</var> contains a
+  <code>U+003C</code> <code class=charname>LESS THAN SIGN</code>
+  character (<code>&lt;</code>), this is a <span>parse error</span>.
+  Return nothing and abort the <span>consume a character
+  reference</span> steps.
+
+  <li>Let <var title>s</var> be the empty string.
+
+  <li><i>Loop</i>: If <var title>replacement text</var> is the empty
+  string, go to the step labeled <i>end</i>.
+
+  <li>If the first character in <var title>replacement text</var> is
+  not a <code>U+0026</code> <code class=charname>AMPERSAND</code>
+  character (<code>&</code>), append the character to <var
+  title>s</var> and remove the character from <var title>replacement
+  text</var>.
+
+  <li>If the first character in <var title>replacement text</var> is a
+  <code>U+0026</code> <code class=charname>AMPERSAND</code> character
+  (<code>&amp;</code>):
+
+  <ol>
+
+  <li>Attempt to <span>consume a character reference</span> steps
+  recursively, with no <span>additional allowed character</span>.
+
+  <li>If nothing is returned, append a <code>U+0026</code> <code
+  class=charname>AMPERSAND</code> character (<code>&</code>) to <var
+  title>s</var>.
+
+  <li>Otherwise, append the characters represented by the returned
+  <span title="character token">character tokens</span> to <var
+  title>s</var>.
+
+  </ol>
+
+  <li>Go to the step labeled <i>loop</i>.
+
+  <li><i>End</i>: Return <span title="character token">character
+  tokens</span> equivalent to characters in <var title>s</var> and
+  abort the <span>consume a character reference</span> steps.
+
+  </ol>
+
+<li>Otherwise:
+
+  <ol>
+
+  <li class=ed>XXX insert <span>replacement text</span> to the input
+  stream.
+
+  </ol>
+
+</ol>
+
+<p>If a row from the original <span>character entity references</span>
+table is used, the first column of the row ends with a
+<code>U+003B</code> <code class=charname>;</code> character
+(<code>;</code>), and the first column of the row is none of
+<span>predefined entity names</span>, this is a <span>parse
+error</span>.
+
+</div>
 
 <div class=ed>
 

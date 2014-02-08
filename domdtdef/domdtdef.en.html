@@ -76,7 +76,9 @@ normative version.</p>
   <ol>
    <li><a href=#terminology-0><span class=secno>2.1 </span>Terminology</a></li>
    <li><a href=#xml-versions><span class=secno>2.2 </span>XML versions</a></li></ol></li>
- <li><a href=#parsing-xml-documents><span class=secno>3 </span>Parsing XML documents</a></li>
+ <li><a href=#parsing-xml-documents><span class=secno>3 </span>Parsing XML documents</a>
+  <ol>
+   <li><a href=#expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</a></li></ol></li>
  <li><a href=#dom-document-type-definitions><span class=secno>4 </span>DOM Document Type Definitions</a>
   <ol>
    <li><a href=#Node><span class=secno>4.1 </span>Nodes</a></li>
@@ -239,11 +241,14 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 <dfn id=notfounderror><code>NotFoundError</code></dfn> are defined by the DOM Standard
 <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
-</p><p>The terms <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
+</p><p>The terms and steps <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
 <dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a URL</dfn>, <dfn id=willful-violation>willful
-violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, and <em id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute are defined in the HTML Standard <cite class="bibref
-normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
+violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em>
+and <em id=getting>getting</em> of an attribute, <dfn id=character-token>character
+token</dfn>, <dfn id=character-reference-in-attribute-value-state>character reference in attribute value state</dfn>,
+<dfn id=consume-a-character-reference>consume a character reference</dfn>, <dfn id=additional-allowed-character>additional allowed
+character</dfn>, and <dfn id=named-character-references>named character references</dfn> are defined
+in the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
@@ -255,9 +260,18 @@ normative">[<a href=#ref-DOM3CORE>DOM3CORE</a>]</cite>.
 element</dfn> is defined in the <cite>Manakai DOM Extensions</cite>
 specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]</cite>.
 
-</p><p>The term <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>
-is defined in the XML 1.0 specification <cite class="bibref
-normative">[<a href=#ref-XML>XML</a>]</cite>.
+</p><p>The terms <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>,
+<dfn id=external-entity>external entity</dfn>, <dfn id=unparsed-entity>unparsed entity</dfn>, and
+<dfn id=replacement-text>replacement text</dfn> are defined in the XML 1.0 specification
+<cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.
+
+</p><p>The terms <dfn id=parse-error>parse error</dfn>, <dfn id=list-of-entities>list of entities</dfn>,
+<dfn id=append-an-entity>append an entity</dfn>, and <dfn id=entity-flag>entity flag</dfn> are defined in
+the XML5 specification <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite>.
+
+</p><p>The <dfn id=predefined-entity-names>predefined entity names</dfn> are <code>apos</code>,
+<code>amp</code>, <code>lt</code>, <code>gt</code>, and
+<code>quot</code>.
 
 </p><div class=ed>
 <p>Following paragraph need to be updated:
@@ -316,11 +330,128 @@ specifications has to be supported.
 parser</a>.
 
 </p><p>An <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> parse an XML
-document as specified in the XML5 <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite> specification.  <span class=ed>XXX
-Changes to HTML tokenizer made after XML5 has been specced must also
-be applied to XML tokenizer, where possible.</span>
+document as specified in the XML5 <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite> specification.
 
-</p><div class=ed>
+</p><p class=ed>XXX If steps for an <a href=#xml-parser>XML parser</a> is not yet
+defined, similar steps for an <span>HTML parser</span> has to be used
+instead.  Changes to HTML tokenizer made after XML5 has been specced
+must also be applied to XML tokenizer, where possible.  Even for such
+cases, if the input is not well-formed, it is a <a href=#parse-error>parse
+error</a>.
+
+</p><p>When an <a href=#xml-parser>XML parser</a> has to <a href=#append-an-entity>append an
+entity</a>, if the <a href=#entity-flag>entity flag</a> is "normal" and the
+entity name is one of <a href=#predefined-entity-names>predefined entity names</a>, it <em class=rfc2119>MUST</em> do nothing.
+
+</p><div class=section>
+<h3 id=expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</h3>
+
+<p>When the rules to <a href=#consume-a-character-reference>consume a character reference</a> is
+applied to an <a href=#xml-parser>XML parser</a>, requirements in this section is
+applied.</p>
+
+<p>Each entity in the <a href=#list-of-entities>list of entities</a> <em class=rfc2119>MUST</em> be appendded to the table of the <span>named
+charactr references</span> as a row, where the first column is the
+name of the entity followed by a <code>U+003B</code> <code class=charname>SEMICOLON</code> character (<code>;</code>).  If the
+table already has a row whose first column is equal to the first
+column of the new row, the existing row <em class=rfc2119>MUST</em> be
+replaced by the new row.
+
+</p><p>When character tokens are returned using the second column of the
+table, an <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> run
+these steps:
+
+</p><ol>
+
+<li>Let <var title="">entity</var> be the entity of the selected row.
+
+</li><li>If <var title="">entity</var> is an <a href=#unparsed-entity>unparsed entity</a>,
+this is a <a href=#parse-error>parse error</a>.  Return nothing and abort the
+<a href=#consume-a-character-reference>consume a character reference</a> steps.
+
+</li><li>If <var title="">entity</var> is an <a href=#external-entity>external entity</a> and
+these steps are invoked in the <a href=#character-reference-in-attribute-value-state>character reference in attribute
+value state</a>, this is a <a href=#parse-error>parse error</a>.  Return
+nothing and abort the <a href=#consume-a-character-reference>consume a character reference</a>
+steps.
+
+</li><li>Let <var title="">replacment text</var> be the empty string.
+
+</li><li>If <var title="">entity</var> is an <a href=#external-entity>external entity</a>,
+<span class=ed>fetch and wait for the <a href=#replacement-text>replacement
+text</a></span>.  If it does not fail, set <var title="">replacement
+text</var> to the <a href=#replacement-text>replacement text</a> of <var title="">entity</var>.  <span class=ed>If failed or not fetched, set some
+flag.</span> <span class=ed>XXX standalone=yes</span>
+
+</li><li>Otherwise, set <var title="">replacement text</var> to the
+<a href=#replacement-text>replacement text</a> of <var title="">entity</var>.
+
+</li><li>If these steps are invoked in the <a href=#character-reference-in-attribute-value-state>character reference in
+attribute value state</a>:
+
+  <ol>
+
+  <li>If <var title="">replacement text</var> contains a
+  <code>U+003C</code> <code class=charname>LESS THAN SIGN</code>
+  character (<code>&lt;</code>), this is a <a href=#parse-error>parse error</a>.
+  Return nothing and abort the <a href=#consume-a-character-reference>consume a character
+  reference</a> steps.
+
+  </li><li>Let <var title="">s</var> be the empty string.
+
+  </li><li><i>Loop</i>: If <var title="">replacement text</var> is the empty
+  string, go to the step labeled <i>end</i>.
+
+  </li><li>If the first character in <var title="">replacement text</var> is
+  not a <code>U+0026</code> <code class=charname>AMPERSAND</code>
+  character (<code>&amp;</code>), append the character to <var title="">s</var> and remove the character from <var title="">replacement
+  text</var>.
+
+  </li><li>If the first character in <var title="">replacement text</var> is a
+  <code>U+0026</code> <code class=charname>AMPERSAND</code> character
+  (<code>&amp;</code>):
+
+  <ol>
+
+  <li>Attempt to <a href=#consume-a-character-reference>consume a character reference</a> steps
+  recursively, with no <a href=#additional-allowed-character>additional allowed character</a>.
+
+  </li><li>If nothing is returned, append a <code>U+0026</code> <code class=charname>AMPERSAND</code> character (<code>&amp;</code>) to <var title="">s</var>.
+
+  </li><li>Otherwise, append the characters represented by the returned
+  <a href=#character-token title="character token">character tokens</a> to <var title="">s</var>.
+
+  </li></ol>
+
+  </li><li>Go to the step labeled <i>loop</i>.
+
+  </li><li><i>End</i>: Return <a href=#character-token title="character token">character
+  tokens</a> equivalent to characters in <var title="">s</var> and
+  abort the <a href=#consume-a-character-reference>consume a character reference</a> steps.
+
+  </li></ol>
+
+</li><li>Otherwise:
+
+  <ol>
+
+  <li class=ed>XXX insert <a href=#replacement-text>replacement text</a> to the input
+  stream.
+
+  </li></ol>
+
+</li></ol>
+
+<p>If a row from the original <span>character entity references</span>
+table is used, the first column of the row ends with a
+<code>U+003B</code> <code class=charname>;</code> character
+(<code>;</code>), and the first column of the row is none of
+<a href=#predefined-entity-names>predefined entity names</a>, this is a <a href=#parse-error>parse
+error</a>.
+
+</p></div>
+
+<div class=ed>
 
 <dl class=switch>
 <dt>For each external entity (including the document entity and the external

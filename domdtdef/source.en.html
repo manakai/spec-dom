@@ -43,10 +43,10 @@ href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">ht
 
 <p>This specification defines how various implementations of XML by <a
 href="https://github.com/manakai/">the manakai project</a> process XML
-documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; how namespace
-prefixes are serialized; and how conformance of XML documents are
-checked.
+documents, including: how to parse XML documents; how information in
+XML DTDs are represented in DOM; how base URLs are determined in XML
+documents; how namespace prefixes are serialized; and how conformance
+of XML documents are checked.
 
 </div>
 
@@ -87,10 +87,10 @@ normative version.</p>
 
 <p>This specification defines how various implementations of XML by <a
 href="https://github.com/manakai/">the manakai project</a> process XML
-documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; how namespace
-prefixes are serialized; and how conformance of XML documents are
-checked.
+documents, including: how to parse XML documents; how information in
+XML DTDs are represented in DOM; how base URLs are determined in XML
+documents; how namespace prefixes are serialized; and how conformance
+of XML documents are checked.
 
 <p>In general, this specification does not intend to override
 requirements imposed by various XML specifications.  It is not
@@ -240,10 +240,10 @@ namespace</dfn>, <dfn>XMLNS namespace</dfn>, <dfn>in a document</dfn>,
 href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
 <dfn>document base URL</dfn>, <dfn>the document's address</dfn>, <dfn
 title="resolve a URL">resolve a URL</dfn>, <dfn>willful
-violation</dfn>, and <em id=setting>setting</em> and <em
-id=getting>getting</em> of an attribute is defined in the HTML5
-specification <cite class="bibref normative">[<a
-href="#ref-HTML5">HTML5</a>]</cite>.</p>
+violation</dfn>, <dfn>XML parser</dfn>, and <em
+id=setting>setting</em> and <em id=getting>getting</em> of an
+attribute are defined in the HTML Standard <cite class="bibref
+normative">[<a href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a
@@ -321,31 +321,16 @@ specifications has to be supported.
 <div class=section id=parsing-xml>
 <h2>Parsing XML documents</h2>
 
+<p>This section defines additional requirements for an <span>XML
+parser</span>.
+
+<p>An <span>XML parser</span> <em class=rfc2119>MUST</em> parse an XML
+document as specified in the XML5 <cite class="bibref normative">[<a
+href="#ref-XML5">XML5</a>]</cite> specification.  <span class=ed>XXX
+Changes to HTML tokenizer made after XML5 has been specced must also
+be applied to XML tokenizer, where possible.</span>
+
 <div class=ed>
-
-<p>When a byte stream that represents an XML document is given to a
-parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
-relevant specifications <span class=ed>[XML, XML11, XMLNS, XMLNS11,
-DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
-
-<p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
-document even after a fatal error (as defined by the relavant
-specifications) is encountered.  How the parsing ought to be continued
-is not defined by this specification.
-
-<!--
-  <div class="note memo informative">
-  <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
-  will define how the parser has to convert any string into DOM tree
-  completely.
-  </div>
--->
-
-<p class=ed>A future version of this specification might define the
-entire parser in terms of input stream preprocessor, tokenizer, and
-tree constructor.
-
-<p>In addition, the following requirements are applied to the parser:
 
 <dl class=switch>
 <dt>For each external entity (including the document entity and the external
@@ -3954,10 +3939,14 @@ Standard</a></cite>, WHATWG.
   <dd><cite><a href="http://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
   <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
   progress.</dd>
-<dt id=ref-HTML5>HTML5</dt>
-  <dd><cite><a href="http://whatwg.org/html5"><abbr>HTML</abbr> 5</a></cite>,
-  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
-  Working Draft.  Work in progress.</dd>
+
+<dt id=ref-HTML>HTML
+
+<dd><a
+href="http://www.whatwg.org/specs/web-apps/current-work/"><cite>HTML</cite></a>,
+<abbr title="Web Hypertext Application Technology Working
+Group">WHATWG</abbr>.
+
 <dt id=ref-INFOSET>INFOSET</dt>
   <dd><cite><a href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204"><abbr>XML</abbr>
   Information Set (Second Edition)</a></cite>, <abbr>W3C</abbr> Recommendation,
@@ -3997,6 +3986,12 @@ Language (<abbr>XML</abbr>) 1.1</cite></a>, W3C.
 
 <dd><a href="http://www.w3.org/TR/xml-names11/"><cite>Namespaces in
 XML 1.1</cite></a>, W3C.
+
+<dt id=ref-XML5>XML5
+
+<dd><a
+href="https://dvcs.w3.org/hg/xml-er/raw-file/tip/Overview.html"><cite>XML-ER</cite></a>,
+Anne van Kesteren.
 
 </dl>
 </div>

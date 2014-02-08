@@ -33,10 +33,10 @@ available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreemen
 <h2 class="no-toc no-num" id=abstract-0>Abstract</h2>
 
 <p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
-documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; how namespace
-prefixes are serialized; and how conformance of XML documents are
-checked.
+documents, including: how to parse XML documents; how information in
+XML DTDs are represented in DOM; how base URLs are determined in XML
+documents; how namespace prefixes are serialized; and how conformance
+of XML documents are checked.
 
 </p></div>
 
@@ -120,10 +120,10 @@ normative version.</p>
 <p class=section-info>This section is <em>non-normative</em>.</p>
 
 <p>This specification defines how various implementations of XML by <a href=https://github.com/manakai/>the manakai project</a> process XML
-documents, including: how information in XML DTDs are represented in
-DOM; how base URLs are determined in XML documents; how namespace
-prefixes are serialized; and how conformance of XML documents are
-checked.
+documents, including: how to parse XML documents; how information in
+XML DTDs are represented in DOM; how base URLs are determined in XML
+documents; how namespace prefixes are serialized; and how conformance
+of XML documents are checked.
 
 </p><p>In general, this specification does not intend to override
 requirements imposed by various XML specifications.  It is not
@@ -241,8 +241,9 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 
 </p><p>The terms <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
 <dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a URL</dfn>, <dfn id=willful-violation>willful
-violation</dfn>, and <em id=setting>setting</em> and <em id=getting>getting</em> of an attribute is defined in the HTML5
-specification <cite class="bibref normative">[<a href=#ref-HTML5>HTML5</a>]</cite>.</p>
+violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, and <em id=setting>setting</em> and <em id=getting>getting</em> of an
+attribute are defined in the HTML Standard <cite class="bibref
+normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
@@ -311,33 +312,17 @@ specifications has to be supported.
 <div class=section id=parsing-xml>
 <h2 id=parsing-xml-documents><span class=secno>3 </span>Parsing XML documents</h2>
 
-<div class=ed>
+<p>This section defines additional requirements for an <a href=#xml-parser>XML
+parser</a>.
 
-<p>When a byte stream that represents an XML document is given to a
-parser, it <em class=rfc2119>MUST</em> create a DOM tree according to
-relevant specifications <span class=ed>[XML, XML11, XMLNS, XMLNS11,
-DOM3CORE, WEBDOMCORE, DOMDTDEF, MANAKAIDOMEXT]</span>.
+</p><p>An <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> parse an XML
+document as specified in the XML5 <cite class="bibref normative">[<a href=#ref-XML5>XML5</a>]</cite> specification.  <span class=ed>XXX
+Changes to HTML tokenizer made after XML5 has been specced must also
+be applied to XML tokenizer, where possible.</span>
 
-</p><p>The parser <em class=rfc2119>MAY</em> continue the parsing of the
-document even after a fatal error (as defined by the relavant
-specifications) is encountered.  How the parsing ought to be continued
-is not defined by this specification.
+</p><div class=ed>
 
-<!--
-  <div class="note memo informative">
-  <p>It is expected that the XML5 specification <span class=ed>@@ ref</span>
-  will define how the parser has to convert any string into DOM tree
-  completely.
-  </div>
--->
-
-</p><p class=ed>A future version of this specification might define the
-entire parser in terms of input stream preprocessor, tokenizer, and
-tree constructor.
-
-</p><p>In addition, the following requirements are applied to the parser:
-
-</p><dl class=switch>
+<dl class=switch>
 <dt>For each external entity (including the document entity and the external
 subset entity, if any)
   </dt><dd>If there is a byte sequence that are not legal in the encoding in use,
@@ -2027,7 +2012,7 @@ the <a href=#concept-entity-url title=concept-entity-url>entity URL</a> of the
 
 <div class="note memo">
 
-<p>It is expected that an <span>XML Parser</span> supporting this
+<p>It is expected that an <a href=#xml-parser>XML Parser</a> supporting this
 specification set the <a href=#concept-entity-url title=concept-entity-url>entity URL</a>
 when an external entity is read.
 
@@ -2212,7 +2197,7 @@ attribute value, if the <a href=#context-object>context object</a> is an
 
 <div class="note memo">
 
-<p>It is expected that an <span>XML Parser</span> supporting this
+<p>It is expected that an <a href=#xml-parser>XML Parser</a> supporting this
 specification set the <a href=#concept-entity-base-url title=concept-entity-base-url>entity base
 URL</a> when a document or external entity is read.  If the entity
 is retrieved using HTTP, the <code>Content-Base:</code> and
@@ -3616,11 +3601,14 @@ Standard</a></cite>, WHATWG.
   <dd><cite><a href=http://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Perl%20Binding>manakai's
   <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
   progress.</dd>
-<dt id=ref-HTML5>HTML5</dt>
-  <dd><cite><a href=http://whatwg.org/html5><abbr>HTML</abbr> 5</a></cite>,
-  <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr>
-  Working Draft.  Work in progress.</dd>
-<dt id=ref-INFOSET>INFOSET</dt>
+
+<dt id=ref-HTML>HTML
+
+</dt><dd><a href=http://www.whatwg.org/specs/web-apps/current-work/><cite>HTML</cite></a>,
+<abbr title="Web Hypertext Application Technology Working
+Group">WHATWG</abbr>.
+
+</dd><dt id=ref-INFOSET>INFOSET</dt>
   <dd><cite><a href=http://www.w3.org/TR/2004/REC-xml-infoset-20040204><abbr>XML</abbr>
   Information Set (Second Edition)</a></cite>, <abbr>W3C</abbr> Recommendation,
   <time datetime=2004-02-04>4 February 2004</time>.  <em>This</em> version of
@@ -3659,6 +3647,11 @@ Language (<abbr>XML</abbr>) 1.1</cite></a>, W3C.
 
 </dt><dd><a href=http://www.w3.org/TR/xml-names11/><cite>Namespaces in
 XML 1.1</cite></a>, W3C.
+
+</dd><dt id=ref-XML5>XML5
+
+</dt><dd><a href=https://dvcs.w3.org/hg/xml-er/raw-file/tip/Overview.html><cite>XML-ER</cite></a>,
+Anne van Kesteren.
 
 </dd></dl>
 </div>

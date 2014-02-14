@@ -239,14 +239,16 @@ namespace</dfn>, <dfn>XMLNS namespace</dfn>, <dfn>in a document</dfn>,
 <p>The terms and steps <em id=live><a
 href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
 <dfn>document base URL</dfn>, <dfn>the document's address</dfn>, <dfn
-title="resolve a URL">resolve a URL</dfn>, <dfn>willful
-violation</dfn>, <dfn>XML parser</dfn>, <em id=setting>setting</em>
-and <em id=getting>getting</em> of an attribute, <dfn>character
-token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
-<dfn>character reference in attribute value state</dfn>, <dfn>consume
-a character reference</dfn>, <dfn>additional allowed character</dfn>,
-<dfn>named character references</dfn>, and <dfn>stops parsing</dfn>
-are defined in the HTML Standard <cite class="bibref normative">[<a
+title="resolve a URL">resolve a URL</dfn>, <dfn>Content-Type
+metadata</dfn>, <dfn>willful violation</dfn>, <dfn>XML parser</dfn>,
+<em id=setting>setting</em> and <em id=getting>getting</em> of an
+attribute, <dfn title=concept-task>task</dfn>, <dfn>queue a
+task</dfn>, <dfn>input byte stream</dfn>, <dfn>character token</dfn>,
+<!-- <dfn>acknowledge self-closing flag</dfn>, --> <dfn>character
+reference in attribute value state</dfn>, <dfn>consume a character
+reference</dfn>, <dfn>additional allowed character</dfn>, <dfn>named
+character references</dfn>, and <dfn>stops parsing</dfn> are defined
+in the HTML Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
@@ -273,15 +275,25 @@ href="#ref-XML">XML</a>]</cite>.
 
 <p>The terms <dfn>parse error</dfn>, <dfn>input stream</dfn>,
 <dfn>tokenization</dfn>, <dfn>character token</dfn>, <dfn>end tag
-token</dfn>, <dfn>tree construction</dfn>, <dfn>main phase</dfn>,
-<dfn>stack of open elements</dfn>, <dfn>current element</dfn>,
-<dfn>list of entities</dfn>, <dfn>append an entity</dfn>, and
-<dfn>entity flag</dfn> are defined in the XML5 specification <cite
-class="bibref normative">[<a href="#ref-XML5">XML5</a>]</cite>.
+token</dfn>, <dfn>tree construction</dfn>, <dfn>phase</dfn>, <dfn>main
+phase</dfn>, <dfn>stack of open elements</dfn>, <dfn>current
+element</dfn>, <dfn>list of entities</dfn>, <dfn>list of parameter
+entities</dfn>, <dfn>append an entity</dfn>, and <dfn>entity
+flag</dfn> are defined in the XML5 specification <cite class="bibref
+normative">[<a href="#ref-XML5">XML5</a>]</cite>.
 
 <p>The <dfn>predefined entity names</dfn> are <code>apos</code>,
 <code>amp</code>, <code>lt</code>, <code>gt</code>, and
 <code>quot</code>.
+
+<p>The terms <dfn title=concept-fetch>fetch</dfn>, <dfn
+title=concept-request>request</dfn>, <dfn
+title=concept-response>response</dfn>, <dfn
+title=concept-response-type>type</dfn>, <dfn
+title=concept-response-body>body</dfn>, <dfn>process response</dfn>,
+<dfn>process response body</dfn>, and <dfn>process response
+end-of-file</dfn> are defined in the Fetch Standard <cite
+class="bibref normative">[<a href="#ref-FETCH">FETCH</a>]</cite>.
 
 <div class=ed>
 <p>Following paragraph need to be updated:
@@ -351,12 +363,17 @@ defined, similar steps for an <span>HTML parser</span> has to be used
 instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <span>parse
-error</span>.
+error</span>.  There are <dfn>before XML declaration phase</dfn> and
+<dfn>after XML declaration phase</dfn> in the <span>tree
+construction</span> stage.
 
 <p>An <dfn>XML tokenizer</dfn> is a component of the <span>XML
-parser</span> performing <span>tokenization</span>.  Initially, an
-<span>XML parser</span> contains an associated <span title="XML
-tokenizer">tokenizer</span>.
+parser</span> performing <span>tokenization</span>.  An <span>input
+stream</span> is associated with the <span title="XML
+tokenizer">tokenizer</span>.  Initially, an <span>XML parser</span>
+has an associated <span title="XML tokenizer">tokenizer</span> and
+<span>input stream</span>.  An <span>XML parser</span> has a
+<dfn>stack of tokenizers</dfn>, which is initially empty.
 
 <p>The <span>XML parser</span> has an <dfn>expand external
 entities</dfn> flag.  Unless explicitly stated, the <span>expand
@@ -375,9 +392,22 @@ parser</span> have the <dfn title=concept-entity-open>open</dfn> flag,
 which is initiall unset.
 
 <p>When the <span>XML parser</span> has to <span>append an
-entity</span>, if the <span>entity flag</span> is "normal" and the
-entity name is one of <span>predefined entity names</span>, it <em
-class=rfc2119>MUST</em> do nothing.
+entity</span>, it <em class=rfc2119>MUST</em> do nothing in following
+cases:
+
+  <ul>
+
+  <li>If the <span>entity flag</span> is "normal" and the entity name
+  is one of <span>predefined entity names</span>,
+
+  <li>If the <span>entity flag</span> is "normal" and the <span>list
+  of entities</span> contains an entity with same name, or
+
+  <li>If the <span>entity flag</span> is "parameter" and the
+  <span>list of parameter entities</span> contains an entity with same
+  name.
+
+  </ul>
 
 <!-- When a start tag token is emitted with its <i>self-closing
 flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
@@ -403,6 +433,13 @@ class=charname>SEMICOLON</code> character (<code>;</code>).  If the
 table already has a row whose first column is equal to the first
 column of the new row, the existing row <em class=rfc2119>MUST</em> be
 replaced by the new row.
+
+<p>If a row from the original <span>named character references</span>
+table is used, the first column of the row ends with a
+<code>U+003B</code> <code class=charname>SEMICOLON</code> character
+(<code>;</code>), and the first column of the row is none of
+<span>predefined entity names</span>, this is a <span>parse
+error</span>.
 
 <p>When <span title="character token">character tokens</span> are
 returned using the second column of the table, an <span>XML
@@ -463,10 +500,14 @@ attribute value state</span>:
 
   <li>Attempt to <span>consume a character reference</span> steps
   recursively, with no <span>additional allowed character</span>.
+  Those steps <em class=rfc2119>MUST</em> behave as if the <span>input
+  stream</span> were <var title>replacement text</var> and remove the
+  characters consumed from <var title>replacement text</var>.
 
   <li>If nothing is returned, append a <code>U+0026</code> <code
   class=charname>AMPERSAND</code> character (<code>&</code>) to <var
-  title>s</var>.
+  title>s</var> and remove the first character from <var
+  title>replacement text</var>.
 
   <li>Otherwise, append the characters represented by the returned
   <span title="character token">character tokens</span> to <var
@@ -491,16 +532,52 @@ attribute value state</span>:
 
   <ol>
 
-  <li>Let <var title>replacement text</var> be the empty string.
+  <li>If the <span>phase</span> of the <span>tree construction</span>
+  stage is not the <span>main phase</span>, return nothing and abort
+  the <span>consume a character reference</span> steps.
 
-  <li>If <var title>entity</var> is an <span>external entity</span>
-  and the <span>expand external entities</span> flag is set, <span
-  class=ed>fetch and wait for the <span>replacement
-  text</span></span>.  If it does not fail, set <var title>replacement
-  text</var> to the <span>replacement text</span> of <var
-  title>entity</var>.  <span class=ed>If failed or not fetched, set
-  some flag.</span> <span class=ed>XXX standalone=yes</span>
-  <!-- replacement text does not contain the text declaration. -->
+  <li>Set the <span title=concept-entity-open>open</span> flag of the
+  entry for <var title>entity</var> in the <span>list of
+  entities</span> of the <span>XML parser</span>.
+
+  <li>Push a <dfn title="entity boundary marker">marker</dfn> to the
+  <span>stack of open elements</span>.  This marker is referenced
+  later in this section, but is ignored for any other purposes.
+  (Especially, the <span>current element</span> can never be a <span
+  title="entity boundary marker">marker</span>.)
+
+  <li>Block the <span title="XML tokenizer">tokenizer</span> of the
+  <span>XML parser</span>, such that the <span>event loop</span> will
+  not run <span title=concept-task>tasks</span> that invoke the <span
+  title="XML tokenizer">tokenizer</span>.
+
+  <li>Push the current <span title="XML tokenizer">tokenizer</span> of
+  the <span>XML parser</span> to the <span>stack of tokenizers</span>.
+
+  <li>Let <var title>url</var> be the result of <span title="resolve a
+  URL">resolving</span> the <span title=concept-entity-systemID>system
+  ID</span> of <var title>entity</var> against the <span
+  title=concept-effective-declaration-base-url>effective declaration
+  base URL</span> of <var title>entity</var>, if <var
+  title>entity</var> is an <span>external entity</span>, or null.
+
+  <li>If <var title>entity</var> is an <span>internal entity</span>,
+  the <span>expand external entities</span> flag is unset, or <var
+  title>url</var> is in error:
+
+    <ol>
+
+    <li>Set the <span title="XML tokenizer">tokenizer</span> of the
+    <span>XML parser</span> to a new <span title="XML
+    tokenizer">tokenizer</span> whose <span>input stream</span> is
+    <span>replacement text</span> of <var title>entity</var>, if it is
+    an <span>internal entity</span>, or the empty string.
+
+    <li>Return zero <span title="character token">character
+    tokens</span> and abort the <span>consume a character
+    reference</span> steps.
+
+    </ol>
 
     <div class="note memo">
 
@@ -510,61 +587,97 @@ attribute value state</span>:
 
     </div>
 
-  <li>Otherwise, if <var title>entity</var> is an <span>internal
-  entity</span>, set <var title>replacement text</var> to the
-  <span>replacement text</span> of <var title>entity</var>.
+  <li>Otherwise:
 
-  <li>If the <span>phase</span> of the <span>tree construction</span>
-  stage is not the <span>main phase</span>, return nothing and abort
-  the <span>consume a character reference</span> steps.
+    <ol>
 
-  <li>Set the <span title=concept-entity-open>open</span> flag of the
-  entry for <var title>entity</var> in the <span>list of
-  entities</span> of the <span>XML parser</span>.
+    <li>Let <var title>referrer</var> be <span class=ed>XXX
+    <span>document's address</span> of the <code>Document</code> of
+    the <span>XML parser</span>, if referrer is enabled, or
+    null</span>.
 
-  <li>Block the <span title="XML tokenizer">tokenizer</span> of the
-  <span>XML parser</span>.
+    <li>Let <var title>req</var> be a <span
+    title=concept-request>request</span> with <span
+    title=concept-request-url>url</span> <var title>url</var> and
+    <span title=concept-request-referrer>referrer</span> <var
+    title>referrer</var>.
 
-  <li>Create a new <span title="XML tokenizer">tokenizer</span>, feed
-  <var title>replacement text</var> to the <span title="XML
-  tokenizer">tokenizer</span> as the <span>input stream</span>.
+    <li>Invoke the <span title=concept-fetch>fetch</span> steps using
+    <var title>req</var>.  The <span title=concept-task>tasks</span>
+    <span title="queue a task">queued</span> by the <span
+    title=concept-fetch>fetch</span> algorithm <em
+    class=rfc2119>MUST</em> run these steps:
 
-  <li>Return zero <span title="character token">character
-  tokens</span> and abort the <span>consume a character
-  reference</span> steps.
+      <dl class=switch>
 
-  </ol>
+      <dt>If it is a <span title=concept-task>task</span> to
+      <span>process response</span>
 
-  <p>If the <span>consume a character reference</span> steps are
-  aborted by the last step, after processing the current token, the
-  <span>XML parser</span> <em class=rfc2119>MUST</em> process the
-  tokens emitted by the new <span title="XML
-  tokenizer">tokenizer</span>.
+      <dd>If the <span title=concept-response-type>type</span> of the
+      <span title=concept-response>response</span> of the <span
+      title=concept-fetch>fetch</span> is <em>not</em> <i
+      title>default</i>, append the "EOF" character to the <span>input
+      byte stream</span> of the current <span title="XML
+      tokenizer">tokenizer</span> of the <span>XML parser</span>.
 
-  <p>For the purpose of the processing of an <span>end tag
-  token</span> only, the <span>XML parser</span> <em
-  class=rfc2119>MUST</em> act as if the <span>stack of open
-  elements</span> were empty when <var title>entity</var> is <span
-  title=concept-entity-open>opened</span>.<!-- For other purposes,
-  e.g. entity reference expansion and <video>/<object> processing, the
-  stack of open elements is not empty, however. -->
+      <dt>If it is a <span title=concept-task>task</span> to
+      <span>process response body</span>
 
-  <p>Instead of the <span>stops parsing</span> steps, the <span>XML
-  parser</span> <em class=rfc2119>MUST</em> run these steps:
+      <dd>If the <span title=concept-response-type>type</span> of the
+      <span title=concept-response>response</span> of the <span
+      title=concept-fetch>fetch</span> is <i title>default</i>, append
+      newly-arrived bytes in <span
+      title=concept-response-body>body</span> of the <span
+      title=concept-response>response</span> to the <span>input byte
+      stream</span> of the current <span title="XML
+      tokenizer">tokenizer</span> of the <span>XML parser</span>.
 
-  <ol>
+      <dt>If it is a <span title=concept-task>task</span> to
+      <span>process response end-of-file</span>
 
-  <li>Pop all elements pushed to the <span>stack of open
-  elements</span> after <var title>entity</var> is <span
-  title=concept-entity-open>opened</span> off the <span>stack of open
-  elements</span>.
+      <dd>Append the "EOF" character to the <span>input byte
+      stream</span> of the current <span title="XML
+      tokenizer">tokenizer</span> of the <span>XML parser</span>.
 
-  <li>Unblock the original <span title="XML
-  tokenizer">tokenizer</span> of the <span>XML parser</span>.
+      </dl>
 
-  <li>Unset the <span title=concept-entity-open>open</span> flag of
-  the entry for <var title>entity</var> in the <span>list of
-  entities</span> of the <span>XML parser</span>.
+    <li>Set the <span title="XML tokenizer">tokenizer</span> of the
+    <span>XML parser</span> to a new <span title="XML
+    tokenizer">tokenizer</span>.
+
+    <li>Set the <span>phase</span> of the <span>tree
+    construction</span> stage of the <span>XML parser</span> to
+    <span>before XML declaration phase</span>.
+
+    <li>Return zero <span title="character token">character
+    tokens</span> and abort the <span>consume a character
+    reference</span> steps.
+
+    </ol>
+
+    <p>When decoding the <span>input byte stream</span>, the character
+    encoding given in the <span>Content-Type metadata</span> (e.g. the
+    <code>charset</code> parameter) <em class=rfc2119>MUST</em> be
+    taken into account.  However, the <span>MIME type</span> itself is
+    ignored.
+
+      <div class="note memo">
+
+      <p>An external general entity can be served with various <span
+      title="MIME type">MIME types</span>, including but not limited
+      to: <code>text/xml-parsed-entity</code>,
+      <code>application/xml-parsed-entity</code>, various <span>XML
+      MIME types</span>, <code>text/sgml</code>,
+      <code>application/sgml</code>, <code>text/plain</code>, and
+      <code>application/octet-stream</code>.
+
+      </div>
+
+    <p class=ed>XXX set some error flag if external entity is not
+    expanded
+
+    <p class=ed>XXX interaction of <code>standalone=yes</code> and
+    external entity reference??
 
   </ol>
 
@@ -572,18 +685,50 @@ attribute value state</span>:
 
   <div class="note memo">
 
-  <p>The number of returned <span title="character token">character
-  tokens</span> could be zero, which is different from returning
-  nothing.
+  <p>The number of <span title="character token">character
+  tokens</span> returned by these steps can be zero, which is
+  different from returning nothing.
 
   </div>
 
-<p>If a row from the original <span>named character references</span>
-table is used, the first column of the row ends with a
-<code>U+003B</code> <code class=charname>SEMICOLON</code> character
-(<code>;</code>), and the first column of the row is none of
-<span>predefined entity names</span>, this is a <span>parse
-error</span>.
+<p>While the <span>stack of tokenizers</span> is <em>not</em> empty,
+for the purpose of the processing of an <span>end tag token</span>
+only, the <span>XML parser</span> <em class=rfc2119>MUST</em> act as
+if the <span>stack of open elements</span> does not contain the <span
+title="entity boundary marker">marker</span> and any other element
+added to the <span title="stack of open elements">stack</span> before
+the <span title="entity boundary marker">marker</span>.<!-- For other
+purposes, e.g. entity reference expansion and <video>/<object>
+processing, the stack of open elements is not empty, however. -->
+
+<p>While the <span>stack of tokenizers</span> is <em>not</em> empty,
+instead of the <span>stops parsing</span> steps, the <span>XML
+parser</span> <em class=rfc2119>MUST</em> run these steps:
+
+  <ol>
+
+  <li>Pop the most recently added <span title="entity boundary
+  marker">marker</span>, as well as any element added after the <span
+  title="entity boundary marker">marker</span>, from the <span>stack
+  of open elements</span>.
+
+  <li>Set the <span>phase</span> of the <span>tree construction</span>
+  stage of the <span>XML parser</span> to the <span>main phase</span>.
+
+  <li>Pop a <span title="XML tokenizer">tokenizer</span> from the
+  <span>stack of tokenizers</span> and set it the <span title="XML
+  tokenizer">tokenizer</span> of the <span>XML parser</span>.
+
+  <li>Unblock the <span title="XML tokenizer">tokenizer</span> of the
+  <span>XML parser</span>, such that <span
+  title=concept-task>tasks</span> that invoke the <span title="XML
+  tokenizer">tokenizer</span> can again be run.
+
+  <li>Unset the <span title=concept-entity-open>open</span> flag of
+  the entry for <var title>entity</var> in the <span>list of
+  entities</span> of the <span>XML parser</span>.
+
+  </ol>
 
 </div>
 
@@ -4202,6 +4347,10 @@ Standard</a></cite>, WHATWG.
   <dd><cite><a href="http://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
   <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
   progress.</dd>
+
+<dt id=ref-FETCH>FETCH <dd><cite><a
+href="http://fetch.spec.whatwg.org/">Fetch Standard</a></cite>,
+WHATWG.
 
 <dt id=ref-HTML>HTML
 

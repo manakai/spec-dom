@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 14 February 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 15 February 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-14 February 2014, the editor has made this specification available under the
+15 February 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -349,9 +349,10 @@ defined, similar steps for an <span>HTML parser</span> has to be used
 instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <a href=#parse-error>parse
-error</a>.  There are <dfn id=before-xml-declaration-phase>before XML declaration phase</dfn> and
-<dfn id=after-xml-declaration-phase>after XML declaration phase</dfn> in the <a href=#tree-construction>tree
-construction</a> stage.
+error</a>.  There are <dfn id=before-xml-declaration-phase>before XML declaration phase</dfn>,
+<dfn id=before-document-type-phase>before document type phase</dfn>, and <dfn id=document-type-phase>document type
+phase</dfn> in the <a href=#tree-construction>tree construction</a> stage.  XML
+namespaces must also be supported.
 
 </p><p>An <dfn id=xml-tokenizer>XML tokenizer</dfn> is a component of the <a href=#xml-parser>XML
 parser</a> performing <a href=#tokenization>tokenization</a>.  An <a href=#input-stream>input
@@ -361,14 +362,14 @@ has an associated <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> and
 <a href=#input-stream>input stream</a>.  An <a href=#xml-parser>XML parser</a> has a
 <dfn id=stack-of-tokenizers>stack of tokenizers</dfn>, which is initially empty.
 
-</p><p>The <a href=#xml-parser>XML parser</a> has an <dfn id=expand-external-entities>expand external
-entities</dfn> flag.  Unless explicitly stated, the <a href=#expand-external-entities>expand
-external entities</a> flag is unset.
+</p><p>The <a href=#xml-parser>XML parser</a> has <dfn id=expose-dtd-content>expose DTD content</dfn> and
+<dfn id=expand-external-entities>expand external entities</dfn> flags.  Unless explicitly stated,
+these flags are unset.
 
   </p><div class="note memo">
 
   <p>DOM APIs such as <code title=dom-Element-innerHTML>innerHTML</code> and
-  <code>DOMParser</code> do not set this flag.
+  <code>DOMParser</code> do not set these flags.
 
   </p></div>
 
@@ -398,7 +399,14 @@ cases:
 flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
 title="acknowledge self-closing flag">acknowledged</span>. -->
 
-<div class=section>
+<p>If the <a href=#expose-dtd-content>expose DTD content</a> flag is set, the <span title="element definition">element</span>, <span title="attribute
+definition">attribute</span>, <span title="unparsed entity
+definition">unparsed entity</span>, and <span title="notation
+definition">notation</span> declarations, as well as <span title="processing instruction">processing instructions</span> in DTD,
+<em class=rfc2119>MUST</em> be exposed to the DOM.<!-- XXX Need
+stricter definition -->
+
+</p><div class=section>
 <h3 id=expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</h3>
 
 <p>When the steps to <a href=#consume-a-character-reference>consume a character reference</a> is

@@ -363,9 +363,10 @@ defined, similar steps for an <span>HTML parser</span> has to be used
 instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <span>parse
-error</span>.  There are <dfn>before XML declaration phase</dfn> and
-<dfn>after XML declaration phase</dfn> in the <span>tree
-construction</span> stage.
+error</span>.  There are <dfn>before XML declaration phase</dfn>,
+<dfn>before document type phase</dfn>, and <dfn>document type
+phase</dfn> in the <span>tree construction</span> stage.  XML
+namespaces must also be supported.
 
 <p>An <dfn>XML tokenizer</dfn> is a component of the <span>XML
 parser</span> performing <span>tokenization</span>.  An <span>input
@@ -375,15 +376,15 @@ has an associated <span title="XML tokenizer">tokenizer</span> and
 <span>input stream</span>.  An <span>XML parser</span> has a
 <dfn>stack of tokenizers</dfn>, which is initially empty.
 
-<p>The <span>XML parser</span> has an <dfn>expand external
-entities</dfn> flag.  Unless explicitly stated, the <span>expand
-external entities</span> flag is unset.
+<p>The <span>XML parser</span> has <dfn>expose DTD content</dfn> and
+<dfn>expand external entities</dfn> flags.  Unless explicitly stated,
+these flags are unset.
 
   <div class="note memo">
 
   <p>DOM APIs such as <code
   title=dom-Element-innerHTML>innerHTML</code> and
-  <code>DOMParser</code> do not set this flag.
+  <code>DOMParser</code> do not set these flags.
 
   </div>
 
@@ -412,6 +413,15 @@ cases:
 <!-- When a start tag token is emitted with its <i>self-closing
 flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
 title="acknowledge self-closing flag">acknowledged</span>. -->
+
+<p>If the <span>expose DTD content</span> flag is set, the <span
+title="element definition">element</span>, <span title="attribute
+definition">attribute</span>, <span title="unparsed entity
+definition">unparsed entity</span>, and <span title="notation
+definition">notation</span> declarations, as well as <span
+title="processing instruction">processing instructions</span> in DTD,
+<em class=rfc2119>MUST</em> be exposed to the DOM.<!-- XXX Need
+stricter definition -->
 
 <div class=section>
 <h3>Expansion of entities</h3>

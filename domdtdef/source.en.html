@@ -240,18 +240,18 @@ namespace</dfn>, <dfn>XMLNS namespace</dfn>, <dfn>in a document</dfn>,
 
 <p>The terms and steps <em id=live><a
 href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
-<dfn>document base URL</dfn>, <dfn>the document's address</dfn>, <dfn
-title="resolve a URL">resolve a URL</dfn>, <dfn>Content-Type
-metadata</dfn>, <dfn>willful violation</dfn>, <dfn>XML parser</dfn>,
-<em id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute, <dfn title=concept-task>task</dfn>, <dfn>queue a
-task</dfn>, <dfn>parser pause flag</dfn>, <dfn>input byte
-stream</dfn>, <dfn>character token</dfn>, <!-- <dfn>acknowledge
-self-closing flag</dfn>, --> <dfn>character reference in attribute
-value state</dfn>, <dfn>consume a character reference</dfn>,
-<dfn>additional allowed character</dfn>, <dfn>named character
-references</dfn>, and <dfn>stops parsing</dfn> are defined in the HTML
-Standard <cite class="bibref normative">[<a
+<dfn>XML MIME type</dfn>, <dfn>document base URL</dfn>, <dfn>the
+document's address</dfn>, <dfn title="resolve a URL">resolve a
+URL</dfn>, <dfn>Content-Type metadata</dfn>, <dfn>willful
+violation</dfn>, <dfn>XML parser</dfn>, <em id=setting>setting</em>
+and <em id=getting>getting</em> of an attribute, <dfn
+title=concept-task>task</dfn>, <dfn>queue a task</dfn>, <dfn>parser
+pause flag</dfn>, <dfn>input byte stream</dfn>, <dfn>character
+token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
+<dfn>character reference in attribute value state</dfn>, <dfn>consume
+a character reference</dfn>, <dfn>additional allowed character</dfn>,
+<dfn>named character references</dfn>, and <dfn>stops parsing</dfn>
+are defined in the HTML Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
@@ -272,9 +272,15 @@ href="#ref-MANAKAI">MANAKAI</a>]</cite>.
 <p>The terms <a
 href="http://www.w3.org/TR/xml/#NT-Name"><dfn><code>Name</code></dfn></a>,
 <dfn>internal entity</dfn>, <dfn>external entity</dfn>, <dfn>unparsed
-entity</dfn>, <dfn>internal subset</dfn>, <dfn>external subset</dfn>,
-and <dfn>replacement text</dfn> are defined in the XML 1.0
-specification <cite class="bibref normative">[<a
+entity</dfn>, <dfn>general entity</dfn>, <dfn>parameter entity</dfn>,
+<dfn>internal subset</dfn>, <dfn>external subset</dfn>, <dfn>XML
+declaration</dfn>, <dfn>text declaration</dfn>, <dfn
+title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
+<dfn title=attr-xml-encoding><code>encoding</code></dfn>
+pseudo-attribute, <dfn
+title=attr-xml-standalone><code>standalone</code></dfn>
+pseudo-attribute, and <dfn>replacement text</dfn> are defined in the
+XML 1.0 specification <cite class="bibref normative">[<a
 href="#ref-XML">XML</a>]</cite>.
 
 <p>The terms <dfn>parse error</dfn>, <dfn>input stream</dfn>,
@@ -369,13 +375,12 @@ instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <span>parse
 error</span>.  There are <dfn>before XML declaration phase</dfn>,
-<dfn>before text declaration phase</dfn>, <dfn>before document type
-phase</dfn>, and <dfn>document type phase</dfn> in the <span>tree
-construction</span> stage.  XML namespaces must also be supported.
-The <span>XML parser</span> has the <dfn>entity body phase</dfn>,
-which is initially set to the <span>before document type phase</span>.
-It is used as the next <span>phase</span> of the <span>before XML
-declaration phase</span>.
+<dfn>before document type phase</dfn>, and <dfn>document type
+phase</dfn> in the <span>tree construction</span> stage.  XML
+namespaces must also be supported.  The <span>XML parser</span> has
+the <dfn>entity body phase</dfn>, which is initially set to the
+<span>before document type phase</span>.  It is used as the next
+<span>phase</span> of the <span>before XML declaration phase</span>.
 
 <p>An <dfn>XML tokenizer</dfn> is a component of the <span>XML
 parser</span> performing <span>tokenization</span>.  An <span>input
@@ -433,6 +438,18 @@ definition">notation</span> declarations, as well as <span
 title="processing instruction">processing instructions</span> in DTD,
 <em class=rfc2119>MUST</em> be exposed to the DOM through the
 <code>DocumentType</code> object.<!-- XXX Need stricter definition -->
+
+<div class=section>
+<h3>Character encodings</h3>
+
+<p class=ed>The value of the <code
+title=attr-xml-encodingmake
+>encoding</code> pseudo-attribute or the
+<code>charset</code> parameter <em class=rfc2119>MUST</em> be
+interpreted as an <span>encoding label</span> defined by the
+<span>Encoding Standard</span>.
+
+</div>
 
 <div class=section>
 <h3>Expansion of entities</h3>
@@ -515,6 +532,16 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
 <p>When the steps to <span>consume a character reference</span> is
 applied to an <span>XML parser</span>, the following requirements in
 this section is applied.</p>
+
+  <div class="note memo">
+
+  <p>The steps to <span>consume a character reference</span> is
+  defined in the <span>HTML Standard</span> for the <span>HTML
+  parser</span>.  This section monkeypatches the steps to implement
+  XML-specific rules.<!-- XXX character reference (not entity)
+  handling need also to be patched for 0x80-0x9F range... -->
+
+  </div>
 
 <p>If the <span>stack of open elements</span> is empty and the state
 is not the <span>character reference in attribute value state</span>
@@ -791,6 +818,14 @@ class=rfc2119>MUST</em> run these steps:
     <span>before XML declaration phase</span> and <span>entity body
     phase</span> to <var title>entity body phase</var>.
 
+      <div class="note memo">
+
+      <p>The <span>before XML declaration phase</span> is used to
+      parse the <span>text declaration</span> in the <span>external
+      entity</span>, if any.
+
+      </div>
+
     </ol>
 
     <p>When decoding the <span>input byte stream</span>, the character
@@ -801,13 +836,15 @@ class=rfc2119>MUST</em> run these steps:
 
       <div class="note memo">
 
-      <p>An external general entity can be served with various <span
+      <p>An <span title="external entity">external</span>
+      <span>general entity</span> can be served with various <span
       title="MIME type">MIME types</span>, including but not limited
       to: <code>application/xml-dtd</code>,
       <code>text/xml-parsed-entity</code>,
-      <code>application/xml-parsed-entity</code>, various <span>XML
-      MIME types</span>, <code>text/sgml</code>,
-      <code>application/sgml</code>, <code>text/plain</code>, and
+      <code>application/xml-parsed-entity</code>, various <span
+      title="XML MIME type">XML MIME types</span>,
+      <code>text/sgml</code>, <code>application/sgml</code>,
+      <code>text/plain</code>, and
       <code>application/octet-stream</code>.
 
       </div>

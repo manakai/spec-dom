@@ -78,12 +78,13 @@ normative version.</p>
    <li><a href=#xml-versions><span class=secno>2.2 </span>XML versions</a></li></ol></li>
  <li><a href=#parsing-xml-documents><span class=secno>3 </span>Parsing XML documents</a>
   <ol>
-   <li><a href=#expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</a>
+   <li><a href=#character-encodings><span class=secno>3.1 </span>Character encodings</a></li>
+   <li><a href=#expansion-of-entities><span class=secno>3.2 </span>Expansion of entities</a>
     <ol>
-     <li><a href=#the-external-subset-entity><span class=secno>3.1.1 </span>The external subset entity</a></li>
-     <li><a href=#parameter-entities><span class=secno>3.1.2 </span>Parameter entities</a></li>
-     <li><a href=#general-entities><span class=secno>3.1.3 </span>General entities</a></li>
-     <li><a href=#fetching-and-parsing-external-entities><span class=secno>3.1.4 </span>Fetching and parsing external entities</a></li></ol></li></ol></li>
+     <li><a href=#the-external-subset-entity><span class=secno>3.2.1 </span>The external subset entity</a></li>
+     <li><a href=#parameter-entities><span class=secno>3.2.2 </span>Parameter entities</a></li>
+     <li><a href=#general-entities><span class=secno>3.2.3 </span>General entities</a></li>
+     <li><a href=#fetching-and-parsing-external-entities><span class=secno>3.2.4 </span>Fetching and parsing external entities</a></li></ol></li></ol></li>
  <li><a href=#dom-document-type-definitions><span class=secno>4 </span>DOM Document Type Definitions</a>
   <ol>
    <li><a href=#Node><span class=secno>4.1 </span>Nodes</a></li>
@@ -247,17 +248,17 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
 </p><p>The terms and steps <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
-<dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a URL</dfn>, <dfn id=content-type-metadata>Content-Type
-metadata</dfn>, <dfn id=willful-violation>willful violation</dfn>, <dfn id=xml-parser>XML parser</dfn>,
-<em id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute, <dfn id=concept-task title=concept-task>task</dfn>, <dfn id=queue-a-task>queue a
-task</dfn>, <dfn id=parser-pause-flag>parser pause flag</dfn>, <dfn id=input-byte-stream>input byte
-stream</dfn>, <dfn id=character-token>character token</dfn>, <!-- <dfn>acknowledge
-self-closing flag</dfn>, --> <dfn id=character-reference-in-attribute-value-state>character reference in attribute
-value state</dfn>, <dfn id=consume-a-character-reference>consume a character reference</dfn>,
-<dfn id=additional-allowed-character>additional allowed character</dfn>, <dfn id=named-character-references>named character
-references</dfn>, and <dfn id=stops-parsing>stops parsing</dfn> are defined in the HTML
-Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
+<dfn id=xml-mime-type>XML MIME type</dfn>, <dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the
+document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a
+URL</dfn>, <dfn id=content-type-metadata>Content-Type metadata</dfn>, <dfn id=willful-violation>willful
+violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em>
+and <em id=getting>getting</em> of an attribute, <dfn id=concept-task title=concept-task>task</dfn>, <dfn id=queue-a-task>queue a task</dfn>, <dfn id=parser-pause-flag>parser
+pause flag</dfn>, <dfn id=input-byte-stream>input byte stream</dfn>, <dfn id=character-token>character
+token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
+<dfn id=character-reference-in-attribute-value-state>character reference in attribute value state</dfn>, <dfn id=consume-a-character-reference>consume
+a character reference</dfn>, <dfn id=additional-allowed-character>additional allowed character</dfn>,
+<dfn id=named-character-references>named character references</dfn>, and <dfn id=stops-parsing>stops parsing</dfn>
+are defined in the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
@@ -271,9 +272,13 @@ specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]<
 
 </p><p>The terms <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>,
 <dfn id=internal-entity>internal entity</dfn>, <dfn id=external-entity>external entity</dfn>, <dfn id=unparsed-entity>unparsed
-entity</dfn>, <dfn id=internal-subset>internal subset</dfn>, <dfn id=external-subset>external subset</dfn>,
-and <dfn id=replacement-text>replacement text</dfn> are defined in the XML 1.0
-specification <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.
+entity</dfn>, <dfn id=general-entity>general entity</dfn>, <dfn id=parameter-entity>parameter entity</dfn>,
+<dfn id=internal-subset>internal subset</dfn>, <dfn id=external-subset>external subset</dfn>, <dfn id=xml-declaration>XML
+declaration</dfn>, <dfn id=text-declaration>text declaration</dfn>, <dfn id=attr-xml-version title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
+<dfn id=attr-xml-encoding title=attr-xml-encoding><code>encoding</code></dfn>
+pseudo-attribute, <dfn id=attr-xml-standalone title=attr-xml-standalone><code>standalone</code></dfn>
+pseudo-attribute, and <dfn id=replacement-text>replacement text</dfn> are defined in the
+XML 1.0 specification <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.
 
 </p><p>The terms <dfn id=parse-error>parse error</dfn>, <dfn id=input-stream>input stream</dfn>,
 <dfn id=tokenization>tokenization</dfn>, <dfn id=character-token-0>character token</dfn>, <dfn id=end-tag-token>end tag
@@ -357,13 +362,12 @@ instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <a href=#parse-error>parse
 error</a>.  There are <dfn id=before-xml-declaration-phase>before XML declaration phase</dfn>,
-<dfn id=before-text-declaration-phase>before text declaration phase</dfn>, <dfn id=before-document-type-phase>before document type
-phase</dfn>, and <dfn id=document-type-phase>document type phase</dfn> in the <a href=#tree-construction>tree
-construction</a> stage.  XML namespaces must also be supported.
-The <a href=#xml-parser>XML parser</a> has the <dfn id=entity-body-phase>entity body phase</dfn>,
-which is initially set to the <a href=#before-document-type-phase>before document type phase</a>.
-It is used as the next <a href=#phase>phase</a> of the <a href=#before-xml-declaration-phase>before XML
-declaration phase</a>.
+<dfn id=before-document-type-phase>before document type phase</dfn>, and <dfn id=document-type-phase>document type
+phase</dfn> in the <a href=#tree-construction>tree construction</a> stage.  XML
+namespaces must also be supported.  The <a href=#xml-parser>XML parser</a> has
+the <dfn id=entity-body-phase>entity body phase</dfn>, which is initially set to the
+<a href=#before-document-type-phase>before document type phase</a>.  It is used as the next
+<a href=#phase>phase</a> of the <a href=#before-xml-declaration-phase>before XML declaration phase</a>.
 
 </p><p>An <dfn id=xml-tokenizer>XML tokenizer</dfn> is a component of the <a href=#xml-parser>XML
 parser</a> performing <a href=#tokenization>tokenization</a>.  An <a href=#input-stream>input
@@ -420,10 +424,20 @@ definition">notation</span> declarations, as well as <span title="processing ins
 <a href=#documenttype><code>DocumentType</code></a> object.<!-- XXX Need stricter definition -->
 
 </p><div class=section>
-<h3 id=expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</h3>
+<h3 id=character-encodings><span class=secno>3.1 </span>Character encodings</h3>
+
+<p class=ed>The value of the <code title=attr-xml-encodingmake>encoding</code> pseudo-attribute or the
+<code>charset</code> parameter <em class=rfc2119>MUST</em> be
+interpreted as an <span>encoding label</span> defined by the
+<span>Encoding Standard</span>.
+
+</p></div>
 
 <div class=section>
-<h4 id=the-external-subset-entity><span class=secno>3.1.1 </span>The external subset entity</h4>
+<h3 id=expansion-of-entities><span class=secno>3.2 </span>Expansion of entities</h3>
+
+<div class=section>
+<h4 id=the-external-subset-entity><span class=secno>3.2.1 </span>The external subset entity</h4>
 
 <p>Just before the <a href=#phase>phase</a> is switched from the
 <a href=#before-document-type-phase>before document type phase</a> to the <a href=#start-phase>start
@@ -476,7 +490,7 @@ run the following steps:
 </div>
 
 <div class=section>
-<h4 id=parameter-entities><span class=secno>3.1.2 </span>Parameter entities</h4>
+<h4 id=parameter-entities><span class=secno>3.2.2 </span>Parameter entities</h4>
 
 <p>To <dfn id=consume-a-parameter-entity>consume a parameter entity</dfn>, the <a href=#xml-parser>XML
 parser</a> <em class=rfc2119>MUST</em> run these steps:
@@ -490,11 +504,21 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
 </div>
 
 <div class=section>
-<h4 id=general-entities><span class=secno>3.1.3 </span>General entities</h4>
+<h4 id=general-entities><span class=secno>3.2.3 </span>General entities</h4>
 
 <p>When the steps to <a href=#consume-a-character-reference>consume a character reference</a> is
 applied to an <a href=#xml-parser>XML parser</a>, the following requirements in
 this section is applied.</p>
+
+  <div class="note memo">
+
+  <p>The steps to <a href=#consume-a-character-reference>consume a character reference</a> is
+  defined in the <span>HTML Standard</span> for the <span>HTML
+  parser</span>.  This section monkeypatches the steps to implement
+  XML-specific rules.<!-- XXX character reference (not entity)
+  handling need also to be patched for 0x80-0x9F range... -->
+
+  </p></div>
 
 <p>If the <a href=#stack-of-open-elements>stack of open elements</a> is empty and the state
 is not the <a href=#character-reference-in-attribute-value-state>character reference in attribute value state</a>
@@ -643,7 +667,7 @@ attribute value state</a>:
 </div>
 
 <div class=section>
-<h4 id=fetching-and-parsing-external-entities><span class=secno>3.1.4 </span>Fetching and parsing external entities</h4>
+<h4 id=fetching-and-parsing-external-entities><span class=secno>3.2.4 </span>Fetching and parsing external entities</h4>
 
 <p>To <dfn id=parse-an-entity>parse an entity</dfn> <var title="">entity</var> with <var title="">url</var>, <var title="">original phase</var>, and <var title="">entity body phase</var>, the <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> run these steps:
 
@@ -651,7 +675,7 @@ attribute value state</a>:
 
   <li>Set the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of the
   entry for <var title="">entity</var> in the <a href=#list-of-entities>list of
-  entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <span>general entity</span>.
+  entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <a href=#general-entity>general entity</a>.
 
   </li><li>Push a <dfn id=entity-boundary-marker title="entity boundary marker">marker</dfn> to the
   <a href=#stack-of-open-elements>stack of open elements</a>.  This marker is referenced
@@ -742,6 +766,14 @@ attribute value state</a>:
     <a href=#before-xml-declaration-phase>before XML declaration phase</a> and <a href=#entity-body-phase>entity body
     phase</a> to <var title="">entity body phase</var>.
 
+      <div class="note memo">
+
+      <p>The <a href=#before-xml-declaration-phase>before XML declaration phase</a> is used to
+      parse the <a href=#text-declaration>text declaration</a> in the <a href=#external-entity>external
+      entity</a>, if any.
+
+      </p></div>
+
     </li></ol>
 
     <p>When decoding the <a href=#input-byte-stream>input byte stream</a>, the character
@@ -752,12 +784,13 @@ attribute value state</a>:
 
       </p><div class="note memo">
 
-      <p>An external general entity can be served with various <span title="MIME type">MIME types</span>, including but not limited
+      <p>An <a href=#external-entity title="external entity">external</a>
+      <a href=#general-entity>general entity</a> can be served with various <span title="MIME type">MIME types</span>, including but not limited
       to: <code>application/xml-dtd</code>,
       <code>text/xml-parsed-entity</code>,
-      <code>application/xml-parsed-entity</code>, various <span>XML
-      MIME types</span>, <code>text/sgml</code>,
-      <code>application/sgml</code>, <code>text/plain</code>, and
+      <code>application/xml-parsed-entity</code>, various <a href=#xml-mime-type title="XML MIME type">XML MIME types</a>,
+      <code>text/sgml</code>, <code>application/sgml</code>,
+      <code>text/plain</code>, and
       <code>application/octet-stream</code>.
 
       </p></div>
@@ -806,7 +839,7 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
 
   </li><li>Unset the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of
   the entry for <var title="">entity</var> in the <a href=#list-of-entities>list of
-  entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <span>general entity</span>.
+  entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <a href=#general-entity>general entity</a>.
 
   </li></ol>
 

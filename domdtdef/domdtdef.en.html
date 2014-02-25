@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 15 February 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 25 February 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-15 February 2014, the editor has made this specification available under the
+25 February 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -78,7 +78,12 @@ normative version.</p>
    <li><a href=#xml-versions><span class=secno>2.2 </span>XML versions</a></li></ol></li>
  <li><a href=#parsing-xml-documents><span class=secno>3 </span>Parsing XML documents</a>
   <ol>
-   <li><a href=#expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</a></li></ol></li>
+   <li><a href=#expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</a>
+    <ol>
+     <li><a href=#the-external-subset-entity><span class=secno>3.1.1 </span>The external subset entity</a></li>
+     <li><a href=#parameter-entities><span class=secno>3.1.2 </span>Parameter entities</a></li>
+     <li><a href=#general-entities><span class=secno>3.1.3 </span>General entities</a></li>
+     <li><a href=#fetching-and-parsing-external-entities><span class=secno>3.1.4 </span>Fetching and parsing external entities</a></li></ol></li></ol></li>
  <li><a href=#dom-document-type-definitions><span class=secno>4 </span>DOM Document Type Definitions</a>
   <ol>
    <li><a href=#Node><span class=secno>4.1 </span>Nodes</a></li>
@@ -86,7 +91,7 @@ normative version.</p>
    <li><a href=#document-types><span class=secno>4.3 </span>Document types</a></li>
    <li><a href=#element-types><span class=secno>4.4 </span>Element types</a></li>
    <li><a href=#attribute-definitions><span class=secno>4.5 </span>Attribute definitions</a></li>
-   <li><a href=#general-entities><span class=secno>4.6 </span>General entities</a></li>
+   <li><a href=#general-entities-0><span class=secno>4.6 </span>General entities</a></li>
    <li><a href=#notations><span class=secno>4.7 </span>Notations</a></li></ol></li>
  <li><a href=#base-urls><span class=secno>5 </span>Base URLs</a></li>
  <li><a href=#xml-namespaces><span class=secno>6 </span>XML namespaces</a>
@@ -352,12 +357,13 @@ instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <a href=#parse-error>parse
 error</a>.  There are <dfn id=before-xml-declaration-phase>before XML declaration phase</dfn>,
-<dfn id=before-document-type-phase>before document type phase</dfn>, and <dfn id=document-type-phase>document type
-phase</dfn> in the <a href=#tree-construction>tree construction</a> stage.  XML
-namespaces must also be supported.  The <a href=#xml-parser>XML parser</a> has
-the <dfn id=entity-body-phase>entity body phase</dfn>, which is initially set to the
-<a href=#before-document-type-phase>before document type phase</a>.  It is used as the next
-<a href=#phase>phase</a> of the <a href=#before-xml-declaration-phase>before XML declaration phase</a>.
+<dfn id=before-text-declaration-phase>before text declaration phase</dfn>, <dfn id=before-document-type-phase>before document type
+phase</dfn>, and <dfn id=document-type-phase>document type phase</dfn> in the <a href=#tree-construction>tree
+construction</a> stage.  XML namespaces must also be supported.
+The <a href=#xml-parser>XML parser</a> has the <dfn id=entity-body-phase>entity body phase</dfn>,
+which is initially set to the <a href=#before-document-type-phase>before document type phase</a>.
+It is used as the next <a href=#phase>phase</a> of the <a href=#before-xml-declaration-phase>before XML
+declaration phase</a>.
 
 </p><p>An <dfn id=xml-tokenizer>XML tokenizer</dfn> is a component of the <a href=#xml-parser>XML
 parser</a> performing <a href=#tokenization>tokenization</a>.  An <a href=#input-stream>input
@@ -398,6 +404,8 @@ cases:
   <a href=#list-of-parameter-entities>list of parameter entities</a> contains an entity with same
   name.
 
+  </li><li class=ed>XXX stop processing flag is set
+
   </li></ul>
 
 <!-- When a start tag token is emitted with its <i>self-closing
@@ -405,14 +413,17 @@ flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
 title="acknowledge self-closing flag">acknowledged</span>. -->
 
 <p>If the <a href=#expose-dtd-content>expose DTD content</a> flag is set, the <span title="element definition">element</span>, <span title="attribute
-definition">attribute</span>, <span title="unparsed entity
+definition">attribute list</span>, <span title="unparsed entity
 definition">unparsed entity</span>, and <span title="notation
 definition">notation</span> declarations, as well as <span title="processing instruction">processing instructions</span> in DTD,
-<em class=rfc2119>MUST</em> be exposed to the DOM.<!-- XXX Need
-stricter definition -->
+<em class=rfc2119>MUST</em> be exposed to the DOM through the
+<a href=#documenttype><code>DocumentType</code></a> object.<!-- XXX Need stricter definition -->
 
 </p><div class=section>
 <h3 id=expansion-of-entities><span class=secno>3.1 </span>Expansion of entities</h3>
+
+<div class=section>
+<h4 id=the-external-subset-entity><span class=secno>3.1.1 </span>The external subset entity</h4>
 
 <p>Just before the <a href=#phase>phase</a> is switched from the
 <a href=#before-document-type-phase>before document type phase</a> to the <a href=#start-phase>start
@@ -462,7 +473,24 @@ run the following steps:
 
   </p></div>
 
-<hr>
+</div>
+
+<div class=section>
+<h4 id=parameter-entities><span class=secno>3.1.2 </span>Parameter entities</h4>
+
+<p>To <dfn id=consume-a-parameter-entity>consume a parameter entity</dfn>, the <a href=#xml-parser>XML
+parser</a> <em class=rfc2119>MUST</em> run these steps:
+
+  </p><ol>
+
+  <li class=ed>XXX
+
+  </li></ol>
+
+</div>
+
+<div class=section>
+<h4 id=general-entities><span class=secno>3.1.3 </span>General entities</h4>
 
 <p>When the steps to <a href=#consume-a-character-reference>consume a character reference</a> is
 applied to an <a href=#xml-parser>XML parser</a>, the following requirements in
@@ -612,7 +640,10 @@ attribute value state</a>:
 
   </p></div>
 
-<hr>
+</div>
+
+<div class=section>
+<h4 id=fetching-and-parsing-external-entities><span class=secno>3.1.4 </span>Fetching and parsing external entities</h4>
 
 <p>To <dfn id=parse-an-entity>parse an entity</dfn> <var title="">entity</var> with <var title="">url</var>, <var title="">original phase</var>, and <var title="">entity body phase</var>, the <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> run these steps:
 
@@ -778,6 +809,8 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
   entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <span>general entity</span>.
 
   </li></ol>
+
+</div>
 
 </div>
 
@@ -2355,7 +2388,7 @@ type <code>unsigned short</code></dt>
 </div>
 
 <div class=section id=section-entity>
-<h3 id=general-entities><span class=secno>4.6 </span>General entities</h3>
+<h3 id=general-entities-0><span class=secno>4.6 </span>General entities</h3>
 
 <p>The <a href=#entity><code>Entity</code></a> node is known as <dfn id=concept-general-entity title=concept-general-entity>general entity</dfn>, or when not
 ambiguous, simply <dfn id=concept-entity title=concept-entity>entity</dfn>.

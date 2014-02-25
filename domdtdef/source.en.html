@@ -369,12 +369,13 @@ instead.  Changes to HTML tokenizer made after XML5 has been specced
 must also be applied to XML tokenizer, where possible.  Even for such
 cases, if the input is not well-formed, it is a <span>parse
 error</span>.  There are <dfn>before XML declaration phase</dfn>,
-<dfn>before document type phase</dfn>, and <dfn>document type
-phase</dfn> in the <span>tree construction</span> stage.  XML
-namespaces must also be supported.  The <span>XML parser</span> has
-the <dfn>entity body phase</dfn>, which is initially set to the
-<span>before document type phase</span>.  It is used as the next
-<span>phase</span> of the <span>before XML declaration phase</span>.
+<dfn>before text declaration phase</dfn>, <dfn>before document type
+phase</dfn>, and <dfn>document type phase</dfn> in the <span>tree
+construction</span> stage.  XML namespaces must also be supported.
+The <span>XML parser</span> has the <dfn>entity body phase</dfn>,
+which is initially set to the <span>before document type phase</span>.
+It is used as the next <span>phase</span> of the <span>before XML
+declaration phase</span>.
 
 <p>An <dfn>XML tokenizer</dfn> is a component of the <span>XML
 parser</span> performing <span>tokenization</span>.  An <span>input
@@ -416,6 +417,8 @@ cases:
   <span>list of parameter entities</span> contains an entity with same
   name.
 
+  <li class=ed>XXX stop processing flag is set
+
   </ul>
 
 <!-- When a start tag token is emitted with its <i>self-closing
@@ -424,15 +427,18 @@ title="acknowledge self-closing flag">acknowledged</span>. -->
 
 <p>If the <span>expose DTD content</span> flag is set, the <span
 title="element definition">element</span>, <span title="attribute
-definition">attribute</span>, <span title="unparsed entity
+definition">attribute list</span>, <span title="unparsed entity
 definition">unparsed entity</span>, and <span title="notation
 definition">notation</span> declarations, as well as <span
 title="processing instruction">processing instructions</span> in DTD,
-<em class=rfc2119>MUST</em> be exposed to the DOM.<!-- XXX Need
-stricter definition -->
+<em class=rfc2119>MUST</em> be exposed to the DOM through the
+<code>DocumentType</code> object.<!-- XXX Need stricter definition -->
 
 <div class=section>
 <h3>Expansion of entities</h3>
+
+<div class=section>
+<h4>The external subset entity</h4>
 
 <p>Just before the <span>phase</span> is switched from the
 <span>before document type phase</span> to the <span>start
@@ -487,7 +493,24 @@ run the following steps:
 
   </div>
 
-<hr>
+</div>
+
+<div class=section>
+<h4>Parameter entities</h4>
+
+<p>To <dfn>consume a parameter entity</dfn>, the <span>XML
+parser</span> <em class=rfc2119>MUST</em> run these steps:
+
+  <ol>
+
+  <li class=ed>XXX
+
+  </ol>
+
+</div>
+
+<div class=section>
+<h4>General entities</h4>
 
 <p>When the steps to <span>consume a character reference</span> is
 applied to an <span>XML parser</span>, the following requirements in
@@ -649,7 +672,10 @@ attribute value state</span>:
 
   </div>
 
-<hr>
+</div>
+
+<div class=section>
+<h4>Fetching and parsing external entities</h4>
 
 <p>To <dfn>parse an entity</dfn> <var title>entity</var> with <var
 title>url</var>, <var title>original phase</var>, and <var
@@ -837,6 +863,8 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
   title>entity</var> is a <span>general entity</span>.
 
   </ol>
+
+</div>
 
 </div>
 

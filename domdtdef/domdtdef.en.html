@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 25 February 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 2 March 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-25 February 2014, the editor has made this specification available under the
+2 March 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -248,17 +248,18 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 <cite class="bibref normative">[<a href=#ref-DOM>DOM</a>]</cite>.
 
 </p><p>The terms and steps <em id=live><a href=http://www.whatwg.org/specs/web-apps/current-work/#live>live</a></em>,
-<dfn id=xml-mime-type>XML MIME type</dfn>, <dfn id=document-base-url>document base URL</dfn>, <dfn id="the-document's-address">the
-document's address</dfn>, <dfn id=resolve-a-url title="resolve a URL">resolve a
-URL</dfn>, <dfn id=content-type-metadata>Content-Type metadata</dfn>, <dfn id=willful-violation>willful
-violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em>
-and <em id=getting>getting</em> of an attribute, <dfn id=concept-task title=concept-task>task</dfn>, <dfn id=queue-a-task>queue a task</dfn>, <dfn id=parser-pause-flag>parser
-pause flag</dfn>, <dfn id=input-byte-stream>input byte stream</dfn>, <dfn id=character-token>character
-token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
-<dfn id=character-reference-in-attribute-value-state>character reference in attribute value state</dfn>, <dfn id=consume-a-character-reference>consume
-a character reference</dfn>, <dfn id=additional-allowed-character>additional allowed character</dfn>,
-<dfn id=named-character-references>named character references</dfn>, and <dfn id=stops-parsing>stops parsing</dfn>
-are defined in the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
+<dfn id=space-character>space character</dfn>, <dfn id=xml-mime-type>XML MIME type</dfn>, <dfn id=document-base-url>document
+base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve
+a URL">resolve a URL</dfn>, <dfn id=content-type-metadata>Content-Type metadata</dfn>,
+<dfn id=willful-violation>willful violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em> and <em id=getting>getting</em> of an
+attribute, <dfn id=concept-task title=concept-task>task</dfn>, <dfn id=queue-a-task>queue a
+task</dfn>, <dfn id=parser-pause-flag>parser pause flag</dfn>, <dfn id=input-byte-stream>input byte
+stream</dfn>, <dfn id=character-token>character token</dfn>, <!-- <dfn>acknowledge
+self-closing flag</dfn>, --> <dfn id=character-reference-in-attribute-value-state>character reference in attribute
+value state</dfn>, <dfn id=consume-a-character-reference>consume a character reference</dfn>,
+<dfn id=additional-allowed-character>additional allowed character</dfn>, <dfn id=named-character-references>named character
+references</dfn>, and <dfn id=stops-parsing>stops parsing</dfn> are defined in the HTML
+Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
 <dfn id=namednodemap><code>NamedNodeMap</code></dfn><!-- XXX or AttrExodus? -->, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-1788794630><dfn id=dom-documenttype-entities title=dom-DocumentType-entities><code>entities</code></dfn></a>, <a href=http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/DOM3-Core.html#core-ID-D46829EF><dfn id=dom-documenttype-notations title=dom-DocumentType-notations><code>notations</code></dfn></a>,
@@ -292,6 +293,11 @@ the XML5 specification <cite class="bibref normative">[<a href=#ref-XML5>XML5</a
 </p><p>The <dfn id=predefined-entity-names>predefined entity names</dfn> are <code>apos</code>,
 <code>amp</code>, <code>lt</code>, <code>gt</code>, and
 <code>quot</code>.
+
+</p><p>The <dfn id=predefined-public-ids>predefined public IDs</dfn> are <a href=http://www.whatwg.org/specs/web-apps/current-work/#parsing-xhtml-documents>the
+public identifiers associated with the DTD containing declarations for
+the named character references</a>, as specified in the <span>HTML
+Standard</span>.
 
 </p><p>The terms <dfn id=concept-fetch title=concept-fetch>fetch</dfn>, <dfn id=concept-request title=concept-request>request</dfn>, <dfn id=concept-response title=concept-response>response</dfn>, <dfn id=concept-response-type title=concept-response-type>type</dfn>, <dfn id=concept-response-body title=concept-response-body>body</dfn>, <dfn id=process-response>process response</dfn>,
 <dfn id=process-response-body>process response body</dfn>, and <dfn id=process-response-end-of-file>process response
@@ -377,7 +383,15 @@ has an associated <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> and
 <a href=#input-stream>input stream</a>.  An <a href=#xml-parser>XML parser</a> has a
 <dfn id=stack-of-tokenizers>stack of tokenizers</dfn>, which is initially empty.
 
-</p><p>The <a href=#xml-parser>XML parser</a> has <dfn id=expose-dtd-content>expose DTD content</dfn> and
+  </p><div class="note memo">
+
+  <p>Unless explicitly specified, various states of the <a href=#xml-parser>XML
+  parser</a> are shared among <a href=#xml-tokenizer title="XML
+  tokenizer">tokenizers</a> associated with it.
+
+  </p></div>
+
+<p>The <a href=#xml-parser>XML parser</a> has <dfn id=expose-dtd-content>expose DTD content</dfn> and
 <dfn id=expand-external-entities>expand external entities</dfn> flags.  Unless explicitly stated,
 these flags are unset.
 
@@ -416,17 +430,32 @@ cases:
 flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
 title="acknowledge self-closing flag">acknowledged</span>. -->
 
-<p>If the <a href=#expose-dtd-content>expose DTD content</a> flag is set, the <span title="element definition">element</span>, <span title="attribute
-definition">attribute list</span>, <span title="unparsed entity
-definition">unparsed entity</span>, and <span title="notation
-definition">notation</span> declarations, as well as <span title="processing instruction">processing instructions</span> in DTD,
-<em class=rfc2119>MUST</em> be exposed to the DOM through the
+<p class=ed>If the <a href=#expose-dtd-content>expose DTD content</a> flag is set, the
+<span title="element definition">element</span>, <span title="attribute definition">attribute list</span>, <span title="unparsed entity definition">unparsed entity</span>, and <span title="notation definition">notation</span> declarations, as well as
+<span title="processing instruction">processing instructions</span> in
+DTD, <em class=rfc2119>MUST</em> be exposed to the DOM through the
 <a href=#documenttype><code>DocumentType</code></a> object.<!-- XXX Need stricter definition -->
+
+</p><p class=ed>Unless when the previous <a href=#phase>phase</a> is the
+<a href=#start-phase>start phase</a> or when the currently processing <a href=#input-stream>input
+stream</a> is an <a href=#entity>entity</a> referenced by the
+<span>document type declaration</span> or an <span>entity
+reference</span> (rather than the <span>document entity</span>),
+everything must be ignored in the <a href=#document-type-phase>document type phase</a>.
+
+</p><p>An <a href=#xml-parser>XML parser</a> has <dfn id=need-predefined-entity-declarations>need predefined entity
+declarations</dfn> and <dfn id=has-character-entity-declarations>has character entity declarations</dfn>
+flags.  They are initially unset.
+
+</p><p>In the <a href=#document-type-phase>document type phase</a>, the <a href=#need-predefined-entity-declarations>need predefined
+entity declarations</a> flag <em class=rfc2119>MUST</em> be set.
+It <em class=rfc2119>MUST</em> be restored to the original value when
+the <a href=#phase>phase</a> is set to another value.
 
 </p><div class=section>
 <h3 id=character-encodings><span class=secno>3.1 </span>Character encodings</h3>
 
-<p class=ed>The value of the <code title=attr-xml-encodingmake>encoding</code> pseudo-attribute or the
+<p class=ed>The value of the <a href=#attr-xml-encoding><code title=attr-xml-encoding>encoding</code></a> pseudo-attribute or the
 <code>charset</code> parameter <em class=rfc2119>MUST</em> be
 interpreted as an <span>encoding label</span> defined by the
 <span>Encoding Standard</span>.
@@ -451,12 +480,18 @@ run the following steps:
 
   </li><li>If <var title="">doctype</var> is null, abort these steps.
 
+  </li><li>Let <var title="">public ID</var> be the <code title=dom-DocumentType-publicId>publicId</code> of <var title="">doctype</var>.
+
+  </li><li>If <var title="">public ID</var> is one of <a href=#predefined-public-ids>predefined public
+  IDs</a>, set the <a href=#has-character-entity-declarations>has character entity declarations</a>
+  flag and abort these steps.
+
+  </li><li>Set the <a href=#need-predefined-entity-declarations>need predefined entity declarations</a> flag.
+
   </li><li>Let <var title="">system ID</var> be the <a href=#dom-documenttype-systemid><code title=dom-DocumentType-systemId>systemId</code></a> of <var title="">doctype</var>.
 
   </li><li>If <var title="">system ID</var> is the empty string, abort these
   steps.
-
-  </li><li class=ed>XXX public ID
 
   </li><li>Invoke the <a href=#parse-an-entity>parse an entity</a> steps with following
   parameters:
@@ -497,7 +532,112 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
 
   </p><ol>
 
-  <li class=ed>XXX
+  <li>Consume the <span>next input character</span> while it is
+  <em>not</em> one of following characters:
+
+    <ul>
+
+    <li>A <a href=#space-character>space character</a>
+
+    </li><li>A <code>U+0022</code> <code class=charname>QUOTATION
+    MARK</code> character (<code>"</code>)
+
+    </li><li>A <code>U+0025</code> <code class=charname>PERCENT SIGN</code>
+    character (<code>%</code>)
+
+    </li><li>A <code>U+0026</code> <code class=charname>AMPERSAND</code>
+    character (<code>&amp;</code>)
+
+    </li><li>A <code>U+0027</code> <code class=charname>APOSTROPHE</code>
+    character (<code>'</code>)
+
+    </li><li>A <code>U+003B</code> <code class=charname>SEMICOLON</code>
+    character (<code>;</code>)
+
+    </li><li>A <code>U+003C</code> <code class=charname>LESS-THAN
+    SIGN</code> character (<code>&lt;</code>)
+
+    </li><li>A <code>U+003D</code> <code class=charname>EQUAL SIGN</code>
+    character (<code>=</code>)
+
+    </li><li>A <code>U+003E</code> <code class=charname>GREATER-THAN
+    SIGN</code> character (<code>&gt;</code>)
+
+    </li><li>A <code>U+0060</code> <code class=charname>GRAVE ACCENT</code>
+    character (<code>`</code>)
+
+    </li><li>An implied EOF character
+
+    </li></ul>
+
+  </li><li>Let <var title="">name</var> be the characters consumed by the
+  previous step.
+
+  </li><li>If the <span>next input character</span> is a
+  <code>U+003B</code> <code class=charname>SEMICOLON</code> character
+  (<code>;</code>), consume the character and append the character to
+  <var title="">name</var>.
+
+  </li><li>Otherwise, this is a <a href=#parse-error>parse error</a>.
+
+  </li><li>Let <var title="">entity</var> be the <a href=#parameter-entity>parameter entity</a>
+  whose name is <var title="">name</var> in the <a href=#list-of-parameter-entities>list of parameter
+  entities</a>.  If there is no such a <a href=#parameter-entity>parameter
+  entity</a>, this is a <a href=#parse-error>parse error</a>.  In such case,
+  <span class=ed>set error flag</span> and abort these steps.
+
+    <div class="note memo">
+
+    <p>Names of <a href=#parameter-entity title="parameter entity">parameter
+    entities</a> in the <a href=#list-of-parameter-entities>list of parameter entities</a>
+    always contain the <code>;</code> character.
+
+    </p></div>
+
+  </li><li>Let <var title="">public ID</var> be the <span>public ID</span> of
+  <var title="">entity</var>.
+
+  </li><li>If <var title="">public ID</var> is one of <a href=#predefined-public-ids>predefined public
+  IDs</a>:
+
+     <dl class=switch>
+
+     <dt>If the <span>state</span> is the <span>document type internal
+     subset state</span>
+
+     </dt><dd>Set the <a href=#has-character-entity-declarations>has character entity declarations</a> flag
+     and abort these steps.
+
+     </dd><dt>Otherwise
+
+     </dt><dd><a href=#parse-error>Parse error</a>.  Abort these steps.
+
+     </dd></dl>
+
+  </li><li>Invoke the <a href=#parse-an-entity>parse an entity</a> steps with following
+  parameters:
+
+    <dl>
+
+    <dt><var title="">entity</var>
+    </dt><dd><var title="">entity</var>
+
+    </dd><dt><var title="">url</var>
+    </dt><dd>The result of <a href=#resolve-a-url title="resolve a URL">resolving</a> the
+    <a href=#concept-entity-systemid title=concept-entity-systemID>system ID</a> of <var title="">entity</var> against the <a href=#concept-effective-declaration-base-url title=concept-effective-declaration-base-url>effective declaration
+    base URL</a> of <var title="">entity</var>, if <var title="">entity</var> is an <a href=#external-entity>external entity</a>, or null.
+
+    </dd><dt><var title="">original phase</var>
+    </dt><dd>The current <a href=#phase>phase</a> of the <a href=#tree-construction>tree
+    construction</a> stage.
+
+    </dd><dt><var title="">entity body phase</var>
+    </dt><dd>The current <a href=#phase>phase</a> of the <a href=#tree-construction>tree
+    construction</a> stage.
+
+    </dd></dl>
+  
+  </li><li class=ed>XXX
 
   </li></ol>
 
@@ -532,12 +672,27 @@ table already has a row whose first column is equal to the first
 column of the new row, the existing row <em class=rfc2119>MUST</em> be
 replaced by the new row.
 
-</p><p>If a row from the original <a href=#named-character-references>named character references</a>
-table is used, the first column of the row ends with a
-<code>U+003B</code> <code class=charname>SEMICOLON</code> character
-(<code>;</code>), and the first column of the row is none of
-<a href=#predefined-entity-names>predefined entity names</a>, this is a <a href=#parse-error>parse
-error</a>.
+</p><p>If all of following conditions are met, this is a <a href=#parse-error>parse
+error</a>:
+
+  </p><ul>
+
+  <li>A row from the original <a href=#named-character-references>named character references</a>
+  table is used
+
+  </li><li>The first column of the row ends with a <code>U+003B</code>
+  <code class=charname>SEMICOLON</code> character (<code>;</code>)
+
+  </li><li>The <a href=#has-character-entity-declarations>has character entity declarations</a> flag is unset
+
+  </li><li>The first column of the row is none of <a href=#predefined-entity-names>predefined entity
+  names</a>
+
+  </li></ul>
+
+<p>If only the last condition is not met and the <a href=#need-predefined-entity-declarations>need predefined
+entity declarations</a> flag is set, the <a href=#xml-parser>XML parser</a>
+<em class=rfc2119>MAY</em> report a warning.
 
 </p><p>When <a href=#character-token-0 title="character token">character tokens</a> are
 returned using the second column of the table, an <a href=#xml-parser>XML
@@ -693,7 +848,7 @@ attribute value state</a>:
   the <a href=#xml-parser>XML parser</a> to the <a href=#stack-of-tokenizers>stack of tokenizers</a>.
 
   </li><li>If <var title="">entity</var> is an <a href=#internal-entity>internal entity</a>,
-  the <a href=#expand-external-entities>expand external entities</a> flag is unset, or <var title="">url</var> is in error:
+  the <a href=#expand-external-entities>expand external entities</a> flag is unset, <var title="">url</var> is null, or <var title="">url</var> is in error:
 
     <ol>
 
@@ -792,6 +947,10 @@ attribute value state</a>:
       <code>text/sgml</code>, <code>application/sgml</code>,
       <code>text/plain</code>, and
       <code>application/octet-stream</code>.
+
+      </p><p class=ed>XXX Should the <code>charset</code> parameter be
+      taken into account even when the <code>charset</code> parameter
+      is not defined for the MIME type?
 
       </p></div>
 

@@ -240,18 +240,19 @@ namespace</dfn>, <dfn>XMLNS namespace</dfn>, <dfn>in a document</dfn>,
 
 <p>The terms and steps <em id=live><a
 href="http://www.whatwg.org/specs/web-apps/current-work/#live">live</a></em>,
-<dfn>XML MIME type</dfn>, <dfn>document base URL</dfn>, <dfn>the
-document's address</dfn>, <dfn title="resolve a URL">resolve a
-URL</dfn>, <dfn>Content-Type metadata</dfn>, <dfn>willful
-violation</dfn>, <dfn>XML parser</dfn>, <em id=setting>setting</em>
-and <em id=getting>getting</em> of an attribute, <dfn
-title=concept-task>task</dfn>, <dfn>queue a task</dfn>, <dfn>parser
-pause flag</dfn>, <dfn>input byte stream</dfn>, <dfn>character
-token</dfn>, <!-- <dfn>acknowledge self-closing flag</dfn>, -->
-<dfn>character reference in attribute value state</dfn>, <dfn>consume
-a character reference</dfn>, <dfn>additional allowed character</dfn>,
-<dfn>named character references</dfn>, and <dfn>stops parsing</dfn>
-are defined in the HTML Standard <cite class="bibref normative">[<a
+<dfn>space character</dfn>, <dfn>XML MIME type</dfn>, <dfn>document
+base URL</dfn>, <dfn>the document's address</dfn>, <dfn title="resolve
+a URL">resolve a URL</dfn>, <dfn>Content-Type metadata</dfn>,
+<dfn>willful violation</dfn>, <dfn>XML parser</dfn>, <em
+id=setting>setting</em> and <em id=getting>getting</em> of an
+attribute, <dfn title=concept-task>task</dfn>, <dfn>queue a
+task</dfn>, <dfn>parser pause flag</dfn>, <dfn>input byte
+stream</dfn>, <dfn>character token</dfn>, <!-- <dfn>acknowledge
+self-closing flag</dfn>, --> <dfn>character reference in attribute
+value state</dfn>, <dfn>consume a character reference</dfn>,
+<dfn>additional allowed character</dfn>, <dfn>named character
+references</dfn>, and <dfn>stops parsing</dfn> are defined in the HTML
+Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>.</p>
 
 <p>The interfaces and attributes
@@ -296,6 +297,12 @@ href="#ref-XML5">XML5</a>]</cite>.
 <p>The <dfn>predefined entity names</dfn> are <code>apos</code>,
 <code>amp</code>, <code>lt</code>, <code>gt</code>, and
 <code>quot</code>.
+
+<p>The <dfn>predefined public IDs</dfn> are <a
+href="http://www.whatwg.org/specs/web-apps/current-work/#parsing-xhtml-documents">the
+public identifiers associated with the DTD containing declarations for
+the named character references</a>, as specified in the <span>HTML
+Standard</span>.
 
 <p>The terms <dfn title=concept-fetch>fetch</dfn>, <dfn
 title=concept-request>request</dfn>, <dfn
@@ -390,6 +397,14 @@ has an associated <span title="XML tokenizer">tokenizer</span> and
 <span>input stream</span>.  An <span>XML parser</span> has a
 <dfn>stack of tokenizers</dfn>, which is initially empty.
 
+  <div class="note memo">
+
+  <p>Unless explicitly specified, various states of the <span>XML
+  parser</span> are shared among <span title="XML
+  tokenizer">tokenizers</span> associated with it.
+
+  </div>
+
 <p>The <span>XML parser</span> has <dfn>expose DTD content</dfn> and
 <dfn>expand external entities</dfn> flags.  Unless explicitly stated,
 these flags are unset.
@@ -430,21 +445,36 @@ cases:
 flag</i> set, the flag <em class=rfc2119>MUST</em> be <span
 title="acknowledge self-closing flag">acknowledged</span>. -->
 
-<p>If the <span>expose DTD content</span> flag is set, the <span
-title="element definition">element</span>, <span title="attribute
-definition">attribute list</span>, <span title="unparsed entity
-definition">unparsed entity</span>, and <span title="notation
-definition">notation</span> declarations, as well as <span
-title="processing instruction">processing instructions</span> in DTD,
-<em class=rfc2119>MUST</em> be exposed to the DOM through the
+<p class=ed>If the <span>expose DTD content</span> flag is set, the
+<span title="element definition">element</span>, <span
+title="attribute definition">attribute list</span>, <span
+title="unparsed entity definition">unparsed entity</span>, and <span
+title="notation definition">notation</span> declarations, as well as
+<span title="processing instruction">processing instructions</span> in
+DTD, <em class=rfc2119>MUST</em> be exposed to the DOM through the
 <code>DocumentType</code> object.<!-- XXX Need stricter definition -->
+
+<p class=ed>Unless when the previous <span>phase</span> is the
+<span>start phase</span> or when the currently processing <span>input
+stream</span> is an <span>entity</span> referenced by the
+<span>document type declaration</span> or an <span>entity
+reference</span> (rather than the <span>document entity</span>),
+everything must be ignored in the <span>document type phase</span>.
+
+<p>An <span>XML parser</span> has <dfn>need predefined entity
+declarations</dfn> and <dfn>has character entity declarations</dfn>
+flags.  They are initially unset.
+
+<p>In the <span>document type phase</span>, the <span>need predefined
+entity declarations</span> flag <em class=rfc2119>MUST</em> be set.
+It <em class=rfc2119>MUST</em> be restored to the original value when
+the <span>phase</span> is set to another value.
 
 <div class=section>
 <h3>Character encodings</h3>
 
 <p class=ed>The value of the <code
-title=attr-xml-encodingmake
->encoding</code> pseudo-attribute or the
+title=attr-xml-encoding>encoding</code> pseudo-attribute or the
 <code>charset</code> parameter <em class=rfc2119>MUST</em> be
 interpreted as an <span>encoding label</span> defined by the
 <span>Encoding Standard</span>.
@@ -470,14 +500,22 @@ run the following steps:
 
   <li>If <var title>doctype</var> is null, abort these steps.
 
+  <li>Let <var title>public ID</var> be the <code
+  title=dom-DocumentType-publicId>publicId</code> of <var
+  title>doctype</var>.
+
+  <li>If <var title>public ID</var> is one of <span>predefined public
+  IDs</span>, set the <span>has character entity declarations</span>
+  flag and abort these steps.
+
+  <li>Set the <span>need predefined entity declarations</span> flag.
+
   <li>Let <var title>system ID</var> be the <code
   title=dom-DocumentType-systemId>systemId</code> of <var
   title>doctype</var>.
 
   <li>If <var title>system ID</var> is the empty string, abort these
   steps.
-
-  <li class=ed>XXX public ID
 
   <li>Invoke the <span>parse an entity</span> steps with following
   parameters:
@@ -520,6 +558,114 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
 
   <ol>
 
+  <li>Consume the <span>next input character</span> while it is
+  <em>not</em> one of following characters:
+
+    <ul>
+
+    <li>A <span>space character</span>
+
+    <li>A <code>U+0022</code> <code class=charname>QUOTATION
+    MARK</code> character (<code>&quot;</code>)
+
+    <li>A <code>U+0025</code> <code class=charname>PERCENT SIGN</code>
+    character (<code>%</code>)
+
+    <li>A <code>U+0026</code> <code class=charname>AMPERSAND</code>
+    character (<code>&amp;</code>)
+
+    <li>A <code>U+0027</code> <code class=charname>APOSTROPHE</code>
+    character (<code>'</code>)
+
+    <li>A <code>U+003B</code> <code class=charname>SEMICOLON</code>
+    character (<code>;</code>)
+
+    <li>A <code>U+003C</code> <code class=charname>LESS-THAN
+    SIGN</code> character (<code>&lt;</code>)
+
+    <li>A <code>U+003D</code> <code class=charname>EQUAL SIGN</code>
+    character (<code>=</code>)
+
+    <li>A <code>U+003E</code> <code class=charname>GREATER-THAN
+    SIGN</code> character (<code>&gt;</code>)
+
+    <li>A <code>U+0060</code> <code class=charname>GRAVE ACCENT</code>
+    character (<code>`</code>)
+
+    <li>An implied EOF character
+
+    </ul>
+
+  <li>Let <var title>name</var> be the characters consumed by the
+  previous step.
+
+  <li>If the <span>next input character</span> is a
+  <code>U+003B</code> <code class=charname>SEMICOLON</code> character
+  (<code>;</code>), consume the character and append the character to
+  <var title>name</var>.
+
+  <li>Otherwise, this is a <span>parse error</span>.
+
+  <li>Let <var title>entity</var> be the <span>parameter entity</span>
+  whose name is <var title>name</var> in the <span>list of parameter
+  entities</span>.  If there is no such a <span>parameter
+  entity</span>, this is a <span>parse error</span>.  In such case,
+  <span class=ed>set error flag</span> and abort these steps.
+
+    <div class="note memo">
+
+    <p>Names of <span title="parameter entity">parameter
+    entities</span> in the <span>list of parameter entities</span>
+    always contain the <code>;</code> character.
+
+    </div>
+
+  <li>Let <var title>public ID</var> be the <span>public ID</span> of
+  <var title>entity</var>.
+
+  <li>If <var title>public ID</var> is one of <span>predefined public
+  IDs</span>:
+
+     <dl class=switch>
+
+     <dt>If the <span>state</span> is the <span>document type internal
+     subset state</span>
+
+     <dd>Set the <span>has character entity declarations</span> flag
+     and abort these steps.
+
+     <dt>Otherwise
+
+     <dd><span>Parse error</span>.  Abort these steps.
+
+     </dl>
+
+  <li>Invoke the <span>parse an entity</span> steps with following
+  parameters:
+
+    <dl>
+
+    <dt><var title>entity</var>
+    <dd><var title>entity</var>
+
+    <dt><var title>url</var>
+    <dd>The result of <span title="resolve a URL">resolving</span> the
+    <span title=concept-entity-systemID>system ID</span> of <var
+    title>entity</var> against the <span
+    title=concept-effective-declaration-base-url>effective declaration
+    base URL</span> of <var title>entity</var>, if <var
+    title>entity</var> is an <span>external entity</span>, or null.
+
+    <dt><var title>original phase</var>
+    <dd>The current <span>phase</span> of the <span>tree
+    construction</span> stage.
+
+    <dt><var title>entity body phase</var>
+    <dd>The current <span>phase</span> of the <span>tree
+    construction</span> stage.
+
+    </dl>
+  
   <li class=ed>XXX
 
   </ol>
@@ -557,12 +703,27 @@ table already has a row whose first column is equal to the first
 column of the new row, the existing row <em class=rfc2119>MUST</em> be
 replaced by the new row.
 
-<p>If a row from the original <span>named character references</span>
-table is used, the first column of the row ends with a
-<code>U+003B</code> <code class=charname>SEMICOLON</code> character
-(<code>;</code>), and the first column of the row is none of
-<span>predefined entity names</span>, this is a <span>parse
-error</span>.
+<p>If all of following conditions are met, this is a <span>parse
+error</span>:
+
+  <ul>
+
+  <li>A row from the original <span>named character references</span>
+  table is used
+
+  <li>The first column of the row ends with a <code>U+003B</code>
+  <code class=charname>SEMICOLON</code> character (<code>;</code>)
+
+  <li>The <span>has character entity declarations</span> flag is unset
+
+  <li>The first column of the row is none of <span>predefined entity
+  names</span>
+
+  </ul>
+
+<p>If only the last condition is not met and the <span>need predefined
+entity declarations</span> flag is set, the <span>XML parser</span>
+<em class=rfc2119>MAY</em> report a warning.
 
 <p>When <span title="character token">character tokens</span> are
 returned using the second column of the table, an <span>XML
@@ -734,8 +895,8 @@ class=rfc2119>MUST</em> run these steps:
   the <span>XML parser</span> to the <span>stack of tokenizers</span>.
 
   <li>If <var title>entity</var> is an <span>internal entity</span>,
-  the <span>expand external entities</span> flag is unset, or <var
-  title>url</var> is in error:
+  the <span>expand external entities</span> flag is unset, <var
+  title>url</var> is null, or <var title>url</var> is in error:
 
     <ol>
 
@@ -846,6 +1007,10 @@ class=rfc2119>MUST</em> run these steps:
       <code>text/sgml</code>, <code>application/sgml</code>,
       <code>text/plain</code>, and
       <code>application/octet-stream</code>.
+
+      <p class=ed>XXX Should the <code>charset</code> parameter be
+      taken into account even when the <code>charset</code> parameter
+      is not defined for the MIME type?
 
       </div>
 

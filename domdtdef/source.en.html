@@ -245,8 +245,8 @@ base URL</dfn>, <dfn>the document's address</dfn>, <dfn title="resolve
 a URL">resolve a URL</dfn>, <dfn>Content-Type metadata</dfn>,
 <dfn>willful violation</dfn>, <dfn>XML parser</dfn>, <em
 id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute, <dfn title=concept-task>task</dfn>, <dfn>queue a
-task</dfn>, <dfn>parser pause flag</dfn>, <dfn>input byte
+attribute, <dfn>event loop</dfn>, <dfn title=concept-task>task</dfn>,
+<dfn>queue a task</dfn>, <dfn>parser pause flag</dfn>, <dfn>input byte
 stream</dfn>, <dfn>character token</dfn>, <!-- <dfn>acknowledge
 self-closing flag</dfn>, --> <dfn>character reference in attribute
 value state</dfn>, <dfn>consume a character reference</dfn>,
@@ -274,8 +274,9 @@ href="#ref-MANAKAI">MANAKAI</a>]</cite>.
 href="http://www.w3.org/TR/xml/#NT-Name"><dfn><code>Name</code></dfn></a>,
 <dfn>internal entity</dfn>, <dfn>external entity</dfn>, <dfn>unparsed
 entity</dfn>, <dfn>general entity</dfn>, <dfn>parameter entity</dfn>,
-<dfn>internal subset</dfn>, <dfn>external subset</dfn>, <dfn>XML
-declaration</dfn>, <dfn>text declaration</dfn>, <dfn
+<dfn>internal subset</dfn>, <dfn>external subset</dfn>, <dfn>entity
+reference</dfn>, <dfn>XML declaration</dfn>, <dfn>text
+declaration</dfn>, <dfn
 title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
 <dfn title=attr-xml-encoding><code>encoding</code></dfn>
 pseudo-attribute, <dfn
@@ -914,8 +915,12 @@ run these steps:
   the <span>XML parser</span> to the <span>stack of tokenizers</span>.
 
   <li>If <var title>entity</var> is an <span>internal entity</span>,
-  the <span>expand external entities</span> flag is unset, <var
-  title>url</var> is null, or <var title>url</var> is in error:
+  if the <span>expand external entities</span> flag is unset, if <var
+  title>url</var> is null, if <var title>url</var> is in error, or if
+  there are more than <span title="entity reference">entity
+  references</span> than an implementation-specific limit such that
+  the <span>entity reference</span> that caused these steps invoked
+  ought to be ignored:
 
     <ol>
 
@@ -935,6 +940,16 @@ run these steps:
     <p>If the <span>expand external entities</span> flag is unset, a
     reference to the <span>external entity</span> is expanded to the
     empty string.
+
+    </div>
+
+    <div class="note memo">
+
+    <p>There should be an implementation-specific limit on how many
+    <span title="entity reference">entity references</span> are
+    expanded to defend against <a
+    href="http://en.wikipedia.org/wiki/Billion_laughs">billion laughs
+    attack</a>.
 
     </div>
 

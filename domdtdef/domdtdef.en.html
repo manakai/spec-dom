@@ -252,8 +252,8 @@ namespace</dfn>, <dfn id=xmlns-namespace>XMLNS namespace</dfn>, <dfn id=in-a-doc
 base URL</dfn>, <dfn id="the-document's-address">the document's address</dfn>, <dfn id=resolve-a-url title="resolve
 a URL">resolve a URL</dfn>, <dfn id=content-type-metadata>Content-Type metadata</dfn>,
 <dfn id=willful-violation>willful violation</dfn>, <dfn id=xml-parser>XML parser</dfn>, <em id=setting>setting</em> and <em id=getting>getting</em> of an
-attribute, <dfn id=concept-task title=concept-task>task</dfn>, <dfn id=queue-a-task>queue a
-task</dfn>, <dfn id=parser-pause-flag>parser pause flag</dfn>, <dfn id=input-byte-stream>input byte
+attribute, <dfn id=event-loop>event loop</dfn>, <dfn id=concept-task title=concept-task>task</dfn>,
+<dfn id=queue-a-task>queue a task</dfn>, <dfn id=parser-pause-flag>parser pause flag</dfn>, <dfn id=input-byte-stream>input byte
 stream</dfn>, <dfn id=character-token>character token</dfn>, <!-- <dfn>acknowledge
 self-closing flag</dfn>, --> <dfn id=character-reference-in-attribute-value-state>character reference in attribute
 value state</dfn>, <dfn id=consume-a-character-reference>consume a character reference</dfn>,
@@ -274,8 +274,9 @@ specification <cite class="bibref normative">[<a href=#ref-MANAKAI>MANAKAI</a>]<
 </p><p>The terms <a href=http://www.w3.org/TR/xml/#NT-Name><dfn id=name><code>Name</code></dfn></a>,
 <dfn id=internal-entity>internal entity</dfn>, <dfn id=external-entity>external entity</dfn>, <dfn id=unparsed-entity>unparsed
 entity</dfn>, <dfn id=general-entity>general entity</dfn>, <dfn id=parameter-entity>parameter entity</dfn>,
-<dfn id=internal-subset>internal subset</dfn>, <dfn id=external-subset>external subset</dfn>, <dfn id=xml-declaration>XML
-declaration</dfn>, <dfn id=text-declaration>text declaration</dfn>, <dfn id=attr-xml-version title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
+<dfn id=internal-subset>internal subset</dfn>, <dfn id=external-subset>external subset</dfn>, <dfn id=entity-reference>entity
+reference</dfn>, <dfn id=xml-declaration>XML declaration</dfn>, <dfn id=text-declaration>text
+declaration</dfn>, <dfn id=attr-xml-version title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
 <dfn id=attr-xml-encoding title=attr-xml-encoding><code>encoding</code></dfn>
 pseudo-attribute, <dfn id=attr-xml-standalone title=attr-xml-standalone><code>standalone</code></dfn>
 pseudo-attribute, and <dfn id=replacement-text>replacement text</dfn> are defined in the
@@ -439,8 +440,8 @@ DTD, <em class=rfc2119>MUST</em> be exposed to the DOM through the
 </p><p class=ed>Unless when the previous <a href=#phase>phase</a> is the
 <a href=#start-phase>start phase</a> or when the currently processing <a href=#input-stream>input
 stream</a> is an <a href=#entity>entity</a> referenced by the
-<span>document type declaration</span> or an <span>entity
-reference</span> (rather than the <span>document entity</span>),
+<span>document type declaration</span> or an <a href=#entity-reference>entity
+reference</a> (rather than the <span>document entity</span>),
 everything must be ignored in the <a href=#document-type-phase>document type phase</a>.
 
 </p><p>An <a href=#xml-parser>XML parser</a> has <dfn id=need-predefined-entity-declarations>need predefined entity
@@ -862,14 +863,18 @@ run these steps:
   tokenizer">tokenizer</a> of the <a href=#xml-parser>XML parser</a> to true.
 
   </li><li>Block the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> of the
-  <a href=#xml-parser>XML parser</a>, such that the <span>event loop</span> will
+  <a href=#xml-parser>XML parser</a>, such that the <a href=#event-loop>event loop</a> will
   not run <a href=#concept-task title=concept-task>tasks</a> that invoke the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a>.
 
   </li><li>Push the current <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> of
   the <a href=#xml-parser>XML parser</a> to the <a href=#stack-of-tokenizers>stack of tokenizers</a>.
 
   </li><li>If <var title="">entity</var> is an <a href=#internal-entity>internal entity</a>,
-  the <a href=#expand-external-entities>expand external entities</a> flag is unset, <var title="">url</var> is null, or <var title="">url</var> is in error:
+  if the <a href=#expand-external-entities>expand external entities</a> flag is unset, if <var title="">url</var> is null, if <var title="">url</var> is in error, or if
+  there are more than <a href=#entity-reference title="entity reference">entity
+  references</a> than an implementation-specific limit such that
+  the <a href=#entity-reference>entity reference</a> that caused these steps invoked
+  ought to be ignored:
 
     <ol>
 
@@ -889,6 +894,15 @@ run these steps:
     <p>If the <a href=#expand-external-entities>expand external entities</a> flag is unset, a
     reference to the <a href=#external-entity>external entity</a> is expanded to the
     empty string.
+
+    </p></div>
+
+    <div class="note memo">
+
+    <p>There should be an implementation-specific limit on how many
+    <a href=#entity-reference title="entity reference">entity references</a> are
+    expanded to defend against <a href=http://en.wikipedia.org/wiki/Billion_laughs>billion laughs
+    attack</a>.
 
     </p></div>
 

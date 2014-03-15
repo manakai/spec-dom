@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 2 March 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 15 March 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-2 March 2014, the editor has made this specification available under the
+15 March 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -635,10 +635,23 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
     </dt><dd>The current <a href=#phase>phase</a> of the <a href=#tree-construction>tree
     construction</a> stage.
 
+    </dd><dt><var title="">state</var>
+    </dt><dd>If the state is one of <span>document type entity value double
+    quoted state</span>, <span>document type entity value single
+    quoted state</span>, or <span>entity value state</span>, the
+    <span>entity value state</span>.
+
+    </dd><dt><var title="">in markup declaration</var> flag
+
+    </dt><dd><i>Set</i> if the state of the <a href=#xml-parser>XML parser</a> is
+    <em>not</em> one of <span>document type internal subset
+    state</span>, <span>document type entity value double quoted
+    state</span>, <span>document type entity value single quoted
+    state</span>, or <span>entity value state</span>, or <i>unset</i>
+    otherwise.
+
     </dd></dl>
   
-  </li><li class=ed>XXX
-
   </li></ol>
 
 </div>
@@ -725,7 +738,7 @@ attribute value state</a>:
   text</a> of <var title="">entity</var>.
 
   </li><li>If <var title="">replacement text</var> contains a
-  <code>U+003C</code> <code class=charname>LESS THAN SIGN</code>
+  <code>U+003C</code> <code class=charname>LESS-THAN SIGN</code>
   character (<code>&lt;</code>), this is a <a href=#parse-error>parse error</a>.
   Return nothing and abort the <a href=#consume-a-character-reference>consume a character
   reference</a> steps.
@@ -824,11 +837,19 @@ attribute value state</a>:
 <div class=section>
 <h4 id=fetching-and-parsing-external-entities><span class=secno>3.2.4 </span>Fetching and parsing external entities</h4>
 
-<p>To <dfn id=parse-an-entity>parse an entity</dfn> <var title="">entity</var> with <var title="">url</var>, <var title="">original phase</var>, and <var title="">entity body phase</var>, the <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em> run these steps:
+<p>To <dfn id=parse-an-entity>parse an entity</dfn> <var title="">entity</var> with <var title="">url</var>, <var title="">original phase</var>, <var title="">entity
+body phase</var>, <var title="">state</var> whose default is <a href=#null><i>null</i></a>,
+and <var title="">in markup declaration</var> flag whose default is
+<i>unset</i>, the <a href=#xml-parser>XML parser</a> <em class=rfc2119>MUST</em>
+run these steps:
 
   </p><ol>
 
-  <li>Set the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of the
+  <li>If <var title="">in markup declaration</var> flag is set, act as if
+  a <code>U+0020</code> <code class=charname>SPACE</code> character
+  were processed by the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a>.
+
+  </li><li>Set the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of the
   entry for <var title="">entity</var> in the <a href=#list-of-entities>list of
   entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <a href=#general-entity>general entity</a>.
 
@@ -852,11 +873,14 @@ attribute value state</a>:
 
     <ol>
 
-    <li>Set the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> of the
+    <li>Let <var title="">replacement</var> be the <a href=#replacement-text>replacement
+    text</a> of <var title="">entity</var>, if it is an <a href=#internal-entity>internal
+    entity</a>, or the empty string.
+
+    </li><li>Set the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> of the
     <a href=#xml-parser>XML parser</a> to a new <a href=#xml-tokenizer title="XML
     tokenizer">tokenizer</a> whose <a href=#input-stream>input stream</a> is
-    <a href=#replacement-text>replacement text</a> of <var title="">entity</var>, if it is
-    an <a href=#internal-entity>internal entity</a>, or the empty string.
+    <var title="">replacement</var>.
 
     </li></ol>
 
@@ -929,6 +953,11 @@ attribute value state</a>:
 
       </p></div>
 
+    </li><li>If <var title="">state</var> is <em>not</em> <a href=#null><i>null</i></a>, let
+    <var title="">original state</var> be the state of the <a href=#xml-parser>XML
+    parser</a> and set the state of the <a href=#xml-parser>XML parser</a> to
+    <var title="">state</var>.
+
     </li></ol>
 
     <p>When decoding the <a href=#input-byte-stream>input byte stream</a>, the character
@@ -971,7 +1000,29 @@ the <a href=#entity-boundary-marker title="entity boundary marker">marker</a>.<!
 purposes, e.g. entity reference expansion and <video>/<object>
 processing, the stack of open elements is not empty, however. -->
 
-</p><p>While the <a href=#stack-of-tokenizers>stack of tokenizers</a> is <em>not</em> empty,
+</p><p>While the <span>stack of tokenizer</span> is <em>not</em> empty and
+<var title="">in markup declaration</var> flag is set upon the last
+invocation of the <a href=#parse-an-entity>parse an entity</a> steps:
+
+  </p><ul>
+
+  <li>If the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> consumes a
+  <code>U+003E</code> <code class=charname>GREATER-THAN SIGN</code>
+  character (<code>&gt;</code>) and the state is changed to the
+  <span>document type internal subset state</span>, it <em class=rfc2119>MUST</em> be a <a href=#parse-error>parse error</a> and the state
+  <em class=rfc2119>MUST</em> be changed to the <span>bogus markup
+  declaration state</span> instead.
+
+  </li><li>If the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> consumes an
+  implied EOF character, the <a href=#stops-parsing title="stops parsing">steps to stop
+  parsing</a> <em class=rfc2119>MUST</em> be run instead.  <span class=ed>If this is within an entity value, public literal, system
+  literal, or content model group opened by current <var title="">entity</var></span>, this is a <a href=#parse-error>parse error</a> and
+  the state <em class=rfc2119>MUST</em> be changed to the <span>bogus
+  markup declaration state</span>.
+
+  </li></ul>
+
+<p>While the <a href=#stack-of-tokenizers>stack of tokenizers</a> is <em>not</em> empty,
 instead of the <a href=#stops-parsing>stops parsing</a> steps, the <a href=#xml-parser>XML
 parser</a> <em class=rfc2119>MUST</em> run these steps:
 
@@ -981,9 +1032,14 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
   marker">marker</a>, as well as any element added after the <a href=#entity-boundary-marker title="entity boundary marker">marker</a>, from the <a href=#stack-of-open-elements>stack
   of open elements</a>.
 
+  </li><li>If the last invocation of the <a href=#parse-an-entity>parse an entity</a> steps
+  sets <var title="">original state</var>, set the state of the <a href=#xml-parser>XML
+  parser</a> to <var title="">original state</var>.
+
   </li><li>Set the <a href=#phase>phase</a> of the <a href=#tree-construction>tree construction</a>
   stage of the <a href=#xml-parser>XML parser</a> to <var title="">original
-  phase</var>.
+  phase</var> for the last invocation of the <a href=#parse-an-entity>parse an
+  entity</a> steps.
 
   </li><li>Pop a <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> from the
   <a href=#stack-of-tokenizers>stack of tokenizers</a> and set it the <a href=#xml-tokenizer title="XML
@@ -999,6 +1055,11 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
   </li><li>Unset the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of
   the entry for <var title="">entity</var> in the <a href=#list-of-entities>list of
   entities</a> of the <a href=#xml-parser>XML parser</a> if <var title="">entity</var> is a <a href=#general-entity>general entity</a>.
+
+  </li><li>If <var title="">in markup declaration</var> flag is set upon the
+  last invocation of the <a href=#parse-an-entity>parse an entity</a> steps, act as if
+  a <code>U+0020</code> <code class=charname>SPACE</code> character
+  were processed by the <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a>.
 
   </li></ol>
 

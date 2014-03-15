@@ -664,10 +664,23 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
     <dd>The current <span>phase</span> of the <span>tree
     construction</span> stage.
 
+    <dt><var title>state</var>
+    <dd>If the state is one of <span>document type entity value double
+    quoted state</span>, <span>document type entity value single
+    quoted state</span>, or <span>entity value state</span>, the
+    <span>entity value state</span>.
+
+    <dt><var title>in markup declaration</var> flag
+
+    <dd><i>Set</i> if the state of the <span>XML parser</span> is
+    <em>not</em> one of <span>document type internal subset
+    state</span>, <span>document type entity value double quoted
+    state</span>, <span>document type entity value single quoted
+    state</span>, or <span>entity value state</span>, or <i>unset</i>
+    otherwise.
+
     </dl>
   
-  <li class=ed>XXX
-
   </ol>
 
 </div>
@@ -756,7 +769,7 @@ attribute value state</span>:
   text</span> of <var title>entity</var>.
 
   <li>If <var title>replacement text</var> contains a
-  <code>U+003C</code> <code class=charname>LESS THAN SIGN</code>
+  <code>U+003C</code> <code class=charname>LESS-THAN SIGN</code>
   character (<code>&lt;</code>), this is a <span>parse error</span>.
   Return nothing and abort the <span>consume a character
   reference</span> steps.
@@ -866,11 +879,17 @@ attribute value state</span>:
 <h4>Fetching and parsing external entities</h4>
 
 <p>To <dfn>parse an entity</dfn> <var title>entity</var> with <var
-title>url</var>, <var title>original phase</var>, and <var
-title>entity body phase</var>, the <span>XML parser</span> <em
-class=rfc2119>MUST</em> run these steps:
+title>url</var>, <var title>original phase</var>, <var title>entity
+body phase</var>, <var title>state</var> whose default is <i>null</i>,
+and <var title>in markup declaration</var> flag whose default is
+<i>unset</i>, the <span>XML parser</span> <em class=rfc2119>MUST</em>
+run these steps:
 
   <ol>
+
+  <li>If <var title>in markup declaration</var> flag is set, act as if
+  a <code>U+0020</code> <code class=charname>SPACE</code> character
+  were processed by the <span title="XML tokenizer">tokenizer</span>.
 
   <li>Set the <span title=concept-entity-open>open</span> flag of the
   entry for <var title>entity</var> in the <span>list of
@@ -900,11 +919,14 @@ class=rfc2119>MUST</em> run these steps:
 
     <ol>
 
+    <li>Let <var title>replacement</var> be the <span>replacement
+    text</span> of <var title>entity</var>, if it is an <span>internal
+    entity</span>, or the empty string.
+
     <li>Set the <span title="XML tokenizer">tokenizer</span> of the
     <span>XML parser</span> to a new <span title="XML
     tokenizer">tokenizer</span> whose <span>input stream</span> is
-    <span>replacement text</span> of <var title>entity</var>, if it is
-    an <span>internal entity</span>, or the empty string.
+    <var title>replacement</var>.
 
     </ol>
 
@@ -987,6 +1009,11 @@ class=rfc2119>MUST</em> run these steps:
 
       </div>
 
+    <li>If <var title>state</var> is <em>not</em> <i>null</i>, let
+    <var title>original state</var> be the state of the <span>XML
+    parser</span> and set the state of the <span>XML parser</span> to
+    <var title>state</var>.
+
     </ol>
 
     <p>When decoding the <span>input byte stream</span>, the character
@@ -1032,6 +1059,31 @@ the <span title="entity boundary marker">marker</span>.<!-- For other
 purposes, e.g. entity reference expansion and <video>/<object>
 processing, the stack of open elements is not empty, however. -->
 
+<p>While the <span>stack of tokenizer</span> is <em>not</em> empty and
+<var title>in markup declaration</var> flag is set upon the last
+invocation of the <span>parse an entity</span> steps:
+
+  <ul>
+
+  <li>If the <span title="XML tokenizer">tokenizer</span> consumes a
+  <code>U+003E</code> <code class=charname>GREATER-THAN SIGN</code>
+  character (<code>&gt;</code>) and the state is changed to the
+  <span>document type internal subset state</span>, it <em
+  class=rfc2119>MUST</em> be a <span>parse error</span> and the state
+  <em class=rfc2119>MUST</em> be changed to the <span>bogus markup
+  declaration state</span> instead.
+
+  <li>If the <span title="XML tokenizer">tokenizer</span> consumes an
+  implied EOF character, the <span title="stops parsing">steps to stop
+  parsing</span> <em class=rfc2119>MUST</em> be run instead.  <span
+  class=ed>If this is within an entity value, public literal, system
+  literal, or content model group opened by current <var
+  title>entity</var></span>, this is a <span>parse error</span> and
+  the state <em class=rfc2119>MUST</em> be changed to the <span>bogus
+  markup declaration state</span>.
+
+  </ul>
+
 <p>While the <span>stack of tokenizers</span> is <em>not</em> empty,
 instead of the <span>stops parsing</span> steps, the <span>XML
 parser</span> <em class=rfc2119>MUST</em> run these steps:
@@ -1043,9 +1095,14 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
   title="entity boundary marker">marker</span>, from the <span>stack
   of open elements</span>.
 
+  <li>If the last invocation of the <span>parse an entity</span> steps
+  sets <var title>original state</var>, set the state of the <span>XML
+  parser</span> to <var title>original state</var>.
+
   <li>Set the <span>phase</span> of the <span>tree construction</span>
   stage of the <span>XML parser</span> to <var title>original
-  phase</var>.
+  phase</var> for the last invocation of the <span>parse an
+  entity</span> steps.
 
   <li>Pop a <span title="XML tokenizer">tokenizer</span> from the
   <span>stack of tokenizers</span> and set it the <span title="XML
@@ -1063,6 +1120,11 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
   the entry for <var title>entity</var> in the <span>list of
   entities</span> of the <span>XML parser</span> if <var
   title>entity</var> is a <span>general entity</span>.
+
+  <li>If <var title>in markup declaration</var> flag is set upon the
+  last invocation of the <span>parse an entity</span> steps, act as if
+  a <code>U+0020</code> <code class=charname>SPACE</code> character
+  were processed by the <span title="XML tokenizer">tokenizer</span>.
 
   </ol>
 

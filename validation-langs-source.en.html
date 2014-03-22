@@ -187,17 +187,37 @@ not as defined by this specification.
 <p>The terms <dfn title=concept-tree-ancestor>ancestor</dfn>, <dfn
 title=concept-tree-child>child</dfn>, <dfn
 title=concept-document>document</dfn>, <dfn
-title=concept-document-content-type>content type</dfn>, <dfn>document
+title=concept-document-content-type>content type</dfn>, <dfn>HTML
+document</dfn>, <dfn>XHTML document</dfn>, <dfn>document
 element</dfn>, <dfn title=concept-element>element</dfn>, <dfn
 title=concept-element-local-name>local name</dfn>, <dfn
 title=concept-element-namespace>namespace</dfn>, <dfn
 title=concept-attribute>attribute</dfn>, and <dfn>XMLNS
 namespace</dfn> are defined by the DOM Standard <cite class="bibref
-normative">[<a href="#ref-DOM">DOM</a>]</cite>.
+normative">[<a href="#ref-DOM">DOM</a>]</cite>.  Terms <dfn
+title=concept-comment>comment</dfn> and <dfn
+title=concept-processing-instruction>processing instruction</dfn>
+refer to <code>Comment</code> and <code>ProcessingInstruction</code>
+objects, respectively.
 
-<p>The terms <dfn>applicable specification</dfn> and <dfn>the script
-block's type</dfn> are defined by the HTML Standard <cite
+<p>The terms <dfn>applicable specification</dfn>, <dfn>inter-element
+whitespace</dfn>, <dfn>the script block's type</dfn>, and <dfn>valid
+e-mail address</dfn> are defined by the HTML Standard <cite
 class="bibref normative">[<a href="#ref-HTML">HTML</a>]</cite>.
+
+<p>The terms <dfn>valid URL</dfn> and <dfn>valid absolute URL</dfn>
+are defined by <a href="http://url.spec.whatwg.org/">URL Standard</a>
+as <i>URL</i> and <i>absolute URL</i>, respectively.
+
+<p>The term <dfn>valid MIME type</dfn> is defined by <a
+href="http://mimesniff.spec.whatwg.org/">MIME Sniffing Standard</a> as
+<i>parsable MIME type</i>.
+
+<p>The term <dfn>valid language tag</dfn> is defined by <a
+href="http://tools.ietf.org/html/bcp47">BCP 47</a>.
+
+<p>The term <dfn>Date construct</dfn> is defined by <a
+href="http://tools.ietf.org/html/rfc4287">Atom 1.0 specification</a>.
 
 <p>The <dfn>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
@@ -293,6 +313,103 @@ namespace.
 described by RSS2 specifications <cite class="bibref normative">[<a
 href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
 href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
+
+</section>
+
+<section>
+<h2>Atom elements</h2>
+
+<p>Atom and its extension specifications allow extensions such that
+almost everything is allowed, which is not useful for conformance
+checker.  This specification defines stricter restrictions for the
+purpose of conformance checking.
+
+<p><dfn>Atom family namespaces</dfn> are
+<a href="https://github.com/mnot/I-D/blob/master/Published/atom-format/draft-nottingham-atom-format-02.xml"><code>http://purl.org/atom/ns#</code></a>,
+<a href="http://tools.ietf.org/html/rfc4287"><code>http://www.w3.org/2005/Atom</code></a>,
+<a href="http://tools.ietf.org/html/rfc4685"><code>http://purl.org/syndication/thread/1.0</code></a>,
+<a href="https://tools.ietf.org/html/rfc5005"><code>http://purl.org/syndication/history/1.0</code></a>,
+<a href="https://tools.ietf.org/html/rfc5023"><code>http://www.w3.org/2007/app</code></a>,
+and
+<a href="http://tools.ietf.org/html/rfc6721"><code>http://purl.org/atompub/tombstones/1.0</code></a>.
+
+<p>An <dfn>Atom family element</dfn> is an <span
+title=concept-element>element</span> in one of <span>Atom family
+namespaces</span>.
+
+<p>Constraints expressed in RELAX NG schema fragments in an <span
+title="applicable specification">applicable specifications</span> for
+<span>Atom family namespaces</span> are to be interpreted as <em
+class=rfc2119>MUST</em>-level requirements for the purpose of
+conformance checking.
+
+<p><span title=concept-comment>Comments</span>, <span
+title="inter-element whitespace">inter-element whitespaces</span>, and
+<span title=concept-processing-instruction>processing
+instructions</span> <em class=rfc2119>MAY</em> be inserted anywhere in
+an <span>Atom family element</span>.
+
+<p>For an <span>Atom family element</span>, an <span
+title=concept-attribute>attribute</span> or <span
+title=concept-tree-child>child</span> that is not explicitly allowed
+by an <span>applicable specification</span> <em class=rfc2119>MUST
+NOT</em> be used.
+
+<p>An <span>unknown namespace element</span> <em
+class=rfc2119>MAY</em> be used as a <span
+title=concept-tree-child>child</span> of an <dfn>Atom extensible
+element</dfn>, i.e. <span>Atom family element</span> which allows
+<span title="extension element">extension elements</span>,
+<code>extensionElement</code>, or
+<code>extensionSansTitleElement</code>, or a
+<code>deleted-entry</code> element in namespace
+<code>http://purl.org/atompub/tombstones/1.0</code>.
+
+<p>If the content of an <span>Atom family element</span> is defined as
+HTML or XHTML fragment, it <em class=rfc2119>MUST</em> conform to
+relevant requirements in <span title="applicable
+specification">applicable specifications</span>, using the rules for
+<span title="HTML document">HTML</span> or <span title="XHTML
+document">XHTML documents</span>, respectively.<!-- SHOULD in RFC
+4287; HTML4 and XHTML1 in RFC 4287 -->
+
+<p>Elements <code>complete</code> and <code>archive</code> in
+namespace <code>http://purl.org/syndication/history/1.0</code> <em
+class=rfc2119>MUST NOT</em> be used more than once in an
+<code>feed</code> element in namespace
+<code>http://www.w3.org/2005/Atom</code>.
+
+<p>Concepts used to describe constraints for <span title="Atom family
+element">Atom family elements</span> <em class=rfc2119>MUST</em> be
+interpreted as following:
+
+  <dl class=switch>
+
+  <dt>RFC 3066 language tag
+  <dd><span>Valid language tag</span>
+
+  <dt>URI
+  <dt>IRI
+  <dt>IRI reference
+  <dd><span>Valid URL</span> (If IRI and IRI reference are
+  distinguished, <span>valid absolute URL</span> and <span>valid
+  URL</span>, respectively.)
+
+  <dt>Media type
+  <dt>MIME media type
+  <dd><span>Valid MIME type</span>
+
+  <dt><code>addr-spec</code>
+  <dt>E-mail address
+  <dd><span>Valid e-mail address</span>
+
+  <dt>W3C Date-Time string
+  <dd>Same as element content of <span>Date construct</span>
+
+  </dl>
+
+<p class=ed>XXX need to define &lt;atom:content> content validation
+when type is a MIME type
 
 </section>
 
@@ -639,6 +756,11 @@ follows:
 <h2>Data</h2>
 
 <p class=section-info><em>This section is non-normative.</em>
+
+<p>The <a
+href="https://github.com/manakai/data-web-defs/">data-web-defs</a>
+repository contains some machine-readable data for definitions in this
+specification.
 
 <p>The tests-web repository contains <a
 href="https://github.com/wakaba/tests-web/tree/master/xml/validation">conformance

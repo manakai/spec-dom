@@ -158,6 +158,9 @@ the end result is equivalent. (In particular, the algorithms defined
 in this specification are intended to be easy to follow, and not
 intended to be performant.)
 
+<p>For the purpose of this specification, user agents are conformance
+checkers.
+
 <p>User agents <em class=rfc2119>MAY</em> impose
 implementation-specific limits on otherwise unconstrained inputs,
 e.g. to prevent denial of service attacks, to guard against running
@@ -165,13 +168,19 @@ out of memory, or to work around platform-specific limitations.
 
 <hr>
 
-<p>User agent <em class=rfc2119>MUST</em> support DOM Standard <cite
+<p>User agents <em class=rfc2119>MUST</em> support DOM Standard <cite
 class="bibref normative">[<a href="#ref-DOM">DOM</a>]</cite>, HTML
 Standard <cite class="bibref normative">[<a
 href="#ref-HTML">HTML</a>]</cite>, XML <cite class="bibref
 normative">[<a href="#ref-XML">XML</a>]</cite>, and XML Namespaces
 <cite class="bibref normative">[<a
 href="#ref-XMLNS">XMLNS</a>]</cite>.
+
+<p>User agents are not required to implement other specifications, but
+are expected to follow steps defined in this specification.  For
+example, a user agent might not support XSLT, but is is still required
+to detect whether an element is interpreted per XSLT specifications or
+not as defined by this specification.
 
 <hr>
 

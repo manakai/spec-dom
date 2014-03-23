@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 22 March 2014</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 23 March 2014</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-22 March 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+23 March 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -275,17 +275,17 @@ attribute</a> as use of it could be an authoring error.
 <h2 id=rss-elements><span class=secno>4 </span>RSS elements</h2>
 
 <p>An <a href=#concept-element title=concept-element>element</a> is an <dfn id=rss2-element>RSS2
-element</dfn> if it is in no namespace and either it is the
-<a href=#document-element-0>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <code>rss</code>
+element</dfn> if and only if it is in no namespace and either it is
+the <a href=#document-element-0>document element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local name</a> is <code>rss</code>
 or one of its <a href=#concept-tree-ancestor title=concept-tree-ancestor>ancestor</a> is an
 <a href=#rss2-element>RSS2 element</a>.
 
 </p><div class="note memo">
 
-<p>In other words, elements in no namespace are <a href=#rss2-element>RSS2
-element</a> if they belong to the main document tree whose
-<a href=#document-element-0>document element</a> is the <code>rss</code> element in no
-namespace.
+<p>In other words, <a href=#concept-element title=concept-element>elements</a> in no
+namespace are <a href=#rss2-element>RSS2 element</a> if they belong to the main
+document tree whose <a href=#document-element-0>document element</a> is the
+<code>rss</code> element in no namespace.
 
 </p></div>
 
@@ -327,15 +327,28 @@ an <a href=#atom-family-element>Atom family element</a>.
 by an <a href=#applicable-specification>applicable specification</a> <em class=rfc2119>MUST
 NOT</em> be used.
 
-</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> be used as a <a href=#concept-tree-child title=concept-tree-child>child</a> of an <dfn id=atom-extensible-element>Atom extensible
-element</dfn>, i.e. <a href=#atom-family-element>Atom family element</a> which allows
-<span title="extension element">extension elements</span>,
-<code>extensionElement</code>, or
-<code>extensionSansTitleElement</code>, or a
-<code>deleted-entry</code> element in namespace
-<code>http://purl.org/atompub/tombstones/1.0</code>.
+</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> be used as a <a href=#concept-tree-child title=concept-tree-child>child</a> of <dfn id=atom-extensible-element title="Atom extensible
+element">Atom extensible elements</dfn>, i.e. following elements:
 
-</p><p>If the content of an <a href=#atom-family-element>Atom family element</a> is defined as
+  </p><ul>
+
+  <li><a href=#atom-family-element title="Atom family element">Atom family elements</a>
+  which allow <span title="extension element">extension
+  elements</span>, <code>extensionElement</code>, or
+  <code>extensionSansTitleElement</code> in content
+
+  </li><li><code>deleted-entry</code> elements in namespace
+  <code>http://purl.org/atompub/tombstones/1.0</code>
+
+  </li><li><code>feed</code> elements in namespace
+  <code>http://purl.org/atom/ns#</code>
+
+  </li><li><code>entry</code> elements in namespace
+  <code>http://purl.org/atom/ns#</code>
+
+  </li></ul>
+
+<p>If the content of an <a href=#atom-family-element>Atom family element</a> is defined as
 HTML or XHTML fragment, it <em class=rfc2119>MUST</em> conform to
 relevant requirements in <a href=#applicable-specification title="applicable
 specification">applicable specifications</a>, using the rules for
@@ -394,27 +407,31 @@ of nodes in the tree are checked in one of these <dfn id=validation-mode title="
 </p><dl>
 
 <dt><dfn id=default-mode>Default mode</dfn>
-</dt><dd>Conformance of elements are determined by their original
-definition.
+</dt><dd>Conformance of <a href=#concept-element title=concept-element>elements</a> are
+determined by their original definition.
 
 </dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
-</dt><dd>Conformance of elements are determined by <a href=#xslt-specifications>XSLT
-specifications</a>.  <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable specification">applicable specifications</a>
-defining XSLT and its extensions.  For the purpose of this
-specification, <dfn id=xslt-element title="XSLT element">XSLT elements</dfn> are
-elements in the <a href=#xslt-namespace>XSLT namespace</a> and XSLT <span title="extension namespace">extension namespaces</span> defined by
-<a href=#xslt-specifications>XSLT specifications</a>.  Note that XSLT <span title="literal
-result element">literal result elements</span> are not <a href=#xslt-element title="XSLT element">XSLT elements</a>.
+</dt><dd>Conformance of <a href=#concept-element title=concept-element>elements</a> are
+determined by <a href=#xslt-specifications>XSLT specifications</a>.  <dfn id=xslt-specifications>XSLT
+specifications</dfn> are any <a href=#applicable-specification title="applicable
+specification">applicable specifications</a> defining XSLT and its
+extensions.  <dfn id=xslt-family-element title="XSLT family element">XSLT family
+elements</dfn> are <a href=#concept-element title=concept-element>elements</a> in the
+<a href=#xslt-namespace>XSLT namespace</a> and XSLT <span title="extension
+namespace">extension namespaces</span> defined by <a href=#xslt-specifications>XSLT
+specifications</a>.  Note that XSLT <span title="literal result
+element">literal result elements</span> are not <a href=#xslt-family-element title="XSLT
+family element">XSLT family elements</a>.
 
 </dd><dt><dfn id=rdf-mode>RDF mode</dfn>
-</dt><dd>Conformance of elements are determined by RDF/XML specification.
+</dt><dd>Conformance of <a href=#concept-element title=concept-element>elements</a> are
+determined by RDF/XML specification.
 
 </dd><dt><dfn id=rss1-mode>RSS1 mode</dfn>
-</dt><dd>Conformance of elements are determined by both RDF/XML
-specification and <a href=#rss1-specifications>RSS1 specifications</a>.  <dfn id=rss1-specifications>RSS1
-specifications</dfn> are any <a href=#applicable-specification title="applicable
-specification">applicable specifications</a> defining RSS1 and its
-modules.
+</dt><dd>Conformance of <a href=#concept-element title=concept-element>elements</a> are
+determined by both RDF/XML specification and <a href=#rss1-specifications>RSS1
+specifications</a>.  <dfn id=rss1-specifications>RSS1 specifications</dfn> are any <a href=#applicable-specification title="applicable specification">applicable specifications</a>
+defining RSS1 and its modules.
 
 </dd></dl>
 
@@ -452,7 +469,7 @@ modules.
 
     <ol>
 
-    <li>If the node is an <a href=#xslt-element>XSLT element</a> or an XSLT
+    <li>If the node is an <a href=#xslt-family-element>XSLT family element</a> or an XSLT
     <span>literal result element</span>, return <a href=#xslt-mode>XSLT mode</a>
     and abort these steps.
 
@@ -490,10 +507,10 @@ mode</a> and the parent of the node is an RSS/XML <span>XML
 literal</span>, set <var>parent mode</var> to <a href=#default-mode>default
 mode</a>.
 
-</li><li>If the node is an <a href=#xslt-element>XSLT element</a> or if <var>parent
-mode</var> is <a href=#xslt-mode>XSLT mode</a> and the node is an XSLT
-<span>literal result element</span>, return <a href=#xslt-mode>XSLT mode</a> and
-abort these steps.
+</li><li>If the node is an <a href=#xslt-family-element>XSLT family element</a> or if
+<var>parent mode</var> is <a href=#xslt-mode>XSLT mode</a> and the node is an
+XSLT <span>literal result element</span>, return <a href=#xslt-mode>XSLT
+mode</a> and abort these steps.
 
 </li><li>If the node is the <code>RDF</code> element in the <a href=#rdf-namespace>RDF
 namespace</a>:

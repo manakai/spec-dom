@@ -294,18 +294,18 @@ attribute</span> as use of it could be an authoring error.
 <h2>RSS elements</h2>
 
 <p>An <span title=concept-element>element</span> is an <dfn>RSS2
-element</dfn> if it is in no namespace and either it is the
-<span>document element</span> and its <span
+element</dfn> if and only if it is in no namespace and either it is
+the <span>document element</span> and its <span
 title=concept-element-local-name>local name</span> is <code>rss</code>
 or one of its <span title=concept-tree-ancestor>ancestor</span> is an
 <span>RSS2 element</span>.
 
 <div class="note memo">
 
-<p>In other words, elements in no namespace are <span>RSS2
-element</span> if they belong to the main document tree whose
-<span>document element</span> is the <code>rss</code> element in no
-namespace.
+<p>In other words, <span title=concept-element>elements</span> in no
+namespace are <span>RSS2 element</span> if they belong to the main
+document tree whose <span>document element</span> is the
+<code>rss</code> element in no namespace.
 
 </div>
 
@@ -357,13 +357,26 @@ NOT</em> be used.
 
 <p>An <span>unknown namespace element</span> <em
 class=rfc2119>MAY</em> be used as a <span
-title=concept-tree-child>child</span> of an <dfn>Atom extensible
-element</dfn>, i.e. <span>Atom family element</span> which allows
-<span title="extension element">extension elements</span>,
-<code>extensionElement</code>, or
-<code>extensionSansTitleElement</code>, or a
-<code>deleted-entry</code> element in namespace
-<code>http://purl.org/atompub/tombstones/1.0</code>.
+title=concept-tree-child>child</span> of <dfn title="Atom extensible
+element">Atom extensible elements</dfn>, i.e. following elements:
+
+  <ul>
+
+  <li><span title="Atom family element">Atom family elements</span>
+  which allow <span title="extension element">extension
+  elements</span>, <code>extensionElement</code>, or
+  <code>extensionSansTitleElement</code> in content
+
+  <li><code>deleted-entry</code> elements in namespace
+  <code>http://purl.org/atompub/tombstones/1.0</code>
+
+  <li><code>feed</code> elements in namespace
+  <code>http://purl.org/atom/ns#</code>
+
+  <li><code>entry</code> elements in namespace
+  <code>http://purl.org/atom/ns#</code>
+
+  </ul>
 
 <p>If the content of an <span>Atom family element</span> is defined as
 HTML or XHTML fragment, it <em class=rfc2119>MUST</em> conform to
@@ -426,30 +439,32 @@ title="validation mode">modes</dfn>:
 <dl>
 
 <dt><dfn>Default mode</dfn>
-<dd>Conformance of elements are determined by their original
-definition.
+<dd>Conformance of <span title=concept-element>elements</span> are
+determined by their original definition.
 
 <dt><dfn>XSLT mode</dfn>
-<dd>Conformance of elements are determined by <span>XSLT
-specifications</span>.  <dfn>XSLT specifications</dfn> are any <span
-title="applicable specification">applicable specifications</span>
-defining XSLT and its extensions.  For the purpose of this
-specification, <dfn title="XSLT element">XSLT elements</dfn> are
-elements in the <span>XSLT namespace</span> and XSLT <span
-title="extension namespace">extension namespaces</span> defined by
-<span>XSLT specifications</span>.  Note that XSLT <span title="literal
-result element">literal result elements</span> are not <span
-title="XSLT element">XSLT elements</span>.
+<dd>Conformance of <span title=concept-element>elements</span> are
+determined by <span>XSLT specifications</span>.  <dfn>XSLT
+specifications</dfn> are any <span title="applicable
+specification">applicable specifications</span> defining XSLT and its
+extensions.  <dfn title="XSLT family element">XSLT family
+elements</dfn> are <span title=concept-element>elements</span> in the
+<span>XSLT namespace</span> and XSLT <span title="extension
+namespace">extension namespaces</span> defined by <span>XSLT
+specifications</span>.  Note that XSLT <span title="literal result
+element">literal result elements</span> are not <span title="XSLT
+family element">XSLT family elements</span>.
 
 <dt><dfn>RDF mode</dfn>
-<dd>Conformance of elements are determined by RDF/XML specification.
+<dd>Conformance of <span title=concept-element>elements</span> are
+determined by RDF/XML specification.
 
 <dt><dfn>RSS1 mode</dfn>
-<dd>Conformance of elements are determined by both RDF/XML
-specification and <span>RSS1 specifications</span>.  <dfn>RSS1
-specifications</dfn> are any <span title="applicable
-specification">applicable specifications</span> defining RSS1 and its
-modules.
+<dd>Conformance of <span title=concept-element>elements</span> are
+determined by both RDF/XML specification and <span>RSS1
+specifications</span>.  <dfn>RSS1 specifications</dfn> are any <span
+title="applicable specification">applicable specifications</span>
+defining RSS1 and its modules.
 
 </dl>
 
@@ -488,7 +503,7 @@ title="determine the validation mode">determined</dfn> as follows:
 
     <ol>
 
-    <li>If the node is an <span>XSLT element</span> or an XSLT
+    <li>If the node is an <span>XSLT family element</span> or an XSLT
     <span>literal result element</span>, return <span>XSLT mode</span>
     and abort these steps.
 
@@ -526,10 +541,10 @@ mode</span> and the parent of the node is an RSS/XML <span>XML
 literal</span>, set <var>parent mode</var> to <span>default
 mode</span>.
 
-<li>If the node is an <span>XSLT element</span> or if <var>parent
-mode</var> is <span>XSLT mode</span> and the node is an XSLT
-<span>literal result element</span>, return <span>XSLT mode</span> and
-abort these steps.
+<li>If the node is an <span>XSLT family element</span> or if
+<var>parent mode</var> is <span>XSLT mode</span> and the node is an
+XSLT <span>literal result element</span>, return <span>XSLT
+mode</span> and abort these steps.
 
 <li>If the node is the <code>RDF</code> element in the <span>RDF
 namespace</span>:

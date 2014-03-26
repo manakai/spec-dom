@@ -281,9 +281,9 @@ title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
 <dfn title=attr-xml-encoding><code>encoding</code></dfn>
 pseudo-attribute, <dfn
 title=attr-xml-standalone><code>standalone</code></dfn>
-pseudo-attribute, and <dfn>replacement text</dfn> are defined in the
-XML 1.0 specification <cite class="bibref normative">[<a
-href="#ref-XML">XML</a>]</cite>.
+pseudo-attribute, <dfn>replacement text</dfn>, and <dfn>process</dfn>
+are defined in the XML 1.0 specification <cite class="bibref
+normative">[<a href="#ref-XML">XML</a>]</cite>.
 
 <p>The terms <dfn>parse error</dfn>, <dfn>input stream</dfn>,
 <dfn>tokenization</dfn>, <dfn>character token</dfn>, <dfn>end tag
@@ -406,7 +406,8 @@ has an associated <span title="XML tokenizer">tokenizer</span> and
 
   </div>
 
-<p>The <span>XML parser</span> has <dfn>expose DTD content</dfn> and
+<p>The <span>XML parser</span> has <dfn>standalone document</dfn>,
+<dfn>expose DTD content</dfn>, <dfn>don't process</dfn>, and
 <dfn>expand external entities</dfn> flags.  Unless explicitly stated,
 these flags are unset.
 
@@ -438,7 +439,7 @@ cases:
   <span>list of parameter entities</span> contains an entity with same
   name.
 
-  <li class=ed>XXX stop processing flag is set
+  <li>If the <span>don't process</span> flag is set.
 
   </ul>
 
@@ -610,8 +611,18 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
   <li>Let <var title>entity</var> be the <span>parameter entity</span>
   whose name is <var title>name</var> in the <span>list of parameter
   entities</span>.  If there is no such a <span>parameter
-  entity</span>, this is a <span>parse error</span>.  In such case,
-  <span class=ed>set error flag</span> and abort these steps.
+  entity</span>:
+
+    <ul>
+
+    <li><span>Parse error</span>.
+
+    <li>If the <span>standalone document</span> flag is <em>not</em>
+    set, set the <span>don't process</span> flag.
+
+    <li>Abort these steps.
+
+    </ul>
 
     <div class="note memo">
 
@@ -620,6 +631,15 @@ parser</span> <em class=rfc2119>MUST</em> run these steps:
     always contain the <code>;</code> character.
 
     </div>
+
+  <li>If the <span>don't process</span> flag is set and the
+  <span>standalone document</span> flag is <em>not</em> set, return
+  nothing and abort these steps.
+
+  <li>If the <span title=concept-entity-open>open</span> flag of the
+  entry for <var title>entity</var> in the <span>list of parameter
+  entities</span> of the <span>XML parser</span> is set, this is a
+  <span>parse error</span>.  Return nothing and abort these steps.
 
   <li>Let <var title>public ID</var> be the <span>public ID</span> of
   <var title>entity</var>.

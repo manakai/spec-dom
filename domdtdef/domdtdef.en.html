@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 15 March 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 26 March 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-15 March 2014, the editor has made this specification available under the
+26 March 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -279,8 +279,9 @@ reference</dfn>, <dfn id=xml-declaration>XML declaration</dfn>, <dfn id=text-dec
 declaration</dfn>, <dfn id=attr-xml-version title=attr-xml-version><code>version</code></dfn> pseudo-attribute,
 <dfn id=attr-xml-encoding title=attr-xml-encoding><code>encoding</code></dfn>
 pseudo-attribute, <dfn id=attr-xml-standalone title=attr-xml-standalone><code>standalone</code></dfn>
-pseudo-attribute, and <dfn id=replacement-text>replacement text</dfn> are defined in the
-XML 1.0 specification <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>.
+pseudo-attribute, <dfn id=replacement-text>replacement text</dfn>, and <dfn id=process>process</dfn>
+are defined in the XML 1.0 specification <cite class="bibref
+normative">[<a href=#ref-XML>XML</a>]</cite>.
 
 </p><p>The terms <dfn id=parse-error>parse error</dfn>, <dfn id=input-stream>input stream</dfn>,
 <dfn id=tokenization>tokenization</dfn>, <dfn id=character-token-0>character token</dfn>, <dfn id=end-tag-token>end tag
@@ -392,7 +393,8 @@ has an associated <a href=#xml-tokenizer title="XML tokenizer">tokenizer</a> and
 
   </p></div>
 
-<p>The <a href=#xml-parser>XML parser</a> has <dfn id=expose-dtd-content>expose DTD content</dfn> and
+<p>The <a href=#xml-parser>XML parser</a> has <dfn id=standalone-document>standalone document</dfn>,
+<dfn id=expose-dtd-content>expose DTD content</dfn>, <dfn id="don't-process">don't process</dfn>, and
 <dfn id=expand-external-entities>expand external entities</dfn> flags.  Unless explicitly stated,
 these flags are unset.
 
@@ -423,7 +425,7 @@ cases:
   <a href=#list-of-parameter-entities>list of parameter entities</a> contains an entity with same
   name.
 
-  </li><li class=ed>XXX stop processing flag is set
+  </li><li>If the <a href="#don't-process">don't process</a> flag is set.
 
   </li></ul>
 
@@ -584,8 +586,18 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
   </li><li>Let <var title="">entity</var> be the <a href=#parameter-entity>parameter entity</a>
   whose name is <var title="">name</var> in the <a href=#list-of-parameter-entities>list of parameter
   entities</a>.  If there is no such a <a href=#parameter-entity>parameter
-  entity</a>, this is a <a href=#parse-error>parse error</a>.  In such case,
-  <span class=ed>set error flag</span> and abort these steps.
+  entity</a>:
+
+    <ul>
+
+    <li><a href=#parse-error>Parse error</a>.
+
+    </li><li>If the <a href=#standalone-document>standalone document</a> flag is <em>not</em>
+    set, set the <a href="#don't-process">don't process</a> flag.
+
+    </li><li>Abort these steps.
+
+    </li></ul>
 
     <div class="note memo">
 
@@ -594,6 +606,15 @@ parser</a> <em class=rfc2119>MUST</em> run these steps:
     always contain the <code>;</code> character.
 
     </p></div>
+
+  </li><li>If the <a href="#don't-process">don't process</a> flag is set and the
+  <a href=#standalone-document>standalone document</a> flag is <em>not</em> set, return
+  nothing and abort these steps.
+
+  </li><li>If the <a href=#concept-entity-open title=concept-entity-open>open</a> flag of the
+  entry for <var title="">entity</var> in the <a href=#list-of-parameter-entities>list of parameter
+  entities</a> of the <a href=#xml-parser>XML parser</a> is set, this is a
+  <a href=#parse-error>parse error</a>.  Return nothing and abort these steps.
 
   </li><li>Let <var title="">public ID</var> be the <span>public ID</span> of
   <var title="">entity</var>.

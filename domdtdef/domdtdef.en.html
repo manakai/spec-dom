@@ -8,7 +8,7 @@
 
 <div class=header>
 <h1 class="no-toc no-num">XML processing and DOM Document Type Definitions</h1>
-<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 26 March 2014</h2>
+<h2 class="no-toc no-num" id=manakai-project-specification-date>Manakai Project Specification 11 April 2014</h2>
 
 <dl class=versions-uri>
 <dt>Latest version</dt>
@@ -23,7 +23,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-26 March 2014, the editor has made this specification available under the
+11 April 2014, the editor has made this specification available under the
 <cite>Open Web Foundation Agreement Version 1.0</cite>, which is
 available at <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0</a>.
 
@@ -233,7 +233,7 @@ to be interpreted as described in the WebIDL specification <cite class="bibref n
 
 </p><p>The terms, interfaces, attributes, and exceptions <dfn id=context-object>context
 object</dfn>, <dfn id=concept-tree-child title=concept-tree-child>child</dfn>, <dfn id=concept-tree-parent title=concept-tree-parent>parent</dfn>, <dfn id=node>node</dfn> or
-<dfn id=node-0><code>Node</code></dfn> (which has <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>), <dfn id=document>document</dfn> or
+<dfn id=node-0><code>Node</code></dfn> (which has <dfn id=dom-node-nodename title=dom-Node-nodeName><code>nodeName</code></dfn>, <dfn id=concept-node-adopt title=concept-node-adopt>adopt</dfn>, <dfn id=concept-node-document title=concept-node-document>node document</dfn>, <dfn id=concept-node-clone title=concept-node-clone>clone</dfn>, <dfn id=concept-node-equals title=concept-node-equals>equals</dfn>, <dfn id=concept-node-base-url title=concept-node-base-url>base URL</dfn>), <dfn id=document>document</dfn> or
 <dfn id=document-0><code>Document</code></dfn> (which has <dfn id=dom-document-doctype title=dom-Document-doctype><code>doctype</code></dfn>), <dfn id=xml-document>XML
 document</dfn>, <dfn id=html-document>HTML document</dfn>, <dfn id=concept-element title=concept-element>element</dfn> or <dfn id=element><code>Element</code></dfn>
 (which has <dfn id=concept-element-namespace title=concept-element-namespace>namespace</dfn>, <dfn id=concept-element-namespace-prefix title=concept-element-namespace-prefix>namespace prefix</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local name</dfn>, and <dfn id=concept-element-attribute title=concept-element-attribute>attribute list</dfn>), <dfn id=concept-attribute title=concept-attribute>attribute</dfn> or
@@ -1739,9 +1739,9 @@ value</a>.
 
 </dd></dl>
 
-<p>When two nodes are compared for the <code title=dom-Node-isEqualNode>isEqualNode</code> method, equality of the
-following values <em class=rfc2119>MUST</em> also be taken into
-account:
+<p>For the <a href=#concept-node-equals title=concept-node-equals>equality</a> of two
+nodes, equality of the following values <em class=rfc2119>MUST</em>
+also be taken into account:
 
 <!-- This list should be equal to cloneNode's list -->
 </p><dl class=switch>

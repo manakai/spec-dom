@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 25 March 2014</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 29 April 2014</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-25 March 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+29 April 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -37,14 +37,14 @@ Web Foundation Agreement Version 1.0</a>.
 document at the time of its publication.  Other documents might
 supersede this document.</em></p>
 
-<p>This document is a technical specification produced as part of the
-<a href=https://github.com/manakai>manakai project</a>.  It might be
-updated, replaced, or obsoleted by other documents at any time.
+<p>This document is a <a href=http://manakai.github.io/docs#specs>technical specification</a>
+produced as part of <a href=http://manakai.github.io/>the manakai
+project</a>.  It might be updated, replaced, or obsoleted by other
+documents at any time.
 
-</p><p>The scope of this specification is explicitly limited within the
-manakai project.  It does not intended to be supported by multiple
-parties, although nothing prevents it from implemented by other DOM
-implementations.
+</p><p>The scope of this specification is explicitly limited within <a href=http://manakai.github.io/>the manakai project</a>.  It does not
+intended to be implemented by multiple parties, although nothing
+prevents it from implemented by other DOM implementations.
 
 </p><p>Comments on this document are welcome and may be sent to the <a href=#author>author</a>.</p>
 
@@ -62,15 +62,16 @@ version of the document is the only normative version.</p>
    <li><a href=#design-goals><span class=secno>1.1 </span>Design goals</a></li></ol></li>
  <li><a href=#definitions><span class=secno>2 </span>Definitions</a></li>
  <li><a href=#unknown-namespaces><span class=secno>3 </span>Unknown namespaces</a></li>
- <li><a href=#rss-elements><span class=secno>4 </span>RSS elements</a></li>
- <li><a href=#atom-elements><span class=secno>5 </span>Atom elements</a></li>
- <li><a href=#validation-modes><span class=secno>6 </span>Validation modes</a>
+ <li><a href=#rdf><span class=secno>4 </span>RDF</a></li>
+ <li><a href=#rss-elements><span class=secno>5 </span>RSS elements</a></li>
+ <li><a href=#atom-elements><span class=secno>6 </span>Atom elements</a></li>
+ <li><a href=#validation-modes><span class=secno>7 </span>Validation modes</a>
   <ol>
-   <li><a href=#document-element><span class=secno>6.1 </span>Document element</a></li>
-   <li><a href=#checking-an-element><span class=secno>6.2 </span>Checking an element</a></li>
-   <li><a href=#checking-an-html-script-element><span class=secno>6.3 </span>Checking an HTML <code>script</code> element</a></li>
-   <li><a href=#checking-an-html-style-element><span class=secno>6.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
- <li><a href=#data><span class=secno>7 </span>Data</a></li>
+   <li><a href=#document-element><span class=secno>7.1 </span>Document element</a></li>
+   <li><a href=#checking-an-element><span class=secno>7.2 </span>Checking an element</a></li>
+   <li><a href=#checking-an-html-script-element><span class=secno>7.3 </span>Checking an HTML <code>script</code> element</a></li>
+   <li><a href=#checking-an-html-style-element><span class=secno>7.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
+ <li><a href=#data><span class=secno>8 </span>Data</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -82,7 +83,8 @@ version of the document is the only normative version.</p>
 
 </p><p>This specification defines how elements and attributes in no
 namespace and in unknown namespaces are handled by conformance
-checkers developed by the <a href=https://github.com/manakai/>manakai project</a>.
+checkers developed by <a href=http://manakai.github.io/>the manakai
+project</a>.
 
 </p><section>
 <h3 id=design-goals><span class=secno>1.1 </span>Design goals</h3>
@@ -204,6 +206,8 @@ as <i>URL</i> and <i>absolute URL</i>, respectively.
 </p><p>The term <dfn id=valid-mime-type>valid MIME type</dfn> is defined by <a href=http://mimesniff.spec.whatwg.org/>MIME Sniffing Standard</a> as
 <i>parsable MIME type</i>.
 
+The <dfn id=utf-8><code>utf-8</code></dfn> character encoding is defined by <a href=http://encoding.spec.whatwg.org/>Encoding Standard</a>.
+
 </p><p>The term <dfn id=valid-language-tag>valid language tag</dfn> is defined by <a href=http://tools.ietf.org/html/bcp47>BCP 47</a>.
 
 </p><p>The term <dfn id=date-construct>Date construct</dfn> is defined by <a href=http://tools.ietf.org/html/rfc4287>Atom 1.0 specification</a>.
@@ -279,7 +283,91 @@ attribute</a> as use of it could be an authoring error.
 </p></section>
 
 <section>
-<h2 id=rss-elements><span class=secno>4 </span>RSS elements</h2>
+<h2 id=rdf><span class=secno>4 </span>RDF</h2>
+
+<p>The <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-Infoset-Grammar-Action><dfn id=rdfxml-resolve title=rdfxml-resolve><code>resolve (<var>e</var>,
+<var>s</var>)</code></dfn></a> grammer action in <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html>RDF/XML</a>
+<em class=rfc2119>MUST</em> run the following steps:
+
+  </p><ol class=steps>
+
+  <li>Let <var title="">url</var> be the result of <a href=http://www.whatwg.org/specs/web-apps/current-work/#resolve-a-url>resolving</a>
+  <var title="">s</var> relative to the <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-base-uri>base-uri</a>
+  accessor of <var title="">e</var>, using <i>character encoding</i>
+  <a href=#utf-8><code>utf-8</code></a>.
+
+  </li><li>If <var title="">url</var> is in error, return <var title="">s</var>.
+
+  </li><li>Otherwise, return <var title="">url</var>.
+
+  </li></ol>
+
+<p>The value of RDF/XML attributes whose value is directly <a href=#rdfxml-resolve title=rdfxml-resolve>resolved</a> as an IRI reference <em class=rfc2119>MUST</em> be a <a href=#valid-url>valid URL</a>.
+
+</p><p>For the purpose of the definition of <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-children>children</a>
+of an <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-element-node>element
+event</a> in RDF/XML specification, the <a href=#concept-tree-child title=concept-tree-child>children</a> of the element <em class=rfc2119>MUST</em> be considered as the value of the [children]
+property of the element information item.
+
+  </p><div class="note memo">
+
+  <p>Therefore, <span>template content</span> of an HTML
+  <code>template</code> element outside of <span>XML literal</span> is
+  ignored.
+
+  </p><p>As <code>template</code> element is not allowed in an RDF/XML
+  document outside of <span>XML literal</span>, this does not affect
+  any conforming RDF/XML document.
+
+  </p></div>
+
+<p>The <span>lexical form</span> of an <span>RDF literal</span> <em class=rfc2119>MUST</em> conform to the relevant requirements of the
+<span>datatype</span> of the <span title="RDF literal">literal</span>
+except when it is embedded in an RDF/XML fragment as <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeLiteralPropertyElt><code>parseTypeLiteralPropertyElt</code></a>
+or <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeOtherPropertyElt><code>parseTypeOtherPropertyElt</code></a>.
+
+  </p><div class="note memo">
+
+  <p>An <span>XML literal</span> embedded using RDF/XML's feature is
+  validated as part of the document.  Result of the validation might
+  be different from the validation result of the <span>lexical
+  form</span> if the <span>XML literal</span> is not self-contained.
+
+  </p></div>
+
+<p>If the <span>lexical form</span> of an <span>RDF literal</span> is
+defined as an HTML or XML document (or a fragment of an HTML or XML
+document), it <em class=rfc2119>MUST</em> be parsed with appropriate
+<span>HTML parser</span> or <span>XML parser</span> with following
+configurations:
+
+  </p><ul>
+
+  <li>The <code>Document</code> associated with the parser is not in
+  any <span>browsing context</span>.
+
+    <div class="note memo">
+
+    <p>That is, no script is executed and no external resource is
+    retrieved by the parser.
+
+    </p></div>
+
+  </li><li>If the parser has the <span>scripting flag</span>, whether it is
+  set or not depends on the context in which the <span>lexical
+  form</span> appears.  If it is contained in a <code>Node</code>, the
+  <span>scripting flag</span> is set if and only if <span>scripting is
+  enabled</span> for the <code>Node</code>.
+
+  </li><li>If the parser is affected by locale, it is set to
+  <code>en</code> (English).
+
+  </li></ul>
+
+</section>
+
+<section>
+<h2 id=rss-elements><span class=secno>5 </span>RSS elements</h2>
 
 <p>An <a href=#concept-element title=concept-element>element</a> is an <dfn id=rss2-element>RSS2
 element</dfn> if and only if it is in no namespace and either it is
@@ -302,7 +390,7 @@ described by RSS2 specifications <cite class="bibref normative">[<a href=#ref-RS
 </p></section>
 
 <section>
-<h2 id=atom-elements><span class=secno>5 </span>Atom elements</h2>
+<h2 id=atom-elements><span class=secno>6 </span>Atom elements</h2>
 
 <p>Atom and its extension specifications allow extensions such that
 almost everything is allowed, which is not useful for conformance
@@ -403,7 +491,7 @@ when type is a MIME type
 </p></section>
 
 <section>
-<h2 id=validation-modes><span class=secno>6 </span>Validation modes</h2>
+<h2 id=validation-modes><span class=secno>7 </span>Validation modes</h2>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -552,7 +640,7 @@ element in string literal) are validated in <a href=#default-mode>default mode</
 </p></div>
 
 <section>
-<h3 id=document-element><span class=secno>6.1 </span>Document element</h3>
+<h3 id=document-element><span class=secno>7.1 </span>Document element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -584,7 +672,7 @@ element</a>.  Return true.
 </section>
 
 <section>
-<h3 id=checking-an-element><span class=secno>6.2 </span>Checking an element</h3>
+<h3 id=checking-an-element><span class=secno>7.2 </span>Checking an element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -628,7 +716,7 @@ element</a>.  Report an "unknown element" warning.
 </section>
 
 <section>
-<h3 id=checking-an-html-script-element><span class=secno>6.3 </span>Checking an HTML <code>script</code> element</h3>
+<h3 id=checking-an-html-script-element><span class=secno>7.3 </span>Checking an HTML <code>script</code> element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -693,7 +781,7 @@ language:
 </section>
 
 <section>
-<h3 id=checking-an-html-style-element><span class=secno>6.4 </span>Checking an HTML <code>style</code> element</h3>
+<h3 id=checking-an-html-style-element><span class=secno>7.4 </span>Checking an HTML <code>style</code> element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -739,7 +827,7 @@ follows:
 </section>
 
 <section>
-<h2 id=data><span class=secno>7 </span>Data</h2>
+<h2 id=data><span class=secno>8 </span>Data</h2>
 
 <p class=section-info><em>This section is non-normative.</em>
 

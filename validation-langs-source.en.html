@@ -46,14 +46,16 @@ Web Foundation Agreement Version 1.0</a>.
 document at the time of its publication.  Other documents might
 supersede this document.</em></p>
 
-<p>This document is a technical specification produced as part of the
-<a href="https://github.com/manakai">manakai project</a>.  It might be
-updated, replaced, or obsoleted by other documents at any time.
+<p>This document is a <a
+href="http://manakai.github.io/docs#specs">technical specification</a>
+produced as part of <a href="http://manakai.github.io/">the manakai
+project</a>.  It might be updated, replaced, or obsoleted by other
+documents at any time.
 
-<p>The scope of this specification is explicitly limited within the
-manakai project.  It does not intended to be supported by multiple
-parties, although nothing prevents it from implemented by other DOM
-implementations.
+<p>The scope of this specification is explicitly limited within <a
+href="http://manakai.github.io/">the manakai project</a>.  It does not
+intended to be implemented by multiple parties, although nothing
+prevents it from implemented by other DOM implementations.
 
 <p>Comments on this document are welcome and may be sent to the <a
 href="#author">author</a>.</p>
@@ -74,8 +76,8 @@ version of the document is the only normative version.</p>
 
 <p>This specification defines how elements and attributes in no
 namespace and in unknown namespaces are handled by conformance
-checkers developed by the <a
-href="https://github.com/manakai/">manakai project</a>.
+checkers developed by <a href="http://manakai.github.io/">the manakai
+project</a>.
 
 <section>
 <h3>Design goals</h3>
@@ -213,6 +215,9 @@ as <i>URL</i> and <i>absolute URL</i>, respectively.
 href="http://mimesniff.spec.whatwg.org/">MIME Sniffing Standard</a> as
 <i>parsable MIME type</i>.
 
+The <dfn><code>utf-8</code></dfn> character encoding is defined by <a
+href="http://encoding.spec.whatwg.org/">Encoding Standard</a>.
+
 <p>The term <dfn>valid language tag</dfn> is defined by <a
 href="http://tools.ietf.org/html/bcp47">BCP 47</a>.
 
@@ -294,6 +299,104 @@ element</span> <em class=rfc2119>MAY</em> have any value.
 <p>Conformance checkers <em class=rfc2119>MAY</em> warn any
 <span>unknown namespace element</span> or <span>unknown namespace
 attribute</span> as use of it could be an authoring error.
+
+</section>
+
+<section>
+<h2>RDF</h2>
+
+<p>The <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-Infoset-Grammar-Action"><dfn
+title=rdfxml-resolve><code>resolve (<var>e</var>,
+<var>s</var>)</code></dfn></a> grammer action in <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html">RDF/XML</a>
+<em class=rfc2119>MUST</em> run the following steps:
+
+  <ol class=steps>
+
+  <li>Let <var title>url</var> be the result of <a
+  href="http://www.whatwg.org/specs/web-apps/current-work/#resolve-a-url">resolving</a>
+  <var title>s</var> relative to the <a
+  href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-base-uri">base-uri</a>
+  accessor of <var title>e</var>, using <i>character encoding</i>
+  <code>utf-8</code>.
+
+  <li>If <var title>url</var> is in error, return <var title>s</var>.
+
+  <li>Otherwise, return <var title>url</var>.
+
+  </ol>
+
+<p>The value of RDF/XML attributes whose value is directly <span
+title=rdfxml-resolve>resolved</span> as an IRI reference <em
+class=rfc2119>MUST</em> be a <span>valid URL</span>.
+
+<p>For the purpose of the definition of <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-children">children</a>
+of an <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-element-node">element
+event</a> in RDF/XML specification, the <span
+title=concept-tree-child>children</span> of the element <em
+class=rfc2119>MUST</em> be considered as the value of the [children]
+property of the element information item.
+
+  <div class="note memo">
+
+  <p>Therefore, <span>template content</span> of an HTML
+  <code>template</code> element outside of <span>XML literal</span> is
+  ignored.
+
+  <p>As <code>template</code> element is not allowed in an RDF/XML
+  document outside of <span>XML literal</span>, this does not affect
+  any conforming RDF/XML document.
+
+  </div>
+
+<p>The <span>lexical form</span> of an <span>RDF literal</span> <em
+class=rfc2119>MUST</em> conform to the relevant requirements of the
+<span>datatype</span> of the <span title="RDF literal">literal</span>
+except when it is embedded in an RDF/XML fragment as <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeLiteralPropertyElt"><code>parseTypeLiteralPropertyElt</code></a>
+or <a
+href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeOtherPropertyElt"><code>parseTypeOtherPropertyElt</code></a>.
+
+  <div class="note memo">
+
+  <p>An <span>XML literal</span> embedded using RDF/XML's feature is
+  validated as part of the document.  Result of the validation might
+  be different from the validation result of the <span>lexical
+  form</span> if the <span>XML literal</span> is not self-contained.
+
+  </div>
+
+<p>If the <span>lexical form</span> of an <span>RDF literal</span> is
+defined as an HTML or XML document (or a fragment of an HTML or XML
+document), it <em class=rfc2119>MUST</em> be parsed with appropriate
+<span>HTML parser</span> or <span>XML parser</span> with following
+configurations:
+
+  <ul>
+
+  <li>The <code>Document</code> associated with the parser is not in
+  any <span>browsing context</span>.
+
+    <div class="note memo">
+
+    <p>That is, no script is executed and no external resource is
+    retrieved by the parser.
+
+    </div>
+
+  <li>If the parser has the <span>scripting flag</span>, whether it is
+  set or not depends on the context in which the <span>lexical
+  form</span> appears.  If it is contained in a <code>Node</code>, the
+  <span>scripting flag</span> is set if and only if <span>scripting is
+  enabled</span> for the <code>Node</code>.
+
+  <li>If the parser is affected by locale, it is set to
+  <code>en</code> (English).
+
+  </ul>
 
 </section>
 

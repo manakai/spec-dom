@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 29 April 2014</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 30 April 2014</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-29 April 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+30 April 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -576,17 +576,7 @@ defining RSS1 and its modules.
   type</a> of the <span title=concept-node-document>document</span>
   of the node is <code>application/rdf+xml</code>
 
-  </dt><dd>
-
-    <ol>
-
-    <li>If the node can be interpreted as matching with the production
-    <code>nodeElement</code>, return <a href=#rdf-mode>RDF mode</a> and abort
-    these steps.
-
-    </li><li>Otherwise, go to the next step of the overall set of steps.
-
-    </li></ol>
+  </dt><dd>Return <a href=#rdf-mode>RDF mode</a> and abort these steps.
 
   </dd><dt>Otherwise
 

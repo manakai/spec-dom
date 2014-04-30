@@ -537,6 +537,65 @@ when type is a MIME type
 </section>
 
 <section>
+<h2>OGP</h2>
+
+<p>An HTML <code>meta</code> element <em class=rfc2119>MAY</em> have a
+<dfn title=attr-meta-property><code>property</code></dfn> attribute.
+If the attribute is specified, the element <em class=rfc2119>MUST
+NOT</em> have a <code title=attr-meta-name>name</code> attribute or an
+attribute that cannot be used when a <code
+title=attr-meta-name>name</code> attribute is specified.  The <code
+title=attr-meta-content>content</code> attribute <em
+class=rfc2119>MUST</em> be specified if a <code
+title=attr-meta-property>property</code> attribute is specified.  An
+HTML <code>meta</code> element with <code
+title=attr-meta-property>property</code> attribute is <span>metadata
+content</span> (it is not a <span>phrasing content</span>).
+
+<p>The value of a <code title=attr-meta-property>property</code>
+attribute <em class=rfc2119>MUST</em> be an <span>OGP property
+name</span>.  A <dfn>OGP property name</dfn> is a <code
+title=attr-meta-property>property</code> value defined by an
+<span>applicable specification</span> or a <span>prefixed property
+value</span>.  A <dfn>prefixed property value</dfn> is a
+<span>property prefix</span> followed by a <code>U+003A</code> <code
+class=charname>COLON</code> character (<code>:</code>) followed by one
+or more characters.  A <dfn>property prefix</dfn> is a string of one
+or more characters that is not a <code>U+003A</code> <code
+class=charname>COLON</code> character (<code>:</code>) and is not used
+by <code title=attr-meta-property>property</code> value defined by an
+<span>applicable specification</span> as prefix.  A <i>deprecated</i>
+<code title=attr-meta-property>property</code> value <em
+class=rfc2119>SHOULD NOT</em> be used.
+
+<p>A <code title=attr-meta-property>property</code> value <em
+class=rfc2119>MUST NOT</em> be used unless it is defined in the
+context it is used by an <span>applicable specification</span>.
+
+  <div class="note memo">
+
+  <p>Many <code title=attr-meta-property>property</code> values are
+  only defined for speciic <code>og:type</code> values.
+
+  </div>
+
+<p>If the <code title=attr-meta-property>property</code> attribute
+value is <dfn><code>og:type</code></dfn>, the <code
+title=attr-meta-content>content</code> attribute value <em
+class=rfc2119>MUST</em> be a value allowed as an <code>og:type</code>
+value or a <span>prefixed property value</span>.
+
+  <div class="note memo">
+
+  <p>An example of <span title="applicable specification">applicable
+  specifications</span> is <a href="http://ogp.me/"><cite>The Open
+  Graph protocol</cite></a>.
+
+  </div>
+
+</section>
+
+<section>
 <h2>Validation modes</h2>
 
 <p class=section-info><em>This section is non-normative.</em>

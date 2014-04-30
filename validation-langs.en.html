@@ -65,13 +65,14 @@ version of the document is the only normative version.</p>
  <li><a href=#rdf><span class=secno>4 </span>RDF</a></li>
  <li><a href=#rss-elements><span class=secno>5 </span>RSS elements</a></li>
  <li><a href=#atom-elements><span class=secno>6 </span>Atom elements</a></li>
- <li><a href=#validation-modes><span class=secno>7 </span>Validation modes</a>
+ <li><a href=#ogp><span class=secno>7 </span>OGP</a></li>
+ <li><a href=#validation-modes><span class=secno>8 </span>Validation modes</a>
   <ol>
-   <li><a href=#document-element><span class=secno>7.1 </span>Document element</a></li>
-   <li><a href=#checking-an-element><span class=secno>7.2 </span>Checking an element</a></li>
-   <li><a href=#checking-an-html-script-element><span class=secno>7.3 </span>Checking an HTML <code>script</code> element</a></li>
-   <li><a href=#checking-an-html-style-element><span class=secno>7.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
- <li><a href=#data><span class=secno>8 </span>Data</a></li>
+   <li><a href=#document-element><span class=secno>8.1 </span>Document element</a></li>
+   <li><a href=#checking-an-element><span class=secno>8.2 </span>Checking an element</a></li>
+   <li><a href=#checking-an-html-script-element><span class=secno>8.3 </span>Checking an HTML <code>script</code> element</a></li>
+   <li><a href=#checking-an-html-style-element><span class=secno>8.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
+ <li><a href=#data><span class=secno>9 </span>Data</a></li>
  <li><a class=no-num href=#references>References</a></li></ol>
 <!--end-toc-->
 </section>
@@ -491,7 +492,54 @@ when type is a MIME type
 </p></section>
 
 <section>
-<h2 id=validation-modes><span class=secno>7 </span>Validation modes</h2>
+<h2 id=ogp><span class=secno>7 </span>OGP</h2>
+
+<p>An HTML <code>meta</code> element <em class=rfc2119>MAY</em> have a
+<dfn id=attr-meta-property title=attr-meta-property><code>property</code></dfn> attribute.
+If the attribute is specified, the element <em class=rfc2119>MUST
+NOT</em> have a <code title=attr-meta-name>name</code> attribute or an
+attribute that cannot be used when a <code title=attr-meta-name>name</code> attribute is specified.  The <code title=attr-meta-content>content</code> attribute <em class=rfc2119>MUST</em> be specified if a <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> attribute is specified.  An
+HTML <code>meta</code> element with <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> attribute is <span>metadata
+content</span> (it is not a <span>phrasing content</span>).
+
+</p><p>The value of a <a href=#attr-meta-property><code title=attr-meta-property>property</code></a>
+attribute <em class=rfc2119>MUST</em> be an <a href=#ogp-property-name>OGP property
+name</a>.  A <dfn id=ogp-property-name>OGP property name</dfn> is a <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value defined by an
+<a href=#applicable-specification>applicable specification</a> or a <a href=#prefixed-property-value>prefixed property
+value</a>.  A <dfn id=prefixed-property-value>prefixed property value</dfn> is a
+<a href=#property-prefix>property prefix</a> followed by a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>) followed by one
+or more characters.  A <dfn id=property-prefix>property prefix</dfn> is a string of one
+or more characters that is not a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>) and is not used
+by <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value defined by an
+<a href=#applicable-specification>applicable specification</a> as prefix.  A <i>deprecated</i>
+<a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value <em class=rfc2119>SHOULD NOT</em> be used.
+
+</p><p>A <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value <em class=rfc2119>MUST NOT</em> be used unless it is defined in the
+context it is used by an <a href=#applicable-specification>applicable specification</a>.
+
+  </p><div class="note memo">
+
+  <p>Many <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> values are
+  only defined for speciic <a href=#og:type><code>og:type</code></a> values.
+
+  </p></div>
+
+<p>If the <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> attribute
+value is <dfn id=og:type><code>og:type</code></dfn>, the <code title=attr-meta-content>content</code> attribute value <em class=rfc2119>MUST</em> be a value allowed as an <a href=#og:type><code>og:type</code></a>
+value or a <a href=#prefixed-property-value>prefixed property value</a>.
+
+  </p><div class="note memo">
+
+  <p>An example of <a href=#applicable-specification title="applicable specification">applicable
+  specifications</a> is <a href=http://ogp.me/><cite>The Open
+  Graph protocol</cite></a>.
+
+  </p></div>
+
+</section>
+
+<section>
+<h2 id=validation-modes><span class=secno>8 </span>Validation modes</h2>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -630,7 +678,7 @@ element in string literal) are validated in <a href=#default-mode>default mode</
 </p></div>
 
 <section>
-<h3 id=document-element><span class=secno>7.1 </span>Document element</h3>
+<h3 id=document-element><span class=secno>8.1 </span>Document element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -662,7 +710,7 @@ element</a>.  Return true.
 </section>
 
 <section>
-<h3 id=checking-an-element><span class=secno>7.2 </span>Checking an element</h3>
+<h3 id=checking-an-element><span class=secno>8.2 </span>Checking an element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -706,7 +754,7 @@ element</a>.  Report an "unknown element" warning.
 </section>
 
 <section>
-<h3 id=checking-an-html-script-element><span class=secno>7.3 </span>Checking an HTML <code>script</code> element</h3>
+<h3 id=checking-an-html-script-element><span class=secno>8.3 </span>Checking an HTML <code>script</code> element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -771,7 +819,7 @@ language:
 </section>
 
 <section>
-<h3 id=checking-an-html-style-element><span class=secno>7.4 </span>Checking an HTML <code>style</code> element</h3>
+<h3 id=checking-an-html-style-element><span class=secno>8.4 </span>Checking an HTML <code>style</code> element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
 
@@ -817,7 +865,7 @@ follows:
 </section>
 
 <section>
-<h2 id=data><span class=secno>8 </span>Data</h2>
+<h2 id=data><span class=secno>9 </span>Data</h2>
 
 <p class=section-info><em>This section is non-normative.</em>
 

@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Atom DOM</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 25 May 2013</h2>
+  <h2 class="no-toc no-num">Manakai Project Standard 23 May 2014</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-25 May 2013, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+23 May 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -37,14 +37,12 @@ Web Foundation Agreement Version 1.0</a>.
 document at the time of its publication.  Other documents might
 supersede this document.</em></p>
 
-<p>This document is a technical specification produced as part of the
-<a href=https://github.com/manakai>manakai</a> project.  It might be
+<p>This document is a technical specification produced as part of <a href=http://manakai.github.io/>the manakai project</a>.  It might be
 updated, replaced, or obsoleted by other documents at any time.
 
-</p><p>The scope of this specification is explicitly limited within the
-manakai project.  It does not intended to be supported by multiple
-parties, although nothing prevents it from implemented by other DOM
-implementations.
+</p><p>The scope of this specification is explicitly limited within <a href=http://manakai.github.io/>the manakai project</a>.  It does not
+intended to be supported by multiple parties, although nothing
+prevents it from implemented by other DOM implementations.
 
 </p><p>Comments on this document are welcome and may be sent to the <a href=#author>author</a>.</p>
 
@@ -65,7 +63,8 @@ version of the document is the only normative version.</p>
   <ol>
    <li><a href=#conformance><span class=secno>2.1 </span>Conformance</a></li>
    <li><a href=#terms><span class=secno>2.2 </span>Terms</a></li>
-   <li><a href=#dom-operations><span class=secno>2.3 </span>DOM operations</a></li></ol></li>
+   <li><a href=#microsyntax><span class=secno>2.3 </span>Microsyntax</a></li>
+   <li><a href=#dom-operations><span class=secno>2.4 </span>DOM operations</a></li></ol></li>
  <li><a href=#document-constructors><span class=secno>3 </span>Document constructors</a></li>
  <li><a href=#atom-documents><span class=secno>4 </span>Atom documents</a></li>
  <li><a href=#interfaces-for-atom-core-elements><span class=secno>5 </span>Interfaces for Atom core elements</a>
@@ -134,7 +133,7 @@ following technologies:
 
   <li>Atom 0.3
 
-  </li><li>hAtom
+  <!--<li>hAtom-->
 
   </li><li>AtomPub
 
@@ -191,10 +190,9 @@ are defined by the DOM Standard <cite class="bibref normative">[<a href=#ref-DOM
 
 </p><p>The terms <dfn id=idl-attribute>IDL attribute</dfn>, <dfn id=reflect>reflect</dfn>,
 <dfn id=resolve-a-url>resolve a URL</dfn>, <dfn id=valid-non-negative-integer>valid non-negative integer</dfn>,
-<dfn id=rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</dfn>, <dfn id=parse-a-global-date-and-time-string>parse a
-global date and time string</dfn>, and <dfn id=valid-normalized-forced-utc-global-date-and-time-string>valid normalized
-forced-UTC global date and time string</dfn> are defined by the HTML
-Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
+<dfn id=rules-for-parsing-non-negative-integers>rules for parsing non-negative integers</dfn>, and <dfn id=a-valid-global-date-and-time-string>a valid
+global date and time string</dfn> are defined by the HTML Standard
+<cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn> is
 <code>http://www.w3.org/2005/Atom</code> <cite class="bibref
@@ -218,7 +216,53 @@ be interpreted as described in the WebIDL specification <cite class="bibref norm
 </p></section>
 
 <section>
-<h3 id=dom-operations><span class=secno>2.3 </span>DOM operations</h3>
+<h3 id=microsyntax><span class=secno>2.3 </span>Microsyntax</h3>
+
+<p>When the user agent is to <dfn id=convert-an-atom-date-time-string-to-a-number>convert an Atom
+<code>date-time</code> string to a number</dfn>, it <em class=rfc2119>MUST</em> run the following steps:
+
+  </p><ol class=steps>
+
+  <li>If the string is an <a href=https://tools.ietf.org/html/rfc3339>RFC 3339
+  <code>date-time</code> which does <em>not</em> represent a
+  <span>leap second</span>, return the number which is equal to </a><a href=https://people.mozilla.org/~jorendorff/es6-draft.html#sec-time-values-and-time-range>the
+  time value of the JavaScript <code>Date</code> object</a> which
+  represents the same instance as the string.
+
+    <div class="note memo">
+
+    <p>Unlike a <span>valid global date and time string</span>, the
+    string can represent a date in year <code>0000</code> and the time
+    zone hour component can be greater than 23.
+
+    </p></div>
+
+  </li><li>Otherwise, if the string cannot be parsed successfully, return
+  zero.
+
+  </li><li>Otherwise, return an implementation dependent number.
+
+    <div class="note memo">
+
+    <p>Unfortunately, there is no specification for this...
+
+    </p></div>
+
+  </li></ol>
+
+<p>When the user agent is to <dfn id=convert-a-number-to-an-atom-date-time-string>convert a number to an Atom
+<code>date-time</code> string</dfn>, it <em class=rfc2119>MUST</em>
+return a <span>valid global date and time string</span> representing
+the same instance as the JavaScript <code>Date</code> object whose
+time value is equal to the number.  The string <em class=rfc2119>MUST</em> be in UTC, with the time-zone offset string
+<code>Z</code>.  <span class=ed>If the number cannot be represented by
+such a string, the result <em class=rfc2119>MAY</em> be an
+implementation-dependent string.</span>
+
+</p></section>
+
+<section>
+<h3 id=dom-operations><span class=secno>2.4 </span>DOM operations</h3>
 
 <p>To <dfn id=set-the-xml:lang-attribute>set the <code>xml:lang</code> attribute</dfn> of an <a href=#concept-element title=concept-element>element</a> <var title="">element</var> to value
 <var>value</var>, the <a href=#concept-element-attributes-set title=concept-element-attributes-set>set
@@ -426,8 +470,8 @@ is <var title="">title</var> to <var title="">feed</var>.
 
 </li><li><a href=#concept-append-atom-element title=concept-append-atom-element>Append an Atom
 <code>updated</code> element</a> whose <var title="">text
-content</var> is <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date and
-time string</a> of the current time to <var title="">feed</var>.
+content</var> is the current time, <a href=#convert-a-number-to-an-atom-date-time-string title="convert a number to an
+Atom date-time string">converted to a string</a>, to <var title="">feed</var>.
 
 </li><li><a href=#concept-node-append title=concept-node-append>Append</a> <var title="">feed</var> to <var title="">document</var>.
 
@@ -461,8 +505,8 @@ is <var title="">title</var> to <var title="">entry</var>.
 
 </li><li><a href=#concept-append-atom-element title=concept-append-atom-element>Append an Atom
 <code>updated</code> element</a> whose <var title="">text
-content</var> is <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date and
-time string</a> of the current time to <var title="">entry</var>.
+content</var> is the current time, <a href=#convert-a-number-to-an-atom-date-time-string title="convert a number to an
+Atom date-time string">converted to a string</a>, to <var title="">entry</var>.
 
 </li><li><a href=#concept-node-append title=concept-node-append>Append</a> <var title="">entry</var> to <var title="">document</var>.
 
@@ -666,17 +710,15 @@ interface <dfn id=atomdateconstruct>AtomDateConstruct</dfn> : <a href=#atomeleme
 };</code></pre>
 
 <p>On getting, the <dfn id=dom-atomdateconstruct-value title=dom-AtomDateConstruct-value><code>value</code></dfn> attribute
-of the <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time
-string">parse</a> the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> of the <a href=#context-object>context
-object</a> and return the result (or zero if failed).  <span class=ed>Implementations are required to implement more tolerant
-datetime parsing algorithm for compatibility with Atom documents in
-the wild...</span>
+of the <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface <em class=rfc2119>MUST</em> <a href=#convert-an-atom-date-time-string-to-a-number title="convert an Atom date-time string
+to a number">convert</a> the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a> of the <a href=#context-object>context
+object</a> and return the result.
 
 </p><p>On setting, the <a href=#dom-atomdateconstruct-value><code title=dom-AtomDateConstruct-value>value</code></a> attribute of the
 <a href=#atomdateconstruct><code>AtomDateConstruct</code></a> interface <em class=rfc2119>MUST</em>
 act as if the <a href=#dom-node-textcontent><code title=dom-Node-textContent>textContent</code></a>
-attribute is set to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
-and time string</a> representation of the given value.
+attribute is set to the given value, <a href=#convert-a-number-to-an-atom-date-time-string title="convert a number to
+an Atom date-time string">converted to a string</a>.
 
 </p><hr>
 
@@ -800,8 +842,8 @@ is <var title="">title</var> to <var title="">entry</var>.
 
 </li><li><a href=#concept-append-atom-element title=concept-append-atom-element>Append an Atom
 <code>updated</code> element</a> whose <var title="">text
-content</var> is <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date and
-time string</a> of the current time to <var title="">entry</var>.
+content</var> is the current time, <a href=#convert-a-number-to-an-atom-date-time-string title="convert a number to an
+Atom date-time string">converted to a string</a>, to <var title="">entry</var>.
 
 </li><li><a href=#concept-node-append title=concept-node-append>Append</a> <var title="">entry</var> to the <a href=#context-object>context object</a>.
 
@@ -1204,18 +1246,18 @@ attribute in the <a href=#atom-threading-namespace>Atom Threading namespace</a>.
 attribute is set by the <a href=#concept-attribute title=concept-attribute>attribute</a>, the namespace prefix <em class=rfc2119>MUST</em> be <code>thr</code>.
 
 </p><p>On getting, the <dfn id=dom-atomlinkelement-threadupdated title=dom-AtomLinkElement-threadUpdated><code>threadUpdated</code></dfn>
-attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#parse-a-global-date-and-time-string title="parse a global date and time
-string">parse</a> the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the <code>updated</code>
+attribute of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#convert-an-atom-date-time-string-to-a-number title="convert an Atom date-time string
+to a number">convert</a> the <a href=#concept-attribute-value title=concept-attribute-value>value</a> of the <code>updated</code>
 <a href=#concept-attribute title=concept-attribute>attribute</a> in the <a href=#atom-threading-namespace>Atom
-Threading namespace</a>.  If the <a href=#concept-attribute title=concept-attribute>attribute</a> is not present, or the
-parsing fails, it <em class=rfc2119>MUST</em> return zero instead.
+Threading namespace</a> and return the result.  If the <a href=#concept-attribute title=concept-attribute>attribute</a> is not present, it <em class=rfc2119>MUST</em> return zero instead.
 
 </p><p>On setting, the <a href=#dom-atomlinkelement-threadupdated><code title=dom-AtomLinkElement-threadUpdated>threadUpdated</code></a> attribute
 of the <a href=#atomlinkelement><code>AtomLinkElement</code></a> interface <em class=rfc2119>MUST</em> <a href=#concept-element-attributes-set title=concept-element-attributes-set>set
 the <code>updated</code> attribute</a> in the <a href=#atom-threading-namespace>Atom Threading
-namespace</a> to the <a href=#valid-normalized-forced-utc-global-date-and-time-string>valid normalized forced-UTC global date
-and time string</a> representation of the given value, with prefix
-<code>thr</code>.
+namespace</a> to the given value, <a href=#convert-a-number-to-an-atom-date-time-string title="convert a number to
+an Atom date-time string">converted to a string</a>.  If a new
+<a href=#content-attribute>content attribute</a> is created, the <span title=concept-attr-prefix>prefix</span> of the <span title=concept-attr>attribute</span> <em class=rfc2119>MUST</em> be set
+to <code>thr</code>.
 
 </p></section>
 

@@ -94,9 +94,10 @@ reported as an error.
 
 <div class=example>
 
-<p>In the following example, as the
-<code>http://mybookmark.example/</code> namespace is not defined by
-any specification, this fragment is non-conforming:
+<p>In the following example, as the <code>bookmark</code> element in
+the <code>http://mybookmark.example/</code> namespace is not defined
+<!--as <span>flow content</span>--> by any <span>applicable
+specification</span>, this fragment is non-conforming:
 
 <pre class=XML><code>&lt;div xmlns="http://www.w3.org/1999/xhtml">
   &lt;bookmark xmlns="http://mybookmark.example/">Hello&lt;/bookmark>
@@ -122,8 +123,8 @@ defined by any public standard:
 
 <p>If the <code>p</code> element contained an <code>item</code>
 element in no namespace, it should be reported as an error, as no
-standard allows the <code>item</code> element in no namespace in the
-content of the HTML <code>p</code> element.
+standard defines the <code>item</code> element in no namespace as
+<span>phrasing content</span>.
 
 </div>
 
@@ -142,9 +143,10 @@ error or warning should be reported.  It is likely an authoring error.
 <section>
 <h2>Definitions</h2>
 
-<p>The keywords "<em class=rfc2119>MUST</em>" and "<em
-class=rfc2119>MAY</em>" in the normative parts of this document are to
-be interpreted as described in <a
+<p>The keywords "<em class=rfc2119>MUST</em>", "<em class=rfc2119>MUST
+NOT</em>", "<em class=rfc2119>SHOULD</em>", "<em class=rfc2119>SHOULD
+NOT</em>", and "<em class=rfc2119>MAY</em>" in the normative parts of
+this document are to be interpreted as described in <a
 href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> <cite
 class="bibref normative">[<a href="#ref-RFC2119">RFC2119</a>]</cite>.
 

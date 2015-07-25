@@ -9,7 +9,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
-  <h2 class="no-toc no-num">Manakai Project Living Standard 30 April 2014</h2>
+  <h2 class="no-toc no-num">Manakai Project Living Standard 1 May 2014</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -25,7 +25,7 @@
 <p class=copyright id=license lang=en><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=http://i.creativecommons.org/p/zero/1.0/80x15.png></a> To the
 extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work.  In addition, as of
-30 April 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
+1 May 2014, the editor has made this specification available under the <a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0>Open
 Web Foundation Agreement Version 1.0</a>.
 
 </p></header>
@@ -102,9 +102,10 @@ reported as an error.
 
 </p><div class=example>
 
-<p>In the following example, as the
-<code>http://mybookmark.example/</code> namespace is not defined by
-any specification, this fragment is non-conforming:
+<p>In the following example, as the <code>bookmark</code> element in
+the <code>http://mybookmark.example/</code> namespace is not defined
+<!--as <span>flow content</span>--> by any <a href=#applicable-specification>applicable
+specification</a>, this fragment is non-conforming:
 
 </p><pre class=XML><code>&lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;
   &lt;bookmark xmlns="http://mybookmark.example/"&gt;Hello&lt;/bookmark&gt;
@@ -130,8 +131,8 @@ defined by any public standard:
 
 <p>If the <code>p</code> element contained an <code>item</code>
 element in no namespace, it should be reported as an error, as no
-standard allows the <code>item</code> element in no namespace in the
-content of the HTML <code>p</code> element.
+standard defines the <code>item</code> element in no namespace as
+<span>phrasing content</span>.
 
 </p></div>
 
@@ -150,8 +151,10 @@ error or warning should be reported.  It is likely an authoring error.
 <section>
 <h2 id=definitions><span class=secno>2 </span>Definitions</h2>
 
-<p>The keywords "<em class=rfc2119>MUST</em>" and "<em class=rfc2119>MAY</em>" in the normative parts of this document are to
-be interpreted as described in <a href=http://tools.ietf.org/html/rfc2119>RFC 2119</a> <cite class="bibref normative">[<a href=#ref-RFC2119>RFC2119</a>]</cite>.
+<p>The keywords "<em class=rfc2119>MUST</em>", "<em class=rfc2119>MUST
+NOT</em>", "<em class=rfc2119>SHOULD</em>", "<em class=rfc2119>SHOULD
+NOT</em>", and "<em class=rfc2119>MAY</em>" in the normative parts of
+this document are to be interpreted as described in <a href=http://tools.ietf.org/html/rfc2119>RFC 2119</a> <cite class="bibref normative">[<a href=#ref-RFC2119>RFC2119</a>]</cite>.
 
 </p><p>Requirements phrased in the imperative as part of algorithms (such
 as "strip any leading space characters" or "return false and abort

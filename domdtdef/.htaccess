@@ -1,9 +1,8 @@
-AddCharset utf-8 .html
+AddDefaultCharset utf-8
 
-RedirectMatch 301 ^/www/markup/xml/domdtdef/domdtdef-work.* http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef
-
-<Files domdtdef-20071209.en.html>
-  AddCharset iso-2022-jp .html
-</Files>
+Redirect 301 /www/markup/xml/domdtdef/domdtdef-work.en.html.u8 /www/markup/xml/domdtdef/domdtdef
+Redirect 301 /www/markup/xml/domdtdef/domdtdef-work.en.html /www/markup/xml/domdtdef/domdtdef
+Redirect 301 /www/markup/xml/domdtdef/domdtdef-work.en /www/markup/xml/domdtdef/domdtdef
+Redirect 301 /www/markup/xml/domdtdef/domdtdef-work /www/markup/xml/domdtdef/domdtdef
 
 ## License: Public Domain.

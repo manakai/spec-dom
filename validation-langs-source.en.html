@@ -68,11 +68,15 @@ specifications</span>.
 <section>
 <h1>Design goals</h1>
 
-<p>This specification intends to:
+<p>This specification intends to define:
 
 <ul>
 
-<li>define how <span title=element>elements</span>
+<li>how to choose the set of requirements used
+for <span title=validate>validation</span> of a <span>node</span> when
+there are multiple candidate specifications.
+
+<li>how <span title=element>elements</span>
 and <span title=attribute>attributes</span> <span>in no
 namespace</span> and in <span title="unknown namespace">unknown
 namespaces</span> are <span title=validate>validated</span>.
@@ -110,10 +114,13 @@ namespaces</span> are <span title=validate>validated</span>.
 
 <p>This specification depends on the
 <a href=https://infra.spec.whatwg.org/><cite>Infra
-Standard</cite></a>.
-The term
+Standard</cite></a>.  The terms
+
+<dfn>HTML namespace</dfn>,
+and
 <dfn>XMLNS namespace</dfn>
-is defined by the <a href=https://infra.spec.whatwg.org/><cite>Infra
+
+are defined by the <a href=https://infra.spec.whatwg.org/><cite>Infra
 Standard</cite></a>.
 
 <p>For the purpose of this specification, <dfn title="user agent">user
@@ -126,7 +133,13 @@ as <span title=validator>validators</span>.
 the <a href="https://dom.spec.whatwg.org/"><cite>DOM
 Standard</cite></a>.  Terms
 
-<dfn title=concept-tree-ancestor>ancestor</dfn>, <dfn title=concept-tree-child>child</dfn>, <dfn title=concept-document>document</dfn>, <dfn title=concept-document-content-type>content
+<dfn>ancestor</dfn>,
+<dfn>child</dfn>, 
+<dfn>parent</dfn>,
+<dfn>node</dfn>,
+<dfn>owner document</dfn>,
+<dfn>document</dfn>,
+<dfn title=concept-document-content-type>content
 type</dfn>, <dfn>HTML document</dfn>, <dfn>XHTML
 document</dfn>, <dfn>document
 element</dfn>, 
@@ -181,10 +194,26 @@ href="http://tools.ietf.org/html/bcp47">BCP 47</a>.
 <p>The term <dfn>Date construct</dfn> is defined by <a
 href="http://tools.ietf.org/html/rfc4287">Atom 1.0 specification</a>.
 
-<p>The <dfn>XSLT namespace</dfn> is
+<p>The term
+
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn>literal result element</dfn></a>
+
+is defined by the
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
+specification</a>.
+
+The <dfn>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
 
-<p>The <dfn>RDF namespace</dfn> is
+<p>The terms
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn>string literal</dfn></a>
+and
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn>XML literal</dfn></a>
+
+are defined by the
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html>RDF/XML
+specification</a>.  The <dfn>RDF namespace</dfn> is
 <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
 
 <p>The <dfn>RSS1 namespace</dfn> is
@@ -198,6 +227,147 @@ in XML [HTML] -->, it <em class=rfc2119>MUST</em> also conform to
 other requirements for XML documents.
 
 </section>
+
+<section>
+<h1>Validation modes</h1>
+
+<p>A <dfn>validation mode</dfn> identify the specifications that
+describe the requirements used to <span>validate</span>
+a <span>node</span>.  There are four <span title="validation
+mode">modes</span>:
+
+<dl class=switch>
+
+<dt><dfn>Default mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by its
+definition.
+
+  <div class=example>
+
+  <p>For example, <span title=element>elements</span> in
+  the <span>HTML namespace</span> are defined by the
+  <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
+
+  </div>
+
+<dt><dfn>XSLT mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by <span>XSLT
+specifications</span>.  For the purpose of this specification,
+the <dfn>XSLT specifications</dfn> are any <span title="applicable
+specification">applicable specifications</span> defining XSLT and its
+extensions.
+
+<dfn title="XSLT family element">XSLT family elements</dfn>
+are <span>elements</span> in the <span>XSLT namespace</span> and
+XSLT <span title="extension namespace">extension namespaces</span>
+defined by <span>XSLT specifications</span>.  Note that
+XSLT <span title="literal result element">literal result
+elements</span> are not <span title="XSLT family element">XSLT family
+elements</span>.
+
+<dt><dfn>RDF mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by <span>RDF/XML
+specification</span>.
+
+<dt><dfn>RSS1 mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by
+both <span>RDF/XML specification</span> and <span>RSS1
+specifications</span>.  For the purpose of this specification,
+the<dfn>RSS1 specifications</dfn> are any <span title="applicable
+specification">applicable specifications</span> defining RSS1 and its
+modules.
+
+</dl>
+
+<p>To <dfn>determine the validation mode</dfn> of
+a <span>node</span> <var>node</var>, run these steps:
+
+<ol class=steps>
+
+<li>If <var>node</var> is a <span>document element</span>, switch
+by <var>node</var>'s <span>owner
+document</span>'s <span title=concept-document-content-type>content
+type</span>:
+
+  <dl class=switch>
+
+  <dt><code>application/xml</code> or <code>text/xml</code>
+
+  <dd>If <var>node</var> is a <span>literal result element</span>
+  and <var>node</var> has
+  the <code>version</code> <span>attribute</span> in the <span>XSLT
+  namespace</span>, return <span>XSLT mode</span> and abort these
+  steps.
+
+  <dt><code>application/xslt+xml</code> or <code>text/xsl</code>
+
+  <dd>If <var>node</var> is an <span>XSLT family element</span> or
+  a <span>literal result element</span>, return <span>XSLT mode</span>
+  and abort these steps.
+
+  <dt><code>application/rdf+xml</code>
+
+  <dd>Return <span>RDF mode</span> and abort these steps.
+
+  </dl>
+
+<li>Let <var>parent</var> be <var>node</var>'s <span>parent</span>.
+
+<li>Let <var>parent mode</var> be <span>default mode</span>.
+
+<li>If <var>parent</var> is not <code>null</code>, set <var>parent
+node</var> to the result of <span title="determine the validation
+mode">determining the validation mode</span> of <var>parent</var>.
+
+<li>If <var>parent mode</var> is <span>RDF mode</span> or <span>RSS1
+mode</span> and <var>parent</var> is an <span>XML literal</span>,
+set <var>parent mode</var> to <span>default mode</span>.
+
+<li>If <var>node</var> is an <span>XSLT family element</span>, or if
+<var>parent mode</var> is <span>XSLT mode</span> and <var>node</var> is an
+<span>literal result element</span>, return <span>XSLT mode</span> and
+abort these steps.
+
+<li>If <var>node</var> is an <code>RDF</code> <span>element</span> in
+the <span>RDF namespace</span>:
+
+  <ol>
+
+  <li>If <var>node</var> has
+  the <code>xmlns</code> <span>attribute</span> in the
+  <span>XMLNS namespace</span> whose <span title="attribute
+  value">value</span> is the <span>RSS1 namespace</span> and
+  the <code>rdf</code> <span>attribute</span> in the
+  <span>XMLNS namespace</span> whose <span title="attribute
+  value">value</span> is the <span>RDF namespace</span>,
+  return <span>RSS1 mode</span> and abort these steps.
+
+  <li>Otherwise, return <span>RDF mode</span> and abort these steps.
+
+  </ol>
+
+<li>If <var>parent mode</var> is <span>RDF mode</span> or <span>RSS1
+mode</span> and <var>node</var> is considered as matching to a part of
+the current production in the
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Data-Model>RDF/XML
+Syntax Data Model</a>, return
+<var>parent mode</var> and abort these steps.
+
+<li>Return <span>default mode</span>.
+
+</ol>
+
+<div class="note memo">
+
+<p><span title=element>Elements</span> not conforming to the <span>RDF/XML specification</span> (e.g. an
+<span>element</span> in <span>string literal</span>) are
+<span title=validate</span>validated</span> in <span>default
+mode</span>.
+
+</div>
+
+</section>
+
 
 <section>
 <h1>Validation of unknown namespaces</h1>
@@ -314,9 +484,9 @@ a <span>supported namespace</span> might also be specified to an
 
 </div>
 
-<p>An <span>unknown namespace element</span> <em
-class=rfc2119>MAY</em> have any kind of <span
-title=concept-tree-child>child</span> (unless otherwise disallowed).
+<p>An <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> have any kind
+of <span>child</span> (unless otherwise disallowed).
 
 <p>An <span>unknown namespace attribute</span> <em
 class=rfc2119>MAY</em> have any value.
@@ -361,14 +531,14 @@ href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html">RDF/XML</a
 title=rdfxml-resolve>resolved</span> as an IRI reference <em
 class=rfc2119>MUST</em> be a <span>valid URL</span>.
 
-<p>For the purpose of the definition of <a
-href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-children">children</a>
-of an <a
-href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-element-node">element
-event</a> in RDF/XML specification, the <span
-title=concept-tree-child>children</span> of the element <em
-class=rfc2119>MUST</em> be considered as the value of the [children]
-property of the element information item.
+<p>For the purpose of the definition
+of <a href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-children">children</a>
+of
+an <a href="https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-element-node">element
+event</a> in RDF/XML specification,
+the <span title=child>children</span> of the
+element <em class=rfc2119>MUST</em> be considered as the value of the
+[children] property of the element information item.
 
   <div class="note memo">
 
@@ -433,12 +603,11 @@ configurations:
 <section>
 <h2>RSS elements</h2>
 
-<p>An <span>element</span> is an <dfn>RSS2
-element</dfn> if and only if it is in no namespace and either it is
-the <span>document element</span> and its <span
-title=concept-element-local-name>local name</span> is <code>rss</code>
-or one of its <span title=concept-tree-ancestor>ancestor</span> is an
-<span>RSS2 element</span>.
+<p>An <span>element</span> is an <dfn>RSS2 element</dfn> if and only
+if it is in no namespace and either it is the <span>document
+element</span> and its <span title=concept-element-local-name>local
+name</span> is <code>rss</code> or one of its <span>ancestor</span> is
+an <span>RSS2 element</span>.
 
 <div class="note memo">
 
@@ -489,13 +658,13 @@ instructions</span> <em class=rfc2119>MAY</em> be inserted anywhere in
 an <span>Atom family element</span>.
 
 <p>For an <span>Atom family element</span>, an <span>attribute</span>
-or <span title=concept-tree-child>child</span> that is not explicitly
-allowed by an <span>applicable
-specification</span> <em class=rfc2119>MUST NOT</em> be used.
+or <spanchild>child</span> that is not explicitly allowed by
+an <span>applicable specification</span> <em class=rfc2119>MUST
+NOT</em> be used.
 
-<p>An <span>unknown namespace element</span> <em
-class=rfc2119>MAY</em> be used as a <span
-title=concept-tree-child>child</span> of <dfn title="Atom extensible
+<p>An <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> be used as
+a <span title=child>child</span> of <dfn title="Atom extensible
 element">Atom extensible elements</dfn>, i.e. following elements:
 
   <ul>
@@ -624,148 +793,6 @@ value or a <span>prefixed property value</span>.
 </section>
 
 <section>
-<h2>Validation modes</h2>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Conformance checking of a node tree is the process to traverse
-nodes in the tree while checking the conformance of them.  Conformance
-of nodes in the tree are checked in one of these <dfn
-title="validation mode">modes</dfn>:
-
-<dl>
-
-<dt><dfn>Default mode</dfn>
-<dd>Conformance of <span>elements</span> are
-determined by their original definition.
-
-<dt><dfn>XSLT mode</dfn>
-<dd>Conformance of <span>elements</span> are
-determined by <span>XSLT specifications</span>.  <dfn>XSLT
-specifications</dfn> are any <span title="applicable
-specification">applicable specifications</span> defining XSLT and its
-extensions.  <dfn title="XSLT family element">XSLT family
-elements</dfn> are <span>elements</span> in the
-<span>XSLT namespace</span> and XSLT <span title="extension
-namespace">extension namespaces</span> defined by <span>XSLT
-specifications</span>.  Note that XSLT <span title="literal result
-element">literal result elements</span> are not <span title="XSLT
-family element">XSLT family elements</span>.
-
-<dt><dfn>RDF mode</dfn>
-<dd>Conformance of <span>elements</span> are
-determined by RDF/XML specification.
-
-<dt><dfn>RSS1 mode</dfn>
-<dd>Conformance of <span>elements</span> are
-determined by both RDF/XML specification and <span>RSS1
-specifications</span>.  <dfn>RSS1 specifications</dfn> are any <span
-title="applicable specification">applicable specifications</span>
-defining RSS1 and its modules.
-
-</dl>
-
-<p>The <span>validation mode</span> for a node can be <dfn
-title="determine the validation mode">determined</dfn> as follows:
-
-<ol class=steps>
-
-<li>If the node is the <span>document element</span>:
-
-  <dl class=switch>
-
-  <dt>If the <span title=concept-document-content-type>content
-  type</span> of the <span title=concept-node-document>document</span>
-  of the node is <code>application/xml</code> or <code>text/xml</code>
-
-  <dd>
-
-    <ol>
-
-    <li>If the node is an XSLT <span>literal result element</span>,
-    and the node has the <code>version</code> attribute in the
-    <span>XSLT namespace</span>, return <span>XSLT mode</span> and
-    abort these steps.
-
-    <li>Otherwise, go to the next step of the overall set of steps.
-
-    </ol>
-
-  <dt>If the <span title=concept-document-content-type>content
-  type</span> of the <span title=concept-node-document>document</span>
-  of the node is <code>application/xslt+xml</code> or
-  <code>text/xsl</code>
-
-  <dd>
-
-    <ol>
-
-    <li>If the node is an <span>XSLT family element</span> or an XSLT
-    <span>literal result element</span>, return <span>XSLT mode</span>
-    and abort these steps.
-
-    <li>Otherwise, go to the next step of the overall set of steps.
-
-    </ol>
-
-  <dt>If the <span title=concept-document-content-type>content
-  type</span> of the <span title=concept-node-document>document</span>
-  of the node is <code>application/rdf+xml</code>
-
-  <dd>Return <span>RDF mode</span> and abort these steps.
-
-  <dt>Otherwise
-
-  <dd>Go to the next step of the overall set of steps.
-
-  </dl>
-
-<li>Let <var>parent mode</var> be the <span>validation mode</span> of
-the parent of the node, if any, or <span>default mode</span>.
-
-<li>If <var>parent mode</var> is <span>RDF mode</span> or <span>RSS1
-mode</span> and the parent of the node is an RSS/XML <span>XML
-literal</span>, set <var>parent mode</var> to <span>default
-mode</span>.
-
-<li>If the node is an <span>XSLT family element</span> or if
-<var>parent mode</var> is <span>XSLT mode</span> and the node is an
-XSLT <span>literal result element</span>, return <span>XSLT
-mode</span> and abort these steps.
-
-<li>If the node is the <code>RDF</code> element in the <span>RDF
-namespace</span>:
-
-  <ol>
-
-  <li>If the node has the <code>xmlns</code> attribute in the
-  <span>XMLNS namespace</span> whose value is the <span>RSS1
-  namespace</span> and the <code>rdf</code> attribute in the
-  <span>XMLNS namespace</span> whose value is the <span>RDF
-  namespace</span>, return <span>RSS1 mode</span> and abort these
-  steps.
-
-  <li>Otherwise, return <span>RDF mode</span> and abort these steps.
-
-  </ol>
-
-<li>If <var>parent mode</var> is <span>RDF mode</span> or <span>RSS1
-mode</span> and the node is considered as matching to a part of the
-current production in the RDF/XML Syntax Data Model, return
-<var>parent mode</var> and abort these steps.
-
-<li>Return <span>default mode</span>.
-
-</ol>
-
-<div class="note memo">
-
-<p>Elements not conforming to the RDF/XML specification (e.g. an
-element in string literal) are validated in <span>default mode</span>.
-
-</div>
-
-<section>
 <h3>Document element</h3>
 
 <p class=section-info><em>This section is non-normative.</em>
@@ -838,8 +865,6 @@ or is an <span>RSS2 element</span>:
 element</span>.  Report an "unknown element" warning.
 
 </ol>
-
-</section>
 
 </section>
 

@@ -61,7 +61,9 @@ the <a href=#author>author</a>.</p>
  <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a></li>
  <li><a href=#validation-of-unknown-namespaces><span class=secno>4 </span>Validation of unknown namespaces</a></li>
- <li><a href=#rdf><span class=secno>5 </span>RDF</a></li>
+ <li><a href=#validation-of-rdf/xml-fragments><span class=secno>5 </span>Validation of RDF/XML fragments</a>
+  <ol>
+   <li><a href="#integration-with-rdf/xml's-data-model"><span class=secno>5.1 </span>Integration with RDF/XML's data model</a></li></ol></li>
  <li><a href=#rss-elements><span class=secno>6 </span>RSS elements</a></li>
  <li><a href=#atom-elements><span class=secno>7 </span>Atom elements</a></li>
  <li><a href=#ogp><span class=secno>8 </span>OGP</a></li>
@@ -137,6 +139,9 @@ by <a href=https://manakai.github.io/>the manakai project</a>.
 <a href=https://infra.spec.whatwg.org/><cite>Infra
 Standard</cite></a>.  The terms
 
+<dfn id=list>list</dfn>,
+<dfn id=code-point>code point</dfn>,
+<dfn id=concatenate>concatenate</dfn>,
 <dfn id=html-namespace>HTML namespace</dfn>,
 and
 <dfn id=xmlns-namespace>XMLNS namespace</dfn>
@@ -154,24 +159,27 @@ as <span title=validator>validators</span>.
 the <a href=https://dom.spec.whatwg.org/><cite>DOM
 Standard</cite></a>.  Terms
 
-<dfn id=ancestor>ancestor</dfn>,
 <dfn id=child>child</dfn>, 
 <dfn id=parent>parent</dfn>,
+<dfn id=ancestor>ancestor</dfn>,
 <dfn id=node>node</dfn>,
-<dfn id=owner-document>owner document</dfn>,
+<dfn id=node-document>node document</dfn>,
 <dfn id=document>document</dfn>,
 <dfn id=concept-document-content-type title=concept-document-content-type>content
 type</dfn>, <dfn id=html-document>HTML document</dfn>, <dfn id=xhtml-document>XHTML
 document</dfn>, <dfn id=document-element-0>document
 element</dfn>, 
-<dfn id=element>element</dfn>, <dfn id=concept-element-local-name title=concept-element-local-name>local
-name</dfn>, 
+<dfn id=element>element</dfn>,
+<dfn id=attribute-list>attribute list</dfn>,
 <dfn id=attribute>attribute</dfn>,
+<dfn id=attribute-value title="attribute value">value</dfn>,
 <dfn id=namespace>namespace</dfn> (of <a href=#element>element</a> or <a href=#attribute>attribute</a>),
-<dfn id=concept-comment title=concept-comment>comment</dfn> (<dfn id=comment><code>Comment</code></dfn>),
+<dfn id=local-name>local name</dfn> (of <a href=#element>element</a> or <a href=#attribute>attribute</a>),
+<dfn id=comment>comment</dfn> (<dfn id=dom-comment title=dom-Comment><code>Comment</code></dfn>),
+<dfn id=processing-instruction>processing instruction</dfn> (<dfn id=processinginstruction><code>ProcessingInstruction</code></dfn>),
+<dfn id=template-content>template content</dfn>,
 and
-<dfn id=concept-processing-instruction title=concept-processing-instruction>processing instruction</dfn>
-(<dfn id=processinginstruction><code>ProcessingInstruction</code></dfn>)
+<dfn id=shadow-tree>shadow tree</dfn>
 
 are defined by the <a href=https://dom.spec.whatwg.org/><cite>DOM
 Standard</cite></a>.
@@ -181,8 +189,11 @@ agents</a> <em class=rfc2119>MUST</em> implement the
 <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
 Terms
 
-<dfn id=applicable-specification>applicable specification</dfn>, <dfn id=inter-element-whitespace>inter-element
-whitespace</dfn>, and <dfn id=valid-e-mail-address>valid e-mail address</dfn>
+<dfn id=applicable-specification>applicable specification</dfn>,
+<dfn id=document-base-url>document base URL</dfn>,
+<dfn id=inter-element-whitespace>inter-element whitespace</dfn>,
+and
+<dfn id=valid-e-mail-address>valid e-mail address</dfn>
 
 are defined by the <a href=https://html.spec.whatwg.org><cite>HTML
 Standard</cite></a>.
@@ -192,6 +203,29 @@ Standard</cite></a>.
 XML <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>
 and XML Namespaces
 <cite class="bibref normative">[<a href=#ref-XMLNS>XMLNS</a>]</cite>.
+
+</p><p>The terms 
+
+<dfn id=information-item>information item</dfn>,
+<dfn id=document-information-item>document information item</dfn>,
+<dfn id=element-information-item>element information item</dfn>,
+<dfn id=attribute-information-item>attribute information item</dfn>,
+<dfn id=character-information-item>character information item</dfn>,
+<dfn id=children>[children]</dfn>,
+<dfn id=parent-0>[parent]</dfn>,
+<dfn id=attributes>[attributes]</dfn>,
+<dfn id=document-element-1>[document element]</dfn>,
+<dfn id=base-uri>[base URI]</dfn>,
+<dfn id=normalized-value>[normalized value]</dfn>,
+<dfn id=character-code>[character code]</dfn>,
+<dfn id=namespace-name>[namespace name]</dfn>,
+and
+<dfn id=local-name-0>[local name]</dfn>,
+
+are defined by the
+<a href=https://www.w3.org/TR/xml-infoset/><cite>XML Information
+Set</cite></a> specification.
+
 
 </p><p>User agents are not required to implement other specifications, but
 are expected to follow steps defined in this specification.  For
@@ -225,16 +259,29 @@ specification</a>.
 The <dfn id=xslt-namespace>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
 
-</p><p>The terms
+</p><p><a href=#user-agent title="user agent">User
+agents</a> <em class=rfc2119>MUST</em> implement the <a href=#rdf/xml-specification>RDF/XML
+specification</a>.  The <dfn id=rdf/xml-specification>RDF/XML specification</dfn> is
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html><cite>RDF
+1.1 XML Syntax</cite></a>.  The terms
 
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn id=string-literal>string literal</dfn></a>
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn id=string-literal>string literal</dfn></a>,
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn id=xml-literal>XML literal</dfn></a>,
 and
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn id=xml-literal>XML literal</dfn></a>
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Infoset-Conformance><dfn id=transform-the-infoset-into-the-sequence-of-events-in-document-order>transform the Infoset into the sequence of events in <i>document order</i></dfn></a>
 
-are defined by the
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html>RDF/XML
-specification</a>.  The <dfn id=rdf-namespace>RDF namespace</dfn> is
-<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+are defined by the <a href=#rdf/xml-specification>RDF/XML specification</a>.  The term
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#dfn-rdf-graph><dfn id=rdf-graph>RDF graph</dfn></a>
+
+is defined by the
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
+1.1 Concepts and Abstract Syntax</cite></a> specification.
+The <dfn id=rdf-namespace>RDF namespace</dfn>
+is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
+
+
 
 </p><p>The <dfn id=rss1-namespace>RSS1 namespace</dfn> is
 <code>http://purl.org/rss/1.0/</code>.
@@ -242,9 +289,10 @@ specification</a>.  The <dfn id=rdf-namespace>RDF namespace</dfn> is
 </p><hr>
 
 <p>When a value is required to match the production labeled
-<a href=#document><code>document</code></a> in the XML specification<!-- <iframe srcdoc="">
-in XML [HTML] -->, it <em class=rfc2119>MUST</em> also conform to
-other requirements for XML documents.
+<code title="">document</code> in the XML
+specification<!-- <iframe srcdoc=""> in XML [HTML] -->,
+it <em class=rfc2119>MUST</em> also conform to other requirements for
+XML documents.
 
 </p></section>
 
@@ -260,7 +308,7 @@ mode">modes</a>:
 
 <dt><dfn id=default-mode>Default mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by its definition
-in the <a href=#native-element-specifications>native element specifications</a>, by the <span>RSS2
+in the <a href=#native-element-specifications>native element specifications</a> or the <span>RSS2
 specifications</span>, or by the rules for the <a href=#unknown-namespace-element title="unknown
 namespace element">unknown namespace elements</a>
 and <a href=#unknown-namespace-attribute title="unknown namespace attribute">attributes</a>.
@@ -269,8 +317,8 @@ The <dfn id=native-element-specifications>native element specifications</dfn> ar
 the <a href=#applicable-specification title="applicable specification">applicable
 specifications</a> such as
 <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
-except for the <a href=#xslt-specifications>XSLT specifications</a>, the <span>RDF/XML
-specification</span>, the <a href=#rss1-specifications>RSS1 specifications</a>,
+except for the <a href=#xslt-specifications>XSLT specifications</a>, the <a href=#rdf/xml-specification>RDF/XML
+specification</a>, the <a href=#rss1-specifications>RSS1 specifications</a>,
 the <span>RSS2 specifications</span>, and <em>this</em> specification.
 
 </dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
@@ -290,11 +338,11 @@ elements</a>.
 
 </dd><dt><dfn id=rdf-mode>RDF mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by
-the <span>RDF/XML specification</span>.
+the <a href=#rdf/xml-specification>RDF/XML specification</a>.
 
 </dd><dt><dfn id=rss1-mode>RSS1 mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by both
-the <span>RDF/XML specification</span> and the <a href=#rss1-specifications>RSS1
+the <a href=#rdf/xml-specification>RDF/XML specification</a> and the <a href=#rss1-specifications>RSS1
 specifications</a>.  For the purpose of this specification,
 the <dfn id=rss1-specifications>RSS1 specifications</dfn> are any <a href=#applicable-specification title="applicable
 specification">applicable specifications</a> defining RSS1 and its
@@ -308,7 +356,7 @@ a <a href=#node>node</a> <var>node</var>, run these steps:
 </p><ol class=steps>
 
 <li>If <var>node</var> is a <a href=#document-element-0>document element</a>, switch
-by <var>node</var>'s <a href=#owner-document>owner
+by <var>node</var>'s <a href=#node-document>node
 document</a>'s <a href=#concept-document-content-type title=concept-document-content-type>content
 type</a>:
 
@@ -358,11 +406,11 @@ the <a href=#rdf-namespace>RDF namespace</a>:
 
   <li>If <var>node</var> has
   the <code>xmlns</code> <a href=#attribute>attribute</a> in the
-  <a href=#xmlns-namespace>XMLNS namespace</a> whose <span title="attribute
-  value">value</span> is the <a href=#rss1-namespace>RSS1 namespace</a> and
+  <a href=#xmlns-namespace>XMLNS namespace</a> whose <a href=#attribute-value title="attribute
+  value">value</a> is the <a href=#rss1-namespace>RSS1 namespace</a> and
   the <code>rdf</code> <a href=#attribute>attribute</a> in the
-  <a href=#xmlns-namespace>XMLNS namespace</a> whose <span title="attribute
-  value">value</span> is the <a href=#rdf-namespace>RDF namespace</a>,
+  <a href=#xmlns-namespace>XMLNS namespace</a> whose <a href=#attribute-value title="attribute
+  value">value</a> is the <a href=#rdf-namespace>RDF namespace</a>,
   return <a href=#rss1-mode>RSS1 mode</a> and abort these steps.
 
   </li><li>Otherwise, return <a href=#rdf-mode>RDF mode</a> and abort these steps.
@@ -382,7 +430,7 @@ Syntax Data Model</a>, return
 
 <div class="note memo">
 
-<p><a href=#element title=element>Elements</a> not conforming to the <span>RDF/XML specification</span> (e.g. an
+<p><a href=#element title=element>Elements</a> not conforming to the <a href=#rdf/xml-specification>RDF/XML specification</a> (e.g. an
 <a href=#element>element</a> in <a href=#string-literal>string literal</a>) are
 <span title=validate</span>validated</span> in <a href=#default-mode>default
 mode</a>.
@@ -519,8 +567,136 @@ error.
 </section>
 
 <section>
-<h2 id=rdf><span class=secno>5 </span>RDF</h2>
+<h1 id=validation-of-rdf/xml-fragments><span class=secno>5 </span>Validation of RDF/XML fragments</h1>
 
+<section>
+<h1 id="integration-with-rdf/xml's-data-model"><span class=secno>5.1 </span>Integration with RDF/XML's data model</h1>
+
+<!-- XXX need to define how to use these steps -->
+<p>To <dfn id=parse-a-node-as-rdf/xml>parse a node as RDF/XML</dfn>, where <var>node</var> is
+a <a href=#document>document</a> or <a href=#element>element</a>, run these steps:
+
+</p><ol class=steps>
+
+  <li>Let <var>non-RDF nodes</var> be an empty <a href=#list>list</a>.
+
+  </li><li>Repeat:
+
+    <ol>
+
+      <li><p>If <var>node</var> is in <var>non-RDF node</var>, break.
+
+      </p></li><li>
+
+        <p>Let <var>infoset</var> be the result of
+        mapping <var>node</var> into an Infoset.
+
+        </p><p>A <a href=#document>document</a> is a mapped to a <a href=#document-information-item>document
+        information item</a> whose <a href=#children>[children]</a> is
+        the <a href=#mapped-children>mapped children</a> of the <a href=#document>document</a>
+        and <a href=#base-uri>[base URI]</a> is
+        the <a href=#document>document</a>'s <a href=#document-base-url>document base URL</a>.
+        The <a href=#document-information-item>document information item</a>'s <a href=#document-element-1>[document
+        element]</a> is the first <a href=#element-information-item>element information
+        item</a> of its <a href=#children>[children]</a>, if any.
+
+        </p><p>An <a href=#element>element</a> is mapped to an <a href=#element-information-item>element
+        information item</a> whose <a href=#local-name-0>[local name]</a> is
+        the <a href=#element>element</a>'s <a href=#local-name>local
+        name</a>, <a href=#namespace-name>[namespace name]</a> is
+        the <a href=#element>element</a>'s <a href=#namespace>namespace</a>,
+        <a href=#children>[children]</a> is the <a href=#mapped-children>mapped children</a> of
+        the <a href=#element>element</a>, <a href=#attributes>[attributes]</a> is
+        the <a href=#mapped-attributes>mapped attributes</a> of
+        the <a href=#element>element</a>, and <a href=#base-uri>[base URI]</a> is
+        the <a href=#element>element</a>'s <a href=#node-document>node
+        document</a>'s <a href=#document-base-url>document base URL</a>.  If
+        the <a href=#element>element</a>'s <a href=#parent>parent</a> is
+        a <a href=#node>node</a>, the <a href=#element-information-item>element information
+        item</a>'s <a href=#parent-0>[parent]</a> is the <a href=#information-item>information
+        item</a> mapped from
+        the <a href=#element>element</a>'s <a href=#parent>parent</a>.
+
+        </p><p>An <a href=#attribute>attribute</a> is mapped to an <a href=#attribute-information-item>attribute
+        information item</a> whose <a href=#local-name-0>[local name]</a> is
+        the <a href=#attribute>attribute</a>'s <a href=#local-name>local
+        name</a>, <a href=#namespace-name>[namespace name]</a> is
+        the <a href=#attribute>attribute</a>'s <a href=#namespace>namespace</a>,
+        and <a href=#normalized-value>[normalized value]</a> is
+        the <a href=#attribute>attribute</a>'s <a href=#attribute-value title="attribute
+        value">value</a>.
+
+        </p><p>A <span>text</span> is mapped to a sequence of zero or
+        more <a href=#character-information-item title="character information item">character
+        information items</a>, whose <a href=#character-code>[character code]</a>
+        values' <a href=#concatenate title=concatenate>concatenation</a>
+        as <a href=#code-point title="code point">code points</a>, in the same
+        order, is equal to the <span>text</span>'s <span>data</span>.
+
+        </p><p>The <dfn id=mapped-children>mapped children</dfn> of a <a href=#node>node</a> is
+        a <a href=#list>list</a> of the <a href=#information-item title="information
+        item">information items</a> mapped from
+        the <a href=#element>element</a>
+        and <span>text</span> <a href=#child title=child>children</a> of
+        the <a href=#node>node</a>, excluding any <a href=#node>node</a>
+        in <var>non-RDF nodes</var>, in the same order.
+
+        </p><p>The <dfn id=mapped-attributes>mapped attributes</dfn> of an <a href=#element>element</a>
+        is a <a href=#list>list</a> of the <a href=#attribute-information-item title="attribute
+        information item">attribute information items</a> mapped
+        from the <a href=#attribute title=attribute>attributes</a> in
+        the <a href=#attribute-list>attribute list</a> of the <a href=#element>element</a>,
+        excluding any <a href=#node>node</a> in <var>non-RDF nodes</var>,
+        in the same order.
+
+        </p><p>Any other <a href=#node>node</a> "attached" to
+        the <a href=#node>node</a>, including but not limited to other
+        kinds of <a href=#child title=child>children</a> such
+        as <a href=#processing-instruction title="processing instruction">processing
+        instructions</a>
+        and <a href=#comment title=comment>comments</a>, <a href=#template-content>template
+        content</a>, and <a href=#shadow-tree>shadow tree</a> is added
+        to <var>non-RDF nodes</var>.
+
+      </p></li><li>
+
+        <p>Let <var>events</var> be the result of invoking the steps
+        to <a href=#transform-the-infoset-into-the-sequence-of-events-in-document-order>transform the Infoset into the sequence of events
+        in <i>document order</i></a> with <var>infoset</var>.
+
+        </p><p>When
+        <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-attributes>an
+        attribute information item is removed</a>, add
+        the <a href=#attribute>attribute</a> from which the <a href=#attribute-information-item>attribute
+        information item</a> is created to <var>non-RDF nodes</var>
+        unless it is a <code>base</code>
+        or <code>lang</code> <a href=#attribute>attribute</a> in the <span>XML
+        namespace</span>.
+
+      </p></li><li>
+    
+        <p>Let <var>graph</var> be the <a href=#rdf-graph>RDF graph</a> obtained
+        by
+        <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#x6-syntax-data-model>matching <var>events</var>
+        with the grammer</a>.
+  
+        </p><p><a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#x7-2-1-grammar-start>The
+        grammer starts with production</a> <code title="">doc</code>
+        if <var>node</var> is a <a href=#document>document</a>,
+        or <code title="">RDF</code> otherwise.
+
+        </p><p>If <var>events</var> does not match to the grammer
+        production, add the <a href=#node>node</a> which is transformed to
+        the first event preventing the match into <var>non-RDF
+        nodes</var>.  Otherwise, break.
+
+    </p></li></ol>
+
+  </li><li>Return <var>graph</var> and <var>non-RDF nodes</var>.
+
+</li></ol>
+
+<!-- XXX need to define interaction with XML Base specification -->
 <p>The <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-Infoset-Grammar-Action><dfn id=rdfxml-resolve title=rdfxml-resolve><code>resolve (<var>e</var>,
 <var>s</var>)</code></dfn></a> grammer action in <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html>RDF/XML</a>
 <em class=rfc2119>MUST</em> run the following steps:
@@ -540,28 +716,7 @@ error.
 
 <p>The value of RDF/XML attributes whose value is directly <a href=#rdfxml-resolve title=rdfxml-resolve>resolved</a> as an IRI reference <em class=rfc2119>MUST</em> be a <a href=#valid-url>valid URL</a>.
 
-</p><p>For the purpose of the definition
-of <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#eventterm-element-children>children</a>
-of
-an <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#h4_section-element-node>element
-event</a> in RDF/XML specification,
-the <a href=#child title=child>children</a> of the
-element <em class=rfc2119>MUST</em> be considered as the value of the
-[children] property of the element information item.
-
-  </p><div class="note memo">
-
-  <p>Therefore, <span>template content</span> of an HTML
-  <code>template</code> element outside of <a href=#xml-literal>XML literal</a> is
-  ignored.
-
-  </p><p>As <code>template</code> element is not allowed in an RDF/XML
-  document outside of <a href=#xml-literal>XML literal</a>, this does not affect
-  any conforming RDF/XML document.
-
-  </p></div>
-
-<p>The <span>lexical form</span> of an <span>RDF literal</span> <em class=rfc2119>MUST</em> conform to the relevant requirements of the
+</p><p>The <span>lexical form</span> of an <span>RDF literal</span> <em class=rfc2119>MUST</em> conform to the relevant requirements of the
 <span>datatype</span> of the <span title="RDF literal">literal</span>
 except when it is embedded in an RDF/XML fragment as <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeLiteralPropertyElt><code>parseTypeLiteralPropertyElt</code></a>
 or <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#parseTypeOtherPropertyElt><code>parseTypeOtherPropertyElt</code></a>.
@@ -606,14 +761,16 @@ configurations:
 
 </section>
 
+
+</section>
+
 <section>
 <h2 id=rss-elements><span class=secno>6 </span>RSS elements</h2>
 
 <p>An <a href=#element>element</a> is an <dfn id=rss2-element>RSS2 element</dfn> if and only
 if it is in no namespace and either it is the <a href=#document-element-0>document
-element</a> and its <a href=#concept-element-local-name title=concept-element-local-name>local
-name</a> is <code>rss</code> or one of its <a href=#ancestor>ancestor</a> is
-an <a href=#rss2-element>RSS2 element</a>.
+element</a> and its <a href=#local-name>local name</a> is <code>rss</code> or
+one of its <a href=#ancestor>ancestor</a> is an <a href=#rss2-element>RSS2 element</a>.
 
 </p><div class="note memo">
 
@@ -653,10 +810,10 @@ of <a href=#atom-family-namespaces>Atom family namespaces</a>.
 <a href=#atom-family-namespaces>Atom family namespaces</a> are to be interpreted as <em class=rfc2119>MUST</em>-level requirements for the purpose of
 conformance checking.
 
-</p><p><a href=#concept-comment title=concept-comment>Comments</a>, <a href=#inter-element-whitespace title="inter-element whitespace">inter-element whitespaces</a>, and
-<a href=#concept-processing-instruction title=concept-processing-instruction>processing
-instructions</a> <em class=rfc2119>MAY</em> be inserted anywhere in
-an <a href=#atom-family-element>Atom family element</a>.
+</p><p><a href=#comment title=comment>Comments</a>, <a href=#inter-element-whitespace title="inter-element
+whitespace">inter-element whitespaces</a>, and
+<span>processing instructions</span> <em class=rfc2119>MAY</em> be
+inserted anywhere in an <a href=#atom-family-element>Atom family element</a>.
 
 </p><p>For an <a href=#atom-family-element>Atom family element</a>, an <a href=#attribute>attribute</a>
 or <spanchild>child that is not explicitly allowed by

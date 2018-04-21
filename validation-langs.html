@@ -22,7 +22,7 @@
 
 <div id=version-history>
 <dt>Version history
-</dt><dd><a href=https://github.com/manakai/spec-dom/commits/gh-pages>https://github.com/manakai/spec-dom/commits/gh-pages</a>
+</dt><dd><a href=https://github.com/manakai/spec-dom/commits/gh-pages/validation-langs-source.en.html>https://github.com/manakai/spec-dom/commits/gh-pages/validation-langs-source.en.html</a>
 </dd></div>
 
 </dl>
@@ -70,9 +70,7 @@ the <a href=#author>author</a>.</p>
  <li><a href=#validation-modes><span class=secno>8 </span>Validation modes</a>
   <ol>
    <li><a href=#document-element><span class=secno>8.1 </span>Document element</a></li>
-   <li><a href=#checking-an-element><span class=secno>8.2 </span>Checking an element</a></li>
-   <li><a href=#checking-an-html-script-element><span class=secno>8.3 </span>Checking an HTML <code>script</code> element</a></li>
-   <li><a href=#checking-an-html-style-element><span class=secno>8.4 </span>Checking an HTML <code>style</code> element</a></li></ol></li>
+   <li><a href=#checking-an-element><span class=secno>8.2 </span>Checking an element</a></li></ol></li>
  <li><a href=#data><span class=secno>9 </span>Data</a></li>
  <li><a class=no-num href=#references>References</a></li>
  <li><a class=no-num href=#author>Author</a></li></ol>
@@ -110,9 +108,19 @@ namespaces</a> are <span title=validate>validated</span>.
   <p>This specification was originally published
   at <code class=URI>&lt;<a href=http://suika.suikawiki.org/www/markup/xml/validation-langs>http://suika.suikawiki.org/www/markup/xml/validation-langs</a>&gt;</code>
   as <cite>Handling of unknown namespaces in conformance
-  checking</cite>.  <!-- and its history was at
+  checking</cite> since <time datetime=2013-12>December,
+  2013</time>.  <!-- and its history was at
   <http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/validation-langs-source.en.html>
   -->
+
+  </p><p>Earlier versions of this specification contained non-normative
+  descriptions of how to <span>validate</span>
+  HTML <code id=checking-an-html-script-element>script</code>
+  and <code id=checking-an-html-style-element>style</code> <a href=#element title=element>elements</a>.
+  As definitions of these <a href=#element title=element>elements</a> were
+  slightly simplified in the
+  <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
+  these descriptions were removed.
 
 </p></section>
 
@@ -801,115 +809,6 @@ or is an <a href=#rss2-element>RSS2 element</a>:
 
 </li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
 element</a>.  Report an "unknown element" warning.
-
-</li></ol>
-
-</section>
-
-<section>
-<h3 id=checking-an-html-script-element><span class=secno>8.3 </span>Checking an HTML <code>script</code> element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-</p><p>Conformance of an HTML <code>script</code> element is checked as
-follows:
-
-</p><ol class=steps>
-
-<li>Check the conformance of the attributes.
-
-</li><li>Check the content according to the <a href=http://www.whatwg.org/specs/web-apps/current-work/#restrictions-for-contents-of-script-elements>restrictions
-for contents</a>.
-
-</li><li>If the <code title=attr-script-src>src</code> attribute is
-specified:
-
-  <ol class=switch>
-
-  <li>Check the content according to the restrictions on the <a href=http://www.whatwg.org/specs/web-apps/current-work/#inline-documentation-for-external-scripts>inline
-  documentation</a>.
-
-  </li><li>If <a href="#the-script-block's-type">the script block's type</a> is not a scripting
-  language, report an error.
-
-  </li><li>Report an "element not allowed" error for each child element in
-  the content.
-
-  </li><li>Check the referenced resource.
-
-  </li></ol>
-
-</li><li>Otherwise, if <a href="#the-script-block's-type">the script block's type</a> is an XML-based
-language:
-
-  <ol class=switch>
-
-  <li>If the <a href="#the-script-block's-type" title="the script block's type">type</a> is
-  supported, validate the content of the element according to the
-  specification of the language.
-
-  </li><li>Otherwise, report an "unknown language" warning.
-  
-  </li></ol>
-
-</li><li>Otherwise:
-
-  <ol class=switch>
-
-  <li>Report an "element not allowed" error for each child element in
-  the content.
-
-  </li><li>If the <a href="#the-script-block's-type" title="the script block's type">type</a> is
-  supported, validate the <code title=dom-script-text>text</code> of
-  the element according to the specification of the language.
-
-  </li><li>Otherwise, report an "unknown language" warning.
-  
-  </li></ol>
-
-</li></ol>
-
-</section>
-
-<section>
-<h3 id=checking-an-html-style-element><span class=secno>8.4 </span>Checking an HTML <code>style</code> element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-</p><p>Conformance of an HTML <code>style</code> element is checked as
-follows:
-
-</p><ol class=steps>
-
-<li>Check the conformance of the attributes.
-
-</li><li>Check the content according to the restrictions for contents.
-
-</li><li>If the type is an XML-based language:
-
-  <ol class=switch>
-
-  <li>If the type is supported, validate the content of the element
-  according to the specification of the language.
-
-  </li><li>Otherwise, report an "unknown language" warning.
-  
-  </li></ol>
-
-</li><li>Otherwise:
-
-  <ol class=switch>
-
-  <li>Report an "element not allowed" error for each child element in
-  the content.
-
-  </li><li>If the type is supported, validate the concatenation of child
-  text nodes, in tree order, of the element according to the
-  specification of the language.
-
-  </li><li>Otherwise, report an "unknown language" warning.
-  
-  </li></ol>
 
 </li></ol>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="formal-specification anolis">
 <head>
-<title>Handling of unknown namespaces in conformance checking</title>
+<title>DOM Validation</title>
 <meta charset=utf-8>
 <link rel=stylesheet href=spec.css>
 <link rel="license" href="#license">
@@ -11,7 +11,7 @@
 <header>
 
 <hgroup>
-  <h1 class="no-toc no-num">Handling of unknown namespaces in conformance checking</h1>
+  <h1 class="no-toc no-num">DOM Validation</h1>
   <h2 class="no-toc no-num">The manakai project, [DATE]</h2>
 </hgroup>
 
@@ -129,44 +129,27 @@ error or warning should be reported.  It is likely an authoring error.
   <h1>History</h1>
 
   <p>This specification was originally published
-  at <code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/validation-langs">http://suika.suikawiki.org/www/markup/xml/validation-langs</a>&gt;</code>.  <!-- and
-  its history was at
+  at <code class="URI">&lt;<a href="http://suika.suikawiki.org/www/markup/xml/validation-langs">http://suika.suikawiki.org/www/markup/xml/validation-langs</a>&gt;</code>
+  as <cite>Handling of unknown namespaces in conformance
+  checking</cite>.  <!-- and its history was at
   <http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/validation-langs-source.en.html>
   -->
 
 </section>
 
 <section>
-<h2>Definitions</h2>
+<h1>Infrastructure</h1>
 
-<p>The keywords "<em class=rfc2119>MUST</em>", "<em class=rfc2119>MUST
-NOT</em>", "<em class=rfc2119>SHOULD</em>", "<em class=rfc2119>SHOULD
-NOT</em>", and "<em class=rfc2119>MAY</em>" in the normative parts of
-this document are to be interpreted as described in <a
-href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> <cite
-class="bibref normative">[<a href="#ref-RFC2119">RFC2119</a>]</cite>.
-
-<p>Requirements phrased in the imperative as part of algorithms (such
-as "strip any leading space characters" or "return false and abort
-these steps") are to be interpreted with the meaning of the key word
-("<em class=rfc2119>MUST</em>", "<em class=rfc2119>MAY</em>", etc)
-used in introducing the algorithm.
-
-<p>Conformance requirements phrased as algorithms or specific steps
-<em class=rfc2119>MAY</em> be implemented in any manner, so long as
-the end result is equivalent. (In particular, the algorithms defined
-in this specification are intended to be easy to follow, and not
-intended to be performant.)
+<p>This specification depends on the
+<a href=https://infra.spec.whatwg.org/><cite>Infra
+Standard</cite></a>.
+The term
+<dfn>XMLNS namespace</dfn>
+is defined by the <a href=https://infra.spec.whatwg.org/><cite>Infra
+Standard</cite></a>.
 
 <p>For the purpose of this specification, user agents are conformance
 checkers.
-
-<p>User agents <em class=rfc2119>MAY</em> impose
-implementation-specific limits on otherwise unconstrained inputs,
-e.g. to prevent denial of service attacks, to guard against running
-out of memory, or to work around platform-specific limitations.
-
-<hr>
 
 <p>User agents <em class=rfc2119>MUST</em> support DOM Standard <cite
 class="bibref normative">[<a href="#ref-DOM">DOM</a>]</cite>, HTML
@@ -184,21 +167,19 @@ not as defined by this specification.
 
 <hr>
 
-<p>The terms <dfn title=concept-tree-ancestor>ancestor</dfn>, <dfn
-title=concept-tree-child>child</dfn>, <dfn
-title=concept-document>document</dfn>, <dfn
-title=concept-document-content-type>content type</dfn>, <dfn>HTML
-document</dfn>, <dfn>XHTML document</dfn>, <dfn>document
-element</dfn>, <dfn title=concept-element>element</dfn>, <dfn
-title=concept-element-local-name>local name</dfn>, <dfn
-title=concept-element-namespace>namespace</dfn>, <dfn
-title=concept-attribute>attribute</dfn>, and <dfn>XMLNS
-namespace</dfn> are defined by the DOM Standard <cite class="bibref
-normative">[<a href="#ref-DOM">DOM</a>]</cite>.  Terms <dfn
-title=concept-comment>comment</dfn> and <dfn
-title=concept-processing-instruction>processing instruction</dfn>
-refer to <code>Comment</code> and <code>ProcessingInstruction</code>
-objects, respectively.
+<p>The
+terms <dfn title=concept-tree-ancestor>ancestor</dfn>, <dfn title=concept-tree-child>child</dfn>, <dfn title=concept-document>document</dfn>, <dfn title=concept-document-content-type>content
+type</dfn>, <dfn>HTML document</dfn>, <dfn>XHTML
+document</dfn>, <dfn>document
+element</dfn>, <dfn title=concept-element>element</dfn>, <dfn title=concept-element-local-name>local
+name</dfn>, <dfn title=concept-element-namespace>namespace</dfn>,
+and <dfn title=concept-attribute>attribute</dfn> are defined by the
+DOM Standard <cite class="bibref
+normative">[<a href="#ref-DOM">DOM</a>]</cite>.
+Terms <dfn title=concept-comment>comment</dfn>
+and <dfn title=concept-processing-instruction>processing
+instruction</dfn> refer to <code>Comment</code>
+and <code>ProcessingInstruction</code> objects, respectively.
 
 <p>The terms <dfn>applicable specification</dfn>, <dfn>inter-element
 whitespace</dfn>, <dfn>the script block's type</dfn>, and <dfn>valid
@@ -241,7 +222,7 @@ other requirements for XML documents.
 </section>
 
 <section>
-<h2>Unknown namespaces</h2>
+<h1>Unknown namespaces</h1>
 
 <p>A non-null namespace is <dfn title="supported
 namespace">supported</dfn> if it is defined by an <span>applicable
@@ -950,9 +931,6 @@ checking test data</a>.
 
 <dt id=ref-HTML>HTML
 <dd><a href="http://c.whatwg.org/"><cite>HTML</cite></a>, WHATWG Living Standard.
-
-<dt id=ref-RFC2119>RFC2119
-<dd><a href="http://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>, IETF, RFC 2119, BCP 14.
 
 <dt id=ref-RSS2>RSS2
 <dd><a href="http://www.rssboard.org/rss-specification"><cite>RSS 2.0</cite></a>, RSS Advisory Board.

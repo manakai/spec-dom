@@ -56,14 +56,11 @@ the <a href=#author>author</a>.</p>
 <ol class=toc>
  <li><a href=#introduction><span class=secno>1 </span>Introduction</a>
   <ol>
-   <li><a href=#design-goals><span class=secno>1.1 </span>Design goals</a></li>
+   <li><a href=#scope><span class=secno>1.1 </span>Scope</a></li>
    <li><a href=#history-0><span class=secno>1.2 </span>History</a></li></ol></li>
  <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a></li>
- <li><a href=#validation-of-unknown-namespaces><span class=secno>4 </span>Validation of unknown namespaces</a>
-  <ol>
-   <li><a href=#introduction-0><span class=secno>4.1 </span>Introduction</a></li>
-   <li><a href=#requirements><span class=secno>4.2 </span>Requirements</a></li></ol></li>
+ <li><a href=#validation-of-unknown-namespaces><span class=secno>4 </span>Validation of unknown namespaces</a></li>
  <li><a href=#rdf><span class=secno>5 </span>RDF</a></li>
  <li><a href=#rss-elements><span class=secno>6 </span>RSS elements</a></li>
  <li><a href=#atom-elements><span class=secno>7 </span>Atom elements</a></li>
@@ -86,22 +83,26 @@ covered by other <a href=#applicable-specification title="applicable specificati
 specifications</a>.
 
 </p><section>
-<h1 id=design-goals><span class=secno>1.1 </span>Design goals</h1>
+<h1 id=scope><span class=secno>1.1 </span>Scope</h1>
 
-<p>This specification intends to define:
+<p>This specification defines:
 
 </p><ul>
 
 <li>how to choose the set of requirements used
 for <span title=validate>validation</span> of a <a href=#node>node</a> when
-there are multiple candidate specifications.
+there are multiple candidate specifications,
+and
 
 </li><li>how <a href=#element title=element>elements</a>
 and <a href=#attribute title=attribute>attributes</a> <a href=#in-no-namespace>in no
 namespace</a> and in <a href=#unknown-namespace title="unknown namespace">unknown
-namespaces</a> are <span title=validate>validated</span>.
+namespaces</a> are <span title=validate>validated</span>,
 
 </li></ul>
+
+... for <span>validator</span> implementations
+by <a href=https://manakai.github.io/>the manakai project</a>.
 
 </section>
 
@@ -175,12 +176,21 @@ and
 are defined by the <a href=https://dom.spec.whatwg.org/><cite>DOM
 Standard</cite></a>.
 
+</p><p><a href=#user-agent title="user agent">User
+agents</a> <em class=rfc2119>MUST</em> implement the
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
+Terms
 
-</p><p>User agents <em class=rfc2119>MUST</em> support HTML
-Standard <cite class="bibref
-normative">[<a href=#ref-HTML>HTML</a>]</cite>,
-XML <cite class="bibref
-normative">[<a href=#ref-XML>XML</a>]</cite>, and XML Namespaces
+<dfn id=applicable-specification>applicable specification</dfn>, <dfn id=inter-element-whitespace>inter-element
+whitespace</dfn>, and <dfn id=valid-e-mail-address>valid e-mail address</dfn>
+
+are defined by the <a href=https://html.spec.whatwg.org><cite>HTML
+Standard</cite></a>.
+
+
+</p><p>User agents <em class=rfc2119>MUST</em> support
+XML <cite class="bibref normative">[<a href=#ref-XML>XML</a>]</cite>
+and XML Namespaces
 <cite class="bibref normative">[<a href=#ref-XMLNS>XMLNS</a>]</cite>.
 
 </p><p>User agents are not required to implement other specifications, but
@@ -191,11 +201,7 @@ not as defined by this specification.
 
 </p><hr>
 
-<p>The terms <dfn id=applicable-specification>applicable specification</dfn>, <dfn id=inter-element-whitespace>inter-element
-whitespace</dfn>, <dfn id="the-script-block's-type">the script block's type</dfn>, and <dfn id=valid-e-mail-address>valid
-e-mail address</dfn> are defined by the HTML Standard <cite class="bibref normative">[<a href=#ref-HTML>HTML</a>]</cite>.
-
-</p><p>The terms <dfn id=valid-url>valid URL</dfn> and <dfn id=valid-absolute-url>valid absolute URL</dfn>
+<p>The terms <dfn id=valid-url>valid URL</dfn> and <dfn id=valid-absolute-url>valid absolute URL</dfn>
 are defined by <a href=http://url.spec.whatwg.org/>URL Standard</a>
 as <i>URL</i> and <i>absolute URL</i>, respectively.
 
@@ -247,25 +253,28 @@ other requirements for XML documents.
 
 <p>A <dfn id=validation-mode>validation mode</dfn> identify the specifications that
 describe the requirements used to <span>validate</span>
-a <a href=#node>node</a>.  There are four <a href=#validation-mode title="validation
+a <a href=#node>node</a>.  There are five <a href=#validation-mode title="validation
 mode">modes</a>:
 
 </p><dl class=switch>
 
 <dt><dfn id=default-mode>Default mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by its
-definition.
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by its definition
+in the <a href=#native-element-specifications>native element specifications</a>, by the <span>RSS2
+specifications</span>, or by the rules for the <a href=#unknown-namespace-element title="unknown
+namespace element">unknown namespace elements</a>
+and <a href=#unknown-namespace-attribute title="unknown namespace attribute">attributes</a>.
 
-  <div class=example>
-
-  <p>For example, <a href=#element title=element>elements</a> in
-  the <a href=#html-namespace>HTML namespace</a> are defined by the
-  <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
-
-  </p></div>
+The <dfn id=native-element-specifications>native element specifications</dfn> are
+the <a href=#applicable-specification title="applicable specification">applicable
+specifications</a> such as
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
+except for the <a href=#xslt-specifications>XSLT specifications</a>, the <span>RDF/XML
+specification</span>, the <a href=#rss1-specifications>RSS1 specifications</a>,
+the <span>RSS2 specifications</span>, and <em>this</em> specification.
 
 </dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by <a href=#xslt-specifications>XSLT
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by the <a href=#xslt-specifications>XSLT
 specifications</a>.  For the purpose of this specification,
 the <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable
 specification">applicable specifications</a> defining XSLT and its
@@ -280,14 +289,14 @@ elements</a> are not <a href=#xslt-family-element title="XSLT family element">XS
 elements</a>.
 
 </dd><dt><dfn id=rdf-mode>RDF mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by <span>RDF/XML
-specification</span>.
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by
+the <span>RDF/XML specification</span>.
 
 </dd><dt><dfn id=rss1-mode>RSS1 mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by
-both <span>RDF/XML specification</span> and <a href=#rss1-specifications>RSS1
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by both
+the <span>RDF/XML specification</span> and the <a href=#rss1-specifications>RSS1
 specifications</a>.  For the purpose of this specification,
-the<dfn id=rss1-specifications>RSS1 specifications</dfn> are any <a href=#applicable-specification title="applicable
+the <dfn id=rss1-specifications>RSS1 specifications</dfn> are any <a href=#applicable-specification title="applicable
 specification">applicable specifications</a> defining RSS1 and its
 modules.
 
@@ -392,8 +401,8 @@ its <a href=#namespace>namespace</a> is <code>null</code>.
 
 </p><p>A <a href=#namespace>namespace</a> which is not <code>null</code>
 is <dfn id=supported-namespace title="supported namespace">supported</dfn> if it is defined
-by an <a href=#applicable-specification>applicable specification</a> (other than this
-specification).
+by a <a href=#native-element-specifications title="native element specifications">native element
+specification</a>.
 
 </p><p>A <a href=#namespace>namespace</a> which is not <code>null</code>
 is <dfn id=unknown-namespace title="unknown namespace">unknown</dfn> if it is
@@ -409,12 +418,48 @@ if its <a href=#namespace>namespace</a> is <a href=#unknown-namespace title="unk
 namespace">unknown</a>.<!-- attribute in no namespace is not
 unknown namespace attribute -->
 
-</p><section>
-<h1 id=introduction-0><span class=secno>4.1 </span>Introduction</h1>
+</p><hr>
 
-<p class=section-info><em>This section is non-normative.</em>
+<p>An <a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown
+namespace attribute</a> <em class=rfc2119>MUST NOT</em> be used
+anywhere except where they are explicitly allowed.<!-- Somewhat
+redundant with HTML Standard but still worth clarifying. -->
 
-</p><p>Conformance checkers are expected to report errors or warnings on
+</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element-0>document element</a> or
+as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
+any kind of <a href=#element>element</a> is allowed.
+
+</p><p>An <a href=#unknown-namespace-element>unknown namespace
+element</a> <em class=rfc2119>MAY</em> have
+any <a href=#attribute>attribute</a> in no namespace or any
+<a href=#unknown-namespace-attribute>unknown namespace attribute</a>.
+
+</p><div class="note memo">
+
+<p>Additionally, any <a href=#attribute>attribute</a> in
+a <a href=#supported-namespace>supported namespace</a> might also be specified to an
+<a href=#unknown-namespace-element>unknown namespace element</a> as long as it is allowed by an
+<a href=#applicable-specification>applicable specification</a>.
+
+</p></div>
+
+<p>An <a href=#unknown-namespace-element>unknown namespace
+element</a> <em class=rfc2119>MAY</em> have any kind
+of <a href=#child>child</a> (unless otherwise disallowed).
+
+</p><p>An <a href=#unknown-namespace-attribute>unknown namespace attribute</a> <em class=rfc2119>MAY</em> have any value.
+
+</p><p>An attribute in no namespace of an <a href=#unknown-namespace-element>unknown namespace
+element</a> <em class=rfc2119>MAY</em> have any value.
+
+</p><p>Conformance checkers <em class=rfc2119>MAY</em> warn any
+<a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown namespace
+attribute</a> as use of it could be an authoring error.
+
+
+</p><div class=note>
+
+<p>Conformance checkers are expected to report errors or warnings on
 unknown elements and attributes useful for authors.
 
 </p><p>This specification is not intended to override any other
@@ -469,48 +514,7 @@ error.
 
 </p></div>
 
-</section>
-
-<section>
-<h1 id=requirements><span class=secno>4.2 </span>Requirements</h1>
-
-<p>An <a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown
-namespace attribute</a> <em class=rfc2119>MUST NOT</em> be used
-anywhere except where they are explicitly allowed.<!-- Somewhat
-redundant with HTML Standard but still worth clarifying. -->
-
-</p><p>An <a href=#unknown-namespace-element>unknown namespace element</a> <em class=rfc2119>MAY</em> be used as the <a href=#document-element-0>document element</a> or
-as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
-any kind of <a href=#element>element</a> is allowed.
-
-</p><p>An <a href=#unknown-namespace-element>unknown namespace
-element</a> <em class=rfc2119>MAY</em> have
-any <a href=#attribute>attribute</a> in no namespace or any
-<a href=#unknown-namespace-attribute>unknown namespace attribute</a>.
-
-</p><div class="note memo">
-
-<p>Additionally, any <a href=#attribute>attribute</a> in
-a <a href=#supported-namespace>supported namespace</a> might also be specified to an
-<a href=#unknown-namespace-element>unknown namespace element</a> as long as it is allowed by an
-<a href=#applicable-specification>applicable specification</a>.
-
-</p></div>
-
-<p>An <a href=#unknown-namespace-element>unknown namespace
-element</a> <em class=rfc2119>MAY</em> have any kind
-of <a href=#child>child</a> (unless otherwise disallowed).
-
-</p><p>An <a href=#unknown-namespace-attribute>unknown namespace attribute</a> <em class=rfc2119>MAY</em> have any value.
-
-</p><p>An attribute in no namespace of an <a href=#unknown-namespace-element>unknown namespace
-element</a> <em class=rfc2119>MAY</em> have any value.
-
-</p><p>Conformance checkers <em class=rfc2119>MAY</em> warn any
-<a href=#unknown-namespace-element>unknown namespace element</a> or <a href=#unknown-namespace-attribute>unknown namespace
-attribute</a> as use of it could be an authoring error.
-
-</p></section>
+</div>
 
 </section>
 
@@ -871,10 +875,7 @@ checking test data</a>.
 
 <dl>
 
-<dt id=ref-HTML>HTML
-</dt><dd><a href=http://c.whatwg.org/><cite>HTML</cite></a>, WHATWG Living Standard.
-
-</dd><dt id=ref-RSS2>RSS2
+<dt id=ref-RSS2>RSS2
 </dt><dd><a href=http://www.rssboard.org/rss-specification><cite>RSS 2.0</cite></a>, RSS Advisory Board.
 
 </dd><dt id=ref-RSSPROFILE>RSSPROFILE

@@ -66,22 +66,26 @@ covered by other <span title="applicable specification">applicable
 specifications</span>.
 
 <section>
-<h1>Design goals</h1>
+<h1>Scope</h1>
 
-<p>This specification intends to define:
+<p>This specification defines:
 
 <ul>
 
 <li>how to choose the set of requirements used
 for <span title=validate>validation</span> of a <span>node</span> when
-there are multiple candidate specifications.
+there are multiple candidate specifications,
+and
 
 <li>how <span title=element>elements</span>
 and <span title=attribute>attributes</span> <span>in no
 namespace</span> and in <span title="unknown namespace">unknown
-namespaces</span> are <span title=validate>validated</span>.
+namespaces</span> are <span title=validate>validated</span>,
 
 </ul>
+
+... for <span>validator</span> implementations
+by <a href="https://manakai.github.io/">the manakai project</a>.
 
 </section>
 
@@ -155,12 +159,21 @@ and
 are defined by the <a href="https://dom.spec.whatwg.org/"><cite>DOM
 Standard</cite></a>.
 
+<p><span title="user agent">User
+agents</span> <em class=rfc2119>MUST</em> implement the
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
+Terms
 
-<p>User agents <em class=rfc2119>MUST</em> support HTML
-Standard <cite class="bibref
-normative">[<a href="#ref-HTML">HTML</a>]</cite>,
-XML <cite class="bibref
-normative">[<a href="#ref-XML">XML</a>]</cite>, and XML Namespaces
+<dfn>applicable specification</dfn>, <dfn>inter-element
+whitespace</dfn>, and <dfn>valid e-mail address</dfn>
+
+are defined by the <a href=https://html.spec.whatwg.org><cite>HTML
+Standard</cite></a>.
+
+
+<p>User agents <em class=rfc2119>MUST</em> support
+XML <cite class="bibref normative">[<a href="#ref-XML">XML</a>]</cite>
+and XML Namespaces
 <cite class="bibref normative">[<a
 href="#ref-XMLNS">XMLNS</a>]</cite>.
 
@@ -171,11 +184,6 @@ to detect whether an element is interpreted per XSLT specifications or
 not as defined by this specification.
 
 <hr>
-
-<p>The terms <dfn>applicable specification</dfn>, <dfn>inter-element
-whitespace</dfn>, <dfn>the script block's type</dfn>, and <dfn>valid
-e-mail address</dfn> are defined by the HTML Standard <cite
-class="bibref normative">[<a href="#ref-HTML">HTML</a>]</cite>.
 
 <p>The terms <dfn>valid URL</dfn> and <dfn>valid absolute URL</dfn>
 are defined by <a href="http://url.spec.whatwg.org/">URL Standard</a>
@@ -233,25 +241,28 @@ other requirements for XML documents.
 
 <p>A <dfn>validation mode</dfn> identify the specifications that
 describe the requirements used to <span>validate</span>
-a <span>node</span>.  There are four <span title="validation
+a <span>node</span>.  There are five <span title="validation
 mode">modes</span>:
 
 <dl class=switch>
 
 <dt><dfn>Default mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by its
-definition.
+<dd>Conformance of the <span>node</span> is governed by its definition
+in the <span>native element specifications</span> or the <span>RSS2
+specifications</span>, or by the rules for the <span title="unknown
+namespace element">unknown namespace elements</span>
+and <span title="unknown namespace attribute">attributes</span>.
 
-  <div class=example>
-
-  <p>For example, <span title=element>elements</span> in
-  the <span>HTML namespace</span> are defined by the
-  <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>.
-
-  </div>
+The <dfn>native element specifications</dfn> are
+the <span title="applicable specification">applicable
+specifications</span> such as
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
+except for the <span>XSLT specifications</span>, the <span>RDF/XML
+specification</span>, the <span>RSS1 specifications</span>,
+the <span>RSS2 specifications</span>, and <em>this</em> specification.
 
 <dt><dfn>XSLT mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by <span>XSLT
+<dd>Conformance of the <span>node</span> is governed by the <span>XSLT
 specifications</span>.  For the purpose of this specification,
 the <dfn>XSLT specifications</dfn> are any <span title="applicable
 specification">applicable specifications</span> defining XSLT and its
@@ -266,14 +277,14 @@ elements</span> are not <span title="XSLT family element">XSLT family
 elements</span>.
 
 <dt><dfn>RDF mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by <span>RDF/XML
-specification</span>.
+<dd>Conformance of the <span>node</span> is governed by
+the <span>RDF/XML specification</span>.
 
 <dt><dfn>RSS1 mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by
-both <span>RDF/XML specification</span> and <span>RSS1
+<dd>Conformance of the <span>node</span> is governed by both
+the <span>RDF/XML specification</span> and the <span>RSS1
 specifications</span>.  For the purpose of this specification,
-the<dfn>RSS1 specifications</dfn> are any <span title="applicable
+the <dfn>RSS1 specifications</dfn> are any <span title="applicable
 specification">applicable specifications</span> defining RSS1 and its
 modules.
 
@@ -378,8 +389,8 @@ its <span>namespace</span> is <code>null</code>.
 
 <p>A <span>namespace</span> which is not <code>null</code>
 is <dfn title="supported namespace">supported</dfn> if it is defined
-by an <span>applicable specification</span> (other than this
-specification).
+by a <span title="native element specifications">native element
+specification</span>.
 
 <p>A <span>namespace</span> which is not <code>null</code>
 is <dfn title="unknown namespace">unknown</dfn> if it is
@@ -395,10 +406,48 @@ if its <span>namespace</span> is <span title="unknown
 namespace">unknown</span>.<!-- attribute in no namespace is not
 unknown namespace attribute -->
 
-<section>
-<h1>Introduction</h1>
+<hr>
 
-<p class=section-info><em>This section is non-normative.</em>
+<p>An <span>unknown namespace element</span> or <span>unknown
+namespace attribute</span> <em class=rfc2119>MUST NOT</em> be used
+anywhere except where they are explicitly allowed.<!-- Somewhat
+redundant with HTML Standard but still worth clarifying. -->
+
+<p>An <span>unknown namespace element</span> <em
+class=rfc2119>MAY</em> be used as the <span>document element</span> or
+as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
+any kind of <span>element</span> is allowed.
+
+<p>An <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> have
+any <span>attribute</span> in no namespace or any
+<span>unknown namespace attribute</span>.
+
+<div class="note memo">
+
+<p>Additionally, any <span>attribute</span> in
+a <span>supported namespace</span> might also be specified to an
+<span>unknown namespace element</span> as long as it is allowed by an
+<span>applicable specification</span>.
+
+</div>
+
+<p>An <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> have any kind
+of <span>child</span> (unless otherwise disallowed).
+
+<p>An <span>unknown namespace attribute</span> <em
+class=rfc2119>MAY</em> have any value.
+
+<p>An attribute in no namespace of an <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> have any value.
+
+<p>Conformance checkers <em class=rfc2119>MAY</em> warn any
+<span>unknown namespace element</span> or <span>unknown namespace
+attribute</span> as use of it could be an authoring error.
+
+
+<div class=note>
 
 <p>Conformance checkers are expected to report errors or warnings on
 unknown elements and attributes useful for authors.
@@ -455,50 +504,7 @@ error.
 
 </div>
 
-</section>
-
-<section>
-<h1>Requirements</h1>
-
-<p>An <span>unknown namespace element</span> or <span>unknown
-namespace attribute</span> <em class=rfc2119>MUST NOT</em> be used
-anywhere except where they are explicitly allowed.<!-- Somewhat
-redundant with HTML Standard but still worth clarifying. -->
-
-<p>An <span>unknown namespace element</span> <em
-class=rfc2119>MAY</em> be used as the <span>document element</span> or
-as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
-any kind of <span>element</span> is allowed.
-
-<p>An <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have
-any <span>attribute</span> in no namespace or any
-<span>unknown namespace attribute</span>.
-
-<div class="note memo">
-
-<p>Additionally, any <span>attribute</span> in
-a <span>supported namespace</span> might also be specified to an
-<span>unknown namespace element</span> as long as it is allowed by an
-<span>applicable specification</span>.
-
 </div>
-
-<p>An <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have any kind
-of <span>child</span> (unless otherwise disallowed).
-
-<p>An <span>unknown namespace attribute</span> <em
-class=rfc2119>MAY</em> have any value.
-
-<p>An attribute in no namespace of an <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have any value.
-
-<p>Conformance checkers <em class=rfc2119>MAY</em> warn any
-<span>unknown namespace element</span> or <span>unknown namespace
-attribute</span> as use of it could be an authoring error.
-
-</section>
 
 </section>
 
@@ -888,9 +894,6 @@ checking test data</a>.
 <h2 class=no-num>References</h2>
 
 <dl>
-
-<dt id=ref-HTML>HTML
-<dd><a href="http://c.whatwg.org/"><cite>HTML</cite></a>, WHATWG Living Standard.
 
 <dt id=ref-RSS2>RSS2
 <dd><a href="http://www.rssboard.org/rss-specification"><cite>RSS 2.0</cite></a>, RSS Advisory Board.

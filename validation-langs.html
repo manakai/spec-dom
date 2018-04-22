@@ -10,7 +10,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">DOM Tree Validation</h1>
-  <h2 class="no-toc no-num">The manakai project, 21 April 2018</h2>
+  <h2 class="no-toc no-num">The manakai project, 22 April 2018</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -61,9 +61,7 @@ the <a href=#author>author</a>.</p>
  <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a></li>
  <li><a href=#validation-of-unknown-namespaces><span class=secno>4 </span>Validation of unknown namespaces</a></li>
- <li><a href=#validation-of-rdf/xml-fragments><span class=secno>5 </span>Validation of RDF/XML fragments</a>
-  <ol>
-   <li><a href="#integration-with-rdf/xml's-data-model"><span class=secno>5.1 </span>Integration with RDF/XML's data model</a></li></ol></li>
+ <li><a href=#rdf/xml-integration><span class=secno>5 </span>RDF/XML integration</a></li>
  <li><a href=#rss-elements><span class=secno>6 </span>RSS elements</a></li>
  <li><a href=#atom-elements><span class=secno>7 </span>Atom elements</a></li>
  <li><a href=#ogp><span class=secno>8 </span>OGP</a></li>
@@ -258,27 +256,6 @@ specification</a>.
 
 The <dfn id=xslt-namespace>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
-
-</p><p><a href=#user-agent title="user agent">User
-agents</a> <em class=rfc2119>MUST</em> implement the <a href=#rdf/xml-specification>RDF/XML
-specification</a>.  The <dfn id=rdf/xml-specification>RDF/XML specification</dfn> is
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html><cite>RDF
-1.1 XML Syntax</cite></a>.  The terms
-
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn id=string-literal>string literal</dfn></a>,
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn id=xml-literal>XML literal</dfn></a>,
-and
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Infoset-Conformance><dfn id=transform-the-infoset-into-the-sequence-of-events-in-document-order>transform the Infoset into the sequence of events in <i>document order</i></dfn></a>
-
-are defined by the <a href=#rdf/xml-specification>RDF/XML specification</a>.  The term
-
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#dfn-rdf-graph><dfn id=rdf-graph>RDF graph</dfn></a>
-
-is defined by the
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
-1.1 Concepts and Abstract Syntax</cite></a> specification.
-The <dfn id=rdf-namespace>RDF namespace</dfn>
-is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
 
 
 
@@ -567,13 +544,37 @@ error.
 </section>
 
 <section>
-<h1 id=validation-of-rdf/xml-fragments><span class=secno>5 </span>Validation of RDF/XML fragments</h1>
+<h1 id=rdf/xml-integration><span class=secno>5 </span>RDF/XML integration</h1>
 
-<section>
-<h1 id="integration-with-rdf/xml's-data-model"><span class=secno>5.1 </span>Integration with RDF/XML's data model</h1>
+<p class=XXX>This section is work in progress.
+
+</p><p class=section-info><em>This section is only applied
+to <a href=#user-agent title="user agent">user agents</a>
+supporting <a href=#rdf/xml>RDF/XML</a>.</em>
+
+</p><p><dfn id=rdf/xml>RDF/XML</dfn> is defined by the <dfn id=rdf/xml-specification>RDF/XML
+specification</dfn>, i.e.
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html><cite>RDF
+1.1 XML Syntax</cite></a>.  The terms
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn id=string-literal>string literal</dfn></a>,
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn id=xml-literal>XML literal</dfn></a>,
+and
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Infoset-Conformance><dfn id=transform-the-infoset-into-the-sequence-of-events-in-document-order>transform the Infoset into the sequence of events in <i>document order</i></dfn></a>
+
+are defined by the <a href=#rdf/xml-specification>RDF/XML specification</a>.  The term
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#dfn-rdf-graph><dfn id=rdf-graph>RDF graph</dfn></a>
+
+is defined by the
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
+1.1 Concepts and Abstract Syntax</cite></a> specification.
+The <dfn id=rdf-namespace>RDF namespace</dfn>
+is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
 
 <!-- XXX need to define how to use these steps -->
-<p>To <dfn id=parse-a-node-as-rdf/xml>parse a node as RDF/XML</dfn>, where <var>node</var> is
+</p><p>To <dfn id=parse-a-node-as-rdf/xml>parse a node as RDF/XML</dfn>, where <var>node</var> is
 a <a href=#document>document</a> or <a href=#element>element</a>, run these steps:
 
 </p><ol class=steps>
@@ -616,6 +617,7 @@ a <a href=#document>document</a> or <a href=#element>element</a>, run these step
         item</a>'s <a href=#parent-0>[parent]</a> is the <a href=#information-item>information
         item</a> mapped from
         the <a href=#element>element</a>'s <a href=#parent>parent</a>.
+        <!-- XXX reserved element names -->
 
         </p><p>An <a href=#attribute>attribute</a> is mapped to an <a href=#attribute-information-item>attribute
         information item</a> whose <a href=#local-name-0>[local name]</a> is
@@ -625,6 +627,7 @@ a <a href=#document>document</a> or <a href=#element>element</a>, run these step
         and <a href=#normalized-value>[normalized value]</a> is
         the <a href=#attribute>attribute</a>'s <a href=#attribute-value title="attribute
         value">value</a>.
+          <!-- XXX ns attrs -->
 
         </p><p>A <span>text</span> is mapped to a sequence of zero or
         more <a href=#character-information-item title="character information item">character
@@ -682,6 +685,7 @@ a <a href=#document>document</a> or <a href=#element>element</a>, run these step
   
         </p><p><a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#x7-2-1-grammar-start>The
         grammer starts with production</a> <code title="">doc</code>
+          <!-- XXX or nodeElement -->
         if <var>node</var> is a <a href=#document>document</a>,
         or <code title="">RDF</code> otherwise.
 
@@ -689,6 +693,20 @@ a <a href=#document>document</a> or <a href=#element>element</a>, run these step
         production, add the <a href=#node>node</a> which is transformed to
         the first event preventing the match into <var>non-RDF
         nodes</var>.  Otherwise, break.
+
+          <!-- XXX XML literal -->
+          <!-- XXX IRI literal rdf-id -->
+
+          <!-- XXX
+
+               RDF - attributes
+               nodeElement - attributes, URI, ID&nodeID&about
+               propertyElt - URI, attributes, content
+
+               resolve(rdf:datatype)
+
+            -->
+          <!-- XXX duplicate *="" and rdf:*="" -->
 
     </p></li></ol>
 
@@ -758,8 +776,6 @@ configurations:
   <code>en</code> (English).
 
   </li></ul>
-
-</section>
 
 
 </section>

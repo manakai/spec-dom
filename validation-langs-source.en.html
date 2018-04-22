@@ -245,27 +245,6 @@ specification</a>.
 The <dfn>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
 
-<p><span title="user agent">User
-agents</span> <em class=rfc2119>MUST</em> implement the <span>RDF/XML
-specification</span>.  The <dfn>RDF/XML specification</dfn> is
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html><cite>RDF
-1.1 XML Syntax</cite></a>.  The terms
-
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn>string literal</dfn></a>,
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn>XML literal</dfn></a>,
-and
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Infoset-Conformance><dfn>transform the Infoset into the sequence of events in <i>document order</i></dfn></a>
-
-are defined by the <span>RDF/XML specification</span>.  The term
-
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#dfn-rdf-graph><dfn>RDF graph</dfn></a>
-
-is defined by the
-<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
-1.1 Concepts and Abstract Syntax</cite></a> specification.
-The <dfn>RDF namespace</dfn>
-is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
-
 
 
 
@@ -555,10 +534,34 @@ error.
 </section>
 
 <section>
-<h1>Validation of RDF/XML fragments</h1>
+<h1>RDF/XML integration</h1>
 
-<section>
-<h1>Integration with RDF/XML's data model</h1>
+<p class=XXX>This section is work in progress.
+
+<p class=section-info><em>This section is only applied
+to <span title="user agent">user agents</span>
+supporting <span>RDF/XML</span>.</em>
+
+<p><dfn>RDF/XML</dfn> is defined by the <dfn>RDF/XML
+specification</dfn>, i.e.
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html><cite>RDF
+1.1 XML Syntax</cite></a>.  The terms
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-property-attributes><dfn>string literal</dfn></a>,
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Syntax-XML-literals><dfn>XML literal</dfn></a>,
+and
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Infoset-Conformance><dfn>transform the Infoset into the sequence of events in <i>document order</i></dfn></a>
+
+are defined by the <span>RDF/XML specification</span>.  The term
+
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html#dfn-rdf-graph><dfn>RDF graph</dfn></a>
+
+is defined by the
+<a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
+1.1 Concepts and Abstract Syntax</cite></a> specification.
+The <dfn>RDF namespace</dfn>
+is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
 
 <!-- XXX need to define how to use these steps -->
 <p>To <dfn>parse a node as RDF/XML</dfn>, where <var>node</var> is
@@ -604,6 +607,7 @@ a <span>document</span> or <span>element</span>, run these steps:
         item</span>'s <span>[parent]</span> is the <span>information
         item</span> mapped from
         the <span>element</span>'s <span>parent</span>.
+        <!-- XXX reserved element names -->
 
         <p>An <span>attribute</span> is mapped to an <span>attribute
         information item</span> whose <span>[local name]</span> is
@@ -613,6 +617,7 @@ a <span>document</span> or <span>element</span>, run these steps:
         and <span>[normalized value]</span> is
         the <span>attribute</span>'s <span title="attribute
         value">value</span>.
+          <!-- XXX ns attrs -->
 
         <p>A <span>text</span> is mapped to a sequence of zero or
         more <span title="character information item">character
@@ -670,6 +675,7 @@ a <span>document</span> or <span>element</span>, run these steps:
   
         <p><a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#x7-2-1-grammar-start>The
         grammer starts with production</a> <code title>doc</code>
+          <!-- XXX or nodeElement -->
         if <var>node</var> is a <span>document</span>,
         or <code title>RDF</code> otherwise.
 
@@ -677,6 +683,20 @@ a <span>document</span> or <span>element</span>, run these steps:
         production, add the <span>node</span> which is transformed to
         the first event preventing the match into <var>non-RDF
         nodes</var>.  Otherwise, break.
+
+          <!-- XXX XML literal -->
+          <!-- XXX IRI literal rdf-id -->
+
+          <!-- XXX
+
+               RDF - attributes
+               nodeElement - attributes, URI, ID&nodeID&about
+               propertyElt - URI, attributes, content
+
+               resolve(rdf:datatype)
+
+            -->
+          <!-- XXX duplicate *="" and rdf:*="" -->
 
     </ol>
 
@@ -756,8 +776,6 @@ configurations:
   <code>en</code> (English).
 
   </ul>
-
-</section>
 
 
 </section>

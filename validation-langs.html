@@ -164,6 +164,7 @@ Standard</cite></a>.  The terms
 <dfn id=concatenate>concatenate</dfn>,
 <dfn id=ascii-case-insensitive>ASCII case-insensitive</dfn>,
 <dfn id=html-namespace>HTML namespace</dfn>,
+<dfn id=xml-namespace>XML namespace</dfn>,
 and
 <dfn id=xmlns-namespace>XMLNS namespace</dfn>
 
@@ -626,8 +627,8 @@ namespaces</a> <em class=rfc2119>MAY</em> have
 an <a href=#attribute>attribute</a> which is shown in <i>Syntax</i> or prose in
 the <a href=#applicable-specification title="applicable specification">relevant
 specifications</a>, as well as
-the <code>lang</code> <a href=#attribute>attribute</a> in the <span>XML
-namespace</span> and <a href=#attribute title=attribute>attributes</a> in
+the <code>lang</code> <a href=#attribute>attribute</a> in the <a href=#xml-namespace>XML
+namespace</a> and <a href=#attribute title=attribute>attributes</a> in
 the <a href=#xmlns-namespace>XMLNS namespace</a>.
 Other <a href=#attribute title=attribute>attributes</a> <em class=rfc2119>MUST
 NOT</em> be specified.<!-- The RSS1 specification does not explicitly
@@ -795,7 +796,12 @@ wild -->
 <section>
 <h1 id=rss2-elements><span class=secno>5.2 </span>RSS2 elements</h1>
 
-<p>An <a href=#element>element</a> is an <dfn id=rss2-element>RSS2 element</dfn> if and only
+<p class=section-info><em>This section is only applied
+to <a href=#user-agent title="user agent">user agents</a>
+<a href=#supported-namespace title="supported
+namespace">supporting</a> <span>RSS2</span>.</em>
+
+</p><p>An <a href=#element>element</a> is an <dfn id=rss2-element>RSS2 element</dfn> if and only
 if it is in no namespace and either it is the <a href=#document-element-0>document
 element</a> and its <a href=#local-name>local name</a> is <code>rss</code> or
 one of its <a href=#ancestor>ancestor</a> is an <a href=#rss2-element>RSS2 element</a>.
@@ -821,23 +827,31 @@ or <code>http://search.yahoo.com/mrss</code>.
 <section>
 <h1 id=atom-elements><span class=secno>5.3 </span>Atom elements</h1>
 
-<p>Atom and its extension specifications allow extensions such that
+<p class=section-info><em>This section is only applied
+to <a href=#user-agent title="user agent">user agents</a>
+<a href=#supported-namespace title="supported
+namespace">supporting</a> <span>Atom</span>.</em>
+
+</p><p>Atom and its extension specifications allow extensions such that
 almost everything is allowed, which is not useful
 for <span title=validator>validators</span>.  This specification
 defines stricter restrictions for the purpose
 of <span title=validate>validation</span>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn>
-is <a href=http://tools.ietf.org/html/rfc4287><code>http://www.w3.org/2005/Atom</code></a>.
+is <a href=https://tools.ietf.org/html/rfc4287><code>http://www.w3.org/2005/Atom</code></a>.
+
+</p><p>The <dfn id=atom-0.3-namespace>Atom 0.3 namespace</dfn>
+is <a href=https://github.com/mnot/I-D/blob/gh-pages/Published/atom-format/draft-nottingham-atom-format-02.xml><code>http://purl.org/atom/ns#</code></a>.
 
 </p><p><dfn id=atom-family-namespaces>Atom family namespaces</dfn> are
-<a href=https://github.com/mnot/I-D/blob/master/Published/atom-format/draft-nottingham-atom-format-02.xml><code>http://purl.org/atom/ns#</code></a>,
+the <a href=#atom-0.3-namespace>Atom 0.3 namespace</a>,
 the <a href=#atom-namespace>Atom namespace</a>,
-<a href=http://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>,
+<a href=https://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>,
 <a href=https://tools.ietf.org/html/rfc5005><code>http://purl.org/syndication/history/1.0</code></a>,
 <a href=https://tools.ietf.org/html/rfc5023><code>http://www.w3.org/2007/app</code></a>,
 and
-<a href=http://tools.ietf.org/html/rfc6721><code>http://purl.org/atompub/tombstones/1.0</code></a>.
+<a href=https://tools.ietf.org/html/rfc6721><code>http://purl.org/atompub/tombstones/1.0</code></a>.
 <!--
 and Dublin Core namespace, Media RSS namespace
 -->
@@ -880,11 +894,11 @@ i.e. following <a href=#element title=element>elements</a>:
   </li><li><code>deleted-entry</code> <a href=#element title=element>elements</a>
   in <a href=#namespace>namespace</a> <code>http://purl.org/atompub/tombstones/1.0</code>
 
-  </li><li><code>feed</code> <a href=#element title=element>elements</a>
-  in <a href=#namespace>namespace</a> <code>http://purl.org/atom/ns#</code>
+  </li><li><code>feed</code> <a href=#element title=element>elements</a> in
+  the <a href=#atom-0.3-namespace>Atom 0.3 namespace</a>
 
-  </li><li><code>entry</code> <a href=#element title=element>elements</a>
-  in <a href=#namespace>namespace</a> <code>http://purl.org/atom/ns#</code>
+  </li><li><code>entry</code> <a href=#element title=element>elements</a> in
+  the <a href=#atom-0.3-namespace>Atom 0.3 namespace</a>
 
   </li></ul>
 
@@ -894,6 +908,14 @@ in <a href=#namespace>namespace</a> <code>http://purl.org/syndication/history/1.
 NOT</em> be used more than once in
 a <code>feed</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
 namespace</a>.
+
+</p><p>A <code>content</code> <a href=#element>element</a> in the <a href=#atom-0.3-namespace>Atom 0.3
+namespace</a> which has a <code>type</code> <a href=#attribute>attribute</a>
+whose <a href=#attribute-value title="attribute value">value</a>
+is <code>text/html</code> (<a href=#ascii-case-insensitive>ASCII case-insensitive</a>) has
+an <a href=#html-fragment-content>HTML fragment content</a>.<!-- Not explicitly defined in
+ths spec -->
+
 
 </p><p class=XXX>need to define &lt;atom:content&gt; content validation when
 type is a MIME type
@@ -1015,10 +1037,11 @@ conform to the corresponding consturct instead:
   </dt><dd>A <a href=#valid-e-mail-address>valid e-mail address</a>.
   <!-- Atom family -->
 
-  </dd><dt>An HTML markup
+  </dd><dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
+  </dt><dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
+  that it could validly appear directly within an
+  HTML <code>div</code> element<!-- Atom type=html -->
   </dt><dd>An <a href=#html-fragment-content>HTML fragment content</a>.
-  <!-- rss:description in rss:item, content:encoded,
-  hatena:formatted-content -->
 
   <!--
   <dt>A W3C Date-Time string
@@ -1029,13 +1052,14 @@ conform to the corresponding consturct instead:
 
   </dd></dl>
 
-<p>If the <span>content</span> of an <a href=#atom-family-element>Atom family element</a>
-is defined as HTML or XHTML fragment, it <em class=rfc2119>MUST</em>
-conform to the relevant requirements in <a href=#applicable-specification title="applicable
-specification">applicable specifications</a>, using the rules for
-<a href=#html-document title="HTML document">HTML</a> or <a href=#xhtml-document title="XHTML
-document">XHTML documents</a>, respectively.<!-- SHOULD in RFC
-4287; HTML4 and XHTML1 in RFC 4287 -->
+<p>When an <a href=#element>element</a> has to be an XHTML Modularization
+<code>div</code> <a href=#element>element</a> that
+<em class=rfc2119>SHOULD</em> be suitable for handling as XHTML,
+it <em class=rfc2119>MUST</em> be
+a <code>div</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
+namespace</a><!-- and the requirements for it in
+any <span>applicable specification</span> is applied-->.<!-- Atom
+type=xhtml -->
 
 </p><p>When an <a href=#element>element</a> has
 <dfn id=html-fragment-content>HTML fragment content</dfn>, setting its <a href=#child-text-content>child text

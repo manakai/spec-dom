@@ -58,7 +58,9 @@ the <a href=#author>author</a>.</p>
   <ol>
    <li><a href=#scope><span class=secno>1.1 </span>Scope</a></li>
    <li><a href=#history-0><span class=secno>1.2 </span>History</a></li></ol></li>
- <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a></li>
+ <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a>
+  <ol>
+   <li><a href=#intepretation-of-old-specifications><span class=secno>2.1 </span>Intepretation of old specifications</a></li></ol></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a>
   <ol>
    <li><a href=#document-element><span class=secno>3.1 </span>Document element</a></li>
@@ -70,8 +72,7 @@ the <a href=#author>author</a>.</p>
    <li><a href=#rss2-elements><span class=secno>5.2 </span>RSS2 elements</a></li>
    <li><a href=#atom-elements><span class=secno>5.3 </span>Atom elements</a></li></ol></li>
  <li><a href=#validation-of-ogp><span class=secno>6 </span>Validation of OGP</a></li>
- <li><a href=#data-type-validation><span class=secno>7 </span>Data type validation</a></li>
- <li><a href=#data><span class=secno>8 </span>Data</a></li>
+ <li><a href=#data><span class=secno>7 </span>Data</a></li>
  <li><a class=no-num href=#references>References</a></li>
  <li><a class=no-num href=#author>Author</a></li></ol>
 <!--end-toc-->
@@ -266,7 +267,84 @@ specification<!-- <iframe srcdoc=""> in XML [HTML] -->,
 it <em class=rfc2119>MUST</em> also conform to other requirements for
 XML documents.
 
+
+</p><section>
+<h1 id=intepretation-of-old-specifications><span class=secno>2.1 </span>Intepretation of old specifications</h1>
+
+<p>This subsection defines how to interpret old unmaintained
+specifications for the purpose
+of <span title=validate>validation</span>.
+
+</p><p>When an <a href=#element>element</a>'s <span>content</span> or
+an <a href=#attribute>attribute</a> is defined to be one of the following
+constructs, the <a href=#element>element</a>'s <a href=#child-text-content>child text content</a>
+or the <a href=#attribute-value>attribute value</a> <em class=rfc2119>MUST</em> be
+conform to the corresponding consturct instead:
+
+  </p><dl class=switch>
+
+  <dt>An RFC 3066 language tag
+  </dt><dd>A <a href=#valid-language-tag>valid language tag</a>.
+  <!-- Atom family -->
+
+  </dd><dt>A URL (without referencing the
+  latest <a href=http://url.spec.whatwg.org/><cite>URL
+  Standard</cite></a>)
+  </dt><dt>A URI
+  </dt><dt>An IRI
+  </dt><dt>An IRI reference
+  </dt><dd>A <a href=#valid-url>valid URL</a>. (If IRI and IRI reference are
+  distinguished, a <a href=#valid-absolute-url>valid absolute URL</a> and a <a href=#valid-url>valid
+  URL</a>, respectively.)
+  <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
+  hatena:imageurlsmall, Atom family -->
+
+  </dd><dt>A media type
+  </dt><dt>A MIME media type
+  </dt><dd>A <a href=#valid-mime-type>valid MIME type</a>.
+  <!-- Atom family -->
+
+  </dd><dt>An <code>addr-spec</code>
+  </dt><dt>An e-mail address
+  </dt><dd>A <a href=#valid-e-mail-address>valid e-mail address</a>.
+  <!-- Atom family -->
+
+  </dd><dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
+  </dt><dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
+  that it could validly appear directly within an
+  HTML <code>div</code> element<!-- Atom type=html -->
+  </dt><dd>An <a href=#html-fragment-content>HTML fragment content</a>.
+
+  <!--
+  <dt>A W3C Date-Time string
+  <dt>A W3CDTF
+  <dd>As is.
+  dc:date, Atom family
+  -->
+
+  </dd></dl>
+
+<p>When an <a href=#element>element</a> has to be an XHTML Modularization
+<code>div</code> <a href=#element>element</a> that
+<em class=rfc2119>SHOULD</em> be suitable for handling as XHTML,
+it <em class=rfc2119>MUST</em> be
+a <code>div</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
+namespace</a><!-- and the requirements for it in
+any <span>applicable specification</span> is applied-->.<!-- Atom
+type=xhtml -->
+
+</p><p>When an <a href=#element>element</a> has
+<dfn id=html-fragment-content>HTML fragment content</dfn>, setting its <a href=#child-text-content>child text
+content</a> to a new
+<code>div</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
+namespace</a> <em class=rfc2119>MUST NOT</em> generate
+a <a href=#parse-error>parse error</a> or create a
+non-conforming <span>tree</span>.
+
 </p></section>
+
+
+</section>
 
 <section>
 <h1 id=validation-modes><span class=secno>3 </span>Validation modes</h1>
@@ -575,31 +653,21 @@ namespace">supporting</a> <span>RSS1</span>.</em>
 
 </p><p>The <dfn id=rss1-specification>RSS1 specification</dfn> is
 <a href=http://web.resource.org/rss/1.0/spec><cite>RDF Site Summary
-(RSS) 1.0</cite></a>.
-
-</p><p>The <dfn id=rdf-namespace>RDF namespace</dfn>
+(RSS) 1.0</cite></a>.  The <dfn id=rdf-namespace>RDF namespace</dfn>
 is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
-
-</p><p>The <dfn id=rss-namespace>RSS namespace</dfn>
-is <code>http://purl.org/rss/1.0/</code>.
-
-</p><p>The <dfn id=dublin-core-namespace>Dublin Core namespace</dfn> is
+The <dfn id=rss-namespace>RSS namespace</dfn> is <code>http://purl.org/rss/1.0/</code>.
+The <dfn id=dublin-core-namespace>Dublin Core namespace</dfn> is
 <a href=http://web.resource.org/rss/1.0/modules/dc/><!-- which
 references http://dublincore.org/documents/dces/
---><code>http://purl.org/dc/elements/1.1/</code></a>.
-
-</p><p>The <dfn id=rss-content-namespace>RSS content namespace</dfn> is
+--><code>http://purl.org/dc/elements/1.1/</code></a>.  The <dfn id=rss-content-namespace>RSS
+content namespace</dfn> is
 <a href=http://web.resource.org/rss/1.0/modules/content/><code>http://purl.org/rss/1.0/modules/content/</code></a>.
-
-</p><p>The <dfn id=hatena-namespace>Hatena namespace</dfn> is
+The <dfn id=hatena-namespace>Hatena namespace</dfn> is
 <a href=http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns><code>http://www.hatena.ne.jp/info/xmlns#</code></a>.
-
-</p><p>The <dfn id=rss1-family-namespaces>RSS1 family namespaces</dfn> are 
-the <a href=#rss-namespace>RSS namespace</a>,
-the <a href=#dublin-core-namespace>Dublin Core namespace</a>,
-the <a href=#rss-content-namespace>RSS content namespace</a>,
-and
-the <a href=#hatena-namespace>Hatena namespace</a>.
+The <dfn id=rss1-family-namespaces>RSS1 family namespaces</dfn> are the <a href=#rss-namespace>RSS
+namespace</a>, the <a href=#dublin-core-namespace>Dublin Core namespace</a>,
+the <a href=#rss-content-namespace>RSS content namespace</a>, and the <a href=#hatena-namespace>Hatena
+namespace</a>.
 
 </p><div class=note>
 
@@ -840,24 +908,18 @@ of <span title=validate>validation</span>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn>
 is <a href=https://tools.ietf.org/html/rfc4287><code>http://www.w3.org/2005/Atom</code></a>.
-
-</p><p>The <dfn id=atom-0.3-namespace>Atom 0.3 namespace</dfn>
+The <dfn id=atom-0.3-namespace>Atom 0.3 namespace</dfn>
 is <a href=https://github.com/mnot/I-D/blob/gh-pages/Published/atom-format/draft-nottingham-atom-format-02.xml><code>http://purl.org/atom/ns#</code></a>.
-
-</p><p><dfn id=atom-family-namespaces>Atom family namespaces</dfn> are
-the <a href=#atom-0.3-namespace>Atom 0.3 namespace</a>,
-the <a href=#atom-namespace>Atom namespace</a>,
+<dfn id=atom-family-namespaces>Atom family namespaces</dfn> are the <a href=#atom-0.3-namespace>Atom 0.3
+namespace</a>, the <a href=#atom-namespace>Atom namespace</a>,
 <a href=https://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>,
 <a href=https://tools.ietf.org/html/rfc5005><code>http://purl.org/syndication/history/1.0</code></a>,
 <a href=https://tools.ietf.org/html/rfc5023><code>http://www.w3.org/2007/app</code></a>,
 and
 <a href=https://tools.ietf.org/html/rfc6721><code>http://purl.org/atompub/tombstones/1.0</code></a>.
-<!--
-and Dublin Core namespace, Media RSS namespace
--->
-
-</p><p>An <dfn id=atom-family-element>Atom family element</dfn> is an <a href=#element>element</a> in one
-of <a href=#atom-family-namespaces>Atom family namespaces</a>.
+<!-- and Dublin Core namespace, Media RSS namespace --> An <dfn id=atom-family-element>Atom
+family element</dfn> is an <a href=#element>element</a> in one of <a href=#atom-family-namespaces>Atom
+family namespaces</a>.
 
 </p><p>The term <dfn id=date-construct>Date construct</dfn> is defined by <a href=http://tools.ietf.org/html/rfc4287>Atom 1.0 specification</a>.
 
@@ -997,82 +1059,7 @@ value or a <a href=#prefixed-property-value>prefixed property value</a>.
 
 
 <section>
-<h1 id=data-type-validation><span class=secno>7 </span>Data type validation</h1>
-
-<p>This section defines how to interpret old unmaintained
-specifications for the purpose
-of <span title=validate>validation</span>.
-
-</p><p>When an <a href=#element>element</a>'s <span>content</span> or
-an <a href=#attribute>attribute</a> is defined to be one of the following
-constructs, the <a href=#element>element</a>'s <a href=#child-text-content>child text content</a>
-or the <a href=#attribute-value>attribute value</a> <em class=rfc2119>MUST</em> be
-conform to the corresponding consturct instead:
-
-  </p><dl class=switch>
-
-  <dt>An RFC 3066 language tag
-  </dt><dd>A <a href=#valid-language-tag>valid language tag</a>.
-  <!-- Atom family -->
-
-  </dd><dt>A URL (without referencing the
-  latest <a href=http://url.spec.whatwg.org/><cite>URL
-  Standard</cite></a>)
-  </dt><dt>A URI
-  </dt><dt>An IRI
-  </dt><dt>An IRI reference
-  </dt><dd>A <a href=#valid-url>valid URL</a>. (If IRI and IRI reference are
-  distinguished, a <a href=#valid-absolute-url>valid absolute URL</a> and a <a href=#valid-url>valid
-  URL</a>, respectively.)
-  <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
-  hatena:imageurlsmall, Atom family -->
-
-  </dd><dt>A media type
-  </dt><dt>A MIME media type
-  </dt><dd>A <a href=#valid-mime-type>valid MIME type</a>.
-  <!-- Atom family -->
-
-  </dd><dt>An <code>addr-spec</code>
-  </dt><dt>An e-mail address
-  </dt><dd>A <a href=#valid-e-mail-address>valid e-mail address</a>.
-  <!-- Atom family -->
-
-  </dd><dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
-  </dt><dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
-  that it could validly appear directly within an
-  HTML <code>div</code> element<!-- Atom type=html -->
-  </dt><dd>An <a href=#html-fragment-content>HTML fragment content</a>.
-
-  <!--
-  <dt>A W3C Date-Time string
-  <dt>A W3CDTF
-  <dd>As is.
-  dc:date, Atom family
-  -->
-
-  </dd></dl>
-
-<p>When an <a href=#element>element</a> has to be an XHTML Modularization
-<code>div</code> <a href=#element>element</a> that
-<em class=rfc2119>SHOULD</em> be suitable for handling as XHTML,
-it <em class=rfc2119>MUST</em> be
-a <code>div</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
-namespace</a><!-- and the requirements for it in
-any <span>applicable specification</span> is applied-->.<!-- Atom
-type=xhtml -->
-
-</p><p>When an <a href=#element>element</a> has
-<dfn id=html-fragment-content>HTML fragment content</dfn>, setting its <a href=#child-text-content>child text
-content</a> to a new
-<code>div</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
-namespace</a> <em class=rfc2119>MUST NOT</em> generate
-a <a href=#parse-error>parse error</a> or create a
-non-conforming <span>tree</span>.
-
-</p></section>
-
-<section>
-<h1 id=data><span class=secno>8 </span>Data</h1>
+<h1 id=data><span class=secno>7 </span>Data</h1>
 
 <p class=section-info><em>This section is non-normative.</em>
 

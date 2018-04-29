@@ -82,10 +82,10 @@ are integrated with the platform,
 <li>how OGP are <span title=validate>validated</span>,
 
 and
-<li>how <span title=element>elements</span>
-and <span title=attribute>attributes</span> <span>in no
-namespace</span> and in <span title="unknown namespace">unknown
-namespaces</span> are <span title=validate>validated</span>,
+
+<li>how <span title="unknown element">unknown elements</span>
+and <span title="unknown attribute">unknown attributes</span>
+are <span title=validate>validated</span>,
 
 </ul>
 
@@ -203,13 +203,12 @@ and
 are defined by the <a href=https://html.spec.whatwg.org><cite>HTML
 Standard</cite></a>.
 
+<p>An <span>element</span> or <span>attribute</span> is <dfn>in no
+namespace</dfn> <!-- or <dfn>in null namespace</dfn> --> if
+its <span>namespace</span> is <code>null</code>.
 
-<p>User agents are not required to implement other specifications, but
-are expected to follow steps defined in this specification.  For
-example, a user agent might not <span title="supported
-namespace">support</span> XSLT, but is is still required to detect
-whether an element is interpreted per XSLT specifications or not as
-defined by this specification.
+<p>A <dfn>non-<code>null</code> namespace</dfn> is
+a <span>namespace</span> that is <em>not</em> <code>null</code>.
 
 <hr>
 
@@ -343,8 +342,8 @@ mode">modes</span>:
 <dd>Conformance of the <span>node</span> is governed by its definition
 in the <span>native element specifications</span> or the <span>RSS2
 specifications</span>, or by the rules for the <span title="unknown
-namespace element">unknown namespace elements</span>
-and <span title="unknown namespace attribute">attributes</span>.
+element">unknown elements</span> and <span title="unknown
+attribute">attributes</span>.
 
 The <dfn>native element specifications</dfn> are
 the <span title="applicable specification">applicable
@@ -431,15 +430,11 @@ or not is determined by following steps:
 the element is allowed as the <span>document element</span> according
 to <span>XSLT specifications</span>.
 
-<li>Otherwise, if the element is  in a
-<span>supported namespace</span>, is a <span>RSS
-1.0 <code>rdf:RDF</code> element</span>, or is an <span>RSS2
-element</span>, return whether the element is allowed as
-the <span>document element</span> by an <span>applicable
-specification</span>.
+<li>Otherwise, if the element is not an <span>unknown element</span>,
+return whether the element is allowed as the <span>document
+element</span> by an <span>applicable specification</span>.
 
-<li>Otherwise, the element is an <span>unknown namespace
-element</span>.  Return true.
+<li>Otherwise, return true.
 
 </ol>
 
@@ -463,7 +458,7 @@ element.
 according to <span>XSLT specifications</span>.
 
 <li>Otherwise, if the element is <em>not</em> an <span>unknown
-namespace element</span>:
+element</span>:
 
   <ol>
 
@@ -475,8 +470,7 @@ namespace element</span>:
 
   </ol>
 
-<li>Otherwise, the element is an <span>unknown namespace
-element</span>.  Report an "unknown element" warning.
+<li>Otherwise, report an "unknown element" warning.
 
 </ol>
 
@@ -486,80 +480,138 @@ element</span>.  Report an "unknown element" warning.
 
 
 <section>
-<h1>Validation of unknown namespaces</h1>
+<h1>Validation of unknown elements and attributes</h1>
 
-<p>An <span>element</span> or <span>attribute</span> is <dfn>in no
-namespace</dfn> <!-- or <dfn>in null namespace</dfn> --> if
-its <span>namespace</span> is <code>null</code>.
+<p id=supported-namespace>A <span>user agent</span>
+either <span title="full support">fully
+supports</span>, <span title="partial support">partially
+supports</span>, or <span title="no support">does not support</span>
+a <span>non-<code>null</code> namespace</span>.
 
-<p>A <span>namespace</span> which is not <code>null</code>
-is <dfn title="supported namespace">supported</dfn> if it is defined
-by a <span title="native element specifications">native element
-specification</span>.  If a <span>user
-agent</span> <span title="supported
-namespace">supports</span> <span>RSS1</span> but does
-not <span title="supported
-namespace">support</span> <span>RDF/XML</span>, the <span>RDF
-namespace</span> is not considered as <span title="supported
-namespace">supported</span> for the purpose of that <span>user
-agent</span>.
+<p>A <span>non-<code>null</code> namespace</span> is <dfn title="full
+support">fully supported</dfn> if all of
+its <span title=element>elements</span>
+and <span title=attribute>attributes</span> are defined
+by <span title="applicable specification">applicable
+specifications</span> and they are completely implemented.
 
-<p>A <span>namespace</span> which is not <code>null</code>
-is <dfn title="unknown namespace">unknown</dfn> if it is
-not <span title="supported namespace">supported</span>.
+<div class=note>
 
-<p>An <span>element</span> is <dfn>unknown namespace element</dfn> if
-its <span>namespace</span> is <span title="unknown
-namespace">unknown</span>, it is an <span>unknown RDF element</span>,
-or it is <span>in no namespace</span> and is not an <span>RSS2
-element</span>.
-
-<p>An <span>attribute</span> is <dfn>unknown namespace attribute</dfn>
-if its <span>namespace</span> is <span title="unknown
-namespace">unknown</span> or it is an <span>unknown RDF
-attribute</span>.<!-- attribute in no namespace is not unknown
-namespace attribute -->
-
-<hr>
-
-<p>An <span>unknown namespace element</span> or <span>unknown
-namespace attribute</span> <em class=rfc2119>MUST NOT</em> be used
-anywhere except where they are explicitly allowed.<!-- Somewhat
-redundant with HTML Standard but still worth clarifying. -->
-
-<p>An <span>unknown namespace element</span> <em
-class=rfc2119>MAY</em> be used as the <span>document element</span> or
-as an orphan node.  It <em class=rfc2119>MAY</em> also be used where
-any kind of <span>element</span> is allowed.
-
-<p>An <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have
-any <span>attribute</span> in no namespace or any
-<span>unknown namespace attribute</span>.
-
-<div class="note memo">
-
-<p>Additionally, any <span>attribute</span> in
-a <span>supported namespace</span> might also be specified to an
-<span>unknown namespace element</span> as long as it is allowed by an
-<span>applicable specification</span>.
+<p>The <cite>HTML Standard</cite> defines that
+"<span title=author>Authors</span> <em class=rfc2119>MUST NOT</em>
+use <span title=element>elements</span>, <span title=attribute>attributes</span>,
+or <span title="attribute value">attribute values</span> that are not
+permitted by this specification or other <span title="applicable
+specification">applicable specifications</span>".  Use
+of <span title=element>elements</span>
+or <span title=attributes>attribute</span> in a <span title="full
+support">fully supported</span> <span>namespace</span> is <em>not</em>
+allowed unless they are specified in <span title="applicable
+specification">applicable specifications</span>.
 
 </div>
 
-<p>An <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have any kind
-of <span>child</span> (unless otherwise disallowed).
+<p>A <span>non-<code>null</code> namespace</span>
+is <dfn title="partial support">partially supported</dfn> if
+its <span title=element>elements</span>
+and <span title=attribute>attributes</span> are defined
+by <span title="applicable specification">applicable
+specifications</span> and some of them are implemented.
 
-<p>An <span>unknown namespace attribute</span> <em
-class=rfc2119>MAY</em> have any value.
+<p>A <span>non-<code>null</code> namespace</span> is <dfn title="no
+support">not supported</dfn> if
+its <span title=element>elements</span>
+and <span title=attribute>attributes</span> are not implemented.
+A <span>user agent</span> that implements <span>RSS1</span> but does
+not implement <span>RDF/XML</span> other than as part
+of <span>RSS1</span> support does support the <span>RSS
+namespace</span> <span title="full support">fully</span>
+or <span title="partial support">partially</span>, but
+it <span title="no support">does <em>not</em> support</span>
+the <span>RDF namespace</span>.
 
-<p>An attribute in no namespace of an <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> have any value.
+<hr id=unknown-namespace>
 
-<p>A <span>validator</span> <em class=rfc2119>MAY</em> report a
-warning any <span>unknown namespace element</span> or <span>unknown
-namespace attribute</span>, as use of it could be an authoring error.
+<p><dfn title="unknown element">Unknown elements</dfn> are
+following <span title=element>elements</span>:
 
+  <ul>
+
+  <li><span title=element>Elements</span> in <span title="no
+  support">unsupported</span> <span title=namespace>namespaces</span>
+
+  <li><span title=element>Elements</span> <em>not</em> implemented by
+  the <span>user agent</span> in <span title="partial
+  support">partially
+  supported</span> <span title=namespace>namespaces</span>
+
+  <li><span title="unknown RDF element">Unknown RDF elements</span>
+
+  <li><span title=element>Elements</span> <span>in no namespace</span>
+  except for <span title="RSS2 element">RSS2 elements</span>
+
+  <li>If <span>RSS2</span> is <em>not</em> implemented by
+  the <span>user agent</span>, <span title="RSS2 element">RSS2
+  elements</span>
+
+  </ul>
+
+<p><dfn title="unknown attribute">Unknown attributes</dfn> are
+following <span title=attribute>attributes</span>:
+
+  <ul>
+
+  <li><span title=attribute>Attributes</span> in <span title="no
+  support">unsupported</span> <span title=namespace>namespaces</span>
+
+  <li><span title=attribute>Attributes</span> <em>not</em> implemented
+  by the <span>user agent</span> in <span title="partial
+  support">partially
+  supported</span> <span title=namespace>namespaces</span>
+
+  <li><span title="unknown RDF attribute">Unknown RDF
+  attributes</span>
+
+  <!-- attributes in no namespace is not unknown attributes -->
+
+  </ul>
+
+<hr>
+
+<p>An <span>unknown element</span> or <span>unknown
+attribute</span> <em class=rfc2119>MUST NOT</em> be used anywhere
+except where they are explicitly allowed.<!-- Somewhat redundant with
+HTML Standard but still worth clarifying. -->
+
+<p>An <span>unknown element</span> <em class=rfc2119>MAY</em> be used
+as the <span>document element</span> or as an orphan node.
+It <em class=rfc2119>MAY</em> also be used where any kind
+of <span>element</span> is allowed.<!-- including but not limited to
+DocumentFragment/ShadowRoot children. -->
+
+<p>An <span>unknown element</span> <em class=rfc2119>MAY</em> have
+any <span>attribute</span> <span>in no namespace</span> or
+any <span>unknown attribute</span>.
+
+<div class=note>
+
+<p>In addition, any <span>attribute</span> allowed by
+an <span>applicable specification</span> is allowed to be specified
+for an <span>unknown element</span>.
+
+</div>
+
+<p>An <span>unknown element</span> <em class=rfc2119>MAY</em> have any
+kind of <span>child</span>.
+
+<p>An <span>unknown attribute</span> <em class=rfc2119>MAY</em> have
+any value.  An <span>attribute</span> <span>in no namespace</span> of
+an <span>unknown element</span> <em class=rfc2119>MAY</em> have any
+value.
+
+<p>A <span>user agent</span> <em class=rfc2119>MAY</em> <span>report a
+warning</span> for an <span>unknown element</span> or <span>unknown
+attribute</span>.
 
 <div class=note>
 
@@ -604,17 +656,18 @@ defined by any public standard:
 &lt;/data></code></pre>
 
 <p>If the <code>p</code> element contained an <code>item</code>
-element in no namespace, it ought to be reported as an error, as no
-standard defines the <code>item</code> element in no namespace as
+element <span>in no namespace</span>, it ought to be reported as an
+error, as no standard defines the <code>item</code> element in no
+namespace as
 <span>phrasing content</span>.
 
 </div>
 
 <div class=example>
 
-<p>If there is an element in the
-<code>http://www.w3.org/2000/svg<mark>/</mark></code> namespace, an
-error or warning ought to be reported.  It is likely an authoring
+<p>If there is an <span>element</span> in the
+<code>http://www.w3.org/2000/svg<mark>/</mark></code> <span>namespace</span>,
+an error or warning ought to be reported.  It is likely an authoring
 error.
 
 </div>
@@ -629,10 +682,8 @@ error.
 <section>
 <h1>RSS1 elements</h1>
 
-<p class=section-info><em>This section is only applied
-to <span title="user agent">user agents</span>
-<span title="supported
-namespace">supporting</span> <span>RSS1</span>.</em>
+<p class=section-info><em>This section applies to <span title="user
+agent">user agents</span> implementing <span>RSS1</span>.</em>
 
 <p>The <dfn>RSS1 specification</dfn> is
 <a href=http://web.resource.org/rss/1.0/spec><cite>RDF Site Summary
@@ -645,21 +696,22 @@ references http://dublincore.org/documents/dces/
 --><code>http://purl.org/dc/elements/1.1/</code></a>.  The <dfn>RSS
 content namespace</dfn> is
 <a href=http://web.resource.org/rss/1.0/modules/content/><code>http://purl.org/rss/1.0/modules/content/</code></a>.
-The <dfn>Hatena namespace</dfn> is
-<a href=http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns><code>http://www.hatena.ne.jp/info/xmlns#</code></a>.
 The <dfn>RSS1 family namespaces</dfn> are the <span>RSS
 namespace</span>, the <span>Dublin Core namespace</span>,
 the <span>RSS content namespace</span>, and the <span>Hatena
 namespace</span>.
 
+<!--
 <div class=note>
 
-<p>These are <span title=namespace>namespaces</span> supported by the
+<p>These are most of the <span title=namespace>namespaces</span>
+supported by the
 <a href=https://wiki.suikawiki.org/n/Feed%20Parsing><cite>Feed
 Parsing</cite></a> specification for interpreting <span>RSS1</span>
 documents.
 
 </div>
+-->
 
 <hr>
 
@@ -687,12 +739,7 @@ define the requirements on the attributes not shown in that
 specification.  The RDF/XML specification allows xml:lang and xml:base
 and ignores others (including xml:space).  And xml:base has gone. -->
 
-<p>An <span>element</span> or <span>attribute</span> in one of
-the <span>RSS1 family namespaces</span> <em class=rfc2119>MUST
-NOT</em> be used unless it is defined by an <span>applicable
-specification</span>.<!-- This is not explicitly defined by relevant
-specifications, though one might be able to insist on this based on
-the generic rules in the HTML Standard. -->  Anything other than
+<p>Anything other than
 the <code>encoded</code> <span>element</span> <em class=rfc2119>MUST
 NOT</em> be used in the <span>RSS content namespace</span>.<!-- The
 RSS1 content module specification formally specifies several elements
@@ -757,22 +804,25 @@ for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
 be <span title=validate>validated</span> against the requirements
 for <span>RDF/XML</span>.
 
-<p>If the <span>RDF namespace</span> is <span title="supported
-namespace">supported</span>, there is no <span>unknown RDF
-element</span>.  Otherwise, an <span>element</span> is an <dfn>unknown
-RDF element</dfn> if it is in the <span>RDF namespace</span> and is
-not to be <span title=validate>validated</span> against the
-requirements for <span>RDF/XML</span> according to the requirements in
-this specification.
+<p>The <dfn title="unknown RDF element">unknown RDF elements</dfn>
+and <dfn title="unknown RDF attribute">unknown RDF attributes</dfn>
+are the <span title=element>elements</span> and
+the <span title=attribute>attributes</span>, respectively, in
+the <span>RDF namespace</span>, except for
+the <span title=element>elements</span>
+and <span title=attribute>attributes</span> implemented by
+the <span>user agent</span> and
+the <span title=element>elements</span> and
+the <span title=attribute>attributes</span> <span title=validate>validated</span>
+against the requirements for <span>RSS1</span>.
 
-<p>If the <span>RDF namespace</span> is <span title="supported
-namespace">supported</span>, there is no <span>unknown RDF
-attribute</span>.  Otherwise, an <span>attribute</span> is
-an <dfn>unknown RDF attribute</dfn> if it is in the <span>RDF
-namespace</span> and is <em>not</em> an <span>attribute</span>
-of <span>element</span> in the <span>RSS namespace</span>
-or <span>element</span> in the <span>RDF namespace</span> that is not
-an <span>unknown RDF element</span>.
+<div class=note>
+
+<p>If the <span>user agent</span> implements the <span>RDF/XML
+specification</span>, there is no <span>unknown RDF element</span>
+or <span>unknown RDF attribute</span>.
+
+</div>
 
 <div class=note>
 
@@ -795,15 +845,14 @@ an <span>element</span> in the <span>RSS1 family
 namespaces</span>.<!-- This is not explicitly described in the RSS1
 specification but is the de facto interpretation. -->
 
-<p>Any <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> be inserted as
-a <span>child</span> of an <code>channel</code>
+<p>An <span>unknown element</span> <em class=rfc2119>MAY</em> be
+inserted as a <span>child</span> of a <code>channel</code>
 or <code>item</code> <span>element</span> in the <span>RSS
 namespace</span>, as long as all of the following conditions are met:
 
   <ul>
 
-  <li>It is <em>not</em> <span>in no
+  <li>Its <span>namespace</span> is a <span>non-<code>null</code>
   namespace</span>.<!-- namespace-based extensions are allowed by RSS
   1.0 specification -->
 
@@ -831,10 +880,9 @@ namespace</span>, as long as all of the following conditions are met:
 <span>parent</span> is an <code>item</code> <span>element</span> in
 the <span>RSS namespace</span> has an <span>HTML fragment
 content</span>.<!-- de facto standard -->
-
-<p>An <code>encoded</code> <span>element</span> in the <span>RSS
-content namespace</span> has an <span>HTML fragment
-content</span>.<!-- Not explicitly defined in ths spec -->
+An <code>encoded</code> <span>element</span> in the <span>RSS content
+namespace</span> has an <span>HTML fragment content</span>.<!-- Not
+explicitly defined in ths spec -->
 
 <p>The <code>link</code> <span>element</span> in the <span>Atom
 namespace</span> <em class=rfc2119>MAY</em> be inserted as
@@ -847,22 +895,21 @@ wild -->
 <section>
 <h1>RSS2 elements</h1>
 
-<p class=section-info><em>This section is only applied
-to <span title="user agent">user agents</span>
-<span title="supported
-namespace">supporting</span> <span>RSS2</span>.</em>
+<p class=section-info><em>This section applies to <span title="user
+agent">user agents</span> implementing <span>RSS2</span>.</em>
 
 <p>An <span>element</span> is an <dfn>RSS2 element</dfn> if and only
-if it is in no namespace and either it is the <span>document
-element</span> and its <span>local name</span> is <code>rss</code> or
-one of its <span>ancestor</span> is an <span>RSS2 element</span>.
+if it is <span>in no namespace</span> and either it is
+the <span>document element</span> and its <span>local name</span>
+is <code>rss</code> or one of its <span>ancestor</span> is
+an <span>RSS2 element</span>.
 
 <div class="note memo">
 
 <p>In other words, <span>elements</span> in no
 namespace are <span>RSS2 element</span> if they belong to the main
 document tree whose <span>document element</span> is the
-<code>rss</code> element in no namespace.
+<code>rss</code> element <span>in no namespace</span>.
 
 </div>
 
@@ -880,10 +927,8 @@ or <code>http://search.yahoo.com/mrss</code>.
 <section>
 <h1>Atom elements</h1>
 
-<p class=section-info><em>This section is only applied
-to <span title="user agent">user agents</span>
-<span title="supported
-namespace">supporting</span> <span>Atom</span>.</em>
+<p class=section-info><em>This section applies to <span title="user
+agent">user agents</span> implementing <span>Atom</span>.</em>
 
 <p>Atom and its extension specifications allow extensions such that
 almost everything is allowed, which is not useful
@@ -928,11 +973,8 @@ or <span>child</span> that is not explicitly allowed by
 an <span>applicable specification</span> <em class=rfc2119>MUST
 NOT</em> be used.
 
-<p>An <span>unknown namespace
-element</span> <em class=rfc2119>MAY</em> be used as
-a <span title=child>child</span> of <dfn title="Atom extensible
-element">Atom extensible elements</dfn>,
-i.e. following <span title=element>elements</span>:
+<p><dfn title="Atom extensible element">Atom extensible elements</dfn>
+are following <span title=element>elements</span>:
 
   <ul>
 
@@ -951,6 +993,10 @@ i.e. following <span title=element>elements</span>:
   the <span>Atom 0.3 namespace</span>
 
   </ul>
+
+<p>An <span>unknown element</span> <em class=rfc2119>MAY</em> be used
+as a <span title=child>child</span> of an <span>Atom extensible
+element</span>.
 
 <p><span title=element>Elements</span> <code>complete</code>
 and <code>archive</code>

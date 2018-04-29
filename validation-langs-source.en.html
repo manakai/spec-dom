@@ -123,6 +123,7 @@ Standard</cite></a>.  The terms
 <dfn>list</dfn>,
 <dfn>code point</dfn>,
 <dfn>concatenate</dfn>,
+<dfn>ASCII case-insensitive</dfn>,
 <dfn>HTML namespace</dfn>,
 and
 <dfn>XMLNS namespace</dfn>
@@ -155,10 +156,12 @@ element</dfn>,
 <dfn>attribute</dfn>,
 <dfn title="attribute value">value</dfn>,
 <dfn>namespace</dfn> (of <span>element</span> or <span>attribute</span>),
+<dfn>prefix</dfn> (of <span>element</span> or <span>attribute</span>),
 <dfn>local name</dfn> (of <span>element</span> or <span>attribute</span>),
 <dfn>comment</dfn> (<dfn title=dom-Comment><code>Comment</code></dfn>),
 <dfn>processing instruction</dfn> (<dfn><code>ProcessingInstruction</code></dfn>),
 <dfn>template content</dfn>,
+<dfn>child text content</dfn>,
 and
 <dfn>shadow tree</dfn>
 
@@ -173,8 +176,10 @@ Terms
 <dfn>applicable specification</dfn>,
 <dfn>document base URL</dfn>,
 <dfn>inter-element whitespace</dfn>,
+<dfn>valid global date and time string</dfn>,
+<dfn>valid e-mail address</dfn>,
 and
-<dfn>valid e-mail address</dfn>
+<dfn>parse error</dfn>
 
 are defined by the <a href=https://html.spec.whatwg.org><cite>HTML
 Standard</cite></a>.
@@ -211,9 +216,10 @@ Set</cite></a> specification.
 
 <p>User agents are not required to implement other specifications, but
 are expected to follow steps defined in this specification.  For
-example, a user agent might not support XSLT, but is is still required
-to detect whether an element is interpreted per XSLT specifications or
-not as defined by this specification.
+example, a user agent might not <span title="supported
+namespace">support</span> XSLT, but is is still required to detect
+whether an element is interpreted per XSLT specifications or not as
+defined by this specification.
 
 <hr>
 
@@ -247,10 +253,6 @@ The <dfn>XSLT namespace</dfn> is
 
 
 
-
-<p>The <dfn>RSS1 namespace</dfn> is
-<code>http://purl.org/rss/1.0/</code>.
-
 <hr>
 
 <p>When a value is required to match the production labeled
@@ -263,6 +265,8 @@ XML documents.
 
 <section>
 <h1>Validation modes</h1>
+
+<p class=XXX>This seciton is at-risk.
 
 <p>A <dfn>validation mode</dfn> identify the specifications that
 describe the requirements used to <span>validate</span>
@@ -308,10 +312,7 @@ the <span>RDF/XML specification</span>.
 <dt><dfn>RSS1 mode</dfn>
 <dd>Conformance of the <span>node</span> is governed by both
 the <span>RDF/XML specification</span> and the <span>RSS1
-specifications</span>.  For the purpose of this specification,
-the <dfn>RSS1 specifications</dfn> are any <span title="applicable
-specification">applicable specifications</span> defining RSS1 and its
-modules.
+specifications</span>.
 
 </dl>
 
@@ -372,7 +373,7 @@ the <span>RDF namespace</span>:
   <li>If <var>node</var> has
   the <code>xmlns</code> <span>attribute</span> in the
   <span>XMLNS namespace</span> whose <span title="attribute
-  value">value</span> is the <span>RSS1 namespace</span> and
+  value">value</span> is the <span>RSS namespace</span> and
   the <code>rdf</code> <span>attribute</span> in the
   <span>XMLNS namespace</span> whose <span title="attribute
   value">value</span> is the <span>RDF namespace</span>,
@@ -415,7 +416,14 @@ its <span>namespace</span> is <code>null</code>.
 <p>A <span>namespace</span> which is not <code>null</code>
 is <dfn title="supported namespace">supported</dfn> if it is defined
 by a <span title="native element specifications">native element
-specification</span>.
+specification</span>.  If a <span>user
+agent</span> <span title="supported
+namespace">supports</span> <span>RSS1</span> but does
+not <span title="supported
+namespace">support</span> <span>RDF/XML</span>, the <span>RDF
+namespace</span> is not considered as <span title="supported
+namespace">supported</span> for the purpose of that <span>user
+agent</span>.
 
 <p>A <span>namespace</span> which is not <code>null</code>
 is <dfn title="unknown namespace">unknown</dfn> if it is
@@ -423,13 +431,15 @@ not <span title="supported namespace">supported</span>.
 
 <p>An <span>element</span> is <dfn>unknown namespace element</dfn> if
 its <span>namespace</span> is <span title="unknown
-namespace">unknown</span>, or it is <span>in no namespace</span> and
-is not an <span>RSS2 element</span>.
+namespace">unknown</span>, it is an <span>unknown RDF element</span>,
+or it is <span>in no namespace</span> and is not an <span>RSS2
+element</span>.
 
 <p>An <span>attribute</span> is <dfn>unknown namespace attribute</dfn>
 if its <span>namespace</span> is <span title="unknown
-namespace">unknown</span>.<!-- attribute in no namespace is not
-unknown namespace attribute -->
+namespace">unknown</span> or it is an <span>unknown RDF
+attribute</span>.<!-- attribute in no namespace is not unknown
+namespace attribute -->
 
 <hr>
 
@@ -536,6 +546,8 @@ error.
 <section>
 <h1>RDF/XML integration</h1>
 
+<p class=XXX>This seciton is at-risk.
+
 <p class=XXX>This section is work in progress.
 
 <p class=section-info><em>This section is only applied
@@ -559,8 +571,6 @@ are defined by the <span>RDF/XML specification</span>.  The term
 is defined by the
 <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-concepts/index.html><cite>RDF
 1.1 Concepts and Abstract Syntax</cite></a> specification.
-The <dfn>RDF namespace</dfn>
-is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
 
 
 <!-- XXX need to define how to use these steps -->
@@ -781,7 +791,233 @@ configurations:
 </section>
 
 <section>
-<h2>RSS elements</h2>
+<h1>RSS1 elements</h1>
+
+<p class=section-info><em>This section is only applied
+to <span title="user agent">user agents</span>
+<span title="supported
+namespace">supporting</span> <span>RSS1</span>.</em>
+
+<p>The <dfn>RSS1 specification</dfn> is
+<a href=http://web.resource.org/rss/1.0/spec><cite>RDF Site Summary
+(RSS) 1.0</cite></a>.
+
+<p>The <dfn>RDF namespace</dfn>
+is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
+
+<p>The <dfn>RSS namespace</dfn>
+is <code>http://purl.org/rss/1.0/</code>.
+
+<p>The <dfn>Dublin Core namespace</dfn> is
+<a href=http://web.resource.org/rss/1.0/modules/dc/><!-- which
+references http://dublincore.org/documents/dces/
+--><code>http://purl.org/dc/elements/1.1/</code></a>.
+
+<p>The <dfn>RSS content namespace</dfn> is
+<a href=http://web.resource.org/rss/1.0/modules/content/><code>http://purl.org/rss/1.0/modules/content/</code></a>.
+
+<p>The <dfn>Hatena namespace</dfn> is
+<a href=http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns><code>http://www.hatena.ne.jp/info/xmlns#</code></a>.
+
+<p>The <dfn>RSS1 family namespaces</dfn> are 
+the <span>RSS namespace</span>,
+the <span>Dublin Core namespace</span>,
+the <span>RSS content namespace</span>,
+and
+the <span>Hatena namespace</span>.
+
+<div class=note>
+
+<p>These are <span title=namespace>namespaces</span> supported by the
+<a href=https://wiki.suikawiki.org/n/Feed%20Parsing><cite>Feed
+Parsing</cite></a> specification for interpreting <span>RSS1</span>
+documents.
+
+</div>
+
+<p>An <span>element</span> in one of the <span>RSS1 family
+namespaces</span> <em class=rfc2119>MUST</em> conform to the
+descriptions of it in the <span title="applicable
+specification">relevant specifications</span> (and this
+specification).  Especially, the <span>content</span> of
+an <span>element</span> in the <span>RSS
+namespace</span> <em class=rfc2119>MUST</em> conform to
+the <i>Model</i> of the <span>element</span> in the <span>RSS1
+specification</span>.
+
+<p>An <span>element</span> in one of the <span>RSS1 family
+namespaces</span> <em class=rfc2119>MAY</em> have
+an <span>attribute</span> which is shown in <i>Syntax</i> or prose in
+the <span title="applicable specification">relevant
+specifications</span>, as well as
+the <code>lang</code> <span>attribute</span> in the <span>XML
+namespace</span> and <span title=attribute>attributes</span> in
+the <span>XMLNS namespace</span>.
+Other <span title=attribute>attributes</span> <em class=rfc2119>MUST
+NOT</em> be specified.<!-- The RSS1 specification does not explicitly
+define the requirements on the attributes not shown in that
+specification.  The RDF/XML specification allows xml:lang and xml:base
+and ignores others (including xml:space).  And xml:base has gone. -->
+
+<p>An <span>element</span> or <span>attribute</span> in one of
+the <span>RSS1 family namespaces</span> <em class=rfc2119>MUST
+NOT</em> be used unless it is defined by an <span>applicable
+specification</span>.<!-- This is not explicitly defined by relevant
+specifications, though one might be able to insist on this based on
+the generic rules in the HTML Standard. -->  Anything other than
+the <code>encoded</code> <span>element</span> <em class=rfc2119>MUST
+NOT</em> be used in the <span>RSS content namespace</span>.<!-- The
+RSS1 content module specification formally specifies several elements
+no one has been using and contains a "draft" of the content:encoded
+element which is a de facto standard.  -->
+
+<hr>
+
+<p>An <span>element</span> is an <dfn>RSS 1.0 <code>rdf:RDF</code>
+element</dfn> if:
+
+  <ul>
+
+  <li>Its <span>prefix</span> is <code>rdf</code>,
+
+  <li>Its <span>namespace</span> is the <span>RDF namespace</span>,
+
+  <li>Its <span>local name</span> is <code>RDF</code>, and
+
+  <li>Either:
+
+    <ul>
+
+    <li>Its <span>parent</span> is a <span>document</span> whose
+    <span>content type</span> is <code>application/rss+xml</code>, or
+
+    <li>It has an <code>xmlns</code> <span>attribute</span> in
+    the <span>XMLNS namespace</span> whose <span title="attribute
+    value">value</span> is the <span>RSS namespace</span> and
+    an <code>rdf</code> <span>attribute</span> in the <span>XMLNS
+    namespace</span><!-- xmlns:rdf --> whose <span title="attribute
+    value">value</span> is the <span>RDF namespace</span>.
+
+    </ul>
+
+  </ul>
+
+<p>If an <code>RDF</code> <span>element</span> in the 
+<span>RDF namespace</span> is an <span>RSS 1.0 <code>rdf:RDF</code>
+element</span>, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RDF/XML</span>.
+
+<p>If a <code>Seq</code> <span>element</span> in the <span>RDF
+namespace</span> is a <span>child</span> of
+an <code>items</code> <span>element</span> in the <span>RSS1
+namespace</span>, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RDF/XML</span>.
+
+<p>If an <code>li</code> <span>element</span> in the <span>RDF
+namespace</span> is a <span>child</span> of
+a <code>Seq</code> <span>element</span> in the <span>RDF
+namespace</span> that is <span title=validate>validated</span> against
+the requirements for <span>RSS1</span>, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RDF/XML</span>.
+
+<p>If the <span>RDF namespace</span> is <span title="supported
+namespace">supported</span>, there is no <span>unknown RDF
+element</span>.  Otherwise, an <span>element</span> is an <dfn>unknown
+RDF element</dfn> if it is in the <span>RDF namespace</span> and is
+not to be <span title=validate>validated</span> against the
+requirements for <span>RDF/XML</span> according to the requirements in
+this specification.
+
+<p>If the <span>RDF namespace</span> is <span title="supported
+namespace">supported</span>, there is no <span>unknown RDF
+attribute</span>.  Otherwise, an <span>attribute</span> is
+an <dfn>unknown RDF attribute</dfn> if it is in the <span>RDF
+namespace</span> and is <em>not</em> an <span>attribute</span>
+of <span>element</span> in the <span>RSS namespace</span>
+or <span>element</span> in the <span>RDF namespace</span> that is not
+an <span>unknown RDF element</span>.
+
+<div class=note>
+
+<p>Though the <span>RSS1 specification</span> references
+the <span>RDF/XML specification</span>, a <span>user agent</span> can
+implement the <span title=validate>validation</span> by just
+implementing the requirements in the <span>RSS1 specification</span>
+and this specification, ignoring the <span>RDF/XML
+specification</span>.
+
+</div>
+
+<hr>
+
+<p><span title=comment>Comments</span>, <span title="inter-element
+whitespace">inter-element whitespaces</span>, and
+<span title="processing instruction">processing
+instructions</span> <em class=rfc2119>MAY</em> be inserted anywhere in
+an <span>element</span> in the <span>RSS1 family
+namespaces</span>.<!-- This is not explicitly described in the RSS1
+specification but is the de facto interpretation. -->
+
+<p>Any <span>unknown namespace
+element</span> <em class=rfc2119>MAY</em> be inserted as
+a <span>child</span> of an <code>channel</code>
+or <code>item</code> <span>element</span> in the <span>RSS
+namespace</span>, as long as all of the following conditions are met:
+
+  <ul>
+
+  <li>It is <em>not</em> <span>in no
+  namespace</span>.<!-- namespace-based extensions are allowed by RSS
+  1.0 specification -->
+
+  <li>Its <span>namespace</span> is <em>not</em> the <span>RDF
+  namespace</span>.<!-- to conform to RDF/XML specification -->
+
+  <li>If its <span>prefix</span> is <code>null</code>, its <span>local
+  name</span> does not start with <code>xml</code> (<span>ASCII
+  case-insensitive</span>).<!-- to avoid to be ignored by RDF/XML
+  processing -->
+
+  <li>Its <span>prefix</span> does not start with <code>xml</code>
+  (<span>ASCII case-insensitive</span>).<!-- to avoid to be ignored by
+  RDF/XML processing -->
+
+  <li>There is no <span>sibling</span> <span>element</span> with
+  same <span>namespace</span> and <span>local name</span> pair.<!-- to
+  conform RSS 1.0 extensibility rule -->
+
+  </ul>
+
+<hr>
+
+<p>A <code>description</code> <span>element</span> in the <span>RSS namespace</span> whose
+<span>parent</span> is an <code>item</code> <span>element</span> in
+the <span>RSS namespace</span> has an <span>HTML fragment
+content</span>.<!-- de facto standard -->
+
+<p>An <code>encoded</code> <span>element</span> in the <span>RSS
+content namespace</span> has an <span>HTML fragment
+content</span>.<!-- Not explicitly defined in ths spec -->
+
+<p>The <code>link</code> <span>element</span> in the <span>Atom
+namespace</span> <em class=rfc2119>MAY</em> be inserted as
+a <span>child</span> of a <code>channel</code> <span>element</span> in
+the <span>RSS namespace</span>.<!-- no spec but sometimes used in the
+wild -->
+
+</section>
+
+<section>
+<h2>RSS2 elements</h2>
 
 <p>An <span>element</span> is an <dfn>RSS2 element</dfn> if and only
 if it is in no namespace and either it is the <span>document
@@ -802,24 +1038,35 @@ described by RSS2 specifications <cite class="bibref normative">[<a
 href="#ref-RSS2">RSS2</a>]</cite> <cite class="bibref normative">[<a
 href="#ref-RSSPROFILE">RSSPROFILE</a>]</cite>.
 
+<p>The <dfn>Media RSS namespace</dfn>
+is <code>http://search.yahoo.com/mrss/</code>
+or <code>http://search.yahoo.com/mrss</code>.
+
 </section>
 
 <section>
-<h2>Atom elements</h2>
+<h1>Atom elements</h1>
 
 <p>Atom and its extension specifications allow extensions such that
-almost everything is allowed, which is not useful for conformance
-checker.  This specification defines stricter restrictions for the
-purpose of conformance checking.
+almost everything is allowed, which is not useful
+for <span title=validator>validators</span>.  This specification
+defines stricter restrictions for the purpose
+of <span title=validate>validation</span>.
+
+<p>The <dfn>Atom namespace</dfn>
+is <a href="http://tools.ietf.org/html/rfc4287"><code>http://www.w3.org/2005/Atom</code></a>.
 
 <p><dfn>Atom family namespaces</dfn> are
 <a href="https://github.com/mnot/I-D/blob/master/Published/atom-format/draft-nottingham-atom-format-02.xml"><code>http://purl.org/atom/ns#</code></a>,
-<a href="http://tools.ietf.org/html/rfc4287"><code>http://www.w3.org/2005/Atom</code></a>,
+the <span>Atom namespace</span>,
 <a href="http://tools.ietf.org/html/rfc4685"><code>http://purl.org/syndication/thread/1.0</code></a>,
 <a href="https://tools.ietf.org/html/rfc5005"><code>http://purl.org/syndication/history/1.0</code></a>,
 <a href="https://tools.ietf.org/html/rfc5023"><code>http://www.w3.org/2007/app</code></a>,
 and
 <a href="http://tools.ietf.org/html/rfc6721"><code>http://purl.org/atompub/tombstones/1.0</code></a>.
+<!--
+and Dublin Core namespace, Media RSS namespace
+-->
 
 <p>An <dfn>Atom family element</dfn> is an <span>element</span> in one
 of <span>Atom family namespaces</span>.
@@ -828,104 +1075,89 @@ of <span>Atom family namespaces</span>.
 title="applicable specification">applicable specifications</span> for
 <span>Atom family namespaces</span> are to be interpreted as <em
 class=rfc2119>MUST</em>-level requirements for the purpose of
-conformance checking.
+<span title=validate>validation</span>.
 
 <p><span title=comment>Comments</span>, <span title="inter-element
 whitespace">inter-element whitespaces</span>, and
-<span>processing instructions</span> <em class=rfc2119>MAY</em> be
-inserted anywhere in an <span>Atom family element</span>.
+<span title="processing instruction">processing
+instructions</span> <em class=rfc2119>MAY</em> be inserted anywhere in
+an <span>Atom family element</span>.
 
 <p>For an <span>Atom family element</span>, an <span>attribute</span>
-or <spanchild>child</span> that is not explicitly allowed by
+or <span>child</span> that is not explicitly allowed by
 an <span>applicable specification</span> <em class=rfc2119>MUST
 NOT</em> be used.
 
 <p>An <span>unknown namespace
 element</span> <em class=rfc2119>MAY</em> be used as
 a <span title=child>child</span> of <dfn title="Atom extensible
-element">Atom extensible elements</dfn>, i.e. following elements:
+element">Atom extensible elements</dfn>,
+i.e. following <span title=element>elements</span>:
 
   <ul>
 
   <li><span title="Atom family element">Atom family elements</span>
   which allow <span title="extension element">extension
-  elements</span>, <code>extensionElement</code>, or
-  <code>extensionSansTitleElement</code> in content
+  elements</span>, <code>extensionElement</code>,
+  or <code>extensionSansTitleElement</code> in <span>content</span>
 
-  <li><code>deleted-entry</code> elements in namespace
-  <code>http://purl.org/atompub/tombstones/1.0</code>
+  <li><code>deleted-entry</code> <span title=element>elements</span>
+  in <span>namespace</span> <code>http://purl.org/atompub/tombstones/1.0</code>
 
-  <li><code>feed</code> elements in namespace
-  <code>http://purl.org/atom/ns#</code>
+  <li><code>feed</code> <span title=element>elements</span>
+  in <span>namespace</span> <code>http://purl.org/atom/ns#</code>
 
-  <li><code>entry</code> elements in namespace
-  <code>http://purl.org/atom/ns#</code>
+  <li><code>entry</code> <span title=element>elements</span>
+  in <span>namespace</span> <code>http://purl.org/atom/ns#</code>
 
   </ul>
 
-<p>If the content of an <span>Atom family element</span> is defined as
-HTML or XHTML fragment, it <em class=rfc2119>MUST</em> conform to
-relevant requirements in <span title="applicable
-specification">applicable specifications</span>, using the rules for
-<span title="HTML document">HTML</span> or <span title="XHTML
-document">XHTML documents</span>, respectively.<!-- SHOULD in RFC
-4287; HTML4 and XHTML1 in RFC 4287 -->
+<p><span title=element>Elements</span> <code>complete</code>
+and <code>archive</code>
+in <span>namespace</span> <code>http://purl.org/syndication/history/1.0</code> <em class=rfc2119>MUST
+NOT</em> be used more than once in
+a <code>feed</code> <span>element</span> in the <span>Atom
+namespace</span>.
 
-<p>Elements <code>complete</code> and <code>archive</code> in
-namespace <code>http://purl.org/syndication/history/1.0</code> <em
-class=rfc2119>MUST NOT</em> be used more than once in an
-<code>feed</code> element in namespace
-<code>http://www.w3.org/2005/Atom</code>.
+<p class=XXX>need to define &lt;atom:content> content validation when
+type is a MIME type
 
-<p>Concepts used to describe constraints for <span title="Atom family
-element">Atom family elements</span> <em class=rfc2119>MUST</em> be
-interpreted as following:
+<hr>
 
-  <dl class=switch>
+<p>The <code>group</code>
+and <code>thumbnail</code> <span>element</span> in the <span>Media RSS
+namespace</span> <em class=rfc2119>MAY</em> be inserted as
+a <span>child</span> of an <code>entry</code> <span>element</span> in
+the <span>Atom namespace</span>.<!-- no spec but sometimes used in the
+wild -->
 
-  <dt>RFC 3066 language tag
-  <dd><span>Valid language tag</span>
-
-  <dt>URI
-  <dt>IRI
-  <dt>IRI reference
-  <dd><span>Valid URL</span> (If IRI and IRI reference are
-  distinguished, <span>valid absolute URL</span> and <span>valid
-  URL</span>, respectively.)
-
-  <dt>Media type
-  <dt>MIME media type
-  <dd><span>Valid MIME type</span>
-
-  <dt><code>addr-spec</code>
-  <dt>E-mail address
-  <dd><span>Valid e-mail address</span>
-
-  <dt>W3C Date-Time string
-  <dd>Same as element content of <span>Date construct</span>
-
-  </dl>
-
-<p class=ed>XXX need to define &lt;atom:content> content validation
-when type is a MIME type
+<!--
+dc:subject is redundant with atom:category
+<p>The <code>subject</code> <span>element</span> in the <span>Dublin
+Core namespace</span> <em class=rfc2119>MAY</em> be inserted as
+a <span>child</span> of an <code>entry</code> <span>element</span> in
+the <span>Atom namespace</span>.< !-- no spec but sometimes used in the
+wild -->
 
 </section>
 
 <section>
-<h2>OGP</h2>
+<h1>OGP</h1>
 
-<p>An HTML <code>meta</code> element <em class=rfc2119>MAY</em> have a
-<dfn title=attr-meta-property><code>property</code></dfn> attribute.
+<p>A <code>meta</code> <span>element</span> in the <span>HTML
+namespace</span> <em class=rfc2119>MAY</em> have
+a <dfn title=attr-meta-property><code>property</code></dfn> <span>attribute</span>.
 If the attribute is specified, the element <em class=rfc2119>MUST
 NOT</em> have a <code title=attr-meta-name>name</code> attribute or an
-attribute that cannot be used when a <code
-title=attr-meta-name>name</code> attribute is specified.  The <code
-title=attr-meta-content>content</code> attribute <em
-class=rfc2119>MUST</em> be specified if a <code
-title=attr-meta-property>property</code> attribute is specified.  An
-HTML <code>meta</code> element with <code
-title=attr-meta-property>property</code> attribute is <span>metadata
-content</span> (it is not a <span>phrasing content</span>).
+attribute that cannot be used when
+a <code title=attr-meta-name>name</code> attribute is specified.
+The <code title=attr-meta-content>content</code>
+attribute <em class=rfc2119>MUST</em> be specified if
+a <code title=attr-meta-property>property</code> attribute is
+specified.  An HTML <code>meta</code> element
+with <code title=attr-meta-property>property</code> attribute
+is <span>metadata content</span> (it is not a <span>phrasing
+content</span>).
 
 <p>The value of a <code title=attr-meta-property>property</code>
 attribute <em class=rfc2119>MUST</em> be an <span>OGP property
@@ -1047,7 +1279,80 @@ element</span>.  Report an "unknown element" warning.
 </section>
 
 <section>
-<h2>Data</h2>
+<h1>Data type validation</h1>
+
+<p>This section defines how to interpret old unmaintained
+specifications for the purpose
+of <span title=validate>validation</span>.
+
+<p>When an <span>element</span>'s <span>content</span> or
+an <span>attribute</span> is defined to be one of the following
+constructs, the <span>element</span>'s <span>child text content</span>
+or the <span>attribute value</span> <em class=rfc2119>MUST</em> be
+conform to the corresponding consturct instead:
+
+  <dl class=switch>
+
+  <dt>An RFC 3066 language tag
+  <dd>A <span>valid language tag</span>.
+  <!-- Atom family -->
+
+  <dt>A URL (without referencing the
+  latest <a href="http://url.spec.whatwg.org/"><cite>URL
+  Standard</cite></a>)
+  <dt>A URI
+  <dt>An IRI
+  <dt>An IRI reference
+  <dd>A <span>valid URL</span>. (If IRI and IRI reference are
+  distinguished, a <span>valid absolute URL</span> and a <span>valid
+  URL</span>, respectively.)
+  <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
+  hatena:imageurlsmall, Atom family -->
+
+  <dt>A media type
+  <dt>A MIME media type
+  <dd>A <span>valid MIME type</span>.
+  <!-- Atom family -->
+
+  <dt>An <code>addr-spec</code>
+  <dt>An e-mail address
+  <dd>A <span>valid e-mail address</span>.
+  <!-- Atom family -->
+
+  <dt>An HTML markup
+  <dd>An <span>HTML fragment content</span>.
+  <!-- rss:description in rss:item, content:encoded,
+  hatena:formatted-content -->
+
+  <!--
+  <dt>A W3C Date-Time string
+  <dt>A W3CDTF
+  <dd>As is.
+  dc:date, Atom family
+  -->
+
+  </dl>
+
+<p>If the <span>content</span> of an <span>Atom family element</span>
+is defined as HTML or XHTML fragment, it <em class=rfc2119>MUST</em>
+conform to the relevant requirements in <span title="applicable
+specification">applicable specifications</span>, using the rules for
+<span title="HTML document">HTML</span> or <span title="XHTML
+document">XHTML documents</span>, respectively.<!-- SHOULD in RFC
+4287; HTML4 and XHTML1 in RFC 4287 -->
+
+<p>When an <span>element</span> has
+<dfn>HTML fragment content</dfn>, setting its <span>child text
+content</span> to a new
+<code>div</code> <span>element</span> in the <span>HTML
+namespace</span> <em class=rfc2119>MUST NOT</em> generate
+a <span>parse error</span> or create a
+non-conforming <span>tree</span>.
+
+</section>
+
+<section>
+<h1>Data</h1>
 
 <p class=section-info><em>This section is non-normative.</em>
 

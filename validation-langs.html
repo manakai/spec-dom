@@ -284,7 +284,7 @@ XML documents.
 
 </p><p>A <dfn id=validation-mode>validation mode</dfn> identify the specifications that
 describe the requirements used to <span>validate</span>
-a <a href=#node>node</a>.  There are five <a href=#validation-mode title="validation
+a <a href=#node>node</a>.  There are three <a href=#validation-mode title="validation
 mode">modes</a>:
 
 </p><dl class=switch>
@@ -322,11 +322,6 @@ elements</a>.
 </dd><dt><dfn id=rdf-mode>RDF mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by
 the <a href=#rdf/xml-specification>RDF/XML specification</a>.
-
-</dd><dt><dfn id=rss1-mode>RSS1 mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by both
-the <a href=#rdf/xml-specification>RDF/XML specification</a> and the <span>RSS1
-specifications</span>.
 
 </dd></dl>
 
@@ -370,8 +365,8 @@ type</a>:
 node</var> to the result of <a href=#determine-the-validation-mode title="determine the validation
 mode">determining the validation mode</a> of <var>parent</var>.
 
-</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <a href=#rss1-mode>RSS1
-mode</a> and <var>parent</var> is an <a href=#xml-literal>XML literal</a>,
+</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <span>RSS1
+mode</span> and <var>parent</var> is an <a href=#xml-literal>XML literal</a>,
 set <var>parent mode</var> to <a href=#default-mode>default mode</a>.
 
 </li><li>If <var>node</var> is an <a href=#xslt-family-element>XSLT family element</a>, or if
@@ -391,14 +386,14 @@ the <a href=#rdf-namespace>RDF namespace</a>:
   the <code>rdf</code> <a href=#attribute>attribute</a> in the
   <a href=#xmlns-namespace>XMLNS namespace</a> whose <a href=#attribute-value title="attribute
   value">value</a> is the <a href=#rdf-namespace>RDF namespace</a>,
-  return <a href=#rss1-mode>RSS1 mode</a> and abort these steps.
+  return <a href=#default-mode>default mode</a> and abort these steps.
 
   </li><li>Otherwise, return <a href=#rdf-mode>RDF mode</a> and abort these steps.
 
   </li></ol>
 
-</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <a href=#rss1-mode>RSS1
-mode</a> and <var>node</var> is considered as matching to a part of
+</li><li>If <var>parent mode</var> is <a href=#rdf-mode>RDF mode</a> or <span>RSS1
+mode</span> and <var>node</var> is considered as matching to a part of
 the current production in the
 <a href=https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#section-Data-Model>RDF/XML
 Syntax Data Model</a>, return
@@ -1213,10 +1208,12 @@ to <a href=#xslt-specifications>XSLT specifications</a>.
 whether the element is allowed as the <a href=#document-element-0>document element</a>
 according to RDF/XML specification.
 
-</li><li>Otherwise, if the element is in the <a href=#rss1-mode>RSS1 mode</a>, in a
-<a href=#supported-namespace>supported namespace</a>, or an <a href=#rss2-element>RSS2 element</a>,
-return whether the element is allowed as the <a href=#document-element-0>document
-element</a> by an <a href=#applicable-specification>applicable specification</a>.
+</li><li>Otherwise, if the element is  in a
+<a href=#supported-namespace>supported namespace</a>, is a <a href=#rss-1.0-rdf:rdf-element>RSS
+1.0 <code>rdf:RDF</code> element</a>, or is an <a href=#rss2-element>RSS2
+element</a>, return whether the element is allowed as
+the <a href=#document-element-0>document element</a> by an <a href=#applicable-specification>applicable
+specification</a>.
 
 </li><li>Otherwise, the element is an <a href=#unknown-namespace-element>unknown namespace
 element</a>.  Return true.
@@ -1245,12 +1242,8 @@ according to <a href=#xslt-specifications>XSLT specifications</a>.
 </li><li>Otherwise, if <var>mode</var> is <a href=#rdf-mode>RDF mode</a>, check the
 element according to the RDF/XML specification.
 
-</li><li>Otherwise, if <var>mode</var> is <a href=#rss1-mode>RSS1 mode</a>, check the
-element according to the RDF/XML specification and <span>RSS1
-specifications</span>.
-
-</li><li>Otherwise, if the element is in a <a href=#supported-namespace>supported namespace</a>
-or is an <a href=#rss2-element>RSS2 element</a>:
+</li><li>Otherwise, if the element is <em>not</em> an <a href=#unknown-namespace-element>unknown
+namespace element</a>:
 
   <ol>
 

@@ -270,7 +270,7 @@ XML documents.
 
 <p>A <dfn>validation mode</dfn> identify the specifications that
 describe the requirements used to <span>validate</span>
-a <span>node</span>.  There are five <span title="validation
+a <span>node</span>.  There are three <span title="validation
 mode">modes</span>:
 
 <dl class=switch>
@@ -308,11 +308,6 @@ elements</span>.
 <dt><dfn>RDF mode</dfn>
 <dd>Conformance of the <span>node</span> is governed by
 the <span>RDF/XML specification</span>.
-
-<dt><dfn>RSS1 mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by both
-the <span>RDF/XML specification</span> and the <span>RSS1
-specifications</span>.
 
 </dl>
 
@@ -377,7 +372,7 @@ the <span>RDF namespace</span>:
   the <code>rdf</code> <span>attribute</span> in the
   <span>XMLNS namespace</span> whose <span title="attribute
   value">value</span> is the <span>RDF namespace</span>,
-  return <span>RSS1 mode</span> and abort these steps.
+  return <span>default mode</span> and abort these steps.
 
   <li>Otherwise, return <span>RDF mode</span> and abort these steps.
 
@@ -1222,10 +1217,12 @@ to <span>XSLT specifications</span>.
 whether the element is allowed as the <span>document element</span>
 according to RDF/XML specification.
 
-<li>Otherwise, if the element is in the <span>RSS1 mode</span>, in a
-<span>supported namespace</span>, or an <span>RSS2 element</span>,
-return whether the element is allowed as the <span>document
-element</span> by an <span>applicable specification</span>.
+<li>Otherwise, if the element is  in a
+<span>supported namespace</span>, is a <span>RSS
+1.0 <code>rdf:RDF</code> element</span>, or is an <span>RSS2
+element</span>, return whether the element is allowed as
+the <span>document element</span> by an <span>applicable
+specification</span>.
 
 <li>Otherwise, the element is an <span>unknown namespace
 element</span>.  Return true.
@@ -1254,12 +1251,8 @@ according to <span>XSLT specifications</span>.
 <li>Otherwise, if <var>mode</var> is <span>RDF mode</span>, check the
 element according to the RDF/XML specification.
 
-<li>Otherwise, if <var>mode</var> is <span>RSS1 mode</span>, check the
-element according to the RDF/XML specification and <span>RSS1
-specifications</span>.
-
-<li>Otherwise, if the element is in a <span>supported namespace</span>
-or is an <span>RSS2 element</span>:
+<li>Otherwise, if the element is <em>not</em> an <span>unknown
+namespace element</span>:
 
   <ol>
 

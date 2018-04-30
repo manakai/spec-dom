@@ -63,7 +63,8 @@ p {
   white-space: pre;
 }
 
-.note i {
+.note i,
+.note cite {
   font-style: normal;
 }
 

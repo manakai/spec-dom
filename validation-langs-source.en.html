@@ -147,6 +147,21 @@ and
 are defined by the <a href=https://infra.spec.whatwg.org/><cite>Infra
 Standard</cite></a>.
 
+
+<p>The terms
+<dfn>valid URL string</dfn>
+and
+<dfn>absolute-URL-with-fragment string</dfn>
+are defined by <a href="https://url.spec.whatwg.org/"><cite>URL
+Standard</cite></a>.
+
+<p>The term <dfn>valid MIME type</dfn> is defined
+by <a href="https://mimesniff.spec.whatwg.org/"><cite>MIME Sniffing
+Standard</cite></a>.
+
+<p>The term <dfn>valid language tag</dfn> is defined
+by <a href="https://tools.ietf.org/html/bcp47">BCP 47</a>.
+
 <p>For the purpose of this specification, <dfn title="user agent">user
 agents</dfn> are <span title="conformance checker">conformance
 checkers</span>, also known
@@ -157,6 +172,7 @@ as <span title=validator>validators</span>.
 the <a href="https://dom.spec.whatwg.org/"><cite>DOM
 Standard</cite></a>.  Terms
 
+<dfn>tree</dfn>,
 <dfn>child</dfn>, 
 <dfn>parent</dfn>,
 <dfn>ancestor</dfn>,
@@ -199,6 +215,7 @@ Terms
 <dfn>valid global date and time string</dfn>,
 <dfn>valid e-mail address</dfn>,
 <dfn>parse a URL</dfn>,
+<dfn><code>div</code></dfn>,
 and
 <dfn>parse error</dfn>
 
@@ -208,25 +225,10 @@ Standard</cite></a>.
 <p>An <span>element</span> or <span>attribute</span> is <dfn>in no
 namespace</dfn> <!-- or <dfn>in null namespace</dfn> --> if
 its <span>namespace</span> is <code>null</code>.
-
-<p>A <dfn>non-<code>null</code> namespace</dfn> is
+A <dfn>non-<code>null</code> namespace</dfn> is
 a <span>namespace</span> that is <em>not</em> <code>null</code>.
 
 <hr>
-
-<p>The terms <dfn>valid URL</dfn> and <dfn>valid absolute URL</dfn>
-are defined by <a href="http://url.spec.whatwg.org/">URL Standard</a>
-as <i>URL</i> and <i>absolute URL</i>, respectively.
-
-<p>The term <dfn>valid MIME type</dfn> is defined by <a
-href="http://mimesniff.spec.whatwg.org/">MIME Sniffing Standard</a> as
-<i>parsable MIME type</i>.
-
-The <dfn><code>utf-8</code></dfn> character encoding is defined by <a
-href="http://encoding.spec.whatwg.org/">Encoding Standard</a>.
-
-<p>The term <dfn>valid language tag</dfn> is defined by <a
-href="http://tools.ietf.org/html/bcp47">BCP 47</a>.
 
 <p>The term
 
@@ -298,96 +300,118 @@ conform to the corresponding consturct instead:
 
   <dl class=switch>
 
-  <dt>A text that <em class=rfc2119>SHOULD</em> be interpreted as
-  plain text<!-- RSS2 -->
-  <dd>A text
+  <div>
+    <dt>A text that <em class=rfc2119>SHOULD</em> be interpreted as
+    plain text<!-- RSS2 -->
+    <dd><p>A text.
+  </div>
 
-  <dt>A number<!-- RSS2, MediaRSS -->
-  <dt>A number value<!-- iTunes -->
-  <dt>A count<!-- MediaRSS -->
-  <dt>A value in pixels<!-- RSS2 -->
-  <dt>A value in bytes<!-- RSS2 -->
-  <dt>A non-negative integer<!-- RSS2 -->
-  <dt>A non-zero integer<!-- iTunes -->
-  <dt>A kilobits per second rate<!-- MediaRSS -->
-  <dt>A height<!-- MediaRSS -->
-  <dt>A width<!-- MediaRSS -->
-  <dd>A <span>valid non-negative integer</span>
+  <div>
+    <dt>A number<!-- RSS2, MediaRSS -->
+    <dt>A number value<!-- iTunes -->
+    <dt>A count<!-- MediaRSS -->
+    <dt>A value in pixels<!-- RSS2 -->
+    <dt>A value in bytes<!-- RSS2 -->
+    <dt>A non-negative integer<!-- RSS2 -->
+    <dt>A non-zero integer<!-- iTunes -->
+    <dt>A kilobits per second rate<!-- MediaRSS -->
+    <dt>A height<!-- MediaRSS -->
+    <dt>A width<!-- MediaRSS -->
+    <dd><p>A <span>valid non-negative integer</span>.
+  </div>
 
-  <dt>An RFC 1766 language tag<!-- HTML4 referenced by RSS2 -->
-  <dt>An RFC 3066 language tag<!-- Atom family, MediaRSS -->
-  <dd>A <span>valid language tag</span>.
+  <div>
+    <dt>An RFC 1766 language tag<!-- HTML4 referenced by RSS2 -->
+    <dt>An RFC 3066 language tag<!-- Atom family, MediaRSS -->
+    <dd><p>A <span>valid language tag</span>.
+  </div>
 
-  <dt>A URL (without referencing the
-  latest <a href="http://url.spec.whatwg.org/"><cite>URL
-  Standard</cite></a>)<!-- RSS1, RSS2, MediaRSS, iTunes -->
-  <dt>A url
-  <dt>A URL with a scheme defined by the IANA Registry of URI
-  Schemes<!-- RSS2 -->
-  <dt>A URI
-  <dt>An IRI
-  <dt>An IRI reference
-  <dd>A <span>valid URL</span>. (If IRI and IRI reference are
-  distinguished, a <span>valid absolute URL</span> and a <span>valid
-  URL</span>, respectively.)
-  <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
-  hatena:imageurlsmall, Atom family -->
+  <div>
+    <dt>A URL (without referencing the
+    latest <a href="http://url.spec.whatwg.org/"><cite>URL
+    Standard</cite></a>)<!-- RSS1, RSS2, MediaRSS, iTunes -->
+    <dt>A url
+    <dt>A URL with a scheme defined by the IANA Registry of URI
+    Schemes<!-- RSS2 -->
+    <dt>A URI
+    <dt>An IRI
+    <dt>An IRI reference
+    <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
+    hatena:imageurlsmall, Atom family -->
+    <dd><p>A <span>valid URL string</span>.
 
-  <dt>A media type
-  <dt>A MIME media type
-  <!-- Atom family -->
-  <dt>A standard MIME type<!-- RSS2, MediaRSS -->
-  <dd>A <span>valid MIME type</span>.
+    <p>If IRI and IRI reference are distinguished and is identified as
+    an IRI, it <em class=rfc2119>MUST</em> also be
+    an <span>absolute-URL-with-fragment string</span>.
 
-  <dt>An <code>addr-spec</code>
-  <dt>An e-mail address
-  <!-- Atom family -->
-  <dt>An email address<!-- iTunes -->
-  <dd>A <span>valid e-mail address</span>.
+    <p>To interpret a string, the rules to <span>parse a
+    URL</span> <em class=rfc2119>MUST</em> be used with the <span>node
+    document</span> of the <span>node</span> in which the string
+    appears.
 
-  <dt>An email address in the <span>RSS2 specifications</span>
-  <dt>A string in the
-  <a href=http://www.rssboard.org/rss-profile#data-types-email><em class=rfc2119>RECOMMENDED</em>
-  format for e-mail addresses</a>.
+    <div class=note>
 
-  <dt>HTML<!-- <media:title type=html> -->
-  <dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
-  <dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
-  that it could validly appear directly within an
-  HTML <code>div</code> element<!-- Atom type=html -->
-  <dt>A text suitable for presentation as HTML<!-- RSS2 -->
-  <dd>An <span>HTML fragment content</span>.
+    <p>The <cite>XML Base</cite> specification and
+    the <code>xml:base</code> <span>attribute</span> are
+    obsolete.<!-- referenced by some Atom family element specification
+    -->
+
+    </div>
+  </div>
+
+  <div>
+    <dt>A media type
+    <dt>A MIME media type
+    <!-- Atom family -->
+    <dt>A standard MIME type<!-- RSS2, MediaRSS -->
+    <dd><p>A <span>valid MIME type</span>.
+  </div>
+
+  <div>
+    <dt>An <code>addr-spec</code>
+    <dt>An e-mail address
+    <!-- Atom family -->
+    <dt>An email address<!-- iTunes -->
+    <dd><p>A <span>valid e-mail address</span>.
+  </div>
+
+  <div>
+    <dt>An email address in the <span>RSS2 specifications</span>
+    <dd><p>A string in the
+    <a href=http://www.rssboard.org/rss-profile#data-types-email><em class=rfc2119>RECOMMENDED</em>
+    format for e-mail addresses</a>.
+  </div>
+
+  <div>
+    <dt>HTML<!-- <media:title type=html> -->
+    <dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
+    <dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
+    that it could validly appear directly within an
+    HTML <code>div</code> element<!-- Atom type=html -->
+    <dt>A text suitable for presentation as HTML<!-- RSS2 -->
+    <dd><p>An <span>HTML fragment content</span>.
+  </div>
 
   <!--
-  <dt>the Date and Time Specification of RFC 822, with the exception
-  that the year may be expressed with two characters or four
-  characters (four preferred)
-  <dd>An <span>RSS 2.0 date</span>
+  <div>
+    <dt>the Date and Time Specification of RFC 822, with the exception
+    that the year may be expressed with two characters or four
+    characters (four preferred)
+    <dd><p>An <span>RSS 2.0 date</span>
+  </div>
 
-  <dt>A W3C Date-Time string
-  <dt>A W3CDTF
-  <dd>As is.
-  dc:date, Atom family
+  <div>
+    <dt>A W3C Date-Time string
+    <dt>A W3CDTF
+    <dd><p>As is.
+    dc:date, Atom family
+  </div>
   -->
 
   </dl>
 
-<p>When a string is interpreted as a <span>URL</span>
-or <span>absolute URL</span> according to this section, the rules
-to <span>parse a URL</span> <em class=rfc2119>MUST</em> be used with
-the <span>node document</span> of the <span>node</span> in which the
-string appears.
-
-<div class=note>
-
-<p>The <cite>XML Base</cite> specification and
-the <code>xml:base</code> <span>attribute</span> is
-obsolete.<!-- referenced by some Atom family element specification -->
-
-</div>
-
-<p>When an <span>element</span> has to be an XHTML Modularization
-<code>div</code> <span>element</span> that
+<p>When an <span>element</span> has to be an <cite>XHTML Modularization</cite>
+<code title>div</code> <span>element</span> that
 <em class=rfc2119>SHOULD</em> be suitable for handling as XHTML,
 it <em class=rfc2119>MUST</em> be
 a <code>div</code> <span>element</span> in the <span>HTML
@@ -1063,6 +1087,9 @@ non-negative integer</span>.
 <section>
 <h1>iTunes elements</h1>
 
+<p class=section-info><em>This section applies to <span title="user
+agent">user agents</span> implementing <span>Podcast</span>.</em>
+
 <p>The <dfn>iTunes namespace</dfn> is
 <a href=https://help.apple.com/itc/podcasts_connect/#/itcb54353390><code>http://www.itunes.com/dtds/podcast-1.0.dtd</code></a>
 or <code>http://www.itunes.com/DTDs/Podcast-1.0.dtd</code>.
@@ -1219,10 +1246,10 @@ wild -->
 <p class=section-info><em>This section applies to <span title="user
 agent">user agents</span>
 implementing <span>GData</span> <code>image</code> <span>element</span>
-while there is no other <span>applicable specification</span>
-specifying it.</em><!-- The GData documentation does not have this
-element but is actually used in feeds and is supported by the Feed
-Parsing specification. -->
+if there is no other <span title="applicable
+specification">specification</span> specifying it.</em><!-- The GData
+documentation does not have this element but is actually used in feeds
+and is supported by the Feed Parsing specification. -->
 
 <p>The <dfn>GData namespace</dfn>
 is <code>http://schemas.google.com/g/2005</code>.
@@ -1252,7 +1279,7 @@ non-negative integer</span>.
 <p>The <code>image</code> <span>element</span> in the <span>GData
 namespace</span> <em class=rfc2119>MUST</em> have
 a <code>src</code> <span>attribute</span> whose <span title="attribute
-value">value</span> is a <span>valid URL</span>.
+value">value</span> is a <span>valid URL string</span>.
 
 <p>The <span>content model</span> of
 the <code>image</code> <span>element</span> in the <span>GData

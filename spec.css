@@ -63,6 +63,10 @@ p {
   white-space: pre;
 }
 
+.note i {
+  font-style: normal;
+}
+
 .steps, .steps ol {
   margin: 0.3em 2em;
   border-left: #400080 1px solid;

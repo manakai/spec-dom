@@ -10,7 +10,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">DOM Tree Validation</h1>
-  <h2 class="no-toc no-num">The manakai project, 29 April 2018</h2>
+  <h2 class="no-toc no-num">The manakai project, 30 April 2018</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -44,10 +44,7 @@ within <a href=https://manakai.github.io/>the manakai project</a>.
 It does not intended to be implemented by multiple parties, although
 nothing prevents it from implemented by other DOM implementations.
 
-</p><p>Comments on this document are welcome and may be sent to
-the <a href=#author>author</a>.</p>
-
-</section>
+</p></section>
 
 <section>
 <h1 class="no-toc no-num" id=table-of-contents>Table of contents</h1>
@@ -60,7 +57,8 @@ the <a href=#author>author</a>.</p>
    <li><a href=#history-0><span class=secno>1.2 </span>History</a></li></ol></li>
  <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a>
   <ol>
-   <li><a href=#intepretation-of-old-specifications><span class=secno>2.1 </span>Intepretation of old specifications</a></li></ol></li>
+   <li><a href=#general-rules-of-validation><span class=secno>2.1 </span>General rules of validation</a></li>
+   <li><a href=#intepretation-of-old-specifications><span class=secno>2.2 </span>Intepretation of old specifications</a></li></ol></li>
  <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a>
   <ol>
    <li><a href=#document-element><span class=secno>3.1 </span>Document element</a></li>
@@ -69,11 +67,15 @@ the <a href=#author>author</a>.</p>
  <li><a href=#validation-of-feed-namespaces><span class=secno>5 </span>Validation of feed namespaces</a>
   <ol>
    <li><a href=#rss1-elements><span class=secno>5.1 </span>RSS1 elements</a></li>
-   <li><a href=#rss2-elements><span class=secno>5.2 </span>RSS2 elements</a></li>
-   <li><a href=#atom-elements><span class=secno>5.3 </span>Atom elements</a></li></ol></li>
+   <li><a href=#rss2-elements><span class=secno>5.2 </span>RSS2 elements</a>
+    <ol>
+     <li><a href=#media-rss-elements><span class=secno>5.2.1 </span>Media RSS elements</a></li>
+     <li><a href=#itunes-elements><span class=secno>5.2.2 </span>iTunes elements</a></li></ol></li>
+   <li><a href=#atom-elements><span class=secno>5.3 </span>Atom elements</a>
+    <ol>
+     <li><a href=#gdata-elements><span class=secno>5.3.1 </span>GData elements</a></li></ol></li></ol></li>
  <li><a href=#validation-of-ogp><span class=secno>6 </span>Validation of OGP</a></li>
  <li><a href=#data><span class=secno>7 </span>Data</a></li>
- <li><a class=no-num href=#references>References</a></li>
  <li><a class=no-num href=#author>Author</a></li></ol>
 <!--end-toc-->
 </section>
@@ -117,7 +119,7 @@ by <a href=https://manakai.github.io/>the manakai project</a>.
 <p class=XXX>This specification will define:
 XSLT validation;
 template content validation;
-handling of private vocabularies in validator;
+handling of private vocabularies in validator vs "unknown" conformance;
 and other integration issues.
 
 The obsvocab specification might be merged with this specification in
@@ -216,9 +218,14 @@ Terms
 
 <dfn id=applicable-specification>applicable specification</dfn>,
 <dfn id=document-base-url>document base URL</dfn>,
+<dfn id=content-model>content model</dfn>,
 <dfn id=inter-element-whitespace>inter-element whitespace</dfn>,
+<dfn id=empty>empty</dfn>,
+<dfn id=valid-non-negative-integer>valid non-negative integer</dfn>,
+<dfn id=valid-floating-point-number>valid floating-point number</dfn>,
 <dfn id=valid-global-date-and-time-string>valid global date and time string</dfn>,
 <dfn id=valid-e-mail-address>valid e-mail address</dfn>,
+<dfn id=parse-a-url>parse a URL</dfn>,
 and
 <dfn id=parse-error>parse error</dfn>
 
@@ -266,13 +273,46 @@ specification<!-- <iframe srcdoc=""> in XML [HTML] -->,
 it <em class=rfc2119>MUST</em> also conform to other requirements for
 XML documents.
 
-
 </p><section>
-<h1 id=intepretation-of-old-specifications><span class=secno>2.1 </span>Intepretation of old specifications</h1>
+<h1 id=general-rules-of-validation><span class=secno>2.1 </span>General rules of validation</h1>
+
+<p>Unless otherwise specified,
+an <a href=#element>element</a> <em class=rfc2119>MAY</em>
+have <a href=#comment title=comment>comments</a> and <a href=#processing-instruction title="processing
+instruction">processing
+instructions</a> <a href=#child title=child>children</a>.  In addition,
+unless otherwise specified, an <a href=#element>element</a>
+whose <a href=#content-model>content model</a> is <em>not</em>
+a <span>text</span> <em class=rfc2119>MAY</em>
+have <a href=#inter-element-whitespace>inter-element
+whitespace</a> <a href=#child title=child>children</a>.<!-- Explicitly
+specified in HTML Standard but most other specifications (RSS1, RSS2,
+Media RSS, Atom) do not. -->
+
+</p></section>
+
+<section>
+<h1 id=intepretation-of-old-specifications><span class=secno>2.2 </span>Intepretation of old specifications</h1>
 
 <p>This subsection defines how to interpret old unmaintained
 specifications for the purpose
 of <span title=validate>validation</span>.
+
+</p><p>When a <a href=#applicable-specification title="applicable specification">specification</a>
+is written without clear statements of
+requirements, <a href=#element title=element>elements</a>
+and <a href=#attribute title=attribute>attributes</a> in
+the <a href=#namespace>namespace</a> and <a href=#rss2-element title="RSS2 element">RSS2
+elements</a> defined by the <a href=#applicable-specification title="applicable
+specification">specification</a> <em class=rfc2119>MUST NOT</em>
+conflict with the descriptions in that <a href=#applicable-specification title="applicable
+specification">specification</a>.  <a href=#element title=element>Elements</a>
+and <a href=#attribute title=attribute>attributes</a> in
+the <a href=#namespace>namespace</a> and <a href=#rss2-element title="RSS2 element">RSS2
+elements</a> not defined by any <a href=#applicable-specification title="applicable
+specification">specification</a> <em class=rfc2119>MUST NOT</em> be
+used.<!-- RSS1, RSS content, RSS DC, DCES, RSS2 (except for RSSBP),
+Atom, Media RSS, iTunes, Hatena -->
 
 </p><p>When an <a href=#element>element</a>'s <span>content</span> or
 an <a href=#attribute>attribute</a> is defined to be one of the following
@@ -282,13 +322,32 @@ conform to the corresponding consturct instead:
 
   </p><dl class=switch>
 
-  <dt>An RFC 3066 language tag
+  <dt>A text that <em class=rfc2119>SHOULD</em> be interpreted as
+  plain text<!-- RSS2 -->
+  </dt><dd>A text
+
+  </dd><dt>A number<!-- RSS2, MediaRSS -->
+  </dt><dt>A number value<!-- iTunes -->
+  </dt><dt>A count<!-- MediaRSS -->
+  </dt><dt>A value in pixels<!-- RSS2 -->
+  </dt><dt>A value in bytes<!-- RSS2 -->
+  </dt><dt>A non-negative integer<!-- RSS2 -->
+  </dt><dt>A non-zero integer<!-- iTunes -->
+  </dt><dt>A kilobits per second rate<!-- MediaRSS -->
+  </dt><dt>A height<!-- MediaRSS -->
+  </dt><dt>A width<!-- MediaRSS -->
+  </dt><dd>A <a href=#valid-non-negative-integer>valid non-negative integer</a>
+
+  </dd><dt>An RFC 1766 language tag<!-- HTML4 referenced by RSS2 -->
+  </dt><dt>An RFC 3066 language tag<!-- Atom family, MediaRSS -->
   </dt><dd>A <a href=#valid-language-tag>valid language tag</a>.
-  <!-- Atom family -->
 
   </dd><dt>A URL (without referencing the
   latest <a href=http://url.spec.whatwg.org/><cite>URL
-  Standard</cite></a>)
+  Standard</cite></a>)<!-- RSS1, RSS2, MediaRSS, iTunes -->
+  </dt><dt>A url
+  </dt><dt>A URL with a scheme defined by the IANA Registry of URI
+  Schemes<!-- RSS2 -->
   </dt><dt>A URI
   </dt><dt>An IRI
   </dt><dt>An IRI reference
@@ -300,21 +359,35 @@ conform to the corresponding consturct instead:
 
   </dd><dt>A media type
   </dt><dt>A MIME media type
-  </dt><dd>A <a href=#valid-mime-type>valid MIME type</a>.
   <!-- Atom family -->
+  </dt><dt>A standard MIME type<!-- RSS2, MediaRSS -->
+  </dt><dd>A <a href=#valid-mime-type>valid MIME type</a>.
 
   </dd><dt>An <code>addr-spec</code>
   </dt><dt>An e-mail address
-  </dt><dd>A <a href=#valid-e-mail-address>valid e-mail address</a>.
   <!-- Atom family -->
+  </dt><dt>An email address<!-- iTunes -->
+  </dt><dd>A <a href=#valid-e-mail-address>valid e-mail address</a>.
 
-  </dd><dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
+  </dd><dt>An email address in the <a href=#rss2-specifications>RSS2 specifications</a>
+  </dt><dt>A string in the
+  <a href=http://www.rssboard.org/rss-profile#data-types-email><em class=rfc2119>RECOMMENDED</em>
+  format for e-mail addresses</a>.
+
+  </dt><dt>HTML<!-- <media:title type=html> -->
+  </dt><dt>HTML markup<!-- content:encoded, hatena:formatted-content -->
   </dt><dt>An HTML 4.01 markup that <em class=rfc2119>SHOULD</em> be such
   that it could validly appear directly within an
   HTML <code>div</code> element<!-- Atom type=html -->
+  </dt><dt>A text suitable for presentation as HTML<!-- RSS2 -->
   </dt><dd>An <a href=#html-fragment-content>HTML fragment content</a>.
 
   <!--
+  <dt>the Date and Time Specification of RFC 822, with the exception
+  that the year may be expressed with two characters or four
+  characters (four preferred)
+  <dd>An <span>RSS 2.0 date</span>
+
   <dt>A W3C Date-Time string
   <dt>A W3CDTF
   <dd>As is.
@@ -322,6 +395,20 @@ conform to the corresponding consturct instead:
   -->
 
   </dd></dl>
+
+<p>When a string is interpreted as a <span>URL</span>
+or <span>absolute URL</span> according to this section, the rules
+to <a href=#parse-a-url>parse a URL</a> <em class=rfc2119>MUST</em> be used with
+the <a href=#node-document>node document</a> of the <a href=#node>node</a> in which the
+string appears.
+
+</p><div class=note>
+
+<p>The <cite>XML Base</cite> specification and
+the <code>xml:base</code> <a href=#attribute>attribute</a> is
+obsolete.<!-- referenced by some Atom family element specification -->
+
+</p></div>
 
 <p>When an <a href=#element>element</a> has to be an XHTML Modularization
 <code>div</code> <a href=#element>element</a> that
@@ -359,8 +446,8 @@ mode">modes</a>:
 
 <dt><dfn id=default-mode>Default mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by its definition
-in the <a href=#native-element-specifications>native element specifications</a> or the <span>RSS2
-specifications</span>, or by the rules for the <a href=#unknown-element title="unknown
+in the <a href=#native-element-specifications>native element specifications</a> or the <a href=#rss2-specifications>RSS2
+specifications</a>, or by the rules for the <a href=#unknown-element title="unknown
 element">unknown elements</a> and <a href=#unknown-attribute title="unknown
 attribute">attributes</a>.
 
@@ -368,8 +455,8 @@ The <dfn id=native-element-specifications>native element specifications</dfn> ar
 the <a href=#applicable-specification title="applicable specification">applicable
 specifications</a> such as
 <a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
-except for the <a href=#xslt-specifications>XSLT specifications</a>, the <span>RSS2
-specifications</span>, and <em>this</em> specification.
+except for the <a href=#xslt-specifications>XSLT specifications</a>, the <a href=#rss2-specifications>RSS2
+specifications</a>, and <em>this</em> specification.
 
 </dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
 </dt><dd>Conformance of the <a href=#node>node</a> is governed by the <a href=#xslt-specifications>XSLT
@@ -569,10 +656,6 @@ following <a href=#element title=element>elements</a>:
   </li><li><a href=#element title=element>Elements</a> <a href=#in-no-namespace>in no namespace</a>
   except for <a href=#rss2-element title="RSS2 element">RSS2 elements</a>
 
-  </li><li>If <span>RSS2</span> is <em>not</em> implemented by
-  the <a href=#user-agent>user agent</a>, <a href=#rss2-element title="RSS2 element">RSS2
-  elements</a>
-
   </li></ul>
 
 <p><dfn id=unknown-attribute title="unknown attribute">Unknown attributes</dfn> are
@@ -698,13 +781,19 @@ error.
 <section>
 <h1 id=validation-of-feed-namespaces><span class=secno>5 </span>Validation of feed namespaces</h1>
 
-<section>
+<p>If an <a href=#element>element</a> is <dfn id=unique-property-element>unique property element</dfn>
+and the <a href=#element>element</a>'s <a href=#parent>parent</a> is
+not <code>null</code>,
+the <a href=#element>element</a>'s <a href=#parent>parent</a> <em class=rfc2119>MUST
+NOT</em> have another <a href=#child>child</a> <a href=#element>element</a> with
+same <a href=#namespace>namespace</a> and <a href=#local-name>local name</a>.
+
+</p><section>
 <h1 id=rss1-elements><span class=secno>5.1 </span>RSS1 elements</h1>
 
-<p class=section-info><em>This section applies to <a href=#user-agent title="user
-agent">user agents</a> implementing <span>RSS1</span>.</em>
-
-</p><p>The <dfn id=rss1-specification>RSS1 specification</dfn> is
+<p><a href=#user-agent title="user agent">User agents</a>
+<em class=rfc2119>MUST</em> implement the <a href=#rss1-specification>RSS1
+specification</a>.  The <dfn id=rss1-specification>RSS1 specification</dfn> is
 <a href=http://web.resource.org/rss/1.0/spec><cite>RDF Site Summary
 (RSS) 1.0</cite></a>.  The <dfn id=rdf-namespace>RDF namespace</dfn>
 is <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>.
@@ -715,57 +804,22 @@ references http://dublincore.org/documents/dces/
 --><code>http://purl.org/dc/elements/1.1/</code></a>.  The <dfn id=rss-content-namespace>RSS
 content namespace</dfn> is
 <a href=http://web.resource.org/rss/1.0/modules/content/><code>http://purl.org/rss/1.0/modules/content/</code></a>.
-The <dfn id=rss1-family-namespaces>RSS1 family namespaces</dfn> are the <a href=#rss-namespace>RSS
-namespace</a>, the <a href=#dublin-core-namespace>Dublin Core namespace</a>,
-the <a href=#rss-content-namespace>RSS content namespace</a>, and the <span>Hatena
-namespace</span>.
-
-<!--
-<div class=note>
-
-<p>These are most of the <span title=namespace>namespaces</span>
-supported by the
-<a href=https://wiki.suikawiki.org/n/Feed%20Parsing><cite>Feed
-Parsing</cite></a> specification for interpreting <span>RSS1</span>
-documents.
-
-</div>
--->
-
-</p><hr>
-
-<p>An <a href=#element>element</a> in one of the <a href=#rss1-family-namespaces>RSS1 family
-namespaces</a> <em class=rfc2119>MUST</em> conform to the
-descriptions of it in the <a href=#applicable-specification title="applicable
-specification">relevant specifications</a> (and this
-specification).  Especially, the <span>content</span> of
-an <a href=#element>element</a> in the <a href=#rss-namespace>RSS
-namespace</a> <em class=rfc2119>MUST</em> conform to
-the <i>Model</i> of the <a href=#element>element</a> in the <a href=#rss1-specification>RSS1
-specification</a>.
-
-</p><p>An <a href=#element>element</a> in one of the <a href=#rss1-family-namespaces>RSS1 family
-namespaces</a> <em class=rfc2119>MAY</em> have
-an <a href=#attribute>attribute</a> which is shown in <i>Syntax</i> or prose in
-the <a href=#applicable-specification title="applicable specification">relevant
-specifications</a>, as well as
-the <code>lang</code> <a href=#attribute>attribute</a> in the <a href=#xml-namespace>XML
-namespace</a> and <a href=#attribute title=attribute>attributes</a> in
-the <a href=#xmlns-namespace>XMLNS namespace</a>.
-Other <a href=#attribute title=attribute>attributes</a> <em class=rfc2119>MUST
-NOT</em> be specified.<!-- The RSS1 specification does not explicitly
-define the requirements on the attributes not shown in that
-specification.  The RDF/XML specification allows xml:lang and xml:base
-and ignores others (including xml:space).  And xml:base has gone. -->
 
 </p><p>Anything other than
 the <code>encoded</code> <a href=#element>element</a> <em class=rfc2119>MUST
-NOT</em> be used in the <a href=#rss-content-namespace>RSS content namespace</a>.<!-- The
-RSS1 content module specification formally specifies several elements
-no one has been using and contains a "draft" of the content:encoded
-element which is a de facto standard.  -->
+NOT</em> be used in the <a href=#rss-content-namespace>RSS content namespace</a>.
 
-</p><hr>
+</p><div class=note>
+
+<p>The <code>encoded</code> <a href=#element>element</a> in the <a href=#rss-content-namespace>RSS
+content namespace</a>, which is only shown as a "draft" in the
+specification, is <i>de facto</i> part of <span>RSS1</span>, while
+other "formal" <a href=#element title=element>elements</a> in that
+specification is not used at all.
+
+</p></div>
+
+<hr>
 
 <p>An <a href=#element>element</a> is an <dfn id=rss-1.0-rdf:rdf-element>RSS 1.0 <code>rdf:RDF</code>
 element</dfn> if:
@@ -856,18 +910,11 @@ specification</span>.
 
 <hr>
 
-<p><a href=#comment title=comment>Comments</a>, <a href=#inter-element-whitespace title="inter-element
-whitespace">inter-element whitespaces</a>, and
-<a href=#processing-instruction title="processing instruction">processing
-instructions</a> <em class=rfc2119>MAY</em> be inserted anywhere in
-an <a href=#element>element</a> in the <a href=#rss1-family-namespaces>RSS1 family
-namespaces</a>.<!-- This is not explicitly described in the RSS1
-specification but is the de facto interpretation. -->
-
-</p><p>An <a href=#unknown-element>unknown element</a> <em class=rfc2119>MAY</em> be
-inserted as a <a href=#child>child</a> of a <code>channel</code>
-or <code>item</code> <a href=#element>element</a> in the <a href=#rss-namespace>RSS
-namespace</a>, as long as all of the following conditions are met:
+<p>A <code>channel</code> or <code>item</code> <a href=#element>element</a> in
+the <a href=#rss-namespace>RSS namespace</a> <em class=rfc2119>MAY</em>
+have <span title=children>child</span> <a href=#unknown-element title="unknown
+element">unknown elements</a> as long as all of the following
+conditions are met:
 
   </p><ul>
 
@@ -887,13 +934,16 @@ namespace</a>, as long as all of the following conditions are met:
   (<a href=#ascii-case-insensitive>ASCII case-insensitive</a>).<!-- to avoid to be ignored by
   RDF/XML processing -->
 
-  </li><li>There is no <span>sibling</span> <a href=#element>element</a> with
-  same <a href=#namespace>namespace</a> and <a href=#local-name>local name</a> pair.<!-- to
-  conform RSS 1.0 extensibility rule -->
-
   </li></ul>
 
-<hr>
+<p><a href=#child title=child>Children</a> <a href=#unknown-element title="unknown
+element">unknown elements</a> of a <code>channel</code>
+or <code>item</code> <a href=#element>element</a> in the <a href=#rss-namespace>RSS
+namespace</a> are <a href=#unique-property-element title="unique property element">unique
+property elements</a>.<!-- to conform RSS 1.0 extensibility rule
+-->
+
+</p><hr>
 
 <p>A <code>description</code> <a href=#element>element</a> in the <a href=#rss-namespace>RSS namespace</a> whose
 <a href=#parent>parent</a> is an <code>item</code> <a href=#element>element</a> in
@@ -903,49 +953,170 @@ An <code>encoded</code> <a href=#element>element</a> in the <a href=#rss-content
 namespace</a> has an <a href=#html-fragment-content>HTML fragment content</a>.<!-- Not
 explicitly defined in ths spec -->
 
-</p><p>The <code>link</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
-namespace</a> <em class=rfc2119>MAY</em> be inserted as
-a <a href=#child>child</a> of a <code>channel</code> <a href=#element>element</a> in
-the <a href=#rss-namespace>RSS namespace</a>.<!-- no spec but sometimes used in the
-wild -->
+</p><p>A <code>channel</code> <a href=#element>element</a> in the <a href=#rss-namespace>RSS
+namespace</a> <em class=rfc2119>MAY</em>
+have <a href=#child title=child>children</a> <code>link</code> <a href=#element title=element>elements</a>
+in the <a href=#atom-namespace>Atom namespace</a>.<!-- no spec but sometimes used in
+the wild -->
 
 </p></section>
 
 <section>
 <h1 id=rss2-elements><span class=secno>5.2 </span>RSS2 elements</h1>
 
-<p class=section-info><em>This section applies to <a href=#user-agent title="user
-agent">user agents</a> implementing <span>RSS2</span>.</em>
+<p><a href=#user-agent title="user agent">User agents</a>
+<em class=rfc2119>MUST</em> implement the <a href=#rss2-specifications>RSS2
+specifications</a>.  The <dfn id=rss2-specifications>RSS2 specifications</dfn>
+are <a href=http://www.rssboard.org/rss-specification><cite>RSS
+2.0</cite></a>
+and <a href=http://www.rssboard.org/rss-profile><cite>Really Simple
+Syndication Best Practices Profile</cite></a>.
 
-</p><p>An <a href=#element>element</a> is an <dfn id=rss2-element>RSS2 element</dfn> if and only
-if it is <a href=#in-no-namespace>in no namespace</a> and either it is
-the <a href=#document-element-0>document element</a> and its <a href=#local-name>local name</a>
-is <code>rss</code> or one of its <a href=#ancestor>ancestor</a> is
-an <a href=#rss2-element>RSS2 element</a>.
+</p><p>A <a href=#document>document</a> is an <dfn id=rss2-document>RSS2 document</dfn> if
+its <a href=#document-element-0>document element</a> is
+an <code>rss</code> <a href=#element>element</a> <a href=#in-no-namespace>in no namespace</a>.
 
-</p><div class="note memo">
+</p><div class=note>
 
-<p>In other words, <span>elements</span> in no
-namespace are <a href=#rss2-element>RSS2 element</a> if they belong to the main
-document tree whose <a href=#document-element-0>document element</a> is the
-<code>rss</code> element <a href=#in-no-namespace>in no namespace</a>.
+<p>RSS 0.91, 0.92, 0.93, and 0.94 documents are <a href=#rss2-document title="RSS2
+document">RSS2 documents</a>.
 
 </p></div>
 
-<p><a href=#rss2-element title="RSS2 element">RSS2 elements</a> are interpreted as
-described by RSS2 specifications <cite class="bibref normative">[<a href=#ref-RSS2>RSS2</a>]</cite> <cite class="bibref normative">[<a href=#ref-RSSPROFILE>RSSPROFILE</a>]</cite>.
+<p>An <a href=#element>element</a> is an <dfn id=rss2-element>RSS2 element</dfn> if it
+is <a href=#in-no-namespace>in no namespace</a> and its <a href=#node-document>node document</a> is
+an <a href=#rss2-document>RSS2 document</a>.
 
-</p><p>The <dfn id=media-rss-namespace>Media RSS namespace</dfn>
-is <code>http://search.yahoo.com/mrss/</code>
-or <code>http://search.yahoo.com/mrss</code>.
+</p><p><a href=#rss2-element title="RSS2 element">RSS2
+elements</a> <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RSS2</span>.
+
+</p><hr>
+
+<p>An <a href=#rss2-element>RSS2 element</a> whose <a href=#local-name>local name</a>
+is <code>item</code> <em class=rfc2119>MAY</em> have at most
+one <a href=#child>child</a> <span>updated</span> <a href=#element>element</a> in
+the <a href=#atom-namespace>Atom namespace</a>.
+
+</p><p>These are <a href=#unique-property-element title="unique property element">unique property
+elements</a>:
+
+  </p><ul>
+
+  <li><a href=#child title=child>Children</a> <code>creator</code> <a href=#element title=element>elements</a>
+  in the <a href=#dublin-core-namespace>Dublin Core namespace</a> of an <a href=#rss2-element>RSS2
+  element</a> whose <a href=#local-name>local name</a> is <code>item</code>
+  or <code>channel</code>.
+
+  </li><li><a href=#child title=child>Children</a> <code>encoded</code> <a href=#element title=element>elements</a>
+  in the <a href=#rss-content-namespace>RSS content namespace</a> of an <a href=#rss2-element>RSS2
+  element</a> whose <a href=#local-name>local name</a> is <code>item</code>.
+
+  </li><li><a href=#child title=child>Children</a> <code>comments</code> <a href=#element title=element>elements</a>
+  in
+  the <a href=#namespace>namespace</a> <code>http://purl.org/rss/1.0/modules/slash/</code>
+  of an <a href=#rss2-element>RSS2 element</a> whose <a href=#local-name>local name</a>
+  is <code>item</code>.
+
+  </li></ul>
+
+<p>An <a href=#rss2-element>RSS2 element</a> whose <a href=#local-name>local name</a>
+is <code>item</code>
+or <code>channel</code> <em class=rfc2119>MAY</em>
+have <a href=#child title=child>children</a> <a href=#unknown-element title="unknown
+element">unknown elements</a>.
+
+</p><section>
+<h1 id=media-rss-elements><span class=secno>5.2.1 </span>Media RSS elements</h1>
+
+<p class=section-info><em>This section applies to <a href=#user-agent title="user
+agent">user agents</a> implementing <span>Media RSS</span>.</em>
+
+</p><p>The <dfn id=media-rss-namespace>Media RSS namespace</dfn> is
+<a href=http://www.rssboard.org/media-rss><code>http://search.yahoo.com/mrss/</code>
+or <code>http://search.yahoo.com/mrss</code></a>.
+
+</p><div class=note>
+
+<p>The namespace URL without slash has been used for historical
+reason.  It is
+<a href=http://www.rssboard.org/media-rss#namespace-declaration>non-conforming</a>.
+
+</p></div>
+
+<p>These are <a href=#unique-property-element title="unique property element">unique property
+elements</a>:
+
+  </p><ul>
+
+  <li><a href=#child title=child>Children</a> <code>starRating</code> <a href=#element title=element>elements</a>
+  in the <a href=#media-rss-namespace>Media RSS namespace</a> of
+  a <code>community</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+  namespace</a>.
+
+  </li><li><a href=#child title=child>Children</a> <code>statistics</code> <a href=#element title=element>elements</a>
+  in the <a href=#media-rss-namespace>Media RSS namespace</a> of
+  a <code>community</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+  namespace</a>.
+
+  </li><li><a href=#child title=child>Children</a> <code>tags</code> <a href=#element title=element>elements</a>
+  in the <a href=#media-rss-namespace>Media RSS namespace</a> of
+  a <code>community</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+  namespace</a>.
+
+  </li></ul>
+
+<p>The <code>average</code> <a href=#attribute-value>attribute value</a> of
+a <code>starRating</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+namespace</a> <em class=rfc2119>MUST</em> be a <a href=#valid-floating-point-number>valid
+floating-point number</a>.
+
+</p><p>The <code>max</code> <a href=#attribute-value>attribute value</a> of
+a <code>starRating</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+namespace</a> <em class=rfc2119>MUST</em> be a <a href=#valid-non-negative-integer>valid
+non-negative integer</a>.
+
+</p><p>The <code>min</code> <a href=#attribute-value>attribute value</a> of
+a <code>starRating</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
+namespace</a> <em class=rfc2119>MUST</em> be a <a href=#valid-non-negative-integer>valid
+non-negative integer</a>.
 
 </p></section>
 
 <section>
+<h1 id=itunes-elements><span class=secno>5.2.2 </span>iTunes elements</h1>
+
+<p>The <dfn id=itunes-namespace>iTunes namespace</dfn> is
+<a href=https://help.apple.com/itc/podcasts_connect/#/itcb54353390><code>http://www.itunes.com/dtds/podcast-1.0.dtd</code></a>
+or <code>http://www.itunes.com/DTDs/Podcast-1.0.dtd</code>.
+
+</p><div class=note>
+
+<p>The proper <a href=#namespace>namespace</a>
+is <code>http://www.itunes.com/dtds/podcast-1.0.dtd</code>.  The
+other <a href=#namespace>namespace</a> is non-conforming.
+
+</p></div>
+
+
+<p><a href=#child title=child>Children</a> <a href=#element title=element>elements</a>
+in the <a href=#itunes-namespace>iTunes namespace</a> of an <a href=#rss2-element>RSS2 element</a>
+whose <a href=#local-name>local name</a> is <code>item</code>
+or <code>channel</code> are <a href=#unique-property-element title="unique property
+element">unique property elements</a>.
+
+</p></section>
+
+</section>
+
+<section>
 <h1 id=atom-elements><span class=secno>5.3 </span>Atom elements</h1>
 
-<p class=section-info><em>This section applies to <a href=#user-agent title="user
-agent">user agents</a> implementing <span>Atom</span>.</em>
+<p><a href=#user-agent title="user agent">User agents</a>
+<em class=rfc2119>MUST</em> implement the <a href=#atom-specification>Atom
+specification</a>.  The <dfn id=atom-specification>Atom specification</dfn> is 
+<a href=https://tools.ietf.org/html/rfc4287>RFC 4287</a>.
 
 </p><p>Atom and its extension specifications allow extensions such that
 almost everything is allowed, which is not useful
@@ -954,41 +1125,48 @@ defines stricter restrictions for the purpose
 of <span title=validate>validation</span>.
 
 </p><p>The <dfn id=atom-namespace>Atom namespace</dfn>
-is <a href=https://tools.ietf.org/html/rfc4287><code>http://www.w3.org/2005/Atom</code></a>.
+is <code>http://www.w3.org/2005/Atom</code>.
+
 The <dfn id=atom-0.3-namespace>Atom 0.3 namespace</dfn>
 is <a href=https://github.com/mnot/I-D/blob/gh-pages/Published/atom-format/draft-nottingham-atom-format-02.xml><code>http://purl.org/atom/ns#</code></a>.
+
+The <dfn id=atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</dfn> is
+<a href=https://tools.ietf.org/html/rfc5005><code>http://purl.org/syndication/history/1.0</code></a>.
+
 <dfn id=atom-family-namespaces>Atom family namespaces</dfn> are the <a href=#atom-0.3-namespace>Atom 0.3
 namespace</a>, the <a href=#atom-namespace>Atom namespace</a>,
 <a href=https://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>,
-<a href=https://tools.ietf.org/html/rfc5005><code>http://purl.org/syndication/history/1.0</code></a>,
+the <a href=#atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</a>,
 <a href=https://tools.ietf.org/html/rfc5023><code>http://www.w3.org/2007/app</code></a>,
 and
 <a href=https://tools.ietf.org/html/rfc6721><code>http://purl.org/atompub/tombstones/1.0</code></a>.
-<!-- and Dublin Core namespace, Media RSS namespace --> An <dfn id=atom-family-element>Atom
-family element</dfn> is an <a href=#element>element</a> in one of <a href=#atom-family-namespaces>Atom
-family namespaces</a>.
+An <dfn id=atom-family-element>Atom family element</dfn> is an <a href=#element>element</a> in one
+of <a href=#atom-family-namespaces>Atom family namespaces</a>.<!-- data/elements.json -->
 
-</p><p>The term <dfn id=date-construct>Date construct</dfn> is defined by <a href=http://tools.ietf.org/html/rfc4287>Atom 1.0 specification</a>.
+</p><p>The terms
+<dfn id=date-construct>Date construct</dfn>
+and
+<dfn id=person-construct>Person construct</dfn>
+are defined by <a href=https://tools.ietf.org/html/rfc4287>Atom 1.0
+specification</a>.
 
 </p><hr>
 
-<p>Constraints expressed in RELAX NG schema fragments in an <a href=#applicable-specification title="applicable specification">applicable specifications</a> for
-<a href=#atom-family-namespaces>Atom family namespaces</a> are to be interpreted as <em class=rfc2119>MUST</em>-level requirements for the purpose of
-<span title=validate>validation</span>.
-
-</p><p><a href=#comment title=comment>Comments</a>, <a href=#inter-element-whitespace title="inter-element
-whitespace">inter-element whitespaces</a>, and
-<a href=#processing-instruction title="processing instruction">processing
-instructions</a> <em class=rfc2119>MAY</em> be inserted anywhere in
-an <a href=#atom-family-element>Atom family element</a>.
+<p><a href=#element title=element>Elements</a>
+and <a href=#attribute title=attribute>attributes</a> <em class=rfc2119>MUST</em>
+conform to the constraints expressed in the RELAX NG schema fragments
+in the <a href=#applicable-specification title="applicable specification">applicable
+specifications</a>.<!-- They are non-normative per the spec -->
 
 </p><p>For an <a href=#atom-family-element>Atom family element</a>, an <a href=#attribute>attribute</a>
 or <a href=#child>child</a> that is not explicitly allowed by
 an <a href=#applicable-specification>applicable specification</a> <em class=rfc2119>MUST
-NOT</em> be used.
+NOT</em> be used.<!-- RELAX NG allows everything -->
 
 </p><p><dfn id=atom-extensible-element title="Atom extensible element">Atom extensible elements</dfn>
-are following <a href=#element title=element>elements</a>:
+are
+following <a href=#element title=element>elements</a><!-- data/elements.json
+-->:
 
   </p><ul>
 
@@ -1008,19 +1186,31 @@ are following <a href=#element title=element>elements</a>:
 
   </li></ul>
 
-<p>An <a href=#unknown-element>unknown element</a> <em class=rfc2119>MAY</em> be used
-as a <a href=#child title=child>child</a> of an <a href=#atom-extensible-element>Atom extensible
-element</a>.
+<p>An <a href=#atom-extensible-element>Atom extensible element</a> <em class=rfc2119>MAY</em>
+have <a href=#child title=child>children</a> <a href=#unknown-element title="unknown
+element">unknown elements</a>.
 
-</p><p><a href=#element title=element>Elements</a> <code>complete</code>
-and <code>archive</code>
-in <a href=#namespace>namespace</a> <code>http://purl.org/syndication/history/1.0</code> <em class=rfc2119>MUST
-NOT</em> be used more than once in
-a <code>feed</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
-namespace</a>.
 
-</p><p>A <code>content</code> <a href=#element>element</a> in the <a href=#atom-0.3-namespace>Atom 0.3
-namespace</a> which has a <code>type</code> <a href=#attribute>attribute</a>
+</p><p>These are <a href=#unique-property-element title="unique property element">unique property
+elements</a>:
+
+  </p><ul>
+
+  <li><a href=#child title=child>Children</a> <code>complete</code> <a href=#element title=element>elements</a>
+  in the <a href=#atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</a> of
+  a <code>feed</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
+  namespace</a>.
+
+  </li><li><a href=#child title=child>Children</a> <code>archive</code> <a href=#element title=element>elements</a>
+  in the <a href=#atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</a> of
+  a <code>feed</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
+  namespace</a>.
+
+  </li></ul>
+
+
+<p>A <code>content</code> <a href=#element>element</a> in the <a href=#atom-0.3-namespace>Atom 0.3
+namespace</a> with a <code>type</code> <a href=#attribute>attribute</a>
 whose <a href=#attribute-value title="attribute value">value</a>
 is <code>text/html</code> (<a href=#ascii-case-insensitive>ASCII case-insensitive</a>) has
 an <a href=#html-fragment-content>HTML fragment content</a>.<!-- Not explicitly defined in
@@ -1032,12 +1222,12 @@ type is a MIME type
 
 </p><hr>
 
-<p>The <code>group</code>
-and <code>thumbnail</code> <a href=#element>element</a> in the <a href=#media-rss-namespace>Media RSS
-namespace</a> <em class=rfc2119>MAY</em> be inserted as
-a <a href=#child>child</a> of an <code>entry</code> <a href=#element>element</a> in
-the <a href=#atom-namespace>Atom namespace</a>.<!-- no spec but sometimes used in the
-wild -->
+<p>An <code>entry</code> <a href=#element>element</a> in the <a href=#atom-namespace>Atom
+namespace</a> <em class=rfc2119>MAY</em>
+have <a href=#child title=child>children</a> <code>group</code>
+and <code>thumbnail</code> <a href=#element title=element>elements</a> in
+the <a href=#media-rss-namespace>Media RSS namespace</a>.<!-- no spec but sometimes used
+in the wild -->
 
 <!--
 dc:subject is redundant with atom:category
@@ -1047,7 +1237,54 @@ a <span>child</span> of an <code>entry</code> <span>element</span> in
 the <span>Atom namespace</span>.< !-- no spec but sometimes used in the
 wild -->
 
+</p><section>
+<h1 id=gdata-elements><span class=secno>5.3.1 </span>GData elements</h1>
+
+<p class=section-info><em>This section applies to <a href=#user-agent title="user
+agent">user agents</a>
+implementing <span>GData</span> <code>image</code> <a href=#element>element</a>
+while there is no other <a href=#applicable-specification>applicable specification</a>
+specifying it.</em><!-- The GData documentation does not have this
+element but is actually used in feeds and is supported by the Feed
+Parsing specification. -->
+
+</p><p>The <dfn id=gdata-namespace>GData namespace</dfn>
+is <code>http://schemas.google.com/g/2005</code>.
+
+</p><p>A <a href=#person-construct>Person construct</a> <em class=rfc2119>MAY</em> have at
+most one <a href=#child>child</a> <code>image</code> <a href=#element>element</a> in
+the <a href=#gdata-namespace>GData namespace</a>.
+
+</p><p>The <code>image</code> <a href=#element>element</a> in the <a href=#gdata-namespace>GData
+namespace</a> <em class=rfc2119>MUST</em> have
+a <code>rel</code> <a href=#attribute>attribute</a> whose <a href=#attribute-value title="attribute
+value">value</a>
+is <code>http://schemas.google.com/g/2005#thumbnail</code>.
+
+</p><p>The <code>image</code> <a href=#element>element</a> in the <a href=#gdata-namespace>GData
+namespace</a> <em class=rfc2119>MAY</em> have
+a <code>width</code> <a href=#attribute>attribute</a>
+whose <a href=#attribute-value title="attribute value">value</a> is a <a href=#valid-non-negative-integer>valid
+non-negative integer</a>.
+
+</p><p>The <code>image</code> <a href=#element>element</a> in the <a href=#gdata-namespace>GData
+namespace</a> <em class=rfc2119>MAY</em> have
+a <code>height</code> <a href=#attribute>attribute</a>
+whose <a href=#attribute-value title="attribute value">value</a> is a <a href=#valid-non-negative-integer>valid
+non-negative integer</a>.
+
+</p><p>The <code>image</code> <a href=#element>element</a> in the <a href=#gdata-namespace>GData
+namespace</a> <em class=rfc2119>MUST</em> have
+a <code>src</code> <a href=#attribute>attribute</a> whose <a href=#attribute-value title="attribute
+value">value</a> is a <a href=#valid-url>valid URL</a>.
+
+</p><p>The <a href=#content-model>content model</a> of
+the <code>image</code> <a href=#element>element</a> in the <a href=#gdata-namespace>GData
+namespace</a> is <a href=#empty>empty</a>.
+
 </p></section>
+
+</section>
 
 </section>
 
@@ -1079,7 +1316,8 @@ or more characters.  A <dfn id=property-prefix>property prefix</dfn> is a string
 or more characters that is not a <code>U+003A</code> <code class=charname>COLON</code> character (<code>:</code>) and is not used
 by <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value defined by an
 <a href=#applicable-specification>applicable specification</a> as prefix.  A <i>deprecated</i>
-<a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value <em class=rfc2119>SHOULD NOT</em> be used.
+<a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value
+<em class=rfc2119>SHOULD NOT</em> be used.
 
 </p><p>A <a href=#attr-meta-property><code title=attr-meta-property>property</code></a> value <em class=rfc2119>MUST NOT</em> be used unless it is defined in the
 context it is used by an <a href=#applicable-specification>applicable specification</a>.
@@ -1119,22 +1357,6 @@ specification.
 checking test data</a>.
 
 </p></section>
-
-<section class="reference normative">
-<h2 class=no-num id=references>References</h2>
-
-<dl>
-
-<dt id=ref-RSS2>RSS2
-</dt><dd><a href=http://www.rssboard.org/rss-specification><cite>RSS 2.0</cite></a>, RSS Advisory Board.
-
-</dd><dt id=ref-RSSPROFILE>RSSPROFILE
-</dt><dd><a href=http://www.rssboard.org/rss-profile><cite>Really Simple Syndication Best Practices Profile</cite></a>, RSS Advisory Board.
-
-</dd></dl>
-
-</section>
-
 
 <section>
 <h1 class=no-num id=author>Author</h1>

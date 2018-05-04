@@ -73,22 +73,23 @@ specifications</span>.
 for <span title=validate>validation</span> of a <span>node</span> when
 there are multiple candidate specifications,
 
-<li>how <span title="unknown element">unknown elements</span>
-and <span title="unknown attribute">unknown attributes</span>
-are <span title=validate>validated</span>,
+<li>how to <span>validate</span> unknown features,
 
 <li>features considered <span>obsolete</span>,
+
+<li>how to <span>validate</span> <span title="superglobal
+attribute">superglobal attributes</span>,
 
 <li>how the requirements of feed format (RSS and Atom) specifications
 are integrated with the platform,
 
 and
 
-<li>how OGP are <span title=validate>validated</span>,
+<li>how to <span>validate</span> OGP
 
 </ul>
 
-... for <span>validator</span> implementations
+... for <span title=validator>validators</span> produced
 by <a href="https://manakai.github.io/">the manakai project</a>.
 
 <p class=XXX>This specification will define:
@@ -238,6 +239,7 @@ Terms
 <dfn>valid global date and time string</dfn>,
 <dfn>valid e-mail address</dfn>,
 <dfn>parse a URL</dfn>,
+<dfn>HTML element</dfn>,
 <dfn><code>div</code></dfn>,
 and
 <dfn>parse error</dfn>
@@ -619,7 +621,7 @@ element</span>:
 
 
 <section>
-<h1>Validation of unknown elements and attributes</h1>
+<h1>Validation of unknown features</h1>
 
 <p id=supported-namespace>A <span>user agent</span>
 either <span title="full support">fully
@@ -875,7 +877,24 @@ are <span title="obsolete namespace">obsolete</span>:
 </section>
 
 <section>
-<h1>Validation of XML</h1>
+<h1>Validation of superglobal attributes</h1>
+
+<p>Unless otherwise
+specified, <span title=attribute>attributes</span> <code>class</code>, <code>id</code>,
+and <code>slot</code> <span>in no
+namespace</span> <em class=rfc2119>MUST</em> conform to the
+requirements for the <span>attribute</span> with
+same <span title="local name">name</span> for an <span>HTML
+element</span>.
+
+  <div class=note>
+
+  <p>This does not mean use of them are conforming.
+
+  </div>
+
+<section>
+<h1>Validation of XML attributes</h1>
 
 <p><span title="user agent">User
 agents</span> <em class=rfc2119>MUST</em> implement the <span>XML
@@ -946,6 +965,8 @@ specification</span>.
   specification</span>.
 
   </div>
+
+</section>
 
 </section>
 

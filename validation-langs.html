@@ -63,9 +63,11 @@ nothing prevents it from implemented by other DOM implementations.
   <ol>
    <li><a href=#document-element><span class=secno>3.1 </span>Document element</a></li>
    <li><a href=#checking-an-element><span class=secno>3.2 </span>Checking an element</a></li></ol></li>
- <li><a href=#validation-of-unknown-elements-and-attributes><span class=secno>4 </span>Validation of unknown elements and attributes</a></li>
+ <li><a href=#validation-of-unknown-features><span class=secno>4 </span>Validation of unknown features</a></li>
  <li><a href=#validation-of-obsolete-features><span class=secno>5 </span>Validation of obsolete features</a></li>
- <li><a href=#validation-of-xml><span class=secno>6 </span>Validation of XML</a></li>
+ <li><a href=#validation-of-superglobal-attributes><span class=secno>6 </span>Validation of superglobal attributes</a>
+  <ol>
+   <li><a href=#validation-of-xml-attributes><span class=secno>6.1 </span>Validation of XML attributes</a></li></ol></li>
  <li><a href=#validation-of-feed-namespaces><span class=secno>7 </span>Validation of feed namespaces</a>
   <ol>
    <li><a href=#rss1-elements><span class=secno>7.1 </span>RSS1 elements</a></li>
@@ -102,22 +104,23 @@ specifications</a>.
 for <span title=validate>validation</span> of a <a href=#node>node</a> when
 there are multiple candidate specifications,
 
-</li><li>how <a href=#unknown-element title="unknown element">unknown elements</a>
-and <a href=#unknown-attribute title="unknown attribute">unknown attributes</a>
-are <span title=validate>validated</span>,
+</li><li>how to <span>validate</span> unknown features,
 
 </li><li>features considered <span>obsolete</span>,
+
+</li><li>how to <span>validate</span> <span title="superglobal
+attribute">superglobal attributes</span>,
 
 </li><li>how the requirements of feed format (RSS and Atom) specifications
 are integrated with the platform,
 
 and
 
-</li><li>how OGP are <span title=validate>validated</span>,
+</li><li>how to <span>validate</span> OGP
 
 </li></ul>
 
-... for <span>validator</span> implementations
+... for <span title=validator>validators</span> produced
 by <a href=https://manakai.github.io/>the manakai project</a>.
 
 <p class=XXX>This specification will define:
@@ -267,6 +270,7 @@ Terms
 <dfn id=valid-global-date-and-time-string>valid global date and time string</dfn>,
 <dfn id=valid-e-mail-address>valid e-mail address</dfn>,
 <dfn id=parse-a-url>parse a URL</dfn>,
+<dfn id=html-element>HTML element</dfn>,
 <dfn id=div><code>div</code></dfn>,
 and
 <dfn id=parse-error>parse error</dfn>
@@ -648,7 +652,7 @@ element</a>:
 
 
 <section>
-<h1 id=validation-of-unknown-elements-and-attributes><span class=secno>4 </span>Validation of unknown elements and attributes</h1>
+<h1 id=validation-of-unknown-features><span class=secno>4 </span>Validation of unknown features</h1>
 
 <p id=supported-namespace>A <a href=#user-agent>user agent</a>
 either <a href=#full-support title="full support">fully
@@ -904,7 +908,24 @@ are <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>:
 </section>
 
 <section>
-<h1 id=validation-of-xml><span class=secno>6 </span>Validation of XML</h1>
+<h1 id=validation-of-superglobal-attributes><span class=secno>6 </span>Validation of superglobal attributes</h1>
+
+<p>Unless otherwise
+specified, <a href=#attribute title=attribute>attributes</a> <code>class</code>, <code>id</code>,
+and <code>slot</code> <a href=#in-no-namespace>in no
+namespace</a> <em class=rfc2119>MUST</em> conform to the
+requirements for the <a href=#attribute>attribute</a> with
+same <a href=#local-name title="local name">name</a> for an <a href=#html-element>HTML
+element</a>.
+
+  </p><div class=note>
+
+  <p>This does not mean use of them are conforming.
+
+  </p></div>
+
+<section>
+<h1 id=validation-of-xml-attributes><span class=secno>6.1 </span>Validation of XML attributes</h1>
 
 <p><a href=#user-agent title="user agent">User
 agents</a> <em class=rfc2119>MUST</em> implement the <a href=#xml-specification>XML
@@ -975,6 +996,8 @@ specification</a>.
   specification</a>.
 
   </p></div>
+
+</section>
 
 </section>
 

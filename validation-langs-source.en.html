@@ -63,7 +63,7 @@ covered by other <span title="applicable specification">applicable
 specifications</span>.
 
 <section>
-<h1>Scope</h1>
+<h1>Scope</h1><!-- Goals -->
 
 <p>This specification defines:
 
@@ -73,16 +73,18 @@ specifications</span>.
 for <span title=validate>validation</span> of a <span>node</span> when
 there are multiple candidate specifications,
 
-<li>how the requirements of feed format (RSS and Atom) specifications
-are integrated with the platform,
-
-<li>how OGP are <span title=validate>validated</span>,
-
-and
-
 <li>how <span title="unknown element">unknown elements</span>
 and <span title="unknown attribute">unknown attributes</span>
 are <span title=validate>validated</span>,
+
+<li>features considered <span>obsolete</span>,
+
+<li>how the requirements of feed format (RSS and Atom) specifications
+are integrated with the platform,
+
+and
+
+<li>how OGP are <span title=validate>validated</span>,
 
 </ul>
 
@@ -162,6 +164,23 @@ Standard</cite></a>.
 <p>The term <dfn>valid language tag</dfn> is defined
 by <a href="https://tools.ietf.org/html/bcp47">BCP 47</a>.
 
+<hr>
+
+<p>The term
+
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn>literal result element</dfn></a>
+
+is defined by the
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
+specification</a>.
+
+The <dfn>XSLT namespace</dfn> is
+<code>http://www.w3.org/1999/XSL/Transform</code>.
+
+<section>
+<h1>General rules of validation</h1>
+
+
 <p>For the purpose of this specification, <dfn title="user agent">user
 agents</dfn> are <span title="conformance checker">conformance
 checkers</span>, also known
@@ -179,10 +198,8 @@ Standard</cite></a>.  Terms
 <dfn>node</dfn>,
 <dfn>node document</dfn>,
 <dfn>document</dfn>,
-<dfn title=concept-document-content-type>content
-type</dfn>, <dfn>HTML document</dfn>, <dfn>XHTML
-document</dfn>, <dfn>document
-element</dfn>, 
+<dfn>content type</dfn>,
+<dfn>document element</dfn>, 
 <dfn>element</dfn>,
 <dfn>attribute list</dfn>,
 <dfn>attribute</dfn>,
@@ -206,10 +223,11 @@ agents</span> <em class=rfc2119>MUST</em> implement the
 Terms
 
 <dfn>applicable specification</dfn>,
+<dfn>willful violation</dfn>,
 <dfn>document base URL</dfn>,
 <dfn>content model</dfn>,
 <dfn>inter-element whitespace</dfn>,
-<dfn>empty</dfn>,
+<dfn>nothing</dfn>,
 <dfn>valid non-negative integer</dfn>,
 <dfn>valid floating-point number</dfn>,
 <dfn>valid global date and time string</dfn>,
@@ -230,42 +248,21 @@ a <span>namespace</span> that is <em>not</em> <code>null</code>.
 
 <hr>
 
-<p>The term
-
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn>literal result element</dfn></a>
-
-is defined by the
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
-specification</a>.
-
-The <dfn>XSLT namespace</dfn> is
-<code>http://www.w3.org/1999/XSL/Transform</code>.
-
-
-
-<hr>
-
-<p>When a value is required to match the production labeled
-<code title>document</code> in the XML
-specification<!-- <iframe srcdoc=""> in XML [HTML] -->,
-it <em class=rfc2119>MUST</em> also conform to other requirements for
-XML documents.
-
-<section>
-<h1>General rules of validation</h1>
-
 <p>Unless otherwise specified,
 an <span>element</span> <em class=rfc2119>MAY</em>
-have <span title=comment>comments</span> and <span title="processing
-instruction">processing
-instructions</span> <span title=child>children</span>.  In addition,
-unless otherwise specified, an <span>element</span>
-whose <span>content model</span> is <em>not</em>
-a <span>text</span> <em class=rfc2119>MAY</em>
-have <span>inter-element
-whitespace</span> <span title=child>children</span>.<!-- Explicitly
-specified in HTML Standard but most other specifications (RSS1, RSS2,
-Media RSS, Atom) do not. -->
+have <span>child</span> <span title=comment>comments</span>
+and <span title="processing instruction">processing
+instructions</span>.  In addition, unless otherwise specified,
+an <span>element</span> whose <span>content model</span>
+is <em>not</em> a <span>text</span> (with or without additional
+constraints) <em class=rfc2119>MAY</em>
+have <span>child</span> <span title="inter-element
+whitespace">inter-element whitespaces</span>.  They are ignored for
+the purpose of <span>content
+model</span> <span title=validate>validation</span> of
+the <span>element</span>.<!-- Explicitly specified in HTML Standard
+but most other specifications (RSS1, RSS2, Media RSS, Atom) do
+not. -->
 
 </section>
 
@@ -275,6 +272,14 @@ Media RSS, Atom) do not. -->
 <p>This subsection defines how to interpret old unmaintained
 specifications for the purpose
 of <span title=validate>validation</span>.
+
+  <div class=note>
+
+  <p>These are sometimes <span title="willful violation">willful
+  violations</span> to relevant <span title="applicable
+  specification">specifications</span>.
+
+  </div>
 
 <p>When a <span title="applicable specification">specification</span>
 is written without clear statements of
@@ -289,8 +294,13 @@ and <span title=attribute>attributes</span> in
 the <span>namespace</span> and <span title="RSS2 element">RSS2
 elements</span> not defined by any <span title="applicable
 specification">specification</span> <em class=rfc2119>MUST NOT</em> be
-used.<!-- RSS1, RSS content, RSS DC, DCES, RSS2 (except for RSSBP),
-Atom, Media RSS, iTunes, Hatena -->
+used.<!-- XML 1.0, RSS1, RSS content, RSS DC, DCES, RSS2 (except for
+RSSBP), Atom, Media RSS, iTunes, Hatena -->
+
+<p>When a value has to match to a production rule,
+it <em class=rfc2119>MUST</em> also conform to other requirements for
+that construct.<!-- HTML Standard defines <iframe srcdoc=""> in XML
+MUST be an XML |document| -->
 
 <p>When an <span>element</span>'s <span>content</span> or
 an <span>attribute</span> is defined to be one of the following
@@ -340,8 +350,8 @@ conform to the corresponding consturct instead:
     hatena:imageurlsmall, Atom family -->
     <dd><p>A <span>valid URL string</span>.
 
-    <p>If IRI and IRI reference are distinguished and is identified as
-    an IRI, it <em class=rfc2119>MUST</em> also be
+    <p>If IRI and IRI reference are distinguished and it is identified
+    as an IRI, it <em class=rfc2119>MUST</em> also be
     an <span>absolute-URL-with-fragment string</span>.
 
     <p>To interpret a string, the rules to <span>parse a
@@ -376,7 +386,7 @@ conform to the corresponding consturct instead:
   </div>
 
   <div>
-    <dt>An email address in the <span>RSS2 specifications</span>
+    <dt>An email address (in the <span>RSS2 specifications</span>)
     <dd><p>A string in the
     <a href=http://www.rssboard.org/rss-profile#data-types-email><em class=rfc2119>RECOMMENDED</em>
     format for e-mail addresses</a>.
@@ -426,6 +436,8 @@ content</span> to a new
 namespace</span> <em class=rfc2119>MUST NOT</em> generate
 a <span>parse error</span> or create a
 non-conforming <span>tree</span>.
+<!-- XXX this is broken. --><!-- note that scripting is enabled or not
+affects the result -->
 
 </section>
 
@@ -481,8 +493,7 @@ a <span>node</span> <var>node</var>, run these steps:
 <ol class=steps>
 
 <li>If <var>node</var> is a <span>document element</span>, switch
-by <var>node</var>'s <span>node
-document</span>'s <span title=concept-document-content-type>content
+by <var>node</var>'s <span>node document</span>'s <span>content
 type</span>:
 
   <dl class=switch>
@@ -779,6 +790,100 @@ error.
 </section>
 
 <section>
+<h1>Validation of obsolete features</h1>
+
+<p>Validators are expected to detect <span>obsolete</span> features
+and show errors and alternative features, if known, to improve
+authoring experiences.
+
+<p>When a <span title="applicable specification">specification</span>
+is identified as <dfn title="obsolete specification">obsolete</dfn>,
+the features, including but not limited to
+the <span title=element>elements</span>
+and <span title=attribute>attributes</span>, defined by
+the <span title="applicable
+specification">specification</span> <em class=rfc2119>MUST NOT</em> be
+used unless otherwise specified by another <span title="applicable
+specification">specification</span>.  <span title="user agent">User
+agents</span> <em class=rfc2119>MAY</em> ignore requirements in
+the <span title="applicable specification">specification</span>.
+The <span title=namespace>namespaces</span> defined by
+an <span>obsolete specification</span> are <span title="obsolete
+namespace">obsolete</span> unless otherwise specified by
+another <span title="applicable specification">specification</span>.
+
+<p>When a <span>namespace</span> is identified as <dfn title="obsolete
+namespace">obsolete</dfn>, the <span title=element>elements</span>
+and <span title=attribute>attributes</span> in
+the <span>namespace</span>, as well
+as <span title=attribute>attributes</span> <span>in no
+namespace</span>, <em class=rfc2119>MUST NOT</em> be used unless
+otherwise specified by another <span title="applicable
+specification">specification</span>.
+
+<p>The following <span title=namespace>namespaces</span>
+are <span title="obsolete namespace">obsolete</span>:
+
+<ul>
+  <li><dfn><code>http://www.w3.org/1999/xlink</code></dfn>
+  <li><dfn><code>http://www.w3.org/2001/xml-events</code></dfn>
+  <li><dfn><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
+  <li><dfn><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
+  <li><dfn><code>http://www.w3.org/2005/07/aaa</code></dfn>
+</ul>
+
+  <div class=note>
+
+  <p>Though <span title="obsolete namespace">obsolete</span>,
+  some <span title=attribute>attributes</span> in
+  the <code>http://www.w3.org/1999/xlink</code> <span>namespace</span>
+  are allowed to be specified for <span title="SVG element">SVG
+  elements</span>.
+
+  </div>
+
+  <div class=note>
+
+  <p>These were once implemented by some Web user agents or used on
+  the Web but no longer considered as part of the Web platform.  Use
+  of them could be authoring errors.
+
+  </div>
+
+</section>
+
+<section>
+<h1>Validation of XML</h1>
+
+<p><span title="user agent">User
+agents</span> <em class=rfc2119>MUST</em> implement the
+<a href=https://www.w3.org/TR/REC-xml/><cite>Extensible Markup
+Language (XML) 1.0</cite></a> specification.
+
+  <div class=note>
+
+  <p>The <code>xml:lang</code>
+  and <code>xml:space</code> <span title=attribute>attributes</span>
+  are defined by the XML specification.
+
+  </div>
+
+<p>Specifications <a href=https://www.w3.org/TR/xmlbase/><cite>XML
+Base</cite></a> and
+<a href=https://www.w3.org/TR/xml-id/><cite>xml:id</cite></a>
+are <span title="obsolete specification">obsolete</span>.
+
+  <div class=note>
+
+  <p>Therefore use of <dfn><code>xml:base</code></dfn>
+  and <dfn><code>xml:id</code></dfn> <span title=attribute>attributes</span>
+  are non-conforming.
+
+  </div>
+
+</section>
+
+<section>
 <h1>Validation of feed namespaces</h1>
 
 <p>If an <span>element</span> is <dfn>unique property element</dfn>
@@ -791,8 +896,8 @@ same <span>namespace</span> and <span>local name</span>.
 <section>
 <h1>RSS1 elements</h1>
 
-<p><span title="user agent">User agents</span>
-<em class=rfc2119>MUST</em> implement the <span>RSS1
+<p><span title="user agent">User
+agents</span> <em class=rfc2119>MUST</em> implement the <span>RSS1
 specification</span>.  The <dfn>RSS1 specification</dfn> is
 <a href=http://web.resource.org/rss/1.0/spec><cite>RDF Site Summary
 (RSS) 1.0</cite></a>.  The <dfn>RDF namespace</dfn>
@@ -801,21 +906,30 @@ The <dfn>RSS namespace</dfn> is <code>http://purl.org/rss/1.0/</code>.
 The <dfn>Dublin Core namespace</dfn> is
 <a href=http://web.resource.org/rss/1.0/modules/dc/><!-- which
 references http://dublincore.org/documents/dces/
---><code>http://purl.org/dc/elements/1.1/</code></a>.  The <dfn>RSS
-content namespace</dfn> is
-<a href=http://web.resource.org/rss/1.0/modules/content/><code>http://purl.org/rss/1.0/modules/content/</code></a>.
+--><code>http://purl.org/dc/elements/1.1/</code></a>.
 
-<p>Anything other than
-the <code>encoded</code> <span>element</span> <em class=rfc2119>MUST
-NOT</em> be used in the <span>RSS content namespace</span>.
+<p><span title="user agent">User
+agents</span> <em class=rfc2119>MUST</em> implement the <span>RSS1
+content specification</span>.  The <dfn>RSS1 content
+specification</dfn> is
+<a href=http://web.resource.org/rss/1.0/modules/content/><cite>RDF
+Site Summary 1.0 Modules: Content</cite></a>.  The <dfn>RSS content
+namespace</dfn>
+is <code>http://purl.org/rss/1.0/modules/content/</code>.
+The <span>RSS1 content specification</span> is <span title="obsolete
+specification">obsolete</span> except for
+the <dfn title=content:encoded><code>encoded</code></dfn> <span>element</span>
+in the <span>RSS content namespace</span>.
 
 <div class=note>
 
-<p>The <code>encoded</code> <span>element</span> in the <span>RSS
-content namespace</span>, which is only shown as a "draft" in the
-specification, is <i>de facto</i> part of <span>RSS1</span>, while
-other "formal" <span title=element>elements</span> in that
-specification is not used at all.
+<p>The <code title=content:encoded>encoded</code> <span>element</span>
+in the <span>RSS content namespace</span>, which is only shown as a
+"draft" in the <span title="RSS1 content
+specification">specification</span>, is <i>de facto</i> part
+of <span>RSS1</span>, while other
+"formal" <span title=element>elements</span> in that <span title="RSS1
+content specification">specification</span> has not been used at all.
 
 </div>
 
@@ -825,8 +939,6 @@ specification is not used at all.
 element</dfn> if:
 
   <ul>
-
-  <li>Its <span>prefix</span> is <code>rdf</code>,
 
   <li>Its <span>namespace</span> is the <span>RDF namespace</span>,
 
@@ -839,9 +951,10 @@ element</dfn> if:
     <li>Its <span>parent</span> is a <span>document</span> whose
     <span>content type</span> is <code>application/rss+xml</code>, or
 
-    <li>It has an <code>xmlns</code> <span>attribute</span> in
-    the <span>XMLNS namespace</span> whose <span title="attribute
-    value">value</span> is the <span>RSS namespace</span> and
+    <li>Its <span>prefix</span> is <code>rdf</code>, it has
+    an <code>xmlns</code> <span>attribute</span> in the <span>XMLNS
+    namespace</span> whose <span title="attribute value">value</span>
+    is the <span>RSS namespace</span>, and it has
     an <code>rdf</code> <span>attribute</span> in the <span>XMLNS
     namespace</span><!-- xmlns:rdf --> whose <span title="attribute
     value">value</span> is the <span>RDF namespace</span>.
@@ -949,9 +1062,9 @@ property elements</span>.<!-- to conform RSS 1.0 extensibility rule
 <span>parent</span> is an <code>item</code> <span>element</span> in
 the <span>RSS namespace</span> has an <span>HTML fragment
 content</span>.<!-- de facto standard -->
-An <code>encoded</code> <span>element</span> in the <span>RSS content
-namespace</span> has an <span>HTML fragment content</span>.<!-- Not
-explicitly defined in ths spec -->
+An <code title=content:encoded>encoded</code> <span>element</span> in
+the <span>RSS content namespace</span> has an <span>HTML fragment
+content</span>.<!-- Not explicitly defined in ths spec -->
 
 <p>A <code>channel</code> <span>element</span> in the <span>RSS
 namespace</span> <em class=rfc2119>MAY</em>
@@ -985,18 +1098,20 @@ document">RSS2 documents</span>.
 
 <p>An <span>element</span> is an <dfn>RSS2 element</dfn> if it
 is <span>in no namespace</span> and its <span>node document</span> is
-an <span>RSS2 document</span>.
-
-<p><span title="RSS2 element">RSS2
+an <span>RSS2 document</span>.  An <dfn>RSS2 <code>channel</code>
+element</dfn> is an <span>RSS2 element</span> whose <span>local
+name</span> is <code>channel</code>.  An <dfn>RSS2 <code>item</code>
+element</dfn> is an <span>RSS2 element</span> whose <span>local
+name</span> is <code>item</code>.  <span title="RSS2 element">RSS2
 elements</span> <em class=rfc2119>MUST</em>
 be <span title=validate>validated</span> against the requirements
 for <span>RSS2</span>.
 
 <hr>
 
-<p>An <span>RSS2 element</span> whose <span>local name</span>
-is <code>item</code> <em class=rfc2119>MAY</em> have at most
-one <span>child</span> <span>updated</span> <span>element</span> in
+<p>An <span>RSS2 <code>item</code>
+element</span> <em class=rfc2119>MAY</em> have at most
+one <span>child</span> <code>updated</code> <span>element</span> in
 the <span>Atom namespace</span>.
 
 <p>These are <span title="unique property element">unique property
@@ -1005,25 +1120,24 @@ elements</span>:
   <ul>
 
   <li><span title=child>Children</span> <code>creator</code> <span title=element>elements</span>
-  in the <span>Dublin Core namespace</span> of an <span>RSS2
-  element</span> whose <span>local name</span> is <code>item</code>
-  or <code>channel</code>.
+  in the <span>Dublin Core namespace</span> of
+  an <span>RSS2 <code>channel</code> element</span> or
+  an <span>RSS2 <code>item</code> element</span>.
 
-  <li><span title=child>Children</span> <code>encoded</code> <span title=element>elements</span>
-  in the <span>RSS content namespace</span> of an <span>RSS2
-  element</span> whose <span>local name</span> is <code>item</code>.
+  <li><span title=child>Children</span> <code title=content:encoded>encoded</code> <span title=element>elements</span>
+  in the <span>RSS content namespace</span> of
+  an <span>RSS2 <code>item</code> element</span>.
 
   <li><span title=child>Children</span> <code>comments</code> <span title=element>elements</span>
   in
   the <span>namespace</span> <code>http://purl.org/rss/1.0/modules/slash/</code>
-  of an <span>RSS2 element</span> whose <span>local name</span>
-  is <code>item</code>.
+  of an <span>RSS2 <code>item</code> element</span>.
 
   </ul>
 
-<p>An <span>RSS2 element</span> whose <span>local name</span>
-is <code>item</code>
-or <code>channel</code> <em class=rfc2119>MAY</em>
+<p>An <span>RSS2 <code>item</code> element</span> or
+an <span>RSS2 <code>channel</code>
+element</span> <em class=rfc2119>MAY</em>
 have <span title=child>children</span> <span title="unknown
 element">unknown elements</span>.
 
@@ -1035,7 +1149,9 @@ agent">user agents</span> implementing <span>Media RSS</span>.</em>
 
 <p>The <dfn>Media RSS namespace</dfn> is
 <a href=http://www.rssboard.org/media-rss><code>http://search.yahoo.com/mrss/</code>
-or <code>http://search.yahoo.com/mrss</code></a>.
+or <code>http://search.yahoo.com/mrss</code></a>.  These are synonyms.
+The latter <span>namespace</span> is <span title="obsolete
+namespace">obsolete</span>.
 
 <div class=note>
 
@@ -1092,22 +1208,21 @@ agent">user agents</span> implementing <span>Podcast</span>.</em>
 
 <p>The <dfn>iTunes namespace</dfn> is
 <a href=https://help.apple.com/itc/podcasts_connect/#/itcb54353390><code>http://www.itunes.com/dtds/podcast-1.0.dtd</code></a>
-or <code>http://www.itunes.com/DTDs/Podcast-1.0.dtd</code>.
+or <code>http://www.itunes.com/DTDs/Podcast-1.0.dtd</code>.  These are
+synonyms.  The latter <span>namespace</span> is <span title="obsolete
+namespace">obsolete</span>.
 
-<div class=note>
-
-<p>The proper <span>namespace</span>
-is <code>http://www.itunes.com/dtds/podcast-1.0.dtd</code>.  The
-other <span>namespace</span> is non-conforming.
-
-</div>
 
 
 <p><span title=child>Children</span> <span title=element>elements</span>
-in the <span>iTunes namespace</span> of an <span>RSS2 element</span>
-whose <span>local name</span> is <code>item</code>
-or <code>channel</code> are <span title="unique property
-element">unique property elements</span>.
+in the <span>iTunes namespace</span> of
+an <span>RSS2 <code>channel</code> element</span> or
+an <span>RSS2 <code>item</code> element</span> are <span title="unique
+property element">unique property elements</span>.
+
+<p>The <span>content model</content> of
+the <code>image</code> <span>element</span> in the <span>iTunes
+namespace</span> is <span>nothing</span>.
 
 </section>
 
@@ -1240,6 +1355,15 @@ a <span>child</span> of an <code>entry</code> <span>element</span> in
 the <span>Atom namespace</span>.< !-- no spec but sometimes used in the
 wild -->
 
+<p><span title=element>Elements</span> in the <span>Atom 0.3
+namespace</span> <em class=rfc2119>MUST NOT</em> be used.
+
+  <div class=note>
+
+  <p>Atom 0.3 is obsolete.
+
+  </div>
+
 <section>
 <h1>GData elements</h1>
 
@@ -1283,7 +1407,7 @@ value">value</span> is a <span>valid URL string</span>.
 
 <p>The <span>content model</span> of
 the <code>image</code> <span>element</span> in the <span>GData
-namespace</span> is <span>empty</span>.
+namespace</span> is <span>nothing</span>.
 
 </section>
 
@@ -1374,9 +1498,7 @@ checking test data</a>.
 
 <p>This document is written by
 <a href=https://suika.suikawiki.org/~wakaba/who?>Wakaba</a>
-&lt;wakaba@suikawiki.org&gt;.
-
-<p>This document is developed as part of the
+&lt;wakaba@suikawiki.org&gt; and is produced as part of the
 <a href=https://manakai.github.io/>the manakai project</a>.
 
 <p>Per

@@ -94,29 +94,32 @@ covered by other <a href=#applicable-specification title="applicable specificati
 specifications</a>.
 
 </p><section>
-<h1 id=scope><span class=secno>1.1 </span>Scope</h1><!-- Goals -->
+<h1 id=scope><span class=secno>1.1 </span>Scope</h1>
 
-<p>This specification defines:
+<p>This specification's goals are
 
 </p><ul>
 
-<li>how to choose the set of requirements used
+<li>defining how to choose the set of requirements used
 for <span title=validate>validation</span> of a <a href=#node>node</a> when
 there are multiple candidate specifications,
 
-</li><li>how to <span>validate</span> unknown features,
+</li><li>making it clearer that <span title=validator>validators</span> are
+not perfect,
 
-</li><li>features considered <span>obsolete</span>,
+</li><li>defining how to <span>validate</span> unknown features,
 
-</li><li>how to <span>validate</span> <span title="superglobal
-attribute">superglobal attributes</span>,
+</li><li>listing features that are to be reported as <span>obsolete</span>,
 
-</li><li>how the requirements of feed format (RSS and Atom) specifications
-are integrated with the platform,
+</li><li>defining how to <span>validate</span> <span title="superglobal
+attribute">superglobal attributes</span> when they are not allowed,
+
+</li><li>integrating the requirements of feed format (RSS and Atom)
+specifications with the rest of the platform,
 
 and
 
-</li><li>how to <span>validate</span> OGP
+</li><li>integrating the OGP requirements with the rest of the platform,
 
 </li></ul>
 
@@ -654,6 +657,21 @@ element</a>:
 <section>
 <h1 id=validation-of-unknown-features><span class=secno>4 </span>Validation of unknown features</h1>
 
+<p>There are many protocol or language features that are extensible.
+A <a href=#user-agent>user agent</a> might or might not know how
+to <span>validate</span> a feature's instance.  Therefore, the answer
+to a question "Is this instance conforming?" can
+be <i>yes</i>, <i>no</i>, or <i>unknown</i>.
+
+</p><p>When a feature is defined as <dfn id=unknown-feature title="unknown
+feature">unknown</dfn>, a <a href=#user-agent>user
+agent</a> <em class=rfc2119>MUST</em> report any use of such
+features as <i>unknown</i>.  A <a href=#user-agent>user
+agent</a> <em class=rfc2119>MAY</em> report any other features
+as <i>unknown</i>.
+
+</p><hr>
+
 <p id=supported-namespace>A <a href=#user-agent>user agent</a>
 either <a href=#full-support title="full support">fully
 supports</a>, <a href=#partial-support title="partial support">partially
@@ -665,7 +683,7 @@ support">fully supported</dfn> if all of
 its <a href=#element title=element>elements</a>
 and <a href=#attribute title=attribute>attributes</a> are defined
 by <a href=#applicable-specification title="applicable specification">applicable
-specifications</a> and they are completely implemented.
+specifications</a> and all of them are somewhat implemented.
 
 </p><div class=note>
 
@@ -676,7 +694,7 @@ or <a href=#attribute-value title="attribute value">attribute values</a> that ar
 permitted by this specification or other <a href=#applicable-specification title="applicable
 specification">applicable specifications</a>".  Use
 of <a href=#element title=element>elements</a>
-or <span title=attributes>attribute</span> in a <a href=#full-support title="full
+or <a href=#attribute title=attribute>attributes</a> in a <a href=#full-support title="full
 support">fully supported</a> <a href=#namespace>namespace</a> is <em>not</em>
 allowed unless they are specified in <a href=#applicable-specification title="applicable
 specification">applicable specifications</a>.
@@ -702,7 +720,22 @@ or <a href=#partial-support title="partial support">partially</a>, but
 it <a href=#no-support title="no support">does <em>not</em> support</a>
 the <a href=#rdf-namespace>RDF namespace</a>.
 
-</p><hr id=unknown-namespace>
+  </p><div class=note>
+
+  <p>Whether a <a href=#namespace>namespace</a> is <a href=#full-support title="full
+  support">fully supported</a>, <a href=#partial-support title="partial
+  support">partially supported</a>, or <a href=#no-support title="no support">not
+  supported</a>, are orthogonal to
+  its <a href=#element title=element>elements</a>
+  and <a href=#attribute title=attribute>attributes</a> are <a href=#unknown-feature title="unknown
+  feature">unknown</a> or not.  A <a href=#user-agent>user agent</a> might not
+  support the <span title=validate>validation</span> of
+  an <a href=#attribute-value>attribute value</a> of a <a href=#full-support title="full
+  support">fully supported</a> <a href=#namespace>namespace</a>.
+
+  </p></div>
+
+<hr id=unknown-namespace>
 
 <p><dfn id=unknown-element title="unknown element">Unknown elements</dfn> are
 following <a href=#element title=element>elements</a>:
@@ -744,7 +777,15 @@ following <a href=#attribute title=attribute>attributes</a>:
 
   </li></ul>
 
-<hr>
+<p><a href=#unknown-element title="unknown element">Unknown
+elements</a>, <a href=#attribute title=attribute>attributes</a> <a href=#in-no-namespace>in no
+namespace</a> of <a href=#unknown-element title="unknown element">unknown
+elements</a>, other than <span title="superglobal
+attribute">superglobal attributes</span>, and <a href=#unknown-attribute title="unknown
+attribute">unknown attributes</a> are <a href=#unknown-feature title="unknown
+feature">unknown</a>.
+
+</p><hr>
 
 <p>An <a href=#unknown-element>unknown element</a> or <a href=#unknown-attribute>unknown
 attribute</a> <em class=rfc2119>MUST NOT</em> be used anywhere
@@ -776,10 +817,6 @@ kind of <a href=#child>child</a>.
 any value.  An <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no namespace</a> of
 an <a href=#unknown-element>unknown element</a> <em class=rfc2119>MAY</em> have any
 value.
-
-</p><p>A <a href=#user-agent>user agent</a> <em class=rfc2119>MAY</em> <span>report a
-warning</span> for an <a href=#unknown-element>unknown element</a> or <a href=#unknown-attribute>unknown
-attribute</a>.
 
 </p><div class=note>
 

@@ -63,29 +63,32 @@ covered by other <span title="applicable specification">applicable
 specifications</span>.
 
 <section>
-<h1>Scope</h1><!-- Goals -->
+<h1>Scope</h1>
 
-<p>This specification defines:
+<p>This specification's goals are
 
 <ul>
 
-<li>how to choose the set of requirements used
+<li>defining how to choose the set of requirements used
 for <span title=validate>validation</span> of a <span>node</span> when
 there are multiple candidate specifications,
 
-<li>how to <span>validate</span> unknown features,
+<li>making it clearer that <span title=validator>validators</span> are
+not perfect,
 
-<li>features considered <span>obsolete</span>,
+<li>defining how to <span>validate</span> unknown features,
 
-<li>how to <span>validate</span> <span title="superglobal
-attribute">superglobal attributes</span>,
+<li>listing features that are to be reported as <span>obsolete</span>,
 
-<li>how the requirements of feed format (RSS and Atom) specifications
-are integrated with the platform,
+<li>defining how to <span>validate</span> <span title="superglobal
+attribute">superglobal attributes</span> when they are not allowed,
+
+<li>integrating the requirements of feed format (RSS and Atom)
+specifications with the rest of the platform,
 
 and
 
-<li>how to <span>validate</span> OGP
+<li>integrating the OGP requirements with the rest of the platform,
 
 </ul>
 
@@ -623,6 +626,21 @@ element</span>:
 <section>
 <h1>Validation of unknown features</h1>
 
+<p>There are many protocol or language features that are extensible.
+A <span>user agent</span> might or might not know how
+to <span>validate</span> a feature's instance.  Therefore, the answer
+to a question "Is this instance conforming?" can
+be <i>yes</i>, <i>no</i>, or <i>unknown</i>.
+
+<p>When a feature is defined as <dfn title="unknown
+feature">unknown</dfn>, a <span>user
+agent</span> <em class=rfc2119>MUST</em> report any use of such
+features as <i>unknown</i>.  A <span>user
+agent</span> <em class=rfc2119>MAY</em> report any other features
+as <i>unknown</i>.
+
+<hr>
+
 <p id=supported-namespace>A <span>user agent</span>
 either <span title="full support">fully
 supports</span>, <span title="partial support">partially
@@ -634,7 +652,7 @@ support">fully supported</dfn> if all of
 its <span title=element>elements</span>
 and <span title=attribute>attributes</span> are defined
 by <span title="applicable specification">applicable
-specifications</span> and they are completely implemented.
+specifications</span> and all of them are somewhat implemented.
 
 <div class=note>
 
@@ -645,7 +663,7 @@ or <span title="attribute value">attribute values</span> that are not
 permitted by this specification or other <span title="applicable
 specification">applicable specifications</span>".  Use
 of <span title=element>elements</span>
-or <span title=attributes>attribute</span> in a <span title="full
+or <span title=attribute>attributes</span> in a <span title="full
 support">fully supported</span> <span>namespace</span> is <em>not</em>
 allowed unless they are specified in <span title="applicable
 specification">applicable specifications</span>.
@@ -670,6 +688,21 @@ namespace</span> <span title="full support">fully</span>
 or <span title="partial support">partially</span>, but
 it <span title="no support">does <em>not</em> support</span>
 the <span>RDF namespace</span>.
+
+  <div class=note>
+
+  <p>Whether a <span>namespace</span> is <span title="full
+  support">fully supported</span>, <span title="partial
+  support">partially supported</span>, or <span title="no support">not
+  supported</span>, are orthogonal to
+  its <span title=element>elements</span>
+  and <span title=attribute>attributes</span> are <span title="unknown
+  feature">unknown</span> or not.  A <span>user agent</span> might not
+  support the <span title=validate>validation</span> of
+  an <span>attribute value</span> of a <span title="full
+  support">fully supported</span> <span>namespace</span>.
+
+  </div>
 
 <hr id=unknown-namespace>
 
@@ -713,6 +746,14 @@ following <span title=attribute>attributes</span>:
 
   </ul>
 
+<p><span title="unknown element">Unknown
+elements</span>, <span title=attribute>attributes</span> <span>in no
+namespace</span> of <span title="unknown element">unknown
+elements</span>, other than <span title="superglobal
+attribute">superglobal attributes</span>, and <span title="unknown
+attribute">unknown attributes</span> are <span title="unknown
+feature">unknown</span>.
+
 <hr>
 
 <p>An <span>unknown element</span> or <span>unknown
@@ -745,10 +786,6 @@ kind of <span>child</span>.
 any value.  An <span>attribute</span> <span>in no namespace</span> of
 an <span>unknown element</span> <em class=rfc2119>MAY</em> have any
 value.
-
-<p>A <span>user agent</span> <em class=rfc2119>MAY</em> <span>report a
-warning</span> for an <span>unknown element</span> or <span>unknown
-attribute</span>.
 
 <div class=note>
 

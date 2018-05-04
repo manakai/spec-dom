@@ -113,6 +113,10 @@ due course.
   <http://suika.suikawiki.org/gate/git/wi/markup/xmlexts.git/history/HEAD:/validation-langs-source.en.html>
   -->
 
+  <p>Some of texts in this specification were originally part of
+  comments and documentations of the Perl modules developed by the
+  <a href=https://manakai.github.io/>the manakai project</a>.
+
   <p>Earlier versions of this specification contained non-normative
   descriptions of how to <span>validate</span>
   HTML <code id=checking-an-html-script-element>script</code>
@@ -151,9 +155,10 @@ Standard</cite></a>.
 
 
 <p>The terms
-<dfn>valid URL string</dfn>
+<dfn>valid URL string</dfn>,
+<dfn>absolute-URL-with-fragment string</dfn>,
 and
-<dfn>absolute-URL-with-fragment string</dfn>
+<dfn>relative-URL-with-fragment string</dfn>
 are defined by <a href="https://url.spec.whatwg.org/"><cite>URL
 Standard</cite></a>.
 
@@ -294,8 +299,17 @@ and <span title=attribute>attributes</span> in
 the <span>namespace</span> and <span title="RSS2 element">RSS2
 elements</span> not defined by any <span title="applicable
 specification">specification</span> <em class=rfc2119>MUST NOT</em> be
-used.<!-- XML 1.0, RSS1, RSS content, RSS DC, DCES, RSS2 (except for
-RSSBP), Atom, Media RSS, iTunes, Hatena -->
+used.  Deprecated features <em class=rfc2119>SHOULD NOT</em> be
+used.<!-- XML 1.0, XMLNS 1.0, RSS1, RSS content, RSS DC, DCES, RSS2
+(except for RSSBP), Atom, Media RSS, iTunes, Hatena -->
+
+  <div class=note>
+
+  <p>Features that are "reserved" cannot be used unless they are
+  defined by later <span title="applicable
+  specification">specification</span>.<!-- XML 1.0 -->
+
+  </div>
 
 <p>When a value has to match to a production rule,
 it <em class=rfc2119>MUST</em> also conform to other requirements for
@@ -333,6 +347,7 @@ conform to the corresponding consturct instead:
   <div>
     <dt>An RFC 1766 language tag<!-- HTML4 referenced by RSS2 -->
     <dt>An RFC 3066 language tag<!-- Atom family, MediaRSS -->
+    <dt>A BCP 47 language identifier<!-- XML 1.0 -->
     <dd><p>A <span>valid language tag</span>.
   </div>
 
@@ -344,6 +359,7 @@ conform to the corresponding consturct instead:
     <dt>A URL with a scheme defined by the IANA Registry of URI
     Schemes<!-- RSS2 -->
     <dt>A URI
+    <dt>An RFC 3986 URI reference<!-- XMLNS -->
     <dt>An IRI
     <dt>An IRI reference
     <!-- rdf:about, rdf:resource, link, url, hatena:imageurl,
@@ -367,6 +383,12 @@ conform to the corresponding consturct instead:
     -->
 
     </div>
+  </div>
+
+  <div>
+    <dt>A relative URI reference<!-- XMLNS -->
+    <dd><p>A <span>valid URL</span> that is
+    a <span>relative-URL-with-fragment string</span>.
   </div>
 
   <div>
@@ -856,15 +878,33 @@ are <span title="obsolete namespace">obsolete</span>:
 <h1>Validation of XML</h1>
 
 <p><span title="user agent">User
-agents</span> <em class=rfc2119>MUST</em> implement the
-<a href=https://www.w3.org/TR/REC-xml/><cite>Extensible Markup
-Language (XML) 1.0</cite></a> specification.
+agents</span> <em class=rfc2119>MUST</em> implement the <span>XML
+specification</span> and the <span>XML Namespaces
+specification</span>.  The <dfn>XML specification</dfn> is
+<a href=https://www.w3.org/TR/xml/><cite>Extensible Markup Language
+(XML) 1.0</cite></a> and
+<a href=https://www.w3.org/XML/xml-V10-5e-errata><cite>Errata in
+REC-xml-20081126</cite></a>.  The <dfn><code>xml:lang</code></dfn>
+and <dfn><code>xml:space</code></dfn> <span title=attribute>attributes</span>
+are defined by the <span>XML specification</span>.  The <dfn>XML
+Namespaces specification</dfn> is
+<a href=https://www.w3.org/TR/xml-names/><cite>Namespaces in XML
+1.0</cite></a> and
+<a href=https://www.w3.org/XML/2009/xml-names-errata><cite>Namespaces
+in XML 1.0 (Third Edition) Errata</cite></a>.
 
   <div class=note>
 
-  <p>The <code>xml:lang</code>
+  <p>Since <span title="user agent">user agents</span>
+  interpret <code>xml:lang</code>
   and <code>xml:space</code> <span title=attribute>attributes</span>
-  are defined by the XML specification.
+  defined by the <span>XML specification</span> according to
+  the <span>XML Namespaces specification</span>, they are considered
+  as <code title=xml:lang>lang</code>
+  and <code title=xml:space>space</code> <span title=attribute>attributes</span>
+  in the <span>XML namespace</span>, not <code title>xml:lang</code>
+  and <code title>xml:space</code> <span title=attribute>attributes</span> <span>in
+  no namespace</span>.
 
   </div>
 
@@ -878,6 +918,32 @@ are <span title="obsolete specification">obsolete</span>.
   <p>Therefore use of <dfn><code>xml:base</code></dfn>
   and <dfn><code>xml:id</code></dfn> <span title=attribute>attributes</span>
   are non-conforming.
+
+  </div>
+
+<p>For the purpose of <span title=validate>validation</span> of
+the <code>base</code> <span>element</span> in the <span>HTML
+namespace</span>, the <span title=attribute>attributes</span> in
+the <span>XMLNS namespace</span> are not considered as taking URLs.
+
+  <div class=note>
+
+  <p>Base URLs are not applied to them.
+
+  </div>
+
+<p><span title=element>Element</span>
+and <span title=attribute>attributes</span> whose <span>prefix</span>
+or <span>local name</span> begins with <code>xml</code> (<span>ASCII
+case-insensitive</span>) <em class=rfc2119>MUST NOT</em> be considered
+as reserved as required by the <span>XML Namespaces
+specification</span>.
+
+  <div class=note>
+
+  <p>This is a <span>willful violation</span> to the <span>XML
+  Namespaces specification</span> for consistency with the <span>XML
+  specification</span>.
 
   </div>
 

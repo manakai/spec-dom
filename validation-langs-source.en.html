@@ -186,6 +186,8 @@ specification</a>.
 The <dfn>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
 
+</section>
+
 <section>
 <h1>General rules of validation</h1>
 
@@ -273,8 +275,6 @@ model</span> <span title=validate>validation</span> of
 the <span>element</span>.<!-- Explicitly specified in HTML Standard
 but most other specifications (RSS1, RSS2, Media RSS, Atom) do
 not. -->
-
-</section>
 
 <section>
 <h1>Intepretation of old specifications</h1>
@@ -468,160 +468,68 @@ affects the result -->
 
 </section>
 
-
-</section>
-
 <section>
-<h1>Validation modes</h1>
+<h1>Validation of obsolete features</h1>
 
-<p class=XXX>This seciton is at-risk.
+<p>Validators are expected to detect <span>obsolete</span> features
+and show errors and alternative features, if known, to improve
+authoring experiences.
 
-<p>A <dfn>validation mode</dfn> identify the specifications that
-describe the requirements used to <span>validate</span>
-a <span>node</span>.  There are two <span title="validation
-mode">modes</span>:
+<p>When a <span title="applicable specification">specification</span>
+is identified as <dfn title="obsolete specification">obsolete</dfn>,
+the features, including but not limited to
+the <span title=element>elements</span>
+and <span title=attribute>attributes</span>, defined by
+the <span title="applicable
+specification">specification</span> <em class=rfc2119>MUST NOT</em> be
+used unless otherwise specified by another <span title="applicable
+specification">specification</span>.  <span title="user agent">User
+agents</span> <em class=rfc2119>MAY</em> ignore requirements in
+the <span title="applicable specification">specification</span>.
+The <span title=namespace>namespaces</span> defined by
+an <span>obsolete specification</span> are <span title="obsolete
+namespace">obsolete</span> unless otherwise specified by
+another <span title="applicable specification">specification</span>.
 
-<dl class=switch>
+<p>When a <span>namespace</span> is identified as <dfn title="obsolete
+namespace">obsolete</dfn>, the <span title=element>elements</span>
+and <span title=attribute>attributes</span> in
+the <span>namespace</span>, as well
+as <span title=attribute>attributes</span> <span>in no
+namespace</span>, <em class=rfc2119>MUST NOT</em> be used unless
+otherwise specified by another <span title="applicable
+specification">specification</span>.
 
-<dt><dfn>Default mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by its definition
-in the <span>native element specifications</span> or the <span>RSS2
-specifications</span>, or by the rules for the <span title="unknown
-element">unknown elements</span> and <span title="unknown
-attribute">attributes</span>.
+<p>The following <span title=namespace>namespaces</span>
+are <span title="obsolete namespace">obsolete</span>:
 
-The <dfn>native element specifications</dfn> are
-the <span title="applicable specification">applicable
-specifications</span> such as
-<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
-except for the <span>XSLT specifications</span>, the <span>RSS2
-specifications</span>, and <em>this</em> specification.
+<ul>
+  <li><dfn><code>http://www.w3.org/1999/xlink</code></dfn>
+  <li><dfn><code>http://www.w3.org/2001/xml-events</code></dfn>
+  <li><dfn><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
+  <li><dfn><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
+  <li><dfn><code>http://www.w3.org/2005/07/aaa</code></dfn>
+</ul>
 
-<dt><dfn>XSLT mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by the <span>XSLT
-specifications</span>.  For the purpose of this specification,
-the <dfn>XSLT specifications</dfn> are any <span title="applicable
-specification">applicable specifications</span> defining XSLT and its
-extensions.
+  <div class=note>
 
-<dfn title="XSLT family element">XSLT family elements</dfn>
-are <span>elements</span> in the <span>XSLT namespace</span> and
-XSLT <span title="extension namespace">extension namespaces</span>
-defined by <span>XSLT specifications</span>.  Note that
-XSLT <span title="literal result element">literal result
-elements</span> are not <span title="XSLT family element">XSLT family
-elements</span>.
+  <p>Though <span title="obsolete namespace">obsolete</span>,
+  some <span title=attribute>attributes</span> in
+  the <code>http://www.w3.org/1999/xlink</code> <span>namespace</span>
+  are allowed to be specified for <span title="SVG element">SVG
+  elements</span>.
 
-</dl>
+  </div>
 
-<p>To <dfn>determine the validation mode</dfn> of
-a <span>node</span> <var>node</var>, run these steps:
+  <div class=note>
 
-<ol class=steps>
+  <p>These were once implemented by some Web user agents or used on
+  the Web but no longer considered as part of the Web platform.  Use
+  of them could be authoring errors.
 
-<li>If <var>node</var> is a <span>document element</span>, switch
-by <var>node</var>'s <span>node document</span>'s <span>content
-type</span>:
-
-  <dl class=switch>
-
-  <dt><code>application/xml</code> or <code>text/xml</code>
-
-  <dd>If <var>node</var> is a <span>literal result element</span>
-  and <var>node</var> has
-  the <code>version</code> <span>attribute</span> in the <span>XSLT
-  namespace</span>, return <span>XSLT mode</span> and abort these
-  steps.
-
-  <dt><code>application/xslt+xml</code> or <code>text/xsl</code>
-
-  <dd>If <var>node</var> is an <span>XSLT family element</span> or
-  a <span>literal result element</span>, return <span>XSLT mode</span>
-  and abort these steps.
-
-  </dl>
-
-<li>Let <var>parent</var> be <var>node</var>'s <span>parent</span>.
-
-<li>Let <var>parent mode</var> be <span>default mode</span>.
-
-<li>If <var>parent</var> is not <code>null</code>, set <var>parent
-node</var> to the result of <span title="determine the validation
-mode">determining the validation mode</span> of <var>parent</var>.
-
-<li>If <var>node</var> is an <span>XSLT family element</span>, or if
-<var>parent mode</var> is <span>XSLT mode</span> and <var>node</var> is an
-<span>literal result element</span>, return <span>XSLT mode</span> and
-abort these steps.
-
-<li>Return <span>default mode</span>.
-
-</ol>
-
-<section>
-<h3>Document element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Whether an element can be used as the <span>document element</span>
-or not is determined by following steps:
-
-<ol class=steps>
-
-<li><span>Determine the validation mode</span> of the element.
-
-<li>If the element is in the <span>XSLT mode</span>, return whether
-the element is allowed as the <span>document element</span> according
-to <span>XSLT specifications</span>.
-
-<li>Otherwise, if the element is not an <span>unknown element</span>,
-return whether the element is allowed as the <span>document
-element</span> by an <span>applicable specification</span>.
-
-<li>Otherwise, return true.
-
-</ol>
+  </div>
 
 </section>
-
-<section>
-<h3>Checking an element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Conformance of an element is checked as follows:
-
-<ol class=steps>
-
-<li><span>Determine the validation mode</span> of the element.
-
-<li>Let <var>mode</var> be the <span>validation mode</span> of the
-element.
-
-<li>If <var>mode</var> is <span>XSLT mode</span>, check the element
-according to <span>XSLT specifications</span>.
-
-<li>Otherwise, if the element is <em>not</em> an <span>unknown
-element</span>:
-
-  <ol>
-
-  <li>If the element is defined in an <span>applicable
-  specification</span>, check the element according to the
-  specification.
-
-  <li>Otherwise, report an "unknown element" error.
-
-  </ol>
-
-<li>Otherwise, report an "unknown element" warning.
-
-</ol>
-
-</section>
-
-</section>
-
 
 <section>
 <h1>Validation of unknown features</h1>
@@ -850,68 +758,159 @@ error.
 
 </section>
 
+</section>
+
 <section>
-<h1>Validation of obsolete features</h1>
+<h1>Validation modes</h1>
 
-<p>Validators are expected to detect <span>obsolete</span> features
-and show errors and alternative features, if known, to improve
-authoring experiences.
+<p class=XXX>This seciton is at-risk.
 
-<p>When a <span title="applicable specification">specification</span>
-is identified as <dfn title="obsolete specification">obsolete</dfn>,
-the features, including but not limited to
-the <span title=element>elements</span>
-and <span title=attribute>attributes</span>, defined by
-the <span title="applicable
-specification">specification</span> <em class=rfc2119>MUST NOT</em> be
-used unless otherwise specified by another <span title="applicable
-specification">specification</span>.  <span title="user agent">User
-agents</span> <em class=rfc2119>MAY</em> ignore requirements in
-the <span title="applicable specification">specification</span>.
-The <span title=namespace>namespaces</span> defined by
-an <span>obsolete specification</span> are <span title="obsolete
-namespace">obsolete</span> unless otherwise specified by
-another <span title="applicable specification">specification</span>.
+<p>A <dfn>validation mode</dfn> identify the specifications that
+describe the requirements used to <span>validate</span>
+a <span>node</span>.  There are two <span title="validation
+mode">modes</span>:
 
-<p>When a <span>namespace</span> is identified as <dfn title="obsolete
-namespace">obsolete</dfn>, the <span title=element>elements</span>
-and <span title=attribute>attributes</span> in
-the <span>namespace</span>, as well
-as <span title=attribute>attributes</span> <span>in no
-namespace</span>, <em class=rfc2119>MUST NOT</em> be used unless
-otherwise specified by another <span title="applicable
-specification">specification</span>.
+<dl class=switch>
 
-<p>The following <span title=namespace>namespaces</span>
-are <span title="obsolete namespace">obsolete</span>:
+<dt><dfn>Default mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by its definition
+in the <span>native element specifications</span> or the <span>RSS2
+specifications</span>, or by the rules for the <span title="unknown
+element">unknown elements</span> and <span title="unknown
+attribute">attributes</span>.
 
-<ul>
-  <li><dfn><code>http://www.w3.org/1999/xlink</code></dfn>
-  <li><dfn><code>http://www.w3.org/2001/xml-events</code></dfn>
-  <li><dfn><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
-  <li><dfn><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
-  <li><dfn><code>http://www.w3.org/2005/07/aaa</code></dfn>
-</ul>
+The <dfn>native element specifications</dfn> are
+the <span title="applicable specification">applicable
+specifications</span> such as
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
+except for the <span>XSLT specifications</span>, the <span>RSS2
+specifications</span>, and <em>this</em> specification.
 
-  <div class=note>
+<dt><dfn>XSLT mode</dfn>
+<dd>Conformance of the <span>node</span> is governed by the <span>XSLT
+specifications</span>.  For the purpose of this specification,
+the <dfn>XSLT specifications</dfn> are any <span title="applicable
+specification">applicable specifications</span> defining XSLT and its
+extensions.
 
-  <p>Though <span title="obsolete namespace">obsolete</span>,
-  some <span title=attribute>attributes</span> in
-  the <code>http://www.w3.org/1999/xlink</code> <span>namespace</span>
-  are allowed to be specified for <span title="SVG element">SVG
-  elements</span>.
+<dfn title="XSLT family element">XSLT family elements</dfn>
+are <span>elements</span> in the <span>XSLT namespace</span> and
+XSLT <span title="extension namespace">extension namespaces</span>
+defined by <span>XSLT specifications</span>.  Note that
+XSLT <span title="literal result element">literal result
+elements</span> are not <span title="XSLT family element">XSLT family
+elements</span>.
 
-  </div>
+</dl>
 
-  <div class=note>
+<p>To <dfn>determine the validation mode</dfn> of
+a <span>node</span> <var>node</var>, run these steps:
 
-  <p>These were once implemented by some Web user agents or used on
-  the Web but no longer considered as part of the Web platform.  Use
-  of them could be authoring errors.
+<ol class=steps>
 
-  </div>
+<li>If <var>node</var> is a <span>document element</span>, switch
+by <var>node</var>'s <span>node document</span>'s <span>content
+type</span>:
+
+  <dl class=switch>
+
+  <dt><code>application/xml</code> or <code>text/xml</code>
+
+  <dd>If <var>node</var> is a <span>literal result element</span>
+  and <var>node</var> has
+  the <code>version</code> <span>attribute</span> in the <span>XSLT
+  namespace</span>, return <span>XSLT mode</span> and abort these
+  steps.
+
+  <dt><code>application/xslt+xml</code> or <code>text/xsl</code>
+
+  <dd>If <var>node</var> is an <span>XSLT family element</span> or
+  a <span>literal result element</span>, return <span>XSLT mode</span>
+  and abort these steps.
+
+  </dl>
+
+<li>Let <var>parent</var> be <var>node</var>'s <span>parent</span>.
+
+<li>Let <var>parent mode</var> be <span>default mode</span>.
+
+<li>If <var>parent</var> is not <code>null</code>, set <var>parent
+node</var> to the result of <span title="determine the validation
+mode">determining the validation mode</span> of <var>parent</var>.
+
+<li>If <var>node</var> is an <span>XSLT family element</span>, or if
+<var>parent mode</var> is <span>XSLT mode</span> and <var>node</var> is an
+<span>literal result element</span>, return <span>XSLT mode</span> and
+abort these steps.
+
+<li>Return <span>default mode</span>.
+
+</ol>
+
+<section>
+<h3>Document element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Whether an element can be used as the <span>document element</span>
+or not is determined by following steps:
+
+<ol class=steps>
+
+<li><span>Determine the validation mode</span> of the element.
+
+<li>If the element is in the <span>XSLT mode</span>, return whether
+the element is allowed as the <span>document element</span> according
+to <span>XSLT specifications</span>.
+
+<li>Otherwise, if the element is not an <span>unknown element</span>,
+return whether the element is allowed as the <span>document
+element</span> by an <span>applicable specification</span>.
+
+<li>Otherwise, return true.
+
+</ol>
 
 </section>
+
+<section>
+<h3>Checking an element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+<p>Conformance of an element is checked as follows:
+
+<ol class=steps>
+
+<li><span>Determine the validation mode</span> of the element.
+
+<li>Let <var>mode</var> be the <span>validation mode</span> of the
+element.
+
+<li>If <var>mode</var> is <span>XSLT mode</span>, check the element
+according to <span>XSLT specifications</span>.
+
+<li>Otherwise, if the element is <em>not</em> an <span>unknown
+element</span>:
+
+  <ol>
+
+  <li>If the element is defined in an <span>applicable
+  specification</span>, check the element according to the
+  specification.
+
+  <li>Otherwise, report an "unknown element" error.
+
+  </ol>
+
+<li>Otherwise, report an "unknown element" warning.
+
+</ol>
+
+</section>
+
+</section>
+
 
 <section>
 <h1>Validation of superglobal attributes</h1>

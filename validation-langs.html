@@ -10,7 +10,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">DOM Tree Validation</h1>
-  <h2 class="no-toc no-num">The manakai project, 4 May 2018</h2>
+  <h2 class="no-toc no-num">The manakai project, 5 May 2018</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -55,31 +55,31 @@ nothing prevents it from implemented by other DOM implementations.
   <ol>
    <li><a href=#scope><span class=secno>1.1 </span>Scope</a></li>
    <li><a href=#history-0><span class=secno>1.2 </span>History</a></li></ol></li>
- <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a>
+ <li><a href=#infrastructure><span class=secno>2 </span>Infrastructure</a></li>
+ <li><a href=#general-rules-of-validation><span class=secno>3 </span>General rules of validation</a>
   <ol>
-   <li><a href=#general-rules-of-validation><span class=secno>2.1 </span>General rules of validation</a></li>
-   <li><a href=#intepretation-of-old-specifications><span class=secno>2.2 </span>Intepretation of old specifications</a></li></ol></li>
- <li><a href=#validation-modes><span class=secno>3 </span>Validation modes</a>
+   <li><a href=#intepretation-of-old-specifications><span class=secno>3.1 </span>Intepretation of old specifications</a></li>
+   <li><a href=#validation-of-obsolete-features><span class=secno>3.2 </span>Validation of obsolete features</a></li>
+   <li><a href=#validation-of-unknown-features><span class=secno>3.3 </span>Validation of unknown features</a></li></ol></li>
+ <li><a href=#validation-modes><span class=secno>4 </span>Validation modes</a>
   <ol>
-   <li><a href=#document-element><span class=secno>3.1 </span>Document element</a></li>
-   <li><a href=#checking-an-element><span class=secno>3.2 </span>Checking an element</a></li></ol></li>
- <li><a href=#validation-of-unknown-features><span class=secno>4 </span>Validation of unknown features</a></li>
- <li><a href=#validation-of-obsolete-features><span class=secno>5 </span>Validation of obsolete features</a></li>
- <li><a href=#validation-of-superglobal-attributes><span class=secno>6 </span>Validation of superglobal attributes</a>
+   <li><a href=#document-element><span class=secno>4.1 </span>Document element</a></li>
+   <li><a href=#checking-an-element><span class=secno>4.2 </span>Checking an element</a></li></ol></li>
+ <li><a href=#validation-of-superglobal-attributes><span class=secno>5 </span>Validation of superglobal attributes</a>
   <ol>
-   <li><a href=#validation-of-xml-attributes><span class=secno>6.1 </span>Validation of XML attributes</a></li></ol></li>
- <li><a href=#validation-of-feed-namespaces><span class=secno>7 </span>Validation of feed namespaces</a>
+   <li><a href=#validation-of-xml-attributes><span class=secno>5.1 </span>Validation of XML attributes</a></li></ol></li>
+ <li><a href=#validation-of-feed-namespaces><span class=secno>6 </span>Validation of feed namespaces</a>
   <ol>
-   <li><a href=#rss1-elements><span class=secno>7.1 </span>RSS1 elements</a></li>
-   <li><a href=#rss2-elements><span class=secno>7.2 </span>RSS2 elements</a>
+   <li><a href=#rss1-elements><span class=secno>6.1 </span>RSS1 elements</a></li>
+   <li><a href=#rss2-elements><span class=secno>6.2 </span>RSS2 elements</a>
     <ol>
-     <li><a href=#media-rss-elements><span class=secno>7.2.1 </span>Media RSS elements</a></li>
-     <li><a href=#itunes-elements><span class=secno>7.2.2 </span>iTunes elements</a></li></ol></li>
-   <li><a href=#atom-elements><span class=secno>7.3 </span>Atom elements</a>
+     <li><a href=#media-rss-elements><span class=secno>6.2.1 </span>Media RSS elements</a></li>
+     <li><a href=#itunes-elements><span class=secno>6.2.2 </span>iTunes elements</a></li></ol></li>
+   <li><a href=#atom-elements><span class=secno>6.3 </span>Atom elements</a>
     <ol>
-     <li><a href=#gdata-elements><span class=secno>7.3.1 </span>GData elements</a></li></ol></li></ol></li>
- <li><a href=#validation-of-ogp><span class=secno>8 </span>Validation of OGP</a></li>
- <li><a href=#data><span class=secno>9 </span>Data</a></li>
+     <li><a href=#gdata-elements><span class=secno>6.3.1 </span>GData elements</a></li></ol></li></ol></li>
+ <li><a href=#validation-of-ogp><span class=secno>7 </span>Validation of OGP</a></li>
+ <li><a href=#data><span class=secno>8 </span>Data</a></li>
  <li><a class=no-num href=#author>Author</a></li></ol>
 <!--end-toc-->
 </section>
@@ -217,8 +217,10 @@ specification</a>.
 The <dfn id=xslt-namespace>XSLT namespace</dfn> is
 <code>http://www.w3.org/1999/XSL/Transform</code>.
 
-</p><section>
-<h1 id=general-rules-of-validation><span class=secno>2.1 </span>General rules of validation</h1>
+</p></section>
+
+<section>
+<h1 id=general-rules-of-validation><span class=secno>3 </span>General rules of validation</h1>
 
 
 <p>For the purpose of this specification, <dfn id=user-agent title="user agent">user
@@ -305,10 +307,8 @@ the <a href=#element>element</a>.<!-- Explicitly specified in HTML Standard
 but most other specifications (RSS1, RSS2, Media RSS, Atom) do
 not. -->
 
-</p></section>
-
-<section>
-<h1 id=intepretation-of-old-specifications><span class=secno>2.2 </span>Intepretation of old specifications</h1>
+</p><section>
+<h1 id=intepretation-of-old-specifications><span class=secno>3.1 </span>Intepretation of old specifications</h1>
 
 <p>This subsection defines how to interpret old unmaintained
 specifications for the purpose
@@ -499,163 +499,71 @@ affects the result -->
 
 </p></section>
 
+<section>
+<h1 id=validation-of-obsolete-features><span class=secno>3.2 </span>Validation of obsolete features</h1>
+
+<p>Validators are expected to detect <span>obsolete</span> features
+and show errors and alternative features, if known, to improve
+authoring experiences.
+
+</p><p>When a <a href=#applicable-specification title="applicable specification">specification</a>
+is identified as <dfn id=obsolete-specification title="obsolete specification">obsolete</dfn>,
+the features, including but not limited to
+the <a href=#element title=element>elements</a>
+and <a href=#attribute title=attribute>attributes</a>, defined by
+the <a href=#applicable-specification title="applicable
+specification">specification</a> <em class=rfc2119>MUST NOT</em> be
+used unless otherwise specified by another <a href=#applicable-specification title="applicable
+specification">specification</a>.  <a href=#user-agent title="user agent">User
+agents</a> <em class=rfc2119>MAY</em> ignore requirements in
+the <a href=#applicable-specification title="applicable specification">specification</a>.
+The <a href=#namespace title=namespace>namespaces</a> defined by
+an <a href=#obsolete-specification>obsolete specification</a> are <a href=#obsolete-namespace title="obsolete
+namespace">obsolete</a> unless otherwise specified by
+another <a href=#applicable-specification title="applicable specification">specification</a>.
+
+</p><p>When a <a href=#namespace>namespace</a> is identified as <dfn id=obsolete-namespace title="obsolete
+namespace">obsolete</dfn>, the <a href=#element title=element>elements</a>
+and <a href=#attribute title=attribute>attributes</a> in
+the <a href=#namespace>namespace</a>, as well
+as <a href=#attribute title=attribute>attributes</a> <a href=#in-no-namespace>in no
+namespace</a>, <em class=rfc2119>MUST NOT</em> be used unless
+otherwise specified by another <a href=#applicable-specification title="applicable
+specification">specification</a>.
+
+</p><p>The following <a href=#namespace title=namespace>namespaces</a>
+are <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>:
+
+</p><ul>
+  <li><dfn id=http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></dfn>
+  </li><li><dfn id=http://www.w3.org/2001/xml-events><code>http://www.w3.org/2001/xml-events</code></dfn>
+  </li><li><dfn id=http://www.w3.org/2002/06/xhtml2><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
+  </li><li><dfn id=http://www.w3.org/2002/06/xhtml2/><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
+  </li><li><dfn id=http://www.w3.org/2005/07/aaa><code>http://www.w3.org/2005/07/aaa</code></dfn>
+</li></ul>
+
+  <div class=note>
+
+  <p>Though <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>,
+  some <a href=#attribute title=attribute>attributes</a> in
+  the <a href=#http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></a> <a href=#namespace>namespace</a>
+  are allowed to be specified for <span title="SVG element">SVG
+  elements</span>.
+
+  </p></div>
+
+  <div class=note>
+
+  <p>These were once implemented by some Web user agents or used on
+  the Web but no longer considered as part of the Web platform.  Use
+  of them could be authoring errors.
+
+  </p></div>
 
 </section>
 
 <section>
-<h1 id=validation-modes><span class=secno>3 </span>Validation modes</h1>
-
-<p class=XXX>This seciton is at-risk.
-
-</p><p>A <dfn id=validation-mode>validation mode</dfn> identify the specifications that
-describe the requirements used to <span>validate</span>
-a <a href=#node>node</a>.  There are two <a href=#validation-mode title="validation
-mode">modes</a>:
-
-</p><dl class=switch>
-
-<dt><dfn id=default-mode>Default mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by its definition
-in the <a href=#native-element-specifications>native element specifications</a> or the <a href=#rss2-specifications>RSS2
-specifications</a>, or by the rules for the <a href=#unknown-element title="unknown
-element">unknown elements</a> and <a href=#unknown-attribute title="unknown
-attribute">attributes</a>.
-
-The <dfn id=native-element-specifications>native element specifications</dfn> are
-the <a href=#applicable-specification title="applicable specification">applicable
-specifications</a> such as
-<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
-except for the <a href=#xslt-specifications>XSLT specifications</a>, the <a href=#rss2-specifications>RSS2
-specifications</a>, and <em>this</em> specification.
-
-</dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
-</dt><dd>Conformance of the <a href=#node>node</a> is governed by the <a href=#xslt-specifications>XSLT
-specifications</a>.  For the purpose of this specification,
-the <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable
-specification">applicable specifications</a> defining XSLT and its
-extensions.
-
-<dfn id=xslt-family-element title="XSLT family element">XSLT family elements</dfn>
-are <span>elements</span> in the <a href=#xslt-namespace>XSLT namespace</a> and
-XSLT <span title="extension namespace">extension namespaces</span>
-defined by <a href=#xslt-specifications>XSLT specifications</a>.  Note that
-XSLT <a href=#literal-result-element title="literal result element">literal result
-elements</a> are not <a href=#xslt-family-element title="XSLT family element">XSLT family
-elements</a>.
-
-</dd></dl>
-
-<p>To <dfn id=determine-the-validation-mode>determine the validation mode</dfn> of
-a <a href=#node>node</a> <var>node</var>, run these steps:
-
-</p><ol class=steps>
-
-<li>If <var>node</var> is a <a href=#document-element-0>document element</a>, switch
-by <var>node</var>'s <a href=#node-document>node document</a>'s <a href=#content-type>content
-type</a>:
-
-  <dl class=switch>
-
-  <dt><code>application/xml</code> or <code>text/xml</code>
-
-  </dt><dd>If <var>node</var> is a <a href=#literal-result-element>literal result element</a>
-  and <var>node</var> has
-  the <code>version</code> <a href=#attribute>attribute</a> in the <a href=#xslt-namespace>XSLT
-  namespace</a>, return <a href=#xslt-mode>XSLT mode</a> and abort these
-  steps.
-
-  </dd><dt><code>application/xslt+xml</code> or <code>text/xsl</code>
-
-  </dt><dd>If <var>node</var> is an <a href=#xslt-family-element>XSLT family element</a> or
-  a <a href=#literal-result-element>literal result element</a>, return <a href=#xslt-mode>XSLT mode</a>
-  and abort these steps.
-
-  </dd></dl>
-
-</li><li>Let <var>parent</var> be <var>node</var>'s <a href=#parent>parent</a>.
-
-</li><li>Let <var>parent mode</var> be <a href=#default-mode>default mode</a>.
-
-</li><li>If <var>parent</var> is not <code>null</code>, set <var>parent
-node</var> to the result of <a href=#determine-the-validation-mode title="determine the validation
-mode">determining the validation mode</a> of <var>parent</var>.
-
-</li><li>If <var>node</var> is an <a href=#xslt-family-element>XSLT family element</a>, or if
-<var>parent mode</var> is <a href=#xslt-mode>XSLT mode</a> and <var>node</var> is an
-<a href=#literal-result-element>literal result element</a>, return <a href=#xslt-mode>XSLT mode</a> and
-abort these steps.
-
-</li><li>Return <a href=#default-mode>default mode</a>.
-
-</li></ol>
-
-<section>
-<h3 id=document-element><span class=secno>3.1 </span>Document element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-</p><p>Whether an element can be used as the <a href=#document-element-0>document element</a>
-or not is determined by following steps:
-
-</p><ol class=steps>
-
-<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
-
-</li><li>If the element is in the <a href=#xslt-mode>XSLT mode</a>, return whether
-the element is allowed as the <a href=#document-element-0>document element</a> according
-to <a href=#xslt-specifications>XSLT specifications</a>.
-
-</li><li>Otherwise, if the element is not an <a href=#unknown-element>unknown element</a>,
-return whether the element is allowed as the <a href=#document-element-0>document
-element</a> by an <a href=#applicable-specification>applicable specification</a>.
-
-</li><li>Otherwise, return true.
-
-</li></ol>
-
-</section>
-
-<section>
-<h3 id=checking-an-element><span class=secno>3.2 </span>Checking an element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-</p><p>Conformance of an element is checked as follows:
-
-</p><ol class=steps>
-
-<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
-
-</li><li>Let <var>mode</var> be the <a href=#validation-mode>validation mode</a> of the
-element.
-
-</li><li>If <var>mode</var> is <a href=#xslt-mode>XSLT mode</a>, check the element
-according to <a href=#xslt-specifications>XSLT specifications</a>.
-
-</li><li>Otherwise, if the element is <em>not</em> an <a href=#unknown-element>unknown
-element</a>:
-
-  <ol>
-
-  <li>If the element is defined in an <a href=#applicable-specification>applicable
-  specification</a>, check the element according to the
-  specification.
-
-  </li><li>Otherwise, report an "unknown element" error.
-
-  </li></ol>
-
-</li><li>Otherwise, report an "unknown element" warning.
-
-</li></ol>
-
-</section>
-
-</section>
-
-
-<section>
-<h1 id=validation-of-unknown-features><span class=secno>4 </span>Validation of unknown features</h1>
+<h1 id=validation-of-unknown-features><span class=secno>3.3 </span>Validation of unknown features</h1>
 
 <p>There are many protocol or language features that are extensible.
 A <a href=#user-agent>user agent</a> might or might not know how
@@ -881,71 +789,162 @@ error.
 
 </section>
 
+</section>
+
 <section>
-<h1 id=validation-of-obsolete-features><span class=secno>5 </span>Validation of obsolete features</h1>
+<h1 id=validation-modes><span class=secno>4 </span>Validation modes</h1>
 
-<p>Validators are expected to detect <span>obsolete</span> features
-and show errors and alternative features, if known, to improve
-authoring experiences.
+<p class=XXX>This seciton is at-risk.
 
-</p><p>When a <a href=#applicable-specification title="applicable specification">specification</a>
-is identified as <dfn id=obsolete-specification title="obsolete specification">obsolete</dfn>,
-the features, including but not limited to
-the <a href=#element title=element>elements</a>
-and <a href=#attribute title=attribute>attributes</a>, defined by
-the <a href=#applicable-specification title="applicable
-specification">specification</a> <em class=rfc2119>MUST NOT</em> be
-used unless otherwise specified by another <a href=#applicable-specification title="applicable
-specification">specification</a>.  <a href=#user-agent title="user agent">User
-agents</a> <em class=rfc2119>MAY</em> ignore requirements in
-the <a href=#applicable-specification title="applicable specification">specification</a>.
-The <a href=#namespace title=namespace>namespaces</a> defined by
-an <a href=#obsolete-specification>obsolete specification</a> are <a href=#obsolete-namespace title="obsolete
-namespace">obsolete</a> unless otherwise specified by
-another <a href=#applicable-specification title="applicable specification">specification</a>.
+</p><p>A <dfn id=validation-mode>validation mode</dfn> identify the specifications that
+describe the requirements used to <span>validate</span>
+a <a href=#node>node</a>.  There are two <a href=#validation-mode title="validation
+mode">modes</a>:
 
-</p><p>When a <a href=#namespace>namespace</a> is identified as <dfn id=obsolete-namespace title="obsolete
-namespace">obsolete</dfn>, the <a href=#element title=element>elements</a>
-and <a href=#attribute title=attribute>attributes</a> in
-the <a href=#namespace>namespace</a>, as well
-as <a href=#attribute title=attribute>attributes</a> <a href=#in-no-namespace>in no
-namespace</a>, <em class=rfc2119>MUST NOT</em> be used unless
-otherwise specified by another <a href=#applicable-specification title="applicable
-specification">specification</a>.
+</p><dl class=switch>
 
-</p><p>The following <a href=#namespace title=namespace>namespaces</a>
-are <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>:
+<dt><dfn id=default-mode>Default mode</dfn>
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by its definition
+in the <a href=#native-element-specifications>native element specifications</a> or the <a href=#rss2-specifications>RSS2
+specifications</a>, or by the rules for the <a href=#unknown-element title="unknown
+element">unknown elements</a> and <a href=#unknown-attribute title="unknown
+attribute">attributes</a>.
 
-</p><ul>
-  <li><dfn id=http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></dfn>
-  </li><li><dfn id=http://www.w3.org/2001/xml-events><code>http://www.w3.org/2001/xml-events</code></dfn>
-  </li><li><dfn id=http://www.w3.org/2002/06/xhtml2><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
-  </li><li><dfn id=http://www.w3.org/2002/06/xhtml2/><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
-  </li><li><dfn id=http://www.w3.org/2005/07/aaa><code>http://www.w3.org/2005/07/aaa</code></dfn>
-</li></ul>
+The <dfn id=native-element-specifications>native element specifications</dfn> are
+the <a href=#applicable-specification title="applicable specification">applicable
+specifications</a> such as
+<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
+except for the <a href=#xslt-specifications>XSLT specifications</a>, the <a href=#rss2-specifications>RSS2
+specifications</a>, and <em>this</em> specification.
 
-  <div class=note>
+</dd><dt><dfn id=xslt-mode>XSLT mode</dfn>
+</dt><dd>Conformance of the <a href=#node>node</a> is governed by the <a href=#xslt-specifications>XSLT
+specifications</a>.  For the purpose of this specification,
+the <dfn id=xslt-specifications>XSLT specifications</dfn> are any <a href=#applicable-specification title="applicable
+specification">applicable specifications</a> defining XSLT and its
+extensions.
 
-  <p>Though <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>,
-  some <a href=#attribute title=attribute>attributes</a> in
-  the <a href=#http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></a> <a href=#namespace>namespace</a>
-  are allowed to be specified for <span title="SVG element">SVG
-  elements</span>.
+<dfn id=xslt-family-element title="XSLT family element">XSLT family elements</dfn>
+are <span>elements</span> in the <a href=#xslt-namespace>XSLT namespace</a> and
+XSLT <span title="extension namespace">extension namespaces</span>
+defined by <a href=#xslt-specifications>XSLT specifications</a>.  Note that
+XSLT <a href=#literal-result-element title="literal result element">literal result
+elements</a> are not <a href=#xslt-family-element title="XSLT family element">XSLT family
+elements</a>.
 
-  </p></div>
+</dd></dl>
 
-  <div class=note>
+<p>To <dfn id=determine-the-validation-mode>determine the validation mode</dfn> of
+a <a href=#node>node</a> <var>node</var>, run these steps:
 
-  <p>These were once implemented by some Web user agents or used on
-  the Web but no longer considered as part of the Web platform.  Use
-  of them could be authoring errors.
+</p><ol class=steps>
 
-  </p></div>
+<li>If <var>node</var> is a <a href=#document-element-0>document element</a>, switch
+by <var>node</var>'s <a href=#node-document>node document</a>'s <a href=#content-type>content
+type</a>:
+
+  <dl class=switch>
+
+  <dt><code>application/xml</code> or <code>text/xml</code>
+
+  </dt><dd>If <var>node</var> is a <a href=#literal-result-element>literal result element</a>
+  and <var>node</var> has
+  the <code>version</code> <a href=#attribute>attribute</a> in the <a href=#xslt-namespace>XSLT
+  namespace</a>, return <a href=#xslt-mode>XSLT mode</a> and abort these
+  steps.
+
+  </dd><dt><code>application/xslt+xml</code> or <code>text/xsl</code>
+
+  </dt><dd>If <var>node</var> is an <a href=#xslt-family-element>XSLT family element</a> or
+  a <a href=#literal-result-element>literal result element</a>, return <a href=#xslt-mode>XSLT mode</a>
+  and abort these steps.
+
+  </dd></dl>
+
+</li><li>Let <var>parent</var> be <var>node</var>'s <a href=#parent>parent</a>.
+
+</li><li>Let <var>parent mode</var> be <a href=#default-mode>default mode</a>.
+
+</li><li>If <var>parent</var> is not <code>null</code>, set <var>parent
+node</var> to the result of <a href=#determine-the-validation-mode title="determine the validation
+mode">determining the validation mode</a> of <var>parent</var>.
+
+</li><li>If <var>node</var> is an <a href=#xslt-family-element>XSLT family element</a>, or if
+<var>parent mode</var> is <a href=#xslt-mode>XSLT mode</a> and <var>node</var> is an
+<a href=#literal-result-element>literal result element</a>, return <a href=#xslt-mode>XSLT mode</a> and
+abort these steps.
+
+</li><li>Return <a href=#default-mode>default mode</a>.
+
+</li></ol>
+
+<section>
+<h3 id=document-element><span class=secno>4.1 </span>Document element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Whether an element can be used as the <a href=#document-element-0>document element</a>
+or not is determined by following steps:
+
+</p><ol class=steps>
+
+<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
+
+</li><li>If the element is in the <a href=#xslt-mode>XSLT mode</a>, return whether
+the element is allowed as the <a href=#document-element-0>document element</a> according
+to <a href=#xslt-specifications>XSLT specifications</a>.
+
+</li><li>Otherwise, if the element is not an <a href=#unknown-element>unknown element</a>,
+return whether the element is allowed as the <a href=#document-element-0>document
+element</a> by an <a href=#applicable-specification>applicable specification</a>.
+
+</li><li>Otherwise, return true.
+
+</li></ol>
 
 </section>
 
 <section>
-<h1 id=validation-of-superglobal-attributes><span class=secno>6 </span>Validation of superglobal attributes</h1>
+<h3 id=checking-an-element><span class=secno>4.2 </span>Checking an element</h3>
+
+<p class=section-info><em>This section is non-normative.</em>
+
+</p><p>Conformance of an element is checked as follows:
+
+</p><ol class=steps>
+
+<li><a href=#determine-the-validation-mode>Determine the validation mode</a> of the element.
+
+</li><li>Let <var>mode</var> be the <a href=#validation-mode>validation mode</a> of the
+element.
+
+</li><li>If <var>mode</var> is <a href=#xslt-mode>XSLT mode</a>, check the element
+according to <a href=#xslt-specifications>XSLT specifications</a>.
+
+</li><li>Otherwise, if the element is <em>not</em> an <a href=#unknown-element>unknown
+element</a>:
+
+  <ol>
+
+  <li>If the element is defined in an <a href=#applicable-specification>applicable
+  specification</a>, check the element according to the
+  specification.
+
+  </li><li>Otherwise, report an "unknown element" error.
+
+  </li></ol>
+
+</li><li>Otherwise, report an "unknown element" warning.
+
+</li></ol>
+
+</section>
+
+</section>
+
+
+<section>
+<h1 id=validation-of-superglobal-attributes><span class=secno>5 </span>Validation of superglobal attributes</h1>
 
 <p>Unless otherwise
 specified, <a href=#attribute title=attribute>attributes</a> <code>class</code>, <code>id</code>,
@@ -962,7 +961,7 @@ element</a>.
   </p></div>
 
 <section>
-<h1 id=validation-of-xml-attributes><span class=secno>6.1 </span>Validation of XML attributes</h1>
+<h1 id=validation-of-xml-attributes><span class=secno>5.1 </span>Validation of XML attributes</h1>
 
 <p><a href=#user-agent title="user agent">User
 agents</a> <em class=rfc2119>MUST</em> implement the <a href=#xml-specification>XML
@@ -1039,7 +1038,7 @@ specification</a>.
 </section>
 
 <section>
-<h1 id=validation-of-feed-namespaces><span class=secno>7 </span>Validation of feed namespaces</h1>
+<h1 id=validation-of-feed-namespaces><span class=secno>6 </span>Validation of feed namespaces</h1>
 
 <p>If an <a href=#element>element</a> is <dfn id=unique-property-element>unique property element</dfn>
 and the <a href=#element>element</a>'s <a href=#parent>parent</a> is
@@ -1049,7 +1048,7 @@ NOT</em> have another <a href=#child>child</a> <a href=#element>element</a> with
 same <a href=#namespace>namespace</a> and <a href=#local-name>local name</a>.
 
 </p><section>
-<h1 id=rss1-elements><span class=secno>7.1 </span>RSS1 elements</h1>
+<h1 id=rss1-elements><span class=secno>6.1 </span>RSS1 elements</h1>
 
 <p><a href=#user-agent title="user agent">User
 agents</a> <em class=rfc2119>MUST</em> implement the <a href=#rss1-specification>RSS1
@@ -1230,7 +1229,7 @@ the wild -->
 </p></section>
 
 <section>
-<h1 id=rss2-elements><span class=secno>7.2 </span>RSS2 elements</h1>
+<h1 id=rss2-elements><span class=secno>6.2 </span>RSS2 elements</h1>
 
 <p><a href=#user-agent title="user agent">User agents</a>
 <em class=rfc2119>MUST</em> implement the <a href=#rss2-specifications>RSS2
@@ -1297,7 +1296,7 @@ have <a href=#child title=child>children</a> <a href=#unknown-element title="unk
 element">unknown elements</a>.
 
 </p><section>
-<h1 id=media-rss-elements><span class=secno>7.2.1 </span>Media RSS elements</h1>
+<h1 id=media-rss-elements><span class=secno>6.2.1 </span>Media RSS elements</h1>
 
 <p class=section-info><em>This section applies to <a href=#user-agent title="user
 agent">user agents</a> implementing <span>Media RSS</span>.</em>
@@ -1356,7 +1355,7 @@ non-negative integer</a>.
 </p></section>
 
 <section>
-<h1 id=itunes-elements><span class=secno>7.2.2 </span>iTunes elements</h1>
+<h1 id=itunes-elements><span class=secno>6.2.2 </span>iTunes elements</h1>
 
 <p class=section-info><em>This section applies to <a href=#user-agent title="user
 agent">user agents</a> implementing <span>Podcast</span>.</em>
@@ -1384,7 +1383,7 @@ namespace</a> is <a href=#nothing>nothing</a>.
 </section>
 
 <section>
-<h1 id=atom-elements><span class=secno>7.3 </span>Atom elements</h1>
+<h1 id=atom-elements><span class=secno>6.3 </span>Atom elements</h1>
 
 <p><a href=#user-agent title="user agent">User agents</a>
 <em class=rfc2119>MUST</em> implement the <a href=#atom-specification>Atom
@@ -1520,7 +1519,7 @@ namespace</a> <em class=rfc2119>MUST NOT</em> be used.
   </p></div>
 
 <section>
-<h1 id=gdata-elements><span class=secno>7.3.1 </span>GData elements</h1>
+<h1 id=gdata-elements><span class=secno>6.3.1 </span>GData elements</h1>
 
 <p class=section-info><em>This section applies to <a href=#user-agent title="user
 agent">user agents</a>
@@ -1571,7 +1570,7 @@ namespace</a> is <a href=#nothing>nothing</a>.
 </section>
 
 <section>
-<h1 id=validation-of-ogp><span class=secno>8 </span>Validation of OGP</h1>
+<h1 id=validation-of-ogp><span class=secno>7 </span>Validation of OGP</h1>
 
 <p>A <code>meta</code> <a href=#element>element</a> in the <a href=#html-namespace>HTML
 namespace</a> <em class=rfc2119>MAY</em> have
@@ -1627,7 +1626,7 @@ value or a <a href=#prefixed-property-value>prefixed property value</a>.
 
 
 <section>
-<h1 id=data><span class=secno>9 </span>Data</h1>
+<h1 id=data><span class=secno>8 </span>Data</h1>
 
 <p class=section-info><em>This section is non-normative.</em>
 

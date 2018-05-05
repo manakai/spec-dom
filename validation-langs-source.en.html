@@ -69,16 +69,19 @@ specifications</span>.
 
 <ul>
 
-<li>defining how to choose the set of requirements used
-for <span title=validate>validation</span> of a <span>node</span> when
-there are multiple candidate specifications,
+<li>listing features that are to be reported as <span>obsolete</span>,
+
+<li>listing features that are to be reported as <span>limited
+use</span>,
 
 <li>making it clearer that <span title=validator>validators</span> are
 not perfect,
 
 <li>defining how to <span>validate</span> unknown features,
 
-<li>listing features that are to be reported as <span>obsolete</span>,
+<li>defining how to choose the set of requirements used
+for <span title=validate>validation</span> of a <span>node</span> when
+there are multiple candidate specifications,
 
 <li>defining how to <span>validate</span> <span title="superglobal
 attribute">superglobal attributes</span> when they are not allowed,
@@ -98,8 +101,6 @@ by <a href="https://manakai.github.io/">the manakai project</a>.
 <p class=XXX>This specification will define:
 XSLT validation;
 template content validation;
-handling of private vocabularies in validator vs "unknown" conformance;
-and other integration issues.
 
 The obsvocab specification might be merged with this specification in
 due course.
@@ -166,9 +167,12 @@ and
 are defined by <a href="https://url.spec.whatwg.org/"><cite>URL
 Standard</cite></a>.
 
-<p>The term <dfn>valid MIME type</dfn> is defined
-by <a href="https://mimesniff.spec.whatwg.org/"><cite>MIME Sniffing
-Standard</cite></a>.
+<p>The terms
+<dfn>MIME type</dfn>
+and
+<dfn>valid MIME type</dfn>
+is defined by <a href="https://mimesniff.spec.whatwg.org/"><cite>MIME
+Sniffing Standard</cite></a>.
 
 <p>The term <dfn>valid language tag</dfn> is defined
 by <a href="https://tools.ietf.org/html/bcp47">BCP 47</a>.
@@ -306,7 +310,7 @@ elements</span> not defined by any <span title="applicable
 specification">specification</span> <em class=rfc2119>MUST NOT</em> be
 used.  Deprecated features <em class=rfc2119>SHOULD NOT</em> be
 used.<!-- XML 1.0, XMLNS 1.0, RSS1, RSS content, RSS DC, DCES, RSS2
-(except for RSSBP), Atom, Media RSS, iTunes, Hatena -->
+(except for RSSBP), Atom, Media RSS, iTunes, Hatena, OGP -->
 
   <div class=note>
 
@@ -532,7 +536,7 @@ are <span title="obsolete namespace">obsolete</span>:
 </section>
 
 <section>
-<h1>Validation of unknown features</h1>
+<h1>Unknown features</h1>
 
 <p>There are many protocol or language features that are extensible.
 A <span>user agent</span> might or might not know how
@@ -755,6 +759,114 @@ error.
 </div>
 
 </div>
+
+</section>
+
+<section>
+<h1>Limited use features</h1>
+
+<p>Several features are intended for <dfn>limited use</dfn>, i.e. not
+expected to be implemented universally.  Such features might be used
+internally during preparation of public documents, used as data
+formats of particular applications, served as data to be processed by
+public applications, and so on.
+
+<p>Though <span>limited use</span> features are <em>not</em> invalid,
+use of such features in public context could be problematic.  At user
+option, <span title="user agent">user
+agents</span> <em class=rfc2119>MAY</em> report an error when an
+instance of <span>limited use</span> feature is detected.
+
+<p>Following features are intended for <span>limited use</span>:
+
+  <ul>
+
+  <li><span title="unknown element">Unknown
+  elements</span><!-- "unknown namespace element" and "unknown RDF
+  element" -->
+
+  <li><span title="unknown attribute">Unknown
+  attribute</span><!-- "unknown attribute" -->
+
+  <li><span title="RDF/XML RDF element">RDF/XML RDF elements</span>
+
+  <li><span title="RDF/XML RDF attribute">RDF/XML RDF atributes</span>
+
+  <li><span title=element>Elements</span>
+  <code>title</code>, <code>description</code>, <code>publisher</code>,
+  <code>contributor</code>, <code>type</code>, <code>format</code>,
+  <code>identifier</code>, <code>source</code>, <code>language</code>,
+  <code>coverage</code>, or <code>rights</code> in the <span>Dublin
+  Core namespace</span><!-- except dc:creator, dc:subject, dc:title
+  -->
+
+  <li><span title="RSS2 element">RSS2 elements</span>
+  whose <span>local name</span>
+  is <code>rating</code>, <code>skipDays</code>, <code>day</code>,
+  <code>skipHours</code>, <code>hour</code>, <code>textInput</code>,
+  or <code>ttl</code>
+
+  <li><span title=element>Elements</span>
+  and <span title=attribute>attributes</span> in
+  the <span title=namespace>namespaces</span>
+  <code>http://www.w3.org/2000/09/xmldsig#</code>,
+  <code>http://purl.org/rss/1.0/modules/slash/</code>,
+  <code>http://purl.org/syndication/thread/1.0</code>,
+  <code>http://purl.org/syndication/history/1.0</code>,
+  <code>http://purl.org/atompub/tombstones/1.0</code>,
+  <code>http://www.w3.org/2007/app</code>,
+  <code>http://schemas.google.com/g/2005</code>, and
+  <code>http://www.hatena.ne.jp/info/xmlns#</code>
+
+  <li><span title="MIME type">MIME types</span> registered with IANA
+  whose registration states that its <i>intended usage</i>
+  is <i>limited use</i>
+
+  <!-- XXX and non-standard (define non-standard!) MIME types, URL
+  schemes, HTTP headers, meta pragma names -->
+
+  <li><span title="private-use subtag">Private-use subtags</span>
+
+  <li><span title="language tag">Language
+  tag</span> <code>i-default</code>
+
+  <li>Private use language codes, country codes, and script
+  codes<!-- currency codes -->
+
+  <li>Private use <span title="code point">code points</span>
+
+  <!-- XXX domain names that are internal names -->
+
+  <!-- XXX private use IP addresses -->
+
+  <li>Other features identified by the <span>user agent</span>
+
+    <div class=example>
+
+    <p>If a <span>user agent</span> supports WebDAV,
+    the <span title=element>elements</span> in
+    the <span title=namespace>namespaces</span> defined by the
+    WebDAV <span title="applicable
+    specification">specifications</span> would be marked
+    as <span>limited use</span>, as they are not supported by
+    general-purpose Web user agents and are not suitable for public
+    Web documents.
+
+    </div>
+
+  </ul>
+
+  <!-- Not "limited use":
+
+    class=""
+    data-*
+    custom elements
+    custom element attributes
+    embed attributes
+    param names
+    script data
+
+  -->
 
 </section>
 
@@ -1058,6 +1170,24 @@ content specification">specification</span> has not been used at all.
 
 <hr>
 
+<p>An <span>element</span> or <span>attribute</span> in the <span>RDF
+namespace</span> is either <dfn>RSS1 RDF element</dfn>
+or <dfn title="RSS1 RDF attribute">attribute</dfn> or <dfn>RDF/XML RDF
+element</dfn> or <dfn title="RDF/XML RDF attribute">attribute</dfn>.
+An <span>RSS1 RDF element</span> or <span title="RSS1 RDF
+attribute">attribute</span> <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RSS1</span>.  An <span>RDF/XML RDF element</span>
+or <span title="RDF/XML RDF
+attribute">attribute</span> <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> against the requirements
+for <span>RDF/XML</span>.  If the <span>user agent</span> does not
+support <span>RDF/XML</span>, <span title="RDF/XML RDF
+element">RDF/XML RDF elements</span> and <span title="RDF/XML RDF
+attribute">attributes</span> are <dfn title="unknown RDF
+element">unknown RDF elements</dfn> and <dfn title="unknown RDF
+attribute">attributes</dfn>.
+
 <p>An <span>element</span> is an <dfn>RSS 1.0 <code>rdf:RDF</code>
 element</dfn> if:
 
@@ -1088,50 +1218,34 @@ element</dfn> if:
 
 <p>If an <code>RDF</code> <span>element</span> in the 
 <span>RDF namespace</span> is an <span>RSS 1.0 <code>rdf:RDF</code>
-element</span>, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RDF/XML</span>.
+element</span>, it is an <span>RSS1 RDF element</span>.
 
 <p>If a <code>Seq</code> <span>element</span> in the <span>RDF
 namespace</span> is a <span>child</span> of
-an <code>items</code> <span>element</span> in the <span>RSS1
-namespace</span>, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RDF/XML</span>.
+an <code>items</code> <span>element</span> in the <span>RSS
+namespace</span>, it is an <span>RSS1 RDF element</span>.
 
 <p>If an <code>li</code> <span>element</span> in the <span>RDF
 namespace</span> is a <span>child</span> of
 a <code>Seq</code> <span>element</span> in the <span>RDF
-namespace</span> that is <span title=validate>validated</span> against
-the requirements for <span>RSS1</span>, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RSS1</span>.  Otherwise, it <em class=rfc2119>MUST</em>
-be <span title=validate>validated</span> against the requirements
-for <span>RDF/XML</span>.
+namespace</span> that is an <span>RSS1 RDF element</span>, it is
+an <span>RSS1 RDF element</span>.
 
-<p>The <dfn title="unknown RDF element">unknown RDF elements</dfn>
-and <dfn title="unknown RDF attribute">unknown RDF attributes</dfn>
-are the <span title=element>elements</span> and
-the <span title=attribute>attributes</span>, respectively, in
-the <span>RDF namespace</span>, except for
-the <span title=element>elements</span>
-and <span title=attribute>attributes</span> implemented by
-the <span>user agent</span> and
-the <span title=element>elements</span> and
-the <span title=attribute>attributes</span> <span title=validate>validated</span>
-against the requirements for <span>RSS1</span>.
+<p>If an <code>about</code>
+or <code>resource</code> <span>attribute</span> in the <span>RSS
+namespace</span> is specified for an <span>RSS1 RDF element</span>, it
+is an <span>RSS1 RDF attribute</span>.  A <span>user agent</span> that
+does not support <span>RDF/XML</span> <em class=rfc2119>MAY</em> treat
+other <code>about</code>
+and <code>resource</code> <span title=attribute>attributes</span> in
+the <span>RSS namespace</span> as <span title="RSS1 RDF
+attribute">RSS1 RDF attributes</span>.
 
-<div class=note>
-
-<p>If the <span>user agent</span> implements the <span>RDF/XML
-specification</span>, there is no <span>unknown RDF element</span>
-or <span>unknown RDF attribute</span>.
-
-</div>
+<p>All other <span title=element>elements</span>
+and <span title=attribute>attributes</span> in the <span>RDF
+namespace</span> are <span title="RDF/XML RDF element">RDF/XML RDF
+elements</span> and <span title="RDF/XML RDF
+attribute">attributes</span>.
 
 <div class=note>
 
@@ -1148,7 +1262,7 @@ specification</span>.
 
 <p>A <code>channel</code> or <code>item</code> <span>element</span> in
 the <span>RSS namespace</span> <em class=rfc2119>MAY</em>
-have <span title=children>child</span> <span title="unknown
+have <span title=child>child</span> <span title="unknown
 element">unknown elements</span> as long as all of the following
 conditions are met:
 
@@ -1562,15 +1676,17 @@ name</span>.  A <dfn>OGP property name</dfn> is a <code
 title=attr-meta-property>property</code> value defined by an
 <span>applicable specification</span> or a <span>prefixed property
 value</span>.  A <dfn>prefixed property value</dfn> is a
-<span>property prefix</span> followed by a <code>U+003A</code> <code
-class=charname>COLON</code> character (<code>:</code>) followed by one
-or more characters.  A <dfn>property prefix</dfn> is a string of one
-or more characters that is not a <code>U+003A</code> <code
-class=charname>COLON</code> character (<code>:</code>) and is not used
-by <code title=attr-meta-property>property</code> value defined by an
-<span>applicable specification</span> as prefix.  A <i>deprecated</i>
+<span>property prefix</span> followed by
+a <code>U+003A</code> <code class=charname>COLON</code> character
+(<code>:</code>) followed by one or more characters.  A <dfn>property
+prefix</dfn> is a string of one or more characters that is not
+a <code>U+003A</code> <code class=charname>COLON</code> character
+(<code>:</code>) and is not used
+by <code title=attr-meta-property>property</code> value defined by
+an <span>applicable specification</span> as prefix.  <!-- (redundant)
+A <i>deprecated</i>
 <code title=attr-meta-property>property</code> value
-<em class=rfc2119>SHOULD NOT</em> be used.
+<em class=rfc2119>SHOULD NOT</em> be used.-->
 
 <p>A <code title=attr-meta-property>property</code> value <em
 class=rfc2119>MUST NOT</em> be used unless it is defined in the

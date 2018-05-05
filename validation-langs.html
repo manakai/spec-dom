@@ -540,7 +540,8 @@ specification">specification</a>.
 are <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>:
 
 </p><ul>
-  <li><dfn id=http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></dfn>
+  <li><dfn id=http://www.w3.org/tr/wd-xsl><code>http://www.w3.org/TR/WD-xsl</code></dfn>
+  </li><li><dfn id=http://www.w3.org/1999/xlink><code>http://www.w3.org/1999/xlink</code></dfn>
   </li><li><dfn id=http://www.w3.org/2001/xml-events><code>http://www.w3.org/2001/xml-events</code></dfn>
   </li><li><dfn id=http://www.w3.org/2002/06/xhtml2><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
   </li><li><dfn id=http://www.w3.org/2002/06/xhtml2/><code>http://www.w3.org/2002/06/xhtml2/</code></dfn>
@@ -580,7 +581,7 @@ be <i>yes</i>, <i>no</i>, or <i>unfamiliar</i>.
 feature">unfamiliar</dfn>, a <a href=#user-agent>user
 agent</a> <em class=rfc2119>MUST</em> report any use of such
 features as <i>unfamiliar</i>.  A <a href=#user-agent>user
-agent</a> <em class=rfc2119>MAY</em> report any other features
+agent</a> <em class=rfc2119>MAY</em> report any other feature
 as <i>unfamiliar</i>.
 
 </p><hr>
@@ -658,10 +659,10 @@ following <a href=#element title=element>elements</a>:
   <li><a href=#element title=element>Elements</a> in <a href=#no-support title="no
   support">unsupported</a> <a href=#namespace title=namespace>namespaces</a>
 
-  </li><li><a href=#element title=element>Elements</a> <em>not</em> implemented by
-  the <a href=#user-agent>user agent</a> in <a href=#partial-support title="partial
+  </li><li><a href=#element title=element>Elements</a> in <a href=#partial-support title="partial
   support">partially
-  supported</a> <a href=#namespace title=namespace>namespaces</a>
+  supported</a> <a href=#namespace title=namespace>namespaces</a> <em>not</em>
+  implemented by the <a href=#user-agent>user agent</a>
 
   </li><li><a href=#unknown-rdf-element title="unknown RDF element">Unknown RDF elements</a>
 
@@ -678,10 +679,10 @@ following <a href=#attribute title=attribute>attributes</a>:
   <li><a href=#attribute title=attribute>Attributes</a> in <a href=#no-support title="no
   support">unsupported</a> <a href=#namespace title=namespace>namespaces</a>
 
-  </li><li><a href=#attribute title=attribute>Attributes</a> <em>not</em> implemented
-  by the <a href=#user-agent>user agent</a> in <a href=#partial-support title="partial
+  </li><li><a href=#attribute title=attribute>Attributes</a> in <a href=#partial-support title="partial
   support">partially
-  supported</a> <a href=#namespace title=namespace>namespaces</a>
+  supported</a> <a href=#namespace title=namespace>namespaces</a> <em>not</em>
+  implemented by the <a href=#user-agent>user agent</a>
 
   </li><li><a href=#unknown-rdf-attribute title="unknown RDF attribute">Unknown RDF
   attributes</a>
@@ -798,18 +799,26 @@ error.
 <h1 id=limited-use-features><span class=secno>3.4 </span>Limited use features</h1>
 
 <p>Several features are intended for <dfn id=limited-use>limited use</dfn>, i.e. not
-expected to be implemented universally.  Such features might be used
-internally during preparation of public documents, used as data
-formats of particular applications, served as data to be processed by
-public applications, and so on.
-
-</p><p>Though <a href=#limited-use>limited use</a> features are <em>not</em> invalid,
-use of such features in public context could be problematic.  At user
-option, <a href=#user-agent title="user agent">user
+expected to be implemented universally.  Such features still have
+legitimated usages, e.g. used internally during preparation of public
+documents, used as data formats of particular applications, served as
+data to be processed by public applications, and so on.  Use
+of <a href=#limited-use>limited use</a> features are <em>not</em> invalid.
+However, use of such features in public context could be problematic.
+At user option, <a href=#user-agent title="user agent">user
 agents</a> <em class=rfc2119>MAY</em> report an error when an
 instance of <a href=#limited-use>limited use</a> feature is detected.
 
-</p><p>Following features are intended for <a href=#limited-use>limited use</a>:
+  </p><div class=example>
+
+  <p>An unprocessed internal vocabulary might be erroneously exposed
+  within a public document when the authoring pipeline is partially
+  broken.  A <span>validator</span> with the option enabled can detect
+  this problem.
+
+  </p></div>
+
+<p>Following features are intended for <a href=#limited-use>limited use</a>:
 
   </p><ul>
 

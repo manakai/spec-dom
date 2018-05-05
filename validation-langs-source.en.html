@@ -508,6 +508,7 @@ specification">specification</span>.
 are <span title="obsolete namespace">obsolete</span>:
 
 <ul>
+  <li><dfn><code>http://www.w3.org/TR/WD-xsl</code></dfn>
   <li><dfn><code>http://www.w3.org/1999/xlink</code></dfn>
   <li><dfn><code>http://www.w3.org/2001/xml-events</code></dfn>
   <li><dfn><code>http://www.w3.org/2002/06/xhtml2</code></dfn>
@@ -626,10 +627,10 @@ following <span title=element>elements</span>:
   <li><span title=element>Elements</span> in <span title="no
   support">unsupported</span> <span title=namespace>namespaces</span>
 
-  <li><span title=element>Elements</span> <em>not</em> implemented by
-  the <span>user agent</span> in <span title="partial
+  <li><span title=element>Elements</span> in <span title="partial
   support">partially
-  supported</span> <span title=namespace>namespaces</span>
+  supported</span> <span title=namespace>namespaces</span> <em>not</em>
+  implemented by the <span>user agent</span>
 
   <li><span title="unknown RDF element">Unknown RDF elements</span>
 
@@ -646,10 +647,10 @@ following <span title=attribute>attributes</span>:
   <li><span title=attribute>Attributes</span> in <span title="no
   support">unsupported</span> <span title=namespace>namespaces</span>
 
-  <li><span title=attribute>Attributes</span> <em>not</em> implemented
-  by the <span>user agent</span> in <span title="partial
+  <li><span title=attribute>Attributes</span> in <span title="partial
   support">partially
-  supported</span> <span title=namespace>namespaces</span>
+  supported</span> <span title=namespace>namespaces</span> <em>not</em>
+  implemented by the <span>user agent</span>
 
   <li><span title="unknown RDF attribute">Unknown RDF
   attributes</span>
@@ -766,16 +767,24 @@ error.
 <h1>Limited use features</h1>
 
 <p>Several features are intended for <dfn>limited use</dfn>, i.e. not
-expected to be implemented universally.  Such features might be used
-internally during preparation of public documents, used as data
-formats of particular applications, served as data to be processed by
-public applications, and so on.
-
-<p>Though <span>limited use</span> features are <em>not</em> invalid,
-use of such features in public context could be problematic.  At user
-option, <span title="user agent">user
+expected to be implemented universally.  Such features still have
+legitimated usages, e.g. used internally during preparation of public
+documents, used as data formats of particular applications, served as
+data to be processed by public applications, and so on.  Use
+of <span>limited use</span> features are <em>not</em> invalid.
+However, use of such features in public context could be problematic.
+At user option, <span title="user agent">user
 agents</span> <em class=rfc2119>MAY</em> report an error when an
 instance of <span>limited use</span> feature is detected.
+
+  <div class=example>
+
+  <p>An unprocessed internal vocabulary might be erroneously exposed
+  within a public document when the authoring pipeline is partially
+  broken.  A <span>validator</span> with the option enabled can detect
+  this problem.
+
+  </div>
 
 <p>Following features are intended for <span>limited use</span>:
 

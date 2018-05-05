@@ -65,43 +65,38 @@ specifications</span>.
 <section>
 <h1>Scope</h1>
 
-<p>This specification's goals are
+<p>This specification's goals are to:
 
 <ul>
 
-<li>listing features that are to be reported as <span>obsolete</span>,
+<li>identify features that are to be reported as <span>obsolete</span>
+or <span>limited use</span>,
 
-<li>listing features that are to be reported as <span>limited
-use</span>,
-
-<li>making it clearer that <span title=validator>validators</span> are
+<li>make it clearer that <span title=validator>validators</span> are
 not perfect,
 
-<li>defining how to <span>validate</span> unknown features,
+<li>define how to <span>validate</span> unknown elements and
+attributes,
 
-<li>defining how to choose the set of requirements used
-for <span title=validate>validation</span> of a <span>node</span> when
-there are multiple candidate specifications,
-
-<li>defining how to <span>validate</span> <span title="superglobal
+<li>define how to <span>validate</span> <span title="superglobal
 attribute">superglobal attributes</span> when they are not allowed,
 
-<li>integrating the requirements of feed format (RSS and Atom)
+<li>integrate the requirements of feed format (RSS and Atom)
 specifications with the rest of the platform,
+
+<li>define how to <span>validate</span> OGP,
 
 and
 
-<li>integrating the OGP requirements with the rest of the platform,
+<li>define the <span>template
+mode</span> <span title=validate>validation</span>,
 
 </ul>
 
 ... for <span title=validator>validators</span> produced
 by <a href="https://manakai.github.io/">the manakai project</a>.
 
-<p class=XXX>This specification will define:
-XSLT validation;
-template content validation;
-
+<p class=XXX>
 The obsvocab specification might be merged with this specification in
 due course.
 
@@ -177,19 +172,6 @@ Sniffing Standard</cite></a>.
 <p>The term <dfn>valid language tag</dfn> is defined
 by <a href="https://tools.ietf.org/html/bcp47">BCP 47</a>.
 
-<hr>
-
-<p>The term
-
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn>literal result element</dfn></a>
-
-is defined by the
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
-specification</a>.
-
-The <dfn>XSLT namespace</dfn> is
-<code>http://www.w3.org/1999/XSL/Transform</code>.
-
 </section>
 
 <section>
@@ -210,6 +192,7 @@ Standard</cite></a>.  Terms
 <dfn>child</dfn>, 
 <dfn>parent</dfn>,
 <dfn>ancestor</dfn>,
+<dfn>descendant</dfn>,
 <dfn>node</dfn>,
 <dfn>node document</dfn>,
 <dfn>document</dfn>,
@@ -226,6 +209,7 @@ Standard</cite></a>.  Terms
 <dfn>processing instruction</dfn> (<dfn><code>ProcessingInstruction</code></dfn>),
 <dfn>template content</dfn>,
 <dfn>child text content</dfn>,
+<dfn>shadow root</dfn>,
 and
 <dfn>shadow tree</dfn>
 
@@ -279,6 +263,9 @@ model</span> <span title=validate>validation</span> of
 the <span>element</span>.<!-- Explicitly specified in HTML Standard
 but most other specifications (RSS1, RSS2, Media RSS, Atom) do
 not. -->
+
+<p>The <span>shadow root</span>'s <span>content model</span>
+is <span>flow content</span>.
 
 <section>
 <h1>Intepretation of old specifications</h1>
@@ -880,158 +867,6 @@ instance of <span>limited use</span> feature is detected.
 </section>
 
 </section>
-
-<section>
-<h1>Validation modes</h1>
-
-<p class=XXX>This seciton is at-risk.
-
-<p>A <dfn>validation mode</dfn> identify the specifications that
-describe the requirements used to <span>validate</span>
-a <span>node</span>.  There are two <span title="validation
-mode">modes</span>:
-
-<dl class=switch>
-
-<dt><dfn>Default mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by its definition
-in the <span>native element specifications</span> or the <span>RSS2
-specifications</span>, or by the rules for the <span title="unknown
-element">unknown elements</span> and <span title="unknown
-attribute">attributes</span>.
-
-The <dfn>native element specifications</dfn> are
-the <span title="applicable specification">applicable
-specifications</span> such as
-<a href=https://html.spec.whatwg.org><cite>HTML Standard</cite></a>,
-except for the <span>XSLT specifications</span>, the <span>RSS2
-specifications</span>, and <em>this</em> specification.
-
-<dt><dfn>XSLT mode</dfn>
-<dd>Conformance of the <span>node</span> is governed by the <span>XSLT
-specifications</span>.  For the purpose of this specification,
-the <dfn>XSLT specifications</dfn> are any <span title="applicable
-specification">applicable specifications</span> defining XSLT and its
-extensions.
-
-<dfn title="XSLT family element">XSLT family elements</dfn>
-are <span>elements</span> in the <span>XSLT namespace</span> and
-XSLT <span title="extension namespace">extension namespaces</span>
-defined by <span>XSLT specifications</span>.  Note that
-XSLT <span title="literal result element">literal result
-elements</span> are not <span title="XSLT family element">XSLT family
-elements</span>.
-
-</dl>
-
-<p>To <dfn>determine the validation mode</dfn> of
-a <span>node</span> <var>node</var>, run these steps:
-
-<ol class=steps>
-
-<li>If <var>node</var> is a <span>document element</span>, switch
-by <var>node</var>'s <span>node document</span>'s <span>content
-type</span>:
-
-  <dl class=switch>
-
-  <dt><code>application/xml</code> or <code>text/xml</code>
-
-  <dd>If <var>node</var> is a <span>literal result element</span>
-  and <var>node</var> has
-  the <code>version</code> <span>attribute</span> in the <span>XSLT
-  namespace</span>, return <span>XSLT mode</span> and abort these
-  steps.
-
-  <dt><code>application/xslt+xml</code> or <code>text/xsl</code>
-
-  <dd>If <var>node</var> is an <span>XSLT family element</span> or
-  a <span>literal result element</span>, return <span>XSLT mode</span>
-  and abort these steps.
-
-  </dl>
-
-<li>Let <var>parent</var> be <var>node</var>'s <span>parent</span>.
-
-<li>Let <var>parent mode</var> be <span>default mode</span>.
-
-<li>If <var>parent</var> is not <code>null</code>, set <var>parent
-node</var> to the result of <span title="determine the validation
-mode">determining the validation mode</span> of <var>parent</var>.
-
-<li>If <var>node</var> is an <span>XSLT family element</span>, or if
-<var>parent mode</var> is <span>XSLT mode</span> and <var>node</var> is an
-<span>literal result element</span>, return <span>XSLT mode</span> and
-abort these steps.
-
-<li>Return <span>default mode</span>.
-
-</ol>
-
-<section>
-<h3>Document element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Whether an element can be used as the <span>document element</span>
-or not is determined by following steps:
-
-<ol class=steps>
-
-<li><span>Determine the validation mode</span> of the element.
-
-<li>If the element is in the <span>XSLT mode</span>, return whether
-the element is allowed as the <span>document element</span> according
-to <span>XSLT specifications</span>.
-
-<li>Otherwise, if the element is not an <span>unknown element</span>,
-return whether the element is allowed as the <span>document
-element</span> by an <span>applicable specification</span>.
-
-<li>Otherwise, return true.
-
-</ol>
-
-</section>
-
-<section>
-<h3>Checking an element</h3>
-
-<p class=section-info><em>This section is non-normative.</em>
-
-<p>Conformance of an element is checked as follows:
-
-<ol class=steps>
-
-<li><span>Determine the validation mode</span> of the element.
-
-<li>Let <var>mode</var> be the <span>validation mode</span> of the
-element.
-
-<li>If <var>mode</var> is <span>XSLT mode</span>, check the element
-according to <span>XSLT specifications</span>.
-
-<li>Otherwise, if the element is <em>not</em> an <span>unknown
-element</span>:
-
-  <ol>
-
-  <li>If the element is defined in an <span>applicable
-  specification</span>, check the element according to the
-  specification.
-
-  <li>Otherwise, report an "unknown element" error.
-
-  </ol>
-
-<li>Otherwise, report an "unknown element" warning.
-
-</ol>
-
-</section>
-
-</section>
-
 
 <section>
 <h1>Validation of superglobal attributes</h1>
@@ -1724,15 +1559,127 @@ value or a <span>prefixed property value</span>.
 
 </section>
 
+<section>
+<h1>Validation of templates</h1>
+
+<p>Templates embedded in a <span>document</span> are not rendered and
+are often incomplete until they are actually used as part of
+the <span>document</span>.  As such, they are sometimes exepmted from
+the formal requirements of the <span title="applicable
+specification">specifications</span>.  However, whether templates are
+in error or not could be useful information for authors who want to
+ensure generated trees would not be broken because of poorly authored
+templates.
+
+<p>If a <span>node</span> is a <dfn>template root</dfn>,
+it <em class=rfc2119>MUST</em>
+be <span title=validate>validated</span> in the <span>template
+mode</span>.
+
+<p>In the <dfn>template mode</dfn>, any violation to the requirements
+except for those of <span title="template specification">template
+specifications</span> is marked as <i>in
+template</i>.  <span title="user agent">User
+agents</span> <em class=rfc2119>SHOULD</em> render errors <i>in
+template</i> and the other errors in different manners.  At user
+option, <span title="user agent">user
+agents</span> <em class=rfc2119>MAY</em> hide errors <i>in
+template</i>.
+
+  <div class=note>
+
+  <p>This means that errors in the <span>node</span> itself,
+  its <span title=attribute>attributes</span>,
+  its <span title=descendant>descendants</span>,
+  its <span title="template content">template contents</span>, and
+  its <span title="shadow root">shadow roots</span> are distinguished
+  from errors <em>not</em> in the <span>template mode</span>.
+
+  </div>
+
+<p>In the <span>template mode</span>, no other <span>template
+root</span> is recognized.
+
+<p><dfn title="template specification">Template specifications</dfn>
+of a <span>template root</span> are <span title="applicable
+specification">specifications</span> defining <span>template
+root</span>'s language.  If not specified, there is no <span>template
+specification</span>.
+
+<p><span title="template content">Template contents</span>
+are <span title="template root">template roots</span>.
+
+<p><span title="HTML element">HTML elements</span>
+with <code>hidden</code> <span>attribute</span> <span>in no
+namespace</span> are <span title="template root">template
+roots</span>.
+
+<section>
+<h1>Validation of XSLT</h1>
+
+<p class=section-info><em>This section applies to <span title="user
+agent">user agents</span> implementing <span>XSLT1</span>.</em>
+
+<p><span title="user agent">User agents</span>
+supporting <span>XSLT1</span> <em class=rfc2119>MUST</em> implement
+the <span>XSLT1 specifications</span>.  The <dfn>XSLT1
+specifications</dfn> are
+<a href=https://wiki.whatwg.org/wiki/DOM_XPath><cite>DOM
+XPath</cite></a> and documents directly or indirectly referenced from
+it defining XPath1 and XSLT1, including non-normative descriptions in
+the <cite>HTML Standard</cite>.  The <dfn>XSLT namespace</dfn>
+is <code>http://www.w3.org/1999/XSL/Transform</code>.  The term
+
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn>literal result element</dfn></a>
+
+is defined by the
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
+specification</a>.
+
+<p>A <span>document</span> is a <dfn>XSLT stylesheet</dfn> if at
+least <em>one</em> of the following conditions is true:
+
+  <ul>
+
+  <li>The <span>document</span> has a <span>document element</span>
+  which is a <span>literal result element</span> with
+  the <code>version</code> <span>attribute</span> in the <span>XSLT
+  namespace</span>,
+
+  <li>The <span>document</span>'s <span>content type</span>
+  is <code>application/xslt+xml</code> or <code>text/xsl</code>, or
+
+  <li>The <span>validator</span> is configured
+  to <span>validate</span> it as a <span>XSLT stylesheet</span>.
+
+  </ul>
+
+<p>For the purpose of <span title=validate>validation</span>,
+any <span>child</span> of the <span>template content</span> of
+a <code>template</code> <span>element</span> in the <span>HTML
+element</span> <em class=rfc2119>MUST</em> be treated as if it were
+a <span>child</span> of the <span>element</span> when its <span>node
+document</span> is an <span>XSLT stylesheet</span>.<!-- for
+consistency with non-normative definition in the HTML Standard -->
+
+<p><span title="literal result element">Literal result elements</span>
+are <span title="template root">template roots</span>
+whose <span title="template specification">template
+specifications</span> are the <span>XSLT1 specifications</span>.
+
+</section>
+
+</section>
+
 
 <section>
 <h1>Data</h1>
 
 <p class=section-info><em>This section is non-normative.</em>
 
-<p>The <a href="https://github.com/manakai/data-web-defs/">data-web-defs</a>
-repository contains some machine-readable data for definitions in this
-specification, in the following file:
+<p>The <a href="https://github.com/manakai/data-web-defs/">data-web-defs
+repository</a> contains some machine-readable data for definitions in
+this specification, in the following file:
 
   <ul>
 

@@ -60,7 +60,7 @@ nothing prevents it from implemented by other DOM implementations.
   <ol>
    <li><a href=#intepretation-of-old-specifications><span class=secno>3.1 </span>Intepretation of old specifications</a></li>
    <li><a href=#validation-of-obsolete-features><span class=secno>3.2 </span>Validation of obsolete features</a></li>
-   <li><a href=#unknown-features><span class=secno>3.3 </span>Unknown features</a></li>
+   <li><a href=#unfamiliar-features><span class=secno>3.3 </span>Unfamiliar features</a></li>
    <li><a href=#limited-use-features><span class=secno>3.4 </span>Limited use features</a></li></ol></li>
  <li><a href=#validation-modes><span class=secno>4 </span>Validation modes</a>
   <ol>
@@ -568,20 +568,20 @@ are <a href=#obsolete-namespace title="obsolete namespace">obsolete</a>:
 </section>
 
 <section>
-<h1 id=unknown-features><span class=secno>3.3 </span>Unknown features</h1>
+<h1 id=unfamiliar-features><span class=secno>3.3 </span>Unfamiliar features</h1>
 
 <p>There are many protocol or language features that are extensible.
 A <a href=#user-agent>user agent</a> might or might not know how
 to <span>validate</span> a feature's instance.  Therefore, the answer
 to a question "Is this instance conforming?" can
-be <i>yes</i>, <i>no</i>, or <i>unknown</i>.
+be <i>yes</i>, <i>no</i>, or <i>unfamiliar</i>.
 
-</p><p>When a feature is defined as <dfn id=unknown-feature title="unknown
-feature">unknown</dfn>, a <a href=#user-agent>user
+</p><p>When a feature is defined as <dfn id=unfamiliar-feature title="unfamiliar
+feature">unfamiliar</dfn>, a <a href=#user-agent>user
 agent</a> <em class=rfc2119>MUST</em> report any use of such
-features as <i>unknown</i>.  A <a href=#user-agent>user
+features as <i>unfamiliar</i>.  A <a href=#user-agent>user
 agent</a> <em class=rfc2119>MAY</em> report any other features
-as <i>unknown</i>.
+as <i>unfamiliar</i>.
 
 </p><hr>
 
@@ -640,8 +640,8 @@ the <a href=#rdf-namespace>RDF namespace</a>.
   support">partially supported</a>, or <a href=#no-support title="no support">not
   supported</a>, are orthogonal to
   its <a href=#element title=element>elements</a>
-  and <a href=#attribute title=attribute>attributes</a> are <a href=#unknown-feature title="unknown
-  feature">unknown</a> or not.  A <a href=#user-agent>user agent</a> might not
+  and <a href=#attribute title=attribute>attributes</a> are <span title="unknown
+  feature">unknown</span> or not.  A <a href=#user-agent>user agent</a> might not
   support the <span title=validate>validation</span> of
   an <a href=#attribute-value>attribute value</a> of a <a href=#full-support title="full
   support">fully supported</a> <a href=#namespace>namespace</a>.
@@ -695,8 +695,8 @@ elements</a>, <a href=#attribute title=attribute>attributes</a> <a href=#in-no-n
 namespace</a> of <a href=#unknown-element title="unknown element">unknown
 elements</a>, other than <span title="superglobal
 attribute">superglobal attributes</span>, and <a href=#unknown-attribute title="unknown
-attribute">unknown attributes</a> are <a href=#unknown-feature title="unknown
-feature">unknown</a>.
+attribute">unknown attributes</a> are <a href=#unfamiliar-feature title="unfamiliar
+feature">unfamiliar</a>.
 
 </p><hr>
 

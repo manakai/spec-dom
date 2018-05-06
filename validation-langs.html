@@ -10,7 +10,7 @@
 
 <hgroup>
   <h1 class="no-toc no-num">DOM Tree Validation</h1>
-  <h2 class="no-toc no-num">The manakai project, 5 May 2018</h2>
+  <h2 class="no-toc no-num">The manakai project, 6 May 2018</h2>
 </hgroup>
 
 <dl class=versions-uri>
@@ -148,8 +148,15 @@ due course.
   comments and documentations of the Perl modules developed by the
   <a href=https://manakai.github.io/>the manakai project</a>.
 
-  </p><p>Earlier versions of this specification contained non-normative
-  descriptions of how to <span>validate</span>
+  </p><p>Earlier versions of this specification had
+  defined <dfn id=validation-mode>validation mode</dfn>, which was an attempt to define
+  interaction of RDF/XML, RSS1, RSS2, and XSLT vocabularies with the
+  rest of the platform in <span title=validate>validation</span>.  The
+  concept was abandoned because it introduced much complexity into the
+  specification and <span title=validator>validators</span>.
+
+  </p><p>Earlier versions of this specification had contained
+  non-normative descriptions of how to <span>validate</span>
   HTML <code id=checking-an-html-script-element>script</code>
   and <code id=checking-an-html-style-element>style</code> <a href=#element title=element>elements</a>.
   As definitions of these <a href=#element title=element>elements</a> were
@@ -184,6 +191,10 @@ and
 are defined by the <a href=https://infra.spec.whatwg.org/><cite>Infra
 Standard</cite></a>.
 
+</p><p>The term
+<dfn id=encoding-label title="encoding label">label</dfn>
+is defined by <a href=https://encoding.spec.whatwg.org/><cite>Encoding
+Standard</cite></a>.
 
 </p><p>The terms
 <dfn id=valid-url-string>valid URL string</dfn>,
@@ -328,7 +339,7 @@ elements</a> not defined by any <a href=#applicable-specification title="applica
 specification">specification</a> <em class=rfc2119>MUST NOT</em> be
 used.  Deprecated features <em class=rfc2119>SHOULD NOT</em> be
 used.<!-- XML 1.0, XMLNS 1.0, RSS1, RSS content, RSS DC, DCES, RSS2
-(except for RSSBP), Atom, Media RSS, iTunes, Hatena, OGP -->
+(except for RSSBP), Atom, Media RSS, iTunes, Hatena, OGP, XSLT1 -->
 
   </p><div class=note>
 
@@ -356,6 +367,11 @@ conform to the corresponding consturct instead:
     plain text<!-- RSS2 -->
     </dt><dd><p>A text.
   </p></dd></div>
+
+  <div>
+    <dt>A char<!-- XSLT1 -->
+    </dt><dd><p>A <a href=#code-point>code point
+  </a></p></dd></div>
 
   <div>
     <dt>A number<!-- RSS2, MediaRSS -->
@@ -386,6 +402,7 @@ conform to the corresponding consturct instead:
     </dt><dt>A URL with a scheme defined by the IANA Registry of URI
     Schemes<!-- RSS2 -->
     </dt><dt>A URI
+    </dt><dt>A uri-reference<!-- XSLT1 -->
     </dt><dt>An RFC 3986 URI reference<!-- XMLNS -->
     </dt><dt>An IRI
     </dt><dt>An IRI reference
@@ -414,16 +431,28 @@ conform to the corresponding consturct instead:
 
   <div>
     <dt>A relative URI reference<!-- XMLNS -->
-    </dt><dd><p>A <span>valid URL</span> that is
+    </dt><dd><p>A <a href=#valid-url-string>valid URL string</a> that is
     a <a href=#relative-url-with-fragment-string>relative-URL-with-fragment string</a>.
   </p></dd></div>
 
   <div>
-    <dt>A media type
-    </dt><dt>A MIME media type
-    <!-- Atom family -->
+    <dt>A media type<!-- Atom family -->
+    </dt><dt>A MIME media type<!-- Atom family -->
     </dt><dt>A standard MIME type<!-- RSS2, MediaRSS -->
     </dt><dd><p>A <a href=#valid-mime-type>valid MIME type</a>.
+  </p></dd></div>
+
+  <div>
+    <dt>A media type (MIME content type); the <code>charset</code>
+    parameter should not be specified explicitly<!-- XSLT1 -->
+    </dt><dd><p>A <a href=#valid-mime-type>valid MIME type</a> with no <code>charset</code>
+    parameter.
+  </p></dd></div>
+
+  <div>
+    <dt>A charset registered with IANA or start
+    with <code>X-</code><!-- XSLT1 -->
+    </dt><dd><p>A <a href=#encoding-label title="encoding label">label</a>
   </p></dd></div>
 
   <div>
@@ -439,6 +468,13 @@ conform to the corresponding consturct instead:
     </dt><dd><p>A string in the
     <a href=http://www.rssboard.org/rss-profile#data-types-email><em class=rfc2119>RECOMMENDED</em>
     format for e-mail addresses</a>.
+  </p></dd></div>
+
+  <div>
+    <dt>An id<!-- XSLT1 -->
+    </dt><dd><p>Same as the <code>id</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in
+    no namespace</a> of <a href=#html-element title="HTML element">HTML
+    elements</a>
   </p></dd></div>
 
   <div>
@@ -480,7 +516,7 @@ type=xhtml -->
 
 </p><p>When an <a href=#element>element</a> has
 <dfn id=html-fragment-content>HTML fragment content</dfn>, setting its <a href=#child-text-content>child text
-content</a> to a new
+content</a> to <code>innerHTML</code> of a new
 <a href=#div><code>div</code></a> <a href=#element>element</a> in the <a href=#html-namespace>HTML
 namespace</a> <em class=rfc2119>MUST NOT</em> generate
 a <a href=#parse-error>parse error</a> or create a
@@ -838,12 +874,14 @@ instance of <a href=#limited-use>limited use</a> feature is detected.
   the <a href=#namespace title=namespace>namespaces</a>
   <code>http://www.w3.org/2000/09/xmldsig#</code>,
   <code>http://purl.org/rss/1.0/modules/slash/</code>,
-  <code>http://purl.org/syndication/thread/1.0</code>,
+  <a href=#atom-threading-namespace>Atom Threading namespace</a>,
   <code>http://purl.org/syndication/history/1.0</code>,
   <code>http://purl.org/atompub/tombstones/1.0</code>,
   <code>http://www.w3.org/2007/app</code>,
   <code>http://schemas.google.com/g/2005</code>, and
   <code>http://www.hatena.ne.jp/info/xmlns#</code>
+
+  </li><li><a href=#xslt-element title="XSLT element">XSLT elements</a>
 
   </li><li><a href=#mime-type title="MIME type">MIME types</a> registered with IANA
   whose registration states that its <i>intended usage</i>
@@ -1070,7 +1108,9 @@ element</dfn> if:
 
   <li>Its <a href=#namespace>namespace</a> is the <a href=#rdf-namespace>RDF namespace</a>,
 
-  </li><li>Its <a href=#local-name>local name</a> is <code>RDF</code>, and
+  </li><li>Its <a href=#local-name>local name</a> is <code>RDF</code>,
+
+  and
 
   </li><li>Either:
 
@@ -1090,6 +1130,15 @@ element</dfn> if:
     </li></ul>
 
   </li></ul>
+
+  <div class=note>
+
+  <p>At user option, <a href=#user-agent title="user agent">user agents</a>
+  can <span>validate</span> a <a href=#document>document</a> as an <span>RSS1
+  document</span> (ignoring its original context) by overriding
+  its <a href=#content-type>content type</a> to <code>application/rss+xml</code>.
+
+  </p></div>
 
 <p>If an <code>RDF</code> <a href=#element>element</a> in the 
 <a href=#rdf-namespace>RDF namespace</a> is an <a href=#rss-1.0-rdf:rdf-element>RSS 1.0 <code>rdf:RDF</code>
@@ -1360,13 +1409,16 @@ is <code>http://www.w3.org/2005/Atom</code>.
 The <dfn id=atom-0.3-namespace>Atom 0.3 namespace</dfn>
 is <a href=https://github.com/mnot/I-D/blob/gh-pages/Published/atom-format/draft-nottingham-atom-format-02.xml><code>http://purl.org/atom/ns#</code></a>.
 
+The <dfn id=atom-threading-namespace>Atom Threading namespace</dfn>
+is <a href=https://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>.
+
 The <dfn id=atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</dfn> is
 <a href=https://tools.ietf.org/html/rfc5005><code>http://purl.org/syndication/history/1.0</code></a>.
 
 <dfn id=atom-family-namespaces>Atom family namespaces</dfn> are the <a href=#atom-0.3-namespace>Atom 0.3
-namespace</a>, the <a href=#atom-namespace>Atom namespace</a>,
-<a href=https://tools.ietf.org/html/rfc4685><code>http://purl.org/syndication/thread/1.0</code></a>,
-the <a href=#atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving namespace</a>,
+namespace</a>, the <a href=#atom-namespace>Atom namespace</a>, the <a href=#atom-threading-namespace>Atom
+Threading namespace</a>, the <a href=#atom-feed-paging-and-archiving-namespace>Atom Feed Paging and Archiving
+namespace</a>,
 <a href=https://tools.ietf.org/html/rfc5023><code>http://www.w3.org/2007/app</code></a>,
 and
 <a href=https://tools.ietf.org/html/rfc6721><code>http://purl.org/atompub/tombstones/1.0</code></a>.
@@ -1653,33 +1705,58 @@ the <a href=#xslt1-specifications>XSLT1 specifications</a>.  The <dfn id=xslt1-s
 specifications</dfn> are
 <a href=https://wiki.whatwg.org/wiki/DOM_XPath><cite>DOM
 XPath</cite></a> and documents directly or indirectly referenced from
-it defining XPath1 and XSLT1, including non-normative descriptions in
-the <cite>HTML Standard</cite>.  The <dfn id=xslt-namespace>XSLT namespace</dfn>
-is <code>http://www.w3.org/1999/XSL/Transform</code>.  The term
+it defining XPath1 and XSLT1, including
+<a href=https://www.w3.org/TR/1999/REC-xslt-19991116><cite>XSLT
+Transformations (XSLT)</cite></a> and non-normative descriptions in
+the <cite>HTML Standard</cite>.  The terms
 
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116#literal-result-element><dfn id=literal-result-element>literal result element</dfn></a>
+<dfn id=literal-result-element>literal result element</dfn>,
+<dfn id=xslt-template title="XSLT template">template</dfn> (of XSLT),
+<dfn id=attribute-value-template>attribute value template</dfn>,
+<dfn id=xslt-extension-element title="XSLT extension element">extension element</dfn> (of XSLT),
+and
+<dfn id=xslt-extension-namespace title="XSLT extension namespace">extension namespace</dfn> (of XSLT),
 
-is defined by the
-<a href=https://www.w3.org/TR/1999/REC-xslt-19991116>XSLT1
-specification</a>.
+are defined by the <a href=#xslt1-specifications>XSLT1 specifications</a>.
 
-</p><p>A <a href=#document>document</a> is a <dfn id=xslt-stylesheet>XSLT stylesheet</dfn> if at
+</p><p>The <dfn id=xslt-namespace>XSLT namespace</dfn>
+is <code>http://www.w3.org/1999/XSL/Transform</code>.
+An <a href=#element>element</a> is <dfn id=xslt-element>XSLT element</dfn> if
+its <a href=#namespace>namespace</a> is the <a href=#xslt-namespace>XSLT namespace</a>.
+
+</p><p>A <a href=#document>document</a> is an <dfn id=xslt-stylesheet>XSLT stylesheet</dfn> if at
 least <em>one</em> of the following conditions is true:
 
   </p><ul>
 
   <li>The <a href=#document>document</a> has a <a href=#document-element>document element</a>
+  which is a <code>stylesheet</code> <a href=#element>element</a> in
+  the <a href=#xslt-namespace>XSLT namespace</a>,
+
+  </li><li>The <a href=#document>document</a> has a <a href=#document-element>document element</a>
+  which is a <code>transform</code> <a href=#element>element</a> in
+  the <a href=#xslt-namespace>XSLT namespace</a>,
+
+  </li><li>The <a href=#document>document</a> has a <a href=#document-element>document element</a>
   which is a <a href=#literal-result-element>literal result element</a> with
   the <code>version</code> <a href=#attribute>attribute</a> in the <a href=#xslt-namespace>XSLT
   namespace</a>,
 
-  </li><li>The <a href=#document>document</a>'s <a href=#content-type>content type</a>
-  is <code>application/xslt+xml</code> or <code>text/xsl</code>, or
+  or
 
-  </li><li>The <span>validator</span> is configured
-  to <span>validate</span> it as a <a href=#xslt-stylesheet>XSLT stylesheet</a>.
+  </li><li>The <a href=#document>document</a>'s <a href=#content-type>content type</a>
+  is <code>application/xslt+xml</code> or <code>text/xsl</code>,
 
   </li></ul>
+
+  <div class=note>
+
+  <p>At user option, <a href=#user-agent title="user agent">user agents</a>
+  can <span>validate</span> a <a href=#document>document</a> as a <a href=#xslt-stylesheet>XSLT
+  stylesheet</a> (ignoring its original context) by overriding
+  its <a href=#content-type>content type</a> to <code>application/xslt+xml</code>.
+
+  </p></div>
 
 <p>For the purpose of <span title=validate>validation</span>,
 any <a href=#child>child</a> of the <a href=#template-content>template content</a> of
@@ -1689,12 +1766,142 @@ a <a href=#child>child</a> of the <a href=#element>element</a> when its <a href=
 document</a> is an <a href=#xslt-stylesheet>XSLT stylesheet</a>.<!-- for
 consistency with non-normative definition in the HTML Standard -->
 
-</p><p><a href=#literal-result-element title="literal result element">Literal result elements</a>
+</p><p><a href=#attribute title=attribute>Attributes</a>
+in <a href=#non-null-namespace>non-<code>null</code> namespace</a> <em class=rfc2119>MUST
+NOT</em> be specified for <a href=#xslt-element title="XSLT element">XSLT
+elements</a> unless it is allowed by a <a href=#applicable-specification title="applicable
+specification">specification</a>.<!-- XSLT1 specification allows
+any foreign attribute -->
+
+  </p><div class=note>
+
+  <p>For example, <a href=#attribute title=attribute>attributes</a> in
+  the <a href=#xmlns-namespace>XMLNS namespace</a> and <a href=#unknown-attribute title="unknown
+  attribute">unknown attributes</a> are
+  allowed.  <a href=#attribute title=attribute>Attributes</a> in the <a href=#atom-threading-namespace>Atom
+  Threading namespace</a> are not.
+
+  </p></div>
+
+<p>The <a href=#attribute-value title="attribute value">value</a> of the
+following <a href=#attribute title=attribute>attributes</a> <em class=rfc2119>MUST</em>
+be <code>1.0</code><!-- It can be any Number in XSLT1 -->:
+
+  </p><ul>
+
+  <li><code>version</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no
+  namespace</a>
+  of <code>stylesheet</code> <a href=#element title=element>elements</a> in
+  the <a href=#xslt-namespace>XSLT namespace</a>,
+
+  </li><li><code>version</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no
+  namespace</a>
+  of <code>transform</code> <a href=#element title=element>elements</a> in
+  the <a href=#xslt-namespace>XSLT namespace</a>,
+
+  and
+
+  </li><li><code>version</code> <a href=#attribute>attribute</a> in the <a href=#xslt-namespace>XSLT
+  namespace</a>.
+
+  </li></ul>
+
+<p><a href=#element title=element>Elements</a> other than <a href=#xslt-element title="XSLT
+element">XSLT elements</a> <em class=rfc2119>MUST NOT</em> be used
+as <a href=#child title=child>children</a> of a <code>stylesheet</code>
+or <code>transform</code> <a href=#element>element</a> in the <a href=#xslt-namespace>XSLT
+namespace</a> unless they are allowed by <a href=#applicable-specification title="applicable
+specification">applicable specifications</a>.<!-- XSLT1 allows
+everything with namespace -->
+
+</p><p>The <a href=#attribute-value title="attribute value">value</a> of
+the <code>method</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no
+namespace</a> of an <code>output</code> <a href=#element>element</a>
+in <a href=#xslt-namespace>XSLT namespace</a> or
+the <code>data-type</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no
+namespace</a> of a <code>sort</code> <a href=#element>element</a>
+in <a href=#xslt-namespace>XSLT namespace</a> <em class=rfc2119>MUST NOT</em> be
+a <span>QName</span> unless it represents a value allowed by
+an <a href=#applicable-specification>applicable specification</a>.<!-- Any QName is allowed for
+extensions in XSLT1 -->
+
+</p><p>The <code>version</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in no
+namespace</a> <em class=rfc2119>SHOULD NOT</em> be specified for
+an <code>output</code> <a href=#element>element</a> in <a href=#xslt-namespace>XSLT
+namespace</a>.  If specified, its <a href=#attribute-value title="attribute
+value">value</a> <em class=rfc2119>MUST</em> be <code>1.0</code>.
+
+  </p><div class=note>
+
+  <p>Only known meaningful combinations of attributes
+  are: <code>&lt;xsl:output method="xml"&gt;</code>, <code>&lt;xsl:output
+  method="xml" version="1.0"&gt;</code>, <code>&lt;xsl:output
+  method="html"&gt;</code>, and <code>&lt;xsl:output
+  method="text"&gt;</code>.
+
+  <!-- If output method=html, version, doctype-public, doctype-system,
+  omit-xml-declaration, and standalone should be omitted. If output
+  method=text, version, doctype-public, doctype-system,
+  omit-xml-declaration, standalone, cdata-setion-elements, and indent
+  should be omitted.  But there can be multiple output elements in
+  included and imported stylesheets, which are too complex for
+  validating without actually running the transform.  -->
+
+  </p></div>
+
+<p>The <a href=#xslt-extension-namespace title="XSLT extension namespace">extension
+namespaces</a> specified by
+the <code>extension-element-prefixes</code> <a href=#attribute>attribute</a> <a href=#in-no-namespace>in
+no namespace</a> or in the <a href=#xslt-namespace>XSLT
+namespace</a> <em class=rfc2119>MUST</em> be one
+of <a href=#xslt-extension-namespace-candidate title="XSLT extension namespace candidate">XSLT extension
+namespace candidates</a>.  The <dfn id=xslt-extension-namespace-candidate title="XSLT extension namespace
+candidate">XSLT extension namespace candidates</dfn>
+are <a href=#namespace title=namespace>namespaces</a> <a href=#xslt-extension-element-candidate title="XSLT
+extension element candidate">XSLT extension element candidates</a>
+are belong to.
+
+</p><p>An <a href=#element>element</a> is <dfn id=xslt-extension-element-candidate>XSLT extension element
+candidate</dfn> if its semantics as an <a href=#xslt-extension-element title="XSLT extension
+element">extension element</a> is defined by
+its <a href=#applicable-specification title="applicable specification">specification</a>.
+
+</p><p><a href=#unknown-element title="unknown element">Unknown elements</a>
+whose <a href=#namespace>namespace</a> is <em>not</em> <code>null</code>
+are <a href=#xslt-extension-element-candidate title="XSLT extension element candidate">XSLT extension
+element candidates</a>.
+
+  </p><div class=note>
+
+  <p>The <code>null</code> <a href=#namespace>namespace</a>, the <a href=#xml-namespace>XML
+  namespace</a>, the <a href=#xmlns-namespace>XMLNS namespace</a>, and
+  the <a href=#xslt-namespace>XSLT namespace</a> are <em>not</em> in
+  the <a href=#xslt-extension-element-candidate title="XSLT extension element candidate">XSLT extension
+  namespace candidates</a>.
+
+  </p></div>
+
+<p><a href=#xslt-template title="XSLT template">Templates</a>
 are <a href=#template-root title="template root">template roots</a>
 whose <a href=#template-specification title="template specification">template
-specifications</a> are the <a href=#xslt1-specifications>XSLT1 specifications</a>.
+specifications</a> are the <a href=#xslt1-specifications>XSLT1 specifications</a> and
+the <a href=#applicable-specification title="applicable specification">specifications</a> of
+the <a href=#xslt-extension-element title="XSLT extension element">extension elements</a>.
 
-</p></section>
+  </p><div class=note>
+
+  <p>Various <a href=#attribute title=attribute>attributes</a>
+  in <a href=#xslt-template title="XSLT template">XSLT templates</a>, including
+  those of <a href=#literal-result-element title="literal result element">literal result
+  elements</a>, can contain <a href=#attribute-value-template title="attribute value
+  template">attribute value templates</a>, which
+  makes <span title=validate>validation</span> complicated (or
+  impossible).  How to handle them is a quality-of-implementation
+  issue.
+
+  </p></div>
+
+</section>
 
 </section>
 

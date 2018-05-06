@@ -75,8 +75,8 @@ or <span>limited use</span>,
 <li>make it clearer that <span title=validator>validators</span> are
 not perfect,
 
-<li>define how to <span>validate</span> unknown elements and
-attributes,
+<li>define how to <span>validate</span> unknown elements, attributes,
+and processing instructions,
 
 <li>define how to <span>validate</span> <span title="superglobal
 attribute">superglobal attributes</span> when they are not allowed,
@@ -218,6 +218,7 @@ Standard</cite></a>.  Terms
 <dfn>local name</dfn> (of <span>element</span> or <span>attribute</span>),
 <dfn>comment</dfn> (<dfn title=dom-Comment><code>Comment</code></dfn>),
 <dfn>processing instruction</dfn> (<dfn><code>ProcessingInstruction</code></dfn>),
+<dfn>target</dfn>,
 <dfn>template content</dfn>,
 <dfn>child text content</dfn>,
 <dfn>shadow root</dfn>,
@@ -312,8 +313,8 @@ used.<!-- XML 1.0, XMLNS 1.0, RSS1, RSS content, RSS DC, DCES, RSS2
 
   <div class=note>
 
-  <p>Features that are "reserved" cannot be used unless they are
-  defined by later <span title="applicable
+  <p id=reserved>Features that are "reserved" cannot be used unless
+  they are defined by later <span title="applicable
   specification">specification</span>.<!-- XML 1.0 -->
 
   </div>
@@ -568,11 +569,9 @@ to <span>validate</span> a feature's instance.  Therefore, the answer
 to a question "Is this instance conforming?" can
 be <i>yes</i>, <i>no</i>, or <i>unfamiliar</i>.
 
-<p>When a feature is defined as <dfn title="unfamiliar
-feature">unfamiliar</dfn>, a <span>user
-agent</span> <em class=rfc2119>MUST</em> report any use of such
-features as <i>unfamiliar</i>.  A <span>user
-agent</span> <em class=rfc2119>MAY</em> report any other feature
+<p>When a <span>user agent</span> is <dfn title="unfamiliar
+feature">unfamiliar</dfn> to a feature, it <em class=rfc2119>MUST</em>
+report the <span title=validate>validation</span> result
 as <i>unfamiliar</i>.
 
 <hr>
@@ -688,7 +687,7 @@ namespace</span> of <span title="unknown element">unknown
 elements</span>, other than <span title="superglobal
 attribute">superglobal attributes</span>, and <span title="unknown
 attribute">unknown attributes</span> are <span title="unfamiliar
-feature">unfamiliar</span>.
+feature">unfamiliar features</span>.
 
 <hr>
 
@@ -783,6 +782,24 @@ error.
 </div>
 
 </div>
+
+<hr>
+
+<p><dfn title="unknown processing instruction">Unknown processing
+instructions</dfn> are <span title="processing instruction">processing
+instructions</span> whose <span>target</span> does not begin
+with <code>xml-</code> (<span>ASCII
+case-insensitive</span>).  <span title="unknown processing
+instruction">Unknown processing instructions</span>
+are <span title="unfamiliar feature">unfamiliar features</span>.
+
+  <div class=note>
+
+  <p><span title="processing instruction">Processing
+  instructions</span> whose <span>target</span> begins
+  with <code>xml-</code> are <a href=#reserved>reserved</a>.
+
+  </div>
 
 </section>
 
@@ -1711,9 +1728,8 @@ least <em>one</em> of the following conditions is true:
   the <span>XSLT namespace</span>,
 
   <li>The <span>document</span> has a <span>document element</span>
-  which is a <span>literal result element</span> with
-  the <code>version</code> <span>attribute</span> in the <span>XSLT
-  namespace</span>,
+  with the <code>version</code> <span>attribute</span> in
+  the <span>XSLT namespace</span>,
 
   or
 
@@ -1742,9 +1758,9 @@ consistency with non-normative definition in the HTML Standard -->
 <p><span title="attribute">Attributes</span>
 in <span>non-<code>null</code> namespace</span> <em class=rfc2119>MUST
 NOT</em> be specified for <span title="XSLT element">XSLT
-elements</span> unless it is allowed by a <span title="applicable
-specification">specification</span>.<!-- XSLT1 specification allows
-any foreign attribute -->
+elements</span> unless they are allowed by <span title="applicable
+specification">applicable specification</span>.<!-- XSLT1
+specification allows any foreign attribute -->
 
   <div class="note">
 

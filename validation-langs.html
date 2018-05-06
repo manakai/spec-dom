@@ -106,8 +106,8 @@ or <a href=#limited-use>limited use</a>,
 </li><li>make it clearer that <span title=validator>validators</span> are
 not perfect,
 
-</li><li>define how to <span>validate</span> unknown elements and
-attributes,
+</li><li>define how to <span>validate</span> unknown elements, attributes,
+and processing instructions,
 
 </li><li>define how to <span>validate</span> <span title="superglobal
 attribute">superglobal attributes</span> when they are not allowed,
@@ -249,6 +249,7 @@ Standard</cite></a>.  Terms
 <dfn id=local-name>local name</dfn> (of <a href=#element>element</a> or <a href=#attribute>attribute</a>),
 <dfn id=comment>comment</dfn> (<dfn id=dom-comment title=dom-Comment><code>Comment</code></dfn>),
 <dfn id=processing-instruction>processing instruction</dfn> (<dfn id=processinginstruction><code>ProcessingInstruction</code></dfn>),
+<dfn id=target>target</dfn>,
 <dfn id=template-content>template content</dfn>,
 <dfn id=child-text-content>child text content</dfn>,
 <dfn id=shadow-root>shadow root</dfn>,
@@ -343,8 +344,8 @@ used.<!-- XML 1.0, XMLNS 1.0, RSS1, RSS content, RSS DC, DCES, RSS2
 
   </p><div class=note>
 
-  <p>Features that are "reserved" cannot be used unless they are
-  defined by later <a href=#applicable-specification title="applicable
+  <p id=reserved>Features that are "reserved" cannot be used unless
+  they are defined by later <a href=#applicable-specification title="applicable
   specification">specification</a>.<!-- XML 1.0 -->
 
   </p></div>
@@ -599,11 +600,9 @@ to <span>validate</span> a feature's instance.  Therefore, the answer
 to a question "Is this instance conforming?" can
 be <i>yes</i>, <i>no</i>, or <i>unfamiliar</i>.
 
-</p><p>When a feature is defined as <dfn id=unfamiliar-feature title="unfamiliar
-feature">unfamiliar</dfn>, a <a href=#user-agent>user
-agent</a> <em class=rfc2119>MUST</em> report any use of such
-features as <i>unfamiliar</i>.  A <a href=#user-agent>user
-agent</a> <em class=rfc2119>MAY</em> report any other feature
+</p><p>When a <a href=#user-agent>user agent</a> is <dfn id=unfamiliar-feature title="unfamiliar
+feature">unfamiliar</dfn> to a feature, it <em class=rfc2119>MUST</em>
+report the <span title=validate>validation</span> result
 as <i>unfamiliar</i>.
 
 </p><hr>
@@ -719,7 +718,7 @@ namespace</a> of <a href=#unknown-element title="unknown element">unknown
 elements</a>, other than <span title="superglobal
 attribute">superglobal attributes</span>, and <a href=#unknown-attribute title="unknown
 attribute">unknown attributes</a> are <a href=#unfamiliar-feature title="unfamiliar
-feature">unfamiliar</a>.
+feature">unfamiliar features</a>.
 
 </p><hr>
 
@@ -814,6 +813,24 @@ error.
 </p></div>
 
 </div>
+
+<hr>
+
+<p><dfn id=unknown-processing-instruction title="unknown processing instruction">Unknown processing
+instructions</dfn> are <a href=#processing-instruction title="processing instruction">processing
+instructions</a> whose <a href=#target>target</a> does not begin
+with <code>xml-</code> (<a href=#ascii-case-insensitive>ASCII
+case-insensitive</a>).  <a href=#unknown-processing-instruction title="unknown processing
+instruction">Unknown processing instructions</a>
+are <a href=#unfamiliar-feature title="unfamiliar feature">unfamiliar features</a>.
+
+  </p><div class=note>
+
+  <p><a href=#processing-instruction title="processing instruction">Processing
+  instructions</a> whose <a href=#target>target</a> begins
+  with <code>xml-</code> are <a href=#reserved>reserved</a>.
+
+  </p></div>
 
 </section>
 
@@ -1738,9 +1755,8 @@ least <em>one</em> of the following conditions is true:
   the <a href=#xslt-namespace>XSLT namespace</a>,
 
   </li><li>The <a href=#document>document</a> has a <a href=#document-element>document element</a>
-  which is a <a href=#literal-result-element>literal result element</a> with
-  the <code>version</code> <a href=#attribute>attribute</a> in the <a href=#xslt-namespace>XSLT
-  namespace</a>,
+  with the <code>version</code> <a href=#attribute>attribute</a> in
+  the <a href=#xslt-namespace>XSLT namespace</a>,
 
   or
 
@@ -1769,9 +1785,9 @@ consistency with non-normative definition in the HTML Standard -->
 </p><p><a href=#attribute title=attribute>Attributes</a>
 in <a href=#non-null-namespace>non-<code>null</code> namespace</a> <em class=rfc2119>MUST
 NOT</em> be specified for <a href=#xslt-element title="XSLT element">XSLT
-elements</a> unless it is allowed by a <a href=#applicable-specification title="applicable
-specification">specification</a>.<!-- XSLT1 specification allows
-any foreign attribute -->
+elements</a> unless they are allowed by <a href=#applicable-specification title="applicable
+specification">applicable specification</a>.<!-- XSLT1
+specification allows any foreign attribute -->
 
   </p><div class=note>
 

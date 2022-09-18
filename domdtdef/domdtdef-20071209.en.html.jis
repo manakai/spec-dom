@@ -2,9 +2,9 @@
 <html lang="en" class="formal-specification"><!-- status-work-in-progress"-->
 <head>
 <title>DOM Document Type Definition Module</title>
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/def/dom">
-<link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
+<link rel="stylesheet" href="https://suika.suikawiki.org/www/style/html/spec">
+<link rel="stylesheet" href="https://suika.suikawiki.org/www/style/def/dom">
+<link rel="license" href="https://suika.suikawiki.org/c/gnu/fdl">
 </head>
 <body class="has-abstract">
 
@@ -15,30 +15,30 @@
 
 <dl class="versions-uri">
 <dt>This Version</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-20071209"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-20071209</a>&gt;</code></dd>
 <!--
   <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
 -->
 <dt>Latest Version</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef</a>&gt;</code></dd>
 <dt>Latest Working Draft</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef-work"
       >http://suika.fam.cx/www/markup/xml/domdtdef/domdtdef-work</a>&gt;</code></dd>
 <!-- <dt>Previous Version</dt> -->
 <dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html</a>&gt;</code></dd>
+  <dd><code class=URI>&lt;<a href="https://suika.suikawiki.org/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/domdtdef/domdtdef-work.en.html</a>&gt;</code></dd>
 <dt id=author>Author</dt>
-  <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
+  <dd><a href="https://suika.suikawiki.org/~wakaba/who?" rel="author"
       lang=ja>Wakaba</a>
-  <code class="mail">&lt;<a href="mailto:w@suika.fam.cx" rel="author"
+  <code class="mail">&lt;<a href="mailto:wakaba@suikawiki.org" rel="author"
       >w@suika.fam.cx</a>&gt;</code></dd>
 </dl>
 
 <p class="copyright" lang="en">&#xA9; <time>2007</time> <a
-    href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
+    href="https://suika.suikawiki.org/~wakaba/who?" rel="author">Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a rel="license"
 href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
@@ -69,7 +69,7 @@ time of its publication.  Other documents might supersede this document.</p>
 
 <p>This document is a specification<!-- working draft -->, 
 produced as part of the 
-<a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> project.  
+<a href="https://suika.suikawiki.org/www/manakai-core/doc/web/">manakai</a> project.  
 It might be updated, replaced, or obsoleted by other documents at any time.  
 <!-- It is inappropriate to cite this document as other than 
 <q>work in progress</q>. --></p>
@@ -1806,7 +1806,7 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   of the specification is available at
   <code class=uri>&lt;<a href="http://www.w3.org/TR/DOM-Bindings/">http://www.w3.org/TR/DOM-Bindings/</a>></code>.</dd>
 <dt id=ref-DOMPERL>DOMPERL</dt>
-  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
+  <dd><cite><a href="https://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Perl%20Binding">manakai's
   <abbr>DOM</abbr> Perl Binding</a></cite>, editor's draft.  Work in 
   progress.</dd>
 <dt id=ref-HTML5>HTML5</dt>
@@ -1829,7 +1829,7 @@ interface <em class=rfc2119>MUST</em> be modified as the following
   <time datetime=1997-03>March 1997</time>.
   <em>This</em> version of the specification is referenced.</dd>
 <dt id=ref-MANAKAI>MANAKAI</dt>
-  <dd><cite><a href="http://suika.fam.cx/gate/2005/sw/manakai/DOM%20Extensions">
+  <dd><cite><a href="https://suika.suikawiki.org/gate/2005/sw/manakai/DOM%20Extensions">
   manakai's <abbr>DOM</abbr> Extensions</a></cite>, editor's draft.  Work in 
   progress.</dd>
 <dt id=ref-XML10>XML10</dt>

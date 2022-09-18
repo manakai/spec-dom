@@ -1,6 +1,8 @@
-ANOLIS = anolis
+ANOLIS = docker run -i quay.io/wakaba/anolis
 
-all: domdtdef.en.html
+all: build
+
+build: domdtdef.en.html
 
 domdtdef.en.html: source.en.html
-	$(ANOLIS) --allow-duplicate-dfns $< $@
+	$(ANOLIS) anolis --allow-duplicate-dfns < $< > $@

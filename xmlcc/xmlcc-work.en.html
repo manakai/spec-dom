@@ -2,8 +2,8 @@
 <html lang="en" class="formal-specification status-work-in-progress">
 <head>
 <title>manakai's XML Conformance Checking</title>
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/spec">
-<link rel="license" href="http://suika.fam.cx/c/gnu/fdl">
+<link rel="stylesheet" href="https://suika.suikawiki.org/www/style/html/spec">
+<link rel="license" href="https://suika.suikawiki.org/c/gnu/fdl">
 <style>
   a[id]::before {
     content: "[" attr(id) "]";
@@ -23,35 +23,35 @@
 <div class=ed>
 
 <p>This document is no longer maintained.  See <a
-href="http://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef"><cite>XML
+href="https://suika.suikawiki.org/www/markup/xml/domdtdef/domdtdef"><cite>XML
 processing and DOM Document Type Definitions</cite></a> specification.
 
 </div>
 
 <dl class="versions-uri">
 <dt>This Version</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc-work"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/xmlcc/xmlcc-work"
       >http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc-work</a>&gt;</code></dd>
 <dt>Latest Version</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/xmlcc/xmlcc"
       >http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc</a>&gt;</code></dd>
 <dt>Latest Working Draft</dt>
-  <dd><code class="URI">&lt;<a href="http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc-work"
+  <dd><code class="URI">&lt;<a href="https://suika.suikawiki.org/www/markup/xml/xmlcc/xmlcc-work"
       >http://suika.fam.cx/www/markup/xml/xmlcc/xmlcc-work</a>&gt;</code></dd>
 <!-- <dt>Previous Version</dt> -->
 <dt>Version History</dt>
-  <dd><code class=URI>&lt;<a href="http://suika.fam.cx/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html</a>&gt;</code></dd>
+  <dd><code class=URI>&lt;<a href="https://suika.suikawiki.org/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html">http://suika.fam.cx/gate/cvs/markup/xml/xmlcc/xmlcc-work.en.html</a>&gt;</code></dd>
 </dl>
 <dl class="authors" id="author">
 <dt>Author</dt>
-  <dd><a href="http://suika.fam.cx/~wakaba/who?" rel="author"
+  <dd><a href="https://suika.suikawiki.org/~wakaba/who?" rel="author"
       lang=ja>Wakaba</a>
-  <code class="mail">&lt;<a href="mailto:w@suika.fam.cx" rel="author"
+  <code class="mail">&lt;<a href="mailto:wakaba@suikawiki.org" rel="author"
       >w@suika.fam.cx</a>&gt;</code></dd>
 </dl>
 
 <p class="copyright" lang="en">&#xA9; <time>2007</time>‐<time>2008</time> <a
-    href="http://suika.fam.cx/~wakaba/who?" rel="author">Wakaba</a>.
+    href="https://suika.suikawiki.org/~wakaba/who?" rel="author">Wakaba</a>.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the <a rel="license"
 href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>,
@@ -80,15 +80,15 @@ at the time of its publication.  Other documents
 might supersede this document.</em></p>
 
 <p>This document is a working draft, produced as part of the 
-<a href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+<a href="https://suika.suikawiki.org/www/markup/html/whatpm/readme">Whatpm</a>
 subproject of the 
-<a href="http://suika.fam.cx/www/manakai-core/doc/web/">manakai</a> 
+<a href="https://suika.suikawiki.org/www/manakai-core/doc/web/">manakai</a> 
 project.  It might be updated, replaced, or obsoleted by
 other documents at any time.  It is inappropriate to
 cite this document as other than <q>work in progress</q>.</p>
 
 <p>The scope of this specification is explicitly limited to the <a
-href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+href="https://suika.suikawiki.org/www/markup/html/whatpm/readme">Whatpm</a>
 implementation.  It is <em>not</em> the purpose of this specification
 to define a general guideline to parse or to check XML documents.
 This specification does <em>not</em> try to define a new version of
@@ -115,13 +115,13 @@ normative version.</p>
 
 <p>This specification defines how the parsing and the conformance
 checking of XML documents should be implemented in the <a
-href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+href="https://suika.suikawiki.org/www/markup/html/whatpm/readme">Whatpm</a>
 XML parser and conformance checker.
 
 <p>It is <em>not</em> the purpose of this specification to define,
 e.g., how to parse XML documents in general; its scope is explicitly
 limited to the <a
-href="http://suika.fam.cx/www/markup/html/whatpm/readme">Whatpm</a>
+href="https://suika.suikawiki.org/www/markup/html/whatpm/readme">Whatpm</a>
 implementation.
 
 <div class="issue ed">...

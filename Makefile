@@ -1,7 +1,10 @@
+ANOLIS = docker run -i quay.io/wakaba/anolis
 
-all: nsfixup.html atomdom.html validation-langs.html
+all: build
+
+build: nsfixup.html atomdom.html validation-langs.html
 
 %.html: %-source.en.html
-	curl -f -L -X POST --data-binary @$< https://misc-py.herokuapp.com/anolis > $@
+	$(ANOLIS) < $< > $@
 
 ## License: Public Domain.

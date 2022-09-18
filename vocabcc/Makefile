@@ -1,6 +1,10 @@
-all: vocabcc.en.html
+ANOLIS = docker run -i quay.io/wakaba/anolis
+
+all: build
+
+build: vocabcc.en.html
 
 vocabcc.en.html: vocabcc-src.en.html
-	anolis $< $@
+	$(ANOLIS) < $< > $@
 
 ## License: Public domain.
